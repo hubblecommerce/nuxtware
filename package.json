@@ -1,0 +1,30 @@
+{
+  "name": "my-nuxt-layer",
+  "type": "module",
+  "version": "0.0.1",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxi dev .playground",
+    "dev:prepare": "nuxt prepare .playground",
+    "build": "nuxt build .playground",
+    "generate": "nuxt generate .playground",
+    "preview": "nuxt preview .playground",
+    "lint": "eslint ."
+  },
+  "files": [
+    "app",
+    "server",
+    "i18n",
+    "app.config.ts",
+    "nuxt.config.ts"
+  ],
+  "dependencies": {
+    "@nuxtjs/i18n": "^9.1.1",
+    "@nuxt/eslint": "latest",
+    "@shopware-pwa/nuxt3-module": "^1.1.0",
+    "eslint": "^9.17.0",
+    "nuxt": "^3.15.1",
+    "typescript": "^5.7.2",
+    "vue": "latest"
+  }
+}
