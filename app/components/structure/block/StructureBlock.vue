@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, shallowRef, defineAsyncComponent, resolveComponent, onMounted } from 'vue'
 import type { CmsBlock } from "@shopware-pwa/types";
-import { pascalCase } from "scule";
 
 const props = defineProps<{
     content: CmsBlock;
@@ -9,14 +8,15 @@ const props = defineProps<{
 }>()
 
 const { backgroundStyles } = useCmsBackgroundStyles(props.content)
+const { getCmsBlockName, getCmsElementName } = useCms()
 
 const component = shallowRef()
 // If block contains exactly one slot, directly load Element. If more than one slots then load Block
 const compName = computed(() => {
-    let name = `StructureBlock${pascalCase(props.content.type)}`
+    let name = getCmsBlockName(props.content.type)
 
     if (props.content.slots.length === 1) {
-        name = `StructureElement${pascalCase(props.content.slots[0].type)}`
+        name = getCmsElementName(props.content.slots[0].type)
     }
 
     return name
