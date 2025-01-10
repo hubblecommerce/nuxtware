@@ -12,7 +12,9 @@ const { formatLink } = useInternationalization(localePath);
 
 <template>
     <div class="flex gap-3 underline">
-        <NuxtLinkLocale to="/">Home</NuxtLinkLocale> <NuxtLinkLocale to="/route-does-not-exists">404</NuxtLinkLocale>
+        <NuxtLinkLocale to="/">Home</NuxtLinkLocale>
+        <NuxtLinkLocale to="/route-does-not-exists">404</NuxtLinkLocale>
+        <NuxtLinkLocale to="/cart">Cart</NuxtLinkLocale>
         <template
             v-for="navigationElement in navigationElements"
             :key="navigationElement.id"

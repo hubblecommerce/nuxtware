@@ -1,4 +1,10 @@
 {
   "cart.title": "Warenkorb",
-  "cart.totals": "Gesamt"
+  "cart.totals": "Gesamt",
+  "cart.orderSummary": "Bestellübersicht",
+  "cart.subtotal": "Zwischensumme",
+  "cart.shippingEstimate": "Versandkosten",
+  "cart.orderTotal": "Gesamtsumme",
+  "cart.checkout": "Zur Kasse",
+  "cart.emptyCartLabel": "Warenkorb ist leer."
 }

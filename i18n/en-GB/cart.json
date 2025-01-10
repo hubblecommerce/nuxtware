@@ -1,4 +1,10 @@
 {
   "cart.title": "Cart",
-  "cart.totals": "Total"
+  "cart.totals": "Total",
+  "cart.orderSummary": "Summary",
+  "cart.subtotal": "Subtotal",
+  "cart.shippingEstimate": "Shipping costs",
+  "cart.orderTotal": "Total",
+  "cart.checkout": "Checkout",
+  "cart.emptyCartLabel": "Cart is empty."
 }
