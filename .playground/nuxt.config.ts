@@ -1,6 +1,10 @@
 import { fileURLToPath } from 'node:url'
+import {join} from "path";
 
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
   extends: ['..'],
   modules: [
     '@nuxt/eslint',
@@ -51,6 +55,13 @@ export default defineNuxtConfig({
         localeId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b'
       }
     ],
+  },
+  css: [ '~/assets/css/main.css' ],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
   compatibilityDate: '2025-01-09'
 })

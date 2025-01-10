@@ -26,13 +26,11 @@ export default defineNuxtConfig({
     locales: [
       {
         code: 'en',
-        file: 'en-GB.ts',
-        // localeId: '018f2b868f7d73438b6a861fffdaf1d5'
+        file: 'en-GB.ts'
       },
       {
         code: 'de',
-        file: 'de-DE.ts',
-        // localeId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b'
+        file: 'de-DE.ts'
       }
     ],
   },

@@ -18,6 +18,11 @@
     "app.config.ts",
     "nuxt.config.ts"
   ],
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17"
+  },
   "dependencies": {
     "@nuxtjs/i18n": "^9.1.1",
     "@nuxt/eslint": "latest",
