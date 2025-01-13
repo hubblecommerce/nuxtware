@@ -14,7 +14,7 @@ const { getFormattedPrice } = usePrice()
             <ul role="list" class="divide-y pl-0 divide-secondary-200 md:col-span-2 border-t">
                 <li v-for="cartItem in cartItems" :key="cartItem.id" class="flex justify-between gap-4 py-6">
                     <div>{{ cartItem.label }}</div>
-                    <div>{{ cartItem.quantity }} x {{ getFormattedPrice(cartItem.price.unitPrice) }}</div>
+                    <div>{{ cartItem.quantity }} x {{ getFormattedPrice(cartItem?.price?.unitPrice) }}</div>
                 </li>
             </ul>
 

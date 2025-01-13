@@ -1,0 +1,26 @@
+{
+    "checkout": {
+        "personalInformationLabel": "Personal Information",
+        "personalInformationInfo": "Please enter your personal details",
+        "notCreateAccount": "Do not create an account",
+        "loggedInAs": "Logged in as",
+        "guest": "Guest",
+        "logOut": "Log out",
+        "shippingMethodLabel": "Shipping Method",
+        "selectShippingMethod": "Please select a shipping method",
+        "paymentMethodLabel": "Payment Method",
+        "selectPaymentMethod": "Please select a payment method",
+        "orderSummary": "Order Summary",
+        "orderSummaryLabel": "Review your order",
+        "subtotal": "Subtotal",
+        "shippingEstimate": "Estimated Shipping",
+        "orderTotal": "Order Total",
+        "loginRequired": "Please log in to complete your order",
+        "placeOrder": "Place Order",
+        "success": {
+            "title": "Thank you for your order",
+            "orderId": "Your order id is:",
+            "orderNotification": "We've sent a notification at: "
+        }
+    }
+}

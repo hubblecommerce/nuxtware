@@ -1,0 +1,22 @@
+{
+    "form": {
+        "salutation": "Salutation",
+        "chooseSalutation": "Please choose a salutation",
+        "firstName": "First Name",
+        "firstNamePlaceholder": "Enter your first name",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Enter your last name",
+        "email": "Email Address",
+        "emailPlaceholder": "Enter your email address",
+        "password": "Password",
+        "streetAddress": "Street Address",
+        "streetPlaceholder": "Enter your street address",
+        "postalCode": "Postal Code",
+        "postalCodePlaceholder": "Enter your postal code",
+        "city": "City",
+        "cityPlaceholder": "Enter your city",
+        "country": "Country",
+        "save": "Save",
+        "chooseCountry": "Please select your country"
+    }
+}

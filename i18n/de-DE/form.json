@@ -1,0 +1,22 @@
+{
+    "form": {
+        "salutation": "Anrede",
+        "chooseSalutation": "Bitte wählen Sie eine Anrede",
+        "firstName": "Vorname",
+        "firstNamePlaceholder": "Geben Sie Ihren Vornamen ein",
+        "lastName": "Nachname",
+        "lastNamePlaceholder": "Geben Sie Ihren Nachnamen ein",
+        "email": "E-Mail-Adresse",
+        "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+        "password": "Passwort",
+        "streetAddress": "Straße und Hausnummer",
+        "streetPlaceholder": "Geben Sie Ihre Straße und Hausnummer ein",
+        "postalCode": "Postleitzahl",
+        "postalCodePlaceholder": "Geben Sie Ihre Postleitzahl ein",
+        "city": "Stadt",
+        "cityPlaceholder": "Geben Sie Ihre Stadt ein",
+        "country": "Land",
+        "save": "Speichern",
+        "chooseCountry": "Bitte wählen Sie Ihr Land aus"
+    }
+}

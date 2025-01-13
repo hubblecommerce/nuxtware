@@ -1,0 +1,26 @@
+{
+    "checkout": {
+        "personalInformationLabel": "Persönliche Informationen",
+        "personalInformationInfo": "Bitte geben Sie Ihre persönlichen Daten ein",
+        "notCreateAccount": "Kein Konto erstellen",
+        "loggedInAs": "Angemeldet als",
+        "guest": "Gast",
+        "logOut": "Abmelden",
+        "shippingMethodLabel": "Versandmethode",
+        "selectShippingMethod": "Bitte wählen Sie eine Versandmethode",
+        "paymentMethodLabel": "Zahlungsmethode",
+        "selectPaymentMethod": "Bitte wählen Sie eine Zahlungsmethode",
+        "orderSummary": "Bestellübersicht",
+        "orderSummaryLabel": "Überprüfen Sie Ihre Bestellung",
+        "subtotal": "Zwischensumme",
+        "shippingEstimate": "Geschätzte Versandkosten",
+        "orderTotal": "Gesamtsumme",
+        "loginRequired": "Bitte melden Sie sich an, um Ihre Bestellung abzuschließen",
+        "placeOrder": "Bestellung aufgeben",
+        "success": {
+            "title": "Vielen Dank für Ihre Bestellung",
+            "orderId": "Ihre Bestellnummer lautet:",
+            "orderNotification": "Wir haben eine Benachrichtigung gesendet an: "
+        }
+    }
+}
