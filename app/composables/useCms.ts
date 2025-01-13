@@ -2,8 +2,8 @@ import type { Schemas } from '#shopware'
 import { pascalCase } from 'scule'
 
 export default function useCms () {
-    function getCmsSlot (block: Schemas["CmsBlock"], slotName: string): Schemas["CmsSlot"] | null {
-        return block.find((item) => item.slot === slotName)
+    function getCmsSlot (block: Schemas["CmsBlock"], slotName: string) {
+        return block.slots.find((item: Schemas["CmsSlot"]) => item.slot === slotName)
     }
 
     function getCmsBlockName (type: string) {

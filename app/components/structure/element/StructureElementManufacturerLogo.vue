@@ -6,5 +6,5 @@ const props = defineProps<{
 }>()
 </script>
 <template>
-    <img v-if="content?.data?.media" :src="content.data.media.url" :alt="content.data.media.alt" />
+    <img v-if="content?.data?.media" :src="content.data.media.url" :alt="content.data.media.alt" >
 </template>

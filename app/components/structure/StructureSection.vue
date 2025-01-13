@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed, type Ref } from 'vue'
-import type { CmsSection, CmsBlock } from "@shopware-pwa/types";
+import type { Schemas } from '#shopware'
 
 const props = defineProps<{
-    content: CmsSection;
+    content: Schemas['CmsSection'];
     count?: number;
 }>()
 
 const { backgroundStyles } = useCmsBackgroundStyles(props.content)
 
-const mainBlocks: Ref<CmsBlock[]> = computed(() => {
-    return props.content.blocks.filter((block: CmsBlock) => block.sectionPosition === 'main')
+const mainBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
+    return props.content.blocks.filter((block: Schemas['CmsBlock']) => block.sectionPosition === 'main')
 })
 
-const sidebarBlocks: Ref<CmsBlock[]> = computed(() => {
-    return props.content.blocks.filter((block: CmsBlock) => block.sectionPosition === 'sidebar')
+const sidebarBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
+    return props.content.blocks.filter((block: Schemas['CmsBlock']) => block.sectionPosition === 'sidebar')
 })
 </script>
 

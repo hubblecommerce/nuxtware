@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware";
 import { createCategoryListingContext, useNavigationContext } from '#imports'
-import type { CmsPage } from "@shopware-pwa/types";
 
 const props = defineProps<{
-    content: CmsPage | Schemas["CmsPage"];
+    content: Schemas["CmsPage"];
 }>();
 
 // required to use useCategoryListing composable

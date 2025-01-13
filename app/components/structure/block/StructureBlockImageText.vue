@@ -1,7 +1,18 @@
 <script setup lang="ts">
+import type { CmsBlockImageText } from '@shopware-pwa/composables-next'
+
 const props = defineProps<{
-    content: any
+    content: CmsBlockImageText
 }>()
+
+const { getCmsSlot, getCmsElementName } = useCms()
+const leftSlot = computed(() => getCmsSlot(props.content, 'left'))
+const rightSlot = computed(() => getCmsSlot(props.content, 'right'))
 </script>
 
-<template>StructureBlockImageText</template>
+<template>
+    <div class="flex flex-col md:flex-row md:justify-between">
+        <component :is="resolveComponent(getCmsElementName(leftSlot?.type))" v-if="leftSlot" :content="leftSlot" />
+        <component :is="resolveComponent(getCmsElementName(rightSlot?.type))" v-if="rightSlot" :content="rightSlot" />
+    </div>
+</template>

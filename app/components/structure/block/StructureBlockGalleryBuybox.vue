@@ -12,7 +12,7 @@ const rightSlot = computed(() => getCmsSlot(props.content, 'right'))
 
 <template>
     <div class="flex flex-col md:flex-row md:justify-between">
-        <component :is="resolveComponent(getCmsElementName(leftSlot?.type))" :content="leftSlot" />
-        <component :is="resolveComponent(getCmsElementName(rightSlot?.type))" :content="rightSlot" />
+        <component :is="resolveComponent(getCmsElementName(leftSlot?.type))" v-if="leftSlot" :content="leftSlot" />
+        <component :is="resolveComponent(getCmsElementName(rightSlot?.type))" v-if="rightSlot" :content="rightSlot" />
     </div>
 </template>

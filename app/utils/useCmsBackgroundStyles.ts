@@ -1,7 +1,7 @@
 import { computed, type Ref } from 'vue'
-import type { CmsSection, CmsBlock } from "@shopware-pwa/types";
+import type { Schemas } from '#shopware'
 
-export function useCmsBackgroundStyles (content: CmsSection | CmsBlock): { backgroundStyles: Ref<string> } {
+export function useCmsBackgroundStyles (content: Schemas['CmsSection'] | Schemas['CmsBlock']): { backgroundStyles: Ref<string> } {
     const backgroundStyles: Ref<string> = computed(() => {
         let styles = ''
 

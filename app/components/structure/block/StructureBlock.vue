@@ -47,6 +47,6 @@ const loadComponent = function () {
 
 <template>
     <div ref="blockWrapper" class="cms-block" :class="content.cssClass" :style="backgroundStyles">
-        <component :is="component" :content="content.slots.length === 1 ? content.slots[0] : content.slots" />
+        <component :is="component" :content="content.slots.length === 1 ? content.slots[0] : content" />
     </div>
 </template>
