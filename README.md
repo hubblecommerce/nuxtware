@@ -42,6 +42,14 @@ defineNuxtConfig({
 })
 ```
 
+## Shopware configuration
+Create `.env` file in `/.playground`:
+```
+NUXT_PUBLIC_SHOPWARE_ENDPOINT = 'https://my-shopware.com/store-api/'
+NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN = 'SWXXXXXXXXXXXXXXXXXXXX'
+NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL = 'https://my-shopware.com'
+```
+
 ## Development Server
 
 Start the development server on http://localhost:3000

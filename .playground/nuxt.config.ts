@@ -1,5 +1,4 @@
 import { fileURLToPath } from 'node:url'
-import {join} from "path";
 
 export default defineNuxtConfig({
   future: {
@@ -12,11 +11,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       shopware: {
-        endpoint: 'https://sw663-playground.dmf-kunden.com/store-api/',
-        accessToken: 'SWSCEKN2ZM5NTFZJYKXRRUD0YW',
-        devStorefrontUrl: "https://sw663-playground.dmf-kunden.com"
-        // endpoint: 'https://api.all4golf.com/store-api/',
-        // accessToken: 'SWSCSNVQEVFIR1LGC0HOVKZJRA',
+        endpoint: '',
+        accessToken: '',
+        devStorefrontUrl: '',
       }
     },
   },
