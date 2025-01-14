@@ -3,13 +3,7 @@ const { params } = useRoute();
 const orderId = params.id as string;
 const {
     loadOrderDetails,
-    shippingAddress,
-    billingAddress,
-    shippingMethod,
     order,
-    subtotal,
-    total,
-    shippingCosts,
 } = useOrderDetails(orderId);
 
 onMounted(async () => {

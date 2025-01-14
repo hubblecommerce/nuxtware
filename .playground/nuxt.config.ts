@@ -64,5 +64,14 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        paths: {
+          '@shopware-pwa/helpers-next': ['../../node_modules/@shopware-pwa/helpers-next/dist'],
+        }
+      },
+    }
+  },
   compatibilityDate: '2025-01-09'
 })

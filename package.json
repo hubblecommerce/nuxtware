@@ -15,7 +15,6 @@
     "app",
     "server",
     "i18n",
-    "app.config.ts",
     "nuxt.config.ts"
   ],
   "devDependencies": {

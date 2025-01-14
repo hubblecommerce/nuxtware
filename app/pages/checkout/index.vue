@@ -4,7 +4,7 @@ import { ApiClientError, type ApiError } from '@shopware/api-client'
 import { getShippingMethodDeliveryTime, getTranslatedProperty } from '@shopware-pwa/helpers-next'
 
 const { push } = useRouter()
-const { getCountries, getStatesForCountry } = useCountries()
+const { getCountries } = useCountries()
 const { getSalutations } = useSalutations()
 const {
     paymentMethods,
@@ -19,14 +19,9 @@ const {
     selectedShippingMethod: shippingMethod,
     selectedPaymentMethod: paymentMethod,
     setShippingMethod,
-    setPaymentMethod,
-    activeShippingAddress,
-    setActiveShippingAddress,
-    activeBillingAddress,
-    setActiveBillingAddress,
+    setPaymentMethod
 } = useSessionContext()
 const {
-    cart,
     cartItems,
     subtotal,
     totalPrice,
