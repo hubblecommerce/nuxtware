@@ -12,6 +12,11 @@ export default defineNuxtConfig({
   extends: [
     "@shopware-pwa/composables-next/nuxt-layer"
   ],
+  imports: {
+    dirs: [
+        join(currentDir, "node_modules/@shopware-pwa/composables-next/src")
+    ],
+  },
   modules: [
     '@shopware-pwa/nuxt3-module',
     '@nuxt/eslint',

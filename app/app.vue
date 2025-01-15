@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Schemas } from "#shopware";
-import { getPrefix } from "../i18n/src/helpers/prefix";
+import type { Schemas } from '#shopware'
+import { getPrefix } from '#imports'
 
 /**
  * Init breadcrumbs context

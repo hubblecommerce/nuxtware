@@ -61,6 +61,8 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  compatibilityDate: '2025-01-09',
+  // Layer template dev only
   typescript: {
     tsConfig: {
       compilerOptions: {
@@ -70,5 +72,4 @@ export default defineNuxtConfig({
       },
     }
   },
-  compatibilityDate: '2025-01-09'
 })
