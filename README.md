@@ -50,6 +50,134 @@ NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN = 'SWXXXXXXXXXXXXXXXXXXXX'
 NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL = 'https://my-shopware.com'
 ```
 
+## API Client
+Based on official [api client tutorial](https://api-client-tutorial-composable-frontends.pages.dev/1-intro/1-brief/1-brief/). 
+
+### Setup
+Install shopware api-gen:
+```
+npm install -D @shopware/api-gen
+```
+
+Set variables to .env:
+```
+OPENAPI_JSON_URL="https://my-shopware.com"
+OPENAPI_ACCESS_KEY="SWXXXXXXXXXXXXXXXXXXXX"
+```
+
+Create a subdirectory `api-types` in your project’s root dir.
+
+Load external schema:
+```
+npx @shopware/api-gen loadSchema --apiType=store
+```
+
+Generate types:
+```
+npx @shopware/api-gen generate --apiType=store
+```
+
+Register synchronized types:
+Create shopware.d.ts file in root
+```.ts
+declare module "#shopware" {
+  import type { createAPIClient } from "@shopware/api-client";
+  import type { operations, components } from './api-types/storeApiTypes'
+  import type {
+    RequestParameters as DefaultRequestParameters,
+    RequestReturnType as DefaultRequestReturnType,
+  } from "@shopware/api-client";
+
+  export type operations = operations<changedComponents>;
+  export type Schemas = changedComponents["schemas"];
+
+  // we're exporting our own Api Client definition as it depends on our own instance
+  export type ApiClient = ReturnType<
+    typeof createAPIClient<operations>
+  >;
+
+  export type RequestParameters<T extends keyof operations> =
+    DefaultRequestParameters<T, operations>;
+
+  export type RequestReturnType<T extends keyof operations> =
+    DefaultRequestReturnType<T, operations>;
+}
+```
+
+### Add new definition
+Create file `/api-types/storeApiTypes.overrides.ts`
+```.ts
+import type { components as mainComponents } from "./storeApiTypes";
+
+export type components = mainComponents & {
+    schemas: Schemas;
+};
+
+export type Schemas = {
+    // here go the entities definitions available, that can be used in operations but also imported and used standalone
+    AiAnswer: {
+        content: string;
+    };
+    AiPrompt: {
+        role: "system" | "user" | "assistant";
+        content: string;
+    };
+};
+
+export type operations = {
+    // here go the endpoints and its definitions that can refer to the Schemas but it's not a requirement
+    "sendAskAi post /ai-assistant/prompt": {
+        contentType?: "application/json";
+        accept?: "application/json";
+        body: components["schemas"]["AiPrompt"];
+        response: components["schemas"]["AiAnswer"];
+        responseCode: 200;
+    };
+};
+```
+
+Generate types:
+```
+npx @shopware/api-gen generate --apiType=store
+```
+
+### Edit existing definition
+Extend type in `shopware.d.ts`:
+```
+declare module "#shopware" {
+  import type { createAPIClient } from "@shopware/api-client";
+  import type { operations, components } from './api-types/storeApiTypes'
+  import type {
+    RequestParameters as DefaultRequestParameters,
+    RequestReturnType as DefaultRequestReturnType,
+  } from "@shopware/api-client";
+
+  type changedComponents = components;
+  // example how to extend Cart schema:
+  type changedComponents = components & {
+    schemas: {
+      Cart: components["schemas"]["Cart"] & {
+        myspecialfield: "hello field";
+      };
+    };
+  };
+
+  export type operations = operations<changedComponents>;
+  export type Schemas = changedComponents["schemas"];
+
+  // we're exporting our own Api Client definition as it depends on our own instance
+  export type ApiClient = ReturnType<
+    typeof createAPIClient<operations>
+  >;
+
+  export type RequestParameters<T extends keyof operations> =
+    DefaultRequestParameters<T, operations>;
+
+  export type RequestReturnType<T extends keyof operations> =
+    DefaultRequestReturnType<T, operations>;
+}
+```
+
 ## Development Server
 
 Start the development server on http://localhost:3000
