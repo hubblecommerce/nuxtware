@@ -14,22 +14,30 @@ const onChangeHandler = async (option: Event) => {
         window.location.reload();
     }
 };
+
+const languageSwitchId = useId()
 </script>
 
 <template>
-    <select
-        aria-label="Select language"
-        class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-        @change="onChangeHandler"
-    >
-        <option
-            v-for="language in languages"
-            :key="language.id"
-            :value="language.id"
-            :selected="languageIdChain === language.id"
-            :label="getLanguageName(language)"
+    <div class="flex justify-between items-center gap-3">
+        <label :for="languageSwitchId">
+            {{ $t('layout.language') }}:
+        </label>
+        <select
+            :id="languageSwitchId"
+            aria-label="Select language"
+            class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
+            @change="onChangeHandler"
         >
-            {{ getLanguageName(language) }}
-        </option>
-    </select>
+            <option
+                v-for="language in languages"
+                :key="language.id"
+                :value="language.id"
+                :selected="languageIdChain === language.id"
+                :label="getLanguageName(language)"
+            >
+                {{ getLanguageName(language) }}
+            </option>
+        </select>
+    </div>
 </template>

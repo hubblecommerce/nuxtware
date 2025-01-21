@@ -45,8 +45,6 @@ const pageComponent = computed(() => {
 
 <template>
     <div>
-        <h1>Dynamic route</h1>
-        <h2>SEO Data: {{ data.pathInfo }}</h2>
         <component :is='pageComponent' v-if='pageComponent' :navigation-id='foreignKey' />
     </div>
 </template>

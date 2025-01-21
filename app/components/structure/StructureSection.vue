@@ -19,7 +19,7 @@ const sidebarBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
 </script>
 
 <template>
-    <div
+    <section
         class="cms-section"
         :class="{
             [content.cssClass as string]: content.cssClass,
@@ -40,5 +40,5 @@ const sidebarBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
                 <StructureBlock v-for="(mainBlock) in mainBlocks" :key="mainBlock.id" :content="mainBlock" :count="count" />
             </div>
         </div>
-    </div>
+    </section>
 </template>

@@ -18,22 +18,30 @@ async function onChangeHandler (option: Event) {
     // Reload page to update catalog prices
     window.location.reload();
 }
+
+const currencySwitchId = useId()
 </script>
 
 <template>
-    <select
-        aria-label="Select currency"
-        class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
-        @change="onChangeHandler"
-    >
-        <option
-            v-for="currency in currencies"
-            :key="currency.id"
-            :value="currency.id"
-            :selected="sessionCurrency?.id === currency.id"
-            :label="currency.translated?.name"
+    <div class="flex justify-between items-center gap-3">
+        <label :for="currencySwitchId">
+            {{ $t('layout.currency') }}:
+        </label>
+        <select
+            :id="currencySwitchId"
+            aria-label="Select currency"
+            class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
+            @change="onChangeHandler"
         >
-            {{ currency.translated?.name }}
-        </option>
-    </select>
+            <option
+                v-for="currency in currencies"
+                :key="currency.id"
+                :value="currency.id"
+                :selected="sessionCurrency?.id === currency.id"
+                :label="currency.translated?.name"
+            >
+                {{ currency.translated?.name }}
+            </option>
+        </select>
+    </div>
 </template>

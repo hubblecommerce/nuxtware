@@ -116,7 +116,7 @@ const localeFromHeader = headers?.["accept-language"]
     )
     .find(Boolean);
 
-const { getFormattedPrice } = usePrice({
+usePrice({
     currencyCode: sessionContext.value?.currency?.isoCode || "",
     localeCode: localeFromHeader,
 });
@@ -125,7 +125,7 @@ const { getFormattedPrice } = usePrice({
  * Init several contexts
  */
 const { getWishlistProducts } = useWishlist();
-const { refreshCart, cart } = useCart();
+const { refreshCart } = useCart();
 useNotifications();
 useAddress();
 
@@ -133,28 +133,11 @@ onMounted(() => {
     refreshCart();
     getWishlistProducts();
 });
-
-const { t } = useI18n()
 </script>
 
 <template>
-    <div id="app">
-        <div>
-            {{ t('cart.title') }} {{ t('cart.totals') }}: <span><client-only>{{ getFormattedPrice(cart?.price?.totalPrice) }}<template #fallback>...</template></client-only></span>
-        </div>
-
-        <div>
-            Current Language: {{ storeLanguages?.find((lang) => lang.id === languageIdChain)?.name }}
-            Change: <ContextLanguageSwitch />
-        </div>
-
-        <div>
-            Current Currency: {{ sessionContext?.currency?.translated?.name }}
-            Change: <ContextCurrencySwitch />
-        </div>
-
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
-    </div>
+    <NuxtRouteAnnouncer />
+    <NuxtLayout>
+        <NuxtPage />
+    </NuxtLayout>
 </template>
