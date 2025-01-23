@@ -1,0 +1,12 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Foundations */
+@import '#hubble/assets/styles/lib/foundations/button.css';
+
+/* Components */
+@import '#hubble/assets/styles/lib/components/all.css';
+
+/* Widgets */
+@import '#hubble/assets/styles/lib/components/all.css';

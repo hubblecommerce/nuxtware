@@ -10,19 +10,21 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
+      // Required for consumer: process.env needs to be set for prod builds
       shopware: {
-        endpoint: '',
-        accessToken: '',
-        devStorefrontUrl: '',
+        endpoint: process.env.NUXT_PUBLIC_SHOPWARE_ENDPOINT,
+        accessToken: process.env.NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN,
+        devStorefrontUrl: process.env.NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL,
       }
     },
   },
   eslint: {
     config: {
-      // Use the generated ESLint config for lint root project as well
+      // Layer dev only: use the generated ESLint config for lint root project as well
       rootDir: fileURLToPath(new URL('..', import.meta.url))
     }
   },
+  // Required for consumer: to make components auto-import work
   components: {
     dirs: [
       {
@@ -41,6 +43,7 @@ export default defineNuxtConfig({
       }
     }
   },
+  // Required for consumer to set individual localeId
   i18n: {
     defaultLocale: "de",
     locales: [
@@ -54,15 +57,8 @@ export default defineNuxtConfig({
       }
     ],
   },
-  css: [ '~/assets/css/main.css' ],
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
   compatibilityDate: '2025-01-09',
-  // Layer template dev only
+  // Layer dev only
   typescript: {
     tsConfig: {
       compilerOptions: {
