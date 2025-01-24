@@ -11,7 +11,6 @@ function handleClick () {
                 text="Primary Button Small"
                 size="small"
                 variant="primary"
-                color="#000000"
                 @click="handleClick"
             />
             <FoundationButton

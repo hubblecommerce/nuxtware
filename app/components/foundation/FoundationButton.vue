@@ -3,8 +3,8 @@
         :is="tag"
         :class="[
             'btn',
-            `btn-${size}`,
-            `btn-${variant}`,
+            buttonSizes[size],
+            buttonVariants[variant],
             { 'btn-loading': loading }
         ]"
         :style="{ '--primary-color': color ?? null }"
@@ -27,21 +27,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary'
-export type ButtonSize = 'small' | 'medium' | 'large'
-
-export interface ButtonProps {
-    text: string
-    tag?: string
-    variant?: ButtonVariant
-    size?: ButtonSize
-    color?: string | null
-    disabled?: boolean
-    loading?: boolean
-}
-
-const safelist = ['btn-small', 'btn-medium', 'btn-large', 'btn-primary', 'btn-secondary', 'btn-tertiary', 'btn-loading']
+import type { ButtonProps, ButtonSize, ButtonVariant } from '#imports'
 
 const props = withDefaults(defineProps<ButtonProps>(), {
     tag: 'button',
@@ -57,6 +43,18 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+
+const buttonSizes = reactive<Record<ButtonSize, string>>({
+    small: 'btn-small',
+    medium: 'btn-medium',
+    large: 'btn-large',
+})
+
+const buttonVariants = reactive<Record<ButtonVariant, string>>({
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    tertiary: 'btn-tertiary',
+})
 
 const loadingText = computed(() => t('button.loading', 'Loading...'))
 

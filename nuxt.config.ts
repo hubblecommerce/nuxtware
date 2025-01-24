@@ -18,7 +18,9 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
         // auto import composables
-        join(currentDir, "node_modules/@shopware-pwa/composables-next/src")
+        join(currentDir, "node_modules/@shopware-pwa/composables-next/src"),
+        // auto import types
+        'types/*.{ts,tsx}',
     ],
   },
   modules: [

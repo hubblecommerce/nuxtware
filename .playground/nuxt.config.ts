@@ -34,9 +34,17 @@ export default defineNuxtConfig({
     ],
     global: true,
   },
+  // Required for consumer to override types
+  imports: {
+    dirs: [
+      // auto import types
+      'types/*.{ts,tsx}',
+    ],
+  },
   nitro: {
-    // https://github.com/unjs/nitro/pull/449
+    // Asset compression: https://github.com/unjs/nitro/pull/449
     compressPublicAssets: true,
+    // Nuxt cache set to memory for testing purposes (default: dev = file, prod = memory)
     devStorage: {
       cache: {
         driver: 'memory'
