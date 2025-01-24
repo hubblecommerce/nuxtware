@@ -1,0 +1,17 @@
+@layer components {
+    .link {
+        @apply text-link transition-colors duration-200;
+        @apply visited:text-link-visited;
+        @apply hover:text-link-hover hover:underline;
+        @apply active:text-link-active hover:underline;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    }
+
+    .link-underline {
+        @apply underline;
+    }
+
+    .link-disabled {
+        @apply cursor-not-allowed opacity-60;
+    }
+}

@@ -2,8 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Theme */
+@import '#hubble/assets/styles/lib/theme.css';
+
 /* Foundations */
 @import '#hubble/assets/styles/lib/foundations/button.css';
+@import '#hubble/assets/styles/lib/foundations/link.css';
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/all.css';

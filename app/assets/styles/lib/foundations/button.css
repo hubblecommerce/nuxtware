@@ -1,6 +1,7 @@
 @layer components {
     .btn {
-        @apply inline-flex items-center justify-center font-semibold leading-none rounded transition-all duration-100;
+        @apply btn-default btn-medium;
+        @apply inline-flex items-center justify-center font-semibold rounded transition-all duration-100;
         @apply focus-visible:ring focus-visible:ring-offset-2;
         @apply disabled:opacity-60 disabled:cursor-not-allowed;
         @apply active:translate-y-px active:brightness-[80%];
@@ -19,15 +20,30 @@
     }
 
     .btn-primary {
-        @apply bg-primary text-white hover:brightness-[105%] active:brightness-[80%];
+        --btn-color: var(--primary-color);
+        --btn-content-color: var(--primary-content-color);
     }
 
     .btn-secondary {
-        @apply bg-transparent border-2 border-current text-primary hover:bg-primary hover:text-white;
+        --btn-color: var(--secondary-color);
+        --btn-content-color: var(--secondary-content-color);
     }
 
     .btn-tertiary {
-        @apply bg-transparent text-primary hover:bg-primary hover:bg-opacity-10 hover:text-white;
+        --btn-color: var(--tertiary-color);
+        --btn-content-color: var(--tertiary-content-color);
+    }
+
+    .btn-default {
+        @apply bg-btn text-btn-content hover:brightness-[105%] active:brightness-[80%];
+    }
+
+    .btn-outline {
+        @apply bg-transparent border-2 border-current text-btn hover:bg-btn hover:text-btn-content;
+    }
+
+    .btn-ghost {
+        @apply bg-transparent text-btn hover:bg-btn hover:bg-opacity-10 hover:text-btn-content;
     }
 
     .btn-loading {

@@ -5,9 +5,9 @@
             'btn',
             buttonSizes[size],
             buttonVariants[variant],
+            buttonColors[color],
             { 'btn-loading': loading }
         ]"
-        :style="{ '--primary-color': color ?? null }"
         :disabled="disabled || loading"
         :aria-busy="loading"
         :aria-disabled="disabled || loading"
@@ -27,13 +27,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ButtonProps, ButtonSize, ButtonVariant } from '#imports'
+import type { ButtonProps, ButtonSize, ButtonVariant, ButtonColor } from '#imports'
 
 const props = withDefaults(defineProps<ButtonProps>(), {
     tag: 'button',
-    variant: 'primary',
+    variant: 'default',
+    color: 'primary',
+    colorContent: 'primary',
     size: 'medium',
-    color: null,
     disabled: false,
     loading: false
 })
@@ -51,6 +52,12 @@ const buttonSizes = reactive<Record<ButtonSize, string>>({
 })
 
 const buttonVariants = reactive<Record<ButtonVariant, string>>({
+    default: 'btn-default',
+    outline: 'btn-outline',
+    ghost: 'btn-ghost',
+})
+
+const buttonColors = reactive<Record<ButtonColor, string>>({
     primary: 'btn-primary',
     secondary: 'btn-secondary',
     tertiary: 'btn-tertiary',

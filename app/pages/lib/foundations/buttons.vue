@@ -8,63 +8,66 @@ function handleClick () {
     <div>
         <div class="flex justify-start items-center gap-4 py-4">
             <FoundationButton
-                text="Primary Button Small"
+                text="Button Default Primary Small"
                 size="small"
-                variant="primary"
                 @click="handleClick"
             />
             <FoundationButton
-                text="Primary Button Medium"
+                text="Button Default Primary Medium"
                 size="medium"
-                variant="primary"
                 @click="handleClick"
             />
             <FoundationButton
-                text="Primary Button Large"
+                text="Button Default Primary Large"
                 size="large"
-                variant="primary"
                 @click="handleClick"
             />
         </div>
 
         <div class="flex justify-start items-center gap-4 py-4">
             <FoundationButton
-                text="Secondary Button Small"
+                text="Button Outline Secondary Small"
                 size="small"
-                variant="secondary"
+                variant="outline"
+                color="secondary"
                 @click="handleClick"
             />
             <FoundationButton
-                text="Secondary Button Medium"
+                text="Button Outline Secondary Medium"
                 size="medium"
-                variant="secondary"
+                variant="outline"
+                color="secondary"
                 @click="handleClick"
             />
             <FoundationButton
-                text="Secondary Button Large"
+                text="Button Outline Secondary Large"
                 size="large"
-                variant="secondary"
+                variant="outline"
+                color="secondary"
                 @click="handleClick"
             />
         </div>
 
         <div class="flex justify-start items-center gap-4 py-4">
             <FoundationButton
-                text="Tertiary Button Small"
+                text="Button Ghost Tertiary Small"
                 size="small"
-                variant="tertiary"
+                variant="ghost"
+                color="tertiary"
                 @click="handleClick"
             />
             <FoundationButton
-                text="Tertiary Button Medium"
+                text="Button Ghost Tertiary Medium"
                 size="medium"
-                variant="tertiary"
+                variant="ghost"
+                color="tertiary"
                 @click="handleClick"
             />
             <FoundationButton
-                text="Tertiary Button Large"
+                text="Button Ghost Tertiary Large"
                 size="large"
-                variant="tertiary"
+                variant="ghost"
+                color="tertiary"
                 @click="handleClick"
             />
         </div>

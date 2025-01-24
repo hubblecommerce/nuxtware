@@ -11,11 +11,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--primary-color, #4299e1)',
+        // Theme colors need to be set as :root variables in /theme.css
+        // Components
+        btn: 'var(--btn-color, --primary-color)',
+        'btn-content': 'var(--btn-content-color, --primary-content-color)',
+        link: 'var(--theme-link-color)',
+        'link-visited': 'var(--theme-link-visited-color)',
+        'link-hover': 'var(--theme-link-hover-color)',
+        'link-active': 'var(--theme-link-active-color)',
       },
     },
   },
   variants: {},
   plugins: [],
 }
-
