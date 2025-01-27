@@ -1,10 +1,10 @@
 @layer components {
     .btn {
         @apply btn-default btn-medium;
-        @apply inline-flex items-center justify-center font-semibold rounded transition-all duration-100;
-        @apply focus-visible:ring focus-visible:ring-offset-2;
+        @apply relative inline-flex items-center justify-center font-semibold rounded transition-all duration-100;
+        @apply focus-style;
         @apply disabled:opacity-60 disabled:cursor-not-allowed;
-        @apply active:translate-y-px active:brightness-[80%];
+        @apply active:translate-y-px;
     }
 
     .btn-small {
@@ -21,21 +21,27 @@
 
     .btn-primary {
         --btn-color: var(--primary-color);
+        --btn-color-shade-light: var(--primary-color-shade-light);
+        --btn-color-shade-dark: var(--primary-color-shade-dark);
         --btn-content-color: var(--primary-content-color);
     }
 
     .btn-secondary {
         --btn-color: var(--secondary-color);
+        --btn-color-shade-light: var(--secondary-color-shade-light);
+        --btn-color-shade-dark: var(--secondary-color-shade-dark);
         --btn-content-color: var(--secondary-content-color);
     }
 
     .btn-tertiary {
         --btn-color: var(--tertiary-color);
+        --btn-color-shade-light: var(--tertiary-color-shade-light);
+        --btn-color-shade-dark: var(--tertiary-color-shade-dark);
         --btn-content-color: var(--tertiary-content-color);
     }
 
     .btn-default {
-        @apply bg-btn text-btn-content hover:brightness-[105%] active:brightness-[80%];
+        @apply bg-btn text-btn-content hover:bg-btn-color-shade-light active:bg-btn-color-shade-dark;
     }
 
     .btn-outline {
@@ -48,5 +54,17 @@
 
     .btn-loading {
         @apply cursor-wait;
+    }
+
+    /* Invisible Hit Areas */
+    @media (pointer: coarse) {
+        .btn::before  {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            bottom: -8px;
+            left: -8px;
+        }
     }
 }

@@ -1,9 +1,15 @@
 :root {
     --primary-color: #4299e1;
+    --primary-color-shade-light: #46a9ff;
+    --primary-color-shade-dark: #3983bc;
     --primary-content-color: #ffffff;
-    --secondary-color: #ff0000;
+    --secondary-color: #d50000;
+    --secondary-color-shade-light: #ff0000;
+    --secondary-color-shade-dark: #b10000;
     --secondary-content-color: #ffffff;
-    --tertiary-color: #00ff00;
+    --tertiary-color: #01dc01;
+    --tertiary-color-shade-light: #00ff00;
+    --tertiary-color-shade-dark: #00a800;
     --tertiary-content-color: #ffffff;
     --theme-link-color: #3344dd;
     --theme-link-visited-color: #884488;

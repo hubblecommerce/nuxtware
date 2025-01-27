@@ -15,10 +15,10 @@
         @keydown.enter="handleClick"
         @keydown.space="handleClick"
     >
-        <span :class="{ 'sr-only': loading }">
+        <template v-if="!loading">
           <slot>{{ text }}</slot>
-        </span>
-        <span v-if="loading" class="ml-2" aria-hidden="true">
+        </template>
+        <span v-if="loading" aria-hidden="true">
           {{ loadingText }}
         </span>
     </component>
@@ -44,6 +44,10 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const slots = useSlots()
+const hasSlot = computed(() => {
+    return !!slots['default']
+})
 
 const buttonSizes = reactive<Record<ButtonSize, string>>({
     small: 'btn-small',

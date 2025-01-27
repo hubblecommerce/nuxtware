@@ -1,10 +1,10 @@
 @layer components {
     .link {
-        @apply text-link transition-colors duration-200;
+        @apply relative text-link transition-colors duration-200;
         @apply visited:text-link-visited;
         @apply hover:text-link-hover hover:underline;
         @apply active:text-link-active hover:underline;
-        @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+        @apply focus-style;
     }
 
     .link-underline {
@@ -13,5 +13,17 @@
 
     .link-disabled {
         @apply cursor-not-allowed opacity-60;
+    }
+
+    /* Invisible Hit Areas */
+    @media (pointer: coarse) {
+        .link::before  {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            bottom: -8px;
+            left: -8px;
+        }
     }
 }

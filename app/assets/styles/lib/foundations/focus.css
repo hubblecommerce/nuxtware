@@ -1,0 +1,5 @@
+@layer components {
+    .focus-style {
+        @apply focus-visible:ring focus-visible:ring-offset-2 ring-focus-color;
+    }
+}
