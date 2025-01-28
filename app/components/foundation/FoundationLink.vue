@@ -64,10 +64,3 @@ const handleClick = (event: MouseEvent) => {
     emit('click', event)
 }
 </script>
-
-<style scoped>
-:root {
-    --color-link: theme('colors.blue.600');
-    --color-link-hover: theme('colors.blue.700');
-}
-</style>
