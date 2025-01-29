@@ -9,13 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue'
-
-export interface IconProps {
-    name: string
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
-    alt?: string
-}
+import { ref, computed } from 'vue'
+import type { IconProps } from '#imports'
 
 const props = withDefaults(defineProps<IconProps>(), {
     size: 'md',
@@ -38,7 +33,7 @@ const sizeClass = computed(() => {
 
 const sanitizedIcon = computed(() => {
     if (!import.meta.client) {
-        return ''
+        return icon.value
     }
 
     const div = document.createElement('div')
@@ -70,7 +65,5 @@ async function loadIcon() {
     }
 }
 
-watchEffect(() => {
-    void loadIcon()
-})
+await loadIcon()
 </script>

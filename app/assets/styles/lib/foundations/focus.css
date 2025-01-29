@@ -1,5 +1,11 @@
 @layer components {
     .focus-style {
-        @apply focus-visible:ring focus-visible:ring-offset-2 ring-focus-color;
+        @apply focus-visible:ring focus-visible:ring-offset-2 ring-focus-color rounded outline-none;
+
+        @media (forced-colors: active) {
+            &:focus-visible {
+                outline: ActiveText solid 10px !important;
+            }
+        }
     }
 }

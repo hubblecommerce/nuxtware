@@ -6,7 +6,11 @@
             buttonSizes[size],
             buttonVariants[variant],
             buttonColors[color],
-            { 'btn-loading': loading }
+            {
+                'btn-loading': loading,
+                'btn-square': square,
+                'btn-circle': circle,
+            }
         ]"
         :disabled="disabled || loading"
         :aria-busy="loading"
@@ -32,11 +36,12 @@ import type { ButtonProps, ButtonSize, ButtonVariant, ButtonColor } from '#impor
 const props = withDefaults(defineProps<ButtonProps>(), {
     tag: 'button',
     variant: 'default',
-    color: 'primary',
-    colorContent: 'primary',
+    color: '',
     size: 'medium',
     disabled: false,
-    loading: false
+    loading: false,
+    circle: false,
+    square: false,
 })
 
 const emit = defineEmits<{
@@ -44,10 +49,6 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const slots = useSlots()
-const hasSlot = computed(() => {
-    return !!slots['default']
-})
 
 const buttonSizes = reactive<Record<ButtonSize, string>>({
     small: 'btn-small',
@@ -62,6 +63,7 @@ const buttonVariants = reactive<Record<ButtonVariant, string>>({
 })
 
 const buttonColors = reactive<Record<ButtonColor, string>>({
+    '': '',
     primary: 'btn-primary',
     secondary: 'btn-secondary',
     tertiary: 'btn-tertiary',

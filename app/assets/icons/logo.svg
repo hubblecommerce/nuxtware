@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 80" role="img" aria-labelledby="title">
+    <title>Nuxtware Logo</title>
+
+    <!-- Icon -->
+    <g transform="translate(65,17) scale(1.5) rotate(33)">
+        <!-- Triangle for progressivity -->
+        <path d="M-10 10 L10 10 L0 -5 Z" fill="#1E3A8A" />
+        <!-- Layers extending the triangle with gaps -->
+        <path d="M-14 16 L14 16 L10 10 L-10 10 Z" fill="#1E50A2" />
+        <path d="M-18 22 L18 22 L14 16 L-14 16 Z" fill="#1E6AB4" />
+        <path d="M-22 28 Q-22 30 -20 30 L20 30 Q22 30 22 28 L18 22 L-18 22 Z" fill="#1E84C6" />
+    </g>
+
+    <!-- Text -->
+    <text x="90" y="50" font-family="Arial, sans-serif" font-size="32" fill="#1E3A8A" font-weight="bold">Nuxtware</text>
+</svg>

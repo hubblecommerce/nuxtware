@@ -1,0 +1,65 @@
+@layer components {
+    .input {
+        @apply input-md input-default;
+        @apply block rounded-lg;
+        @apply disabled:input-disabled;
+        @apply focus-style;
+
+        &[aria-disabled="true"] {
+            @apply input-disabled;
+        }
+    }
+
+    .input-disabled {
+        @apply opacity-60 cursor-not-allowed;
+    }
+
+    .input-xs {
+        @apply h-6 px-2 text-xs leading-relaxed;
+    }
+
+    .input-sm {
+        @apply h-8 px-3 text-sm leading-8;
+    }
+
+    .input-md {
+        @apply h-12 px-4 leading-loose;
+    }
+
+    .input-lg {
+        @apply h-16 px-6 text-lg leading-loose;
+    }
+
+    .input-xl {
+        @apply h-20 px-8 text-xl leading-loose;
+    }
+
+    .input-2xl {
+        @apply h-24 px-10 text-2xl leading-loose;
+    }
+
+    .input-primary {
+        --input-color: var(--primary-color);
+        --input-color-content: var(--primary-color);
+    }
+
+    .input-secondary {
+        --input-color: var(--secondary-color);
+        --input-color-content: var(--secondary-color);
+    }
+
+    .input-tertiary {
+        --input-color: var(--tertiary-color);
+        --input-color-content: var(--tertiary-color);
+    }
+
+    .input-default {
+        --input-color: transparent;
+
+        @apply border border-input-color text-input-color-content;
+    }
+
+    .input-bordered {
+        --input-color: --border-color;
+    }
+}

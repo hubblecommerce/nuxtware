@@ -9,6 +9,7 @@
 @import '#hubble/assets/styles/lib/foundations/focus.css';
 @import '#hubble/assets/styles/lib/foundations/button.css';
 @import '#hubble/assets/styles/lib/foundations/link.css';
+@import '#hubble/assets/styles/lib/foundations/input-text.css';
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/all.css';

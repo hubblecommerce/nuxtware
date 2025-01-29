@@ -5,21 +5,24 @@ function handleClick () {
 </script>
 
 <template>
-    <div>
+    <div class="container m-auto">
         <div class="flex justify-start items-center gap-4 py-4">
             <FoundationButton
                 text="Button Default Primary Small"
                 size="small"
+                color="primary"
                 @click="handleClick"
             />
             <FoundationButton
                 text="Button Default Primary Medium"
                 size="medium"
+                color="primary"
                 @click="handleClick"
             />
             <FoundationButton
                 text="Button Default Primary Large"
                 size="large"
+                color="primary"
                 @click="handleClick"
             />
         </div>
@@ -68,6 +71,56 @@ function handleClick () {
                 size="large"
                 variant="ghost"
                 color="tertiary"
+                @click="handleClick"
+            />
+        </div>
+
+        <div class="flex justify-start items-center gap-4 py-4">
+            <FoundationButton
+                text="X"
+                size="small"
+                color="primary"
+                circle
+                @click="handleClick"
+            />
+            <FoundationButton
+                text="X"
+                variant="outline"
+                color="primary"
+                circle
+                @click="handleClick"
+            />
+            <FoundationButton
+                text="X"
+                variant="ghost"
+                size="large"
+                color="primary"
+                circle
+                @click="handleClick"
+            />
+        </div>
+
+        <div class="flex justify-start items-center gap-4 py-4">
+            <FoundationButton
+                text="X"
+                size="small"
+                color="primary"
+                square
+                @click="handleClick"
+            />
+            <FoundationButton
+                text="X"
+                variant="outline"
+                color="primary"
+                square
+                @click="handleClick"
+            />
+            <FoundationButton
+                text="X"
+                variant="ghost"
+                size="large"
+                color="primary"
+                square
                 @click="handleClick"
             />
         </div>

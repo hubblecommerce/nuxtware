@@ -6,7 +6,7 @@
             linkVariants[variant],
             { 'link-disabled': disabled }
         ]"
-        :to="type === 'internal' && !disabled ? href : undefined"
+        :to="type === 'internal' && !disabled ? formatLink(href) : undefined"
         :href="type === 'external' ? href : undefined"
         :target="target"
         :rel="target === '_blank' ? 'noopener noreferrer' : undefined"
@@ -22,20 +22,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { NuxtLink } from '#components'
-
-type LinkVariants = 'default' | 'underline'
-type LinkTarget = '_self' | '_blank' | '_parent' | '_top'
-type LinkType = 'internal' | 'external'
-
-interface LinkProps {
-    text?: string
-    href?: string
-    target?: LinkTarget
-    variant?: LinkVariants
-    type?: LinkType,
-    color?: string | undefined,
-    disabled?: boolean
-}
+import type { LinkVariants, LinkProps } from '#imports'
 
 const props = withDefaults(defineProps<LinkProps>(), {
     text: '',
@@ -50,6 +37,9 @@ const props = withDefaults(defineProps<LinkProps>(), {
 const emit = defineEmits<{
     (e: 'click', event: MouseEvent): void
 }>()
+
+const localePath = useLocalePath();
+const { formatLink } = useInternationalization(localePath);
 
 const linkVariants = computed((): Record<LinkVariants, string> => ({
     default: 'link-default',

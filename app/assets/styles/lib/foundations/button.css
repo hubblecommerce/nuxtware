@@ -8,15 +8,15 @@
     }
 
     .btn-small {
-        @apply text-sm px-4 py-2;
+        @apply text-sm h-10 min-h-10 px-4 py-2;
     }
 
     .btn-medium {
-        @apply text-base px-6 py-3;
+        @apply text-base h-12 min-h-12 px-6 py-3;
     }
 
     .btn-large {
-        @apply text-lg px-8 py-4;
+        @apply text-lg h-14 min-h-14 px-8 py-4;
     }
 
     .btn-primary {
@@ -41,19 +41,63 @@
     }
 
     .btn-default {
-        @apply bg-btn text-btn-content hover:bg-btn-color-shade-light active:bg-btn-color-shade-dark;
+        @media (hover: hover) {
+            @apply hover:bg-btn-color-shade-light;
+        }
+
+        @apply bg-btn-color text-btn-content active:bg-btn-color-shade-dark;
     }
 
     .btn-outline {
-        @apply bg-transparent border-2 border-current text-btn hover:bg-btn hover:text-btn-content;
+        @apply bg-transparent border-2 border-current text-btn-color active:bg-transparent;
+
+        @media (hover: hover) {
+            @apply hover:bg-btn-color hover:text-btn-content active:bg-btn-color-shade-dark;
+        }
     }
 
     .btn-ghost {
-        @apply bg-transparent text-btn hover:bg-btn hover:bg-opacity-10 hover:text-btn-content;
+        @apply bg-transparent text-btn-color active:bg-transparent;
+
+        @media (hover: hover) {
+            @apply hover:bg-transparent hover:text-btn-color;
+        }
     }
 
     .btn-loading {
         @apply cursor-wait;
+    }
+
+    .btn-square {
+        @apply w-12 h-12 p-0;
+
+        &:where(.btn-small) {
+            @apply w-10 h-10 p-0;
+        }
+
+        &:where(.btn-medium) {
+            @apply w-12 h-12 p-0;
+        }
+
+        &:where(.btn-large) {
+            @apply w-14 h-14 p-0;
+        }
+    }
+
+    .btn-circle {
+        @apply w-12 h-12 rounded-full p-0;
+
+        &:where(.btn-small) {
+            @apply w-10 h-10 rounded-full p-0;
+        }
+
+        &:where(.btn-medium) {
+            @apply w-12 h-12 rounded-full p-0;
+        }
+
+        &:where(.btn-large) {
+            @apply w-16 h-16 rounded-full p-0;
+        }
     }
 
     /* Invisible Hit Areas */

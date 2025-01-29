@@ -1,5 +1,5 @@
 @layer components {
-    .link {
+    .link:not(.btn) {
         @apply relative text-link transition-colors duration-200;
         @apply visited:text-link-visited;
         @apply hover:text-link-hover hover:underline;

@@ -1,0 +1,13 @@
+{
+    "header": {
+        "nav": {
+            "open": "Open the main navigation"
+        },
+        "cart": {
+            "open": "Open cart quickview"
+        },
+        "homeLink": "Go to homepage",
+        "customerLink": "Go to customer",
+        "wishlistLink": "Go to wishlist"
+    }
+}
