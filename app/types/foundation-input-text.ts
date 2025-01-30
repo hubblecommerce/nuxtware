@@ -1,12 +1,6 @@
-export type InputType = 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url';
-export type InputSize =  'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-export type InputColor =  'primary' | 'secondary' | 'tertiary' | '' ;
+export type FoundationInputType = 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url';
 
-export interface TextInputProps {
-    type?: InputType;
-    placeholder?: string;
+export interface FoundationInputTextProps {
+    type?: FoundationInputType;
     disabled?: boolean;
-    size?: InputSize;
-    color?: InputColor;
-    bordered?: boolean;
 }

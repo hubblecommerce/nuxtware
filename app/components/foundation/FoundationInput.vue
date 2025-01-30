@@ -1,51 +1,23 @@
 <template>
     <input
-        ref="input"
+        ref="foundationInput"
         v-model="model"
         :type="type"
-        :placeholder="placeholder"
+        :disabled="disabled"
         :aria-disabled="disabled"
-        :class="[
-            '',
-            inputSizes[size],
-            inputColors[color],
-            {
-                'input-bordered': bordered
-            }
-        ]"
     >
 </template>
 
 <script setup lang="ts">
-import type { TextInputProps, InputSize, InputColor } from '#imports'
+import type { FoundationInputTextProps } from '#imports'
 
-withDefaults(defineProps<TextInputProps>(), {
+withDefaults(defineProps<FoundationInputTextProps>(), {
     type: 'text',
-    placeholder: 'Input',
-    size: 'md',
-    color: '',
-    bordered: false,
     disabled: false
 })
 
 const model = defineModel<string>()
-const input = ref<HTMLInputElement>()
+const foundationInput = ref<HTMLInputElement>()
 
-defineExpose({ input })
-
-const inputSizes = reactive<Record<InputSize, string>>({
-    xs: 'input-xs',
-    sm: 'input-sm',
-    md: 'input-md',
-    lg: 'input-lg',
-    xl: 'input-xl',
-    '2xl': 'input-2xl',
-})
-
-const inputColors = reactive<Record<InputColor, string>>({
-    '': '',
-    primary: 'input-primary',
-    secondary: 'input-secondary',
-    tertiary: 'input-tertiary',
-})
+defineExpose({ foundationInput })
 </script>

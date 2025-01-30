@@ -24,6 +24,7 @@ export default {
         'tertiary-shade-light': 'var(--tertiary-color-shade-light)',
         'tertiary-shade-dark': 'var(--tertiary-color-shade-dark)',
         'tertiary-content': 'var(--tertiary-content-color)',
+        'error': 'var(--error-color)',
         // Tailwind Components
         'btn-color': 'var(--btn-color, --primary-color)',
         'btn-color-shade-light': 'var(--btn-color-shade-light, --primary-color-shade-light)',

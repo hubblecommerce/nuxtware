@@ -3,7 +3,7 @@
         @apply input-md input-default;
         @apply block rounded-lg;
         @apply disabled:input-disabled;
-        @apply focus-style;
+        @apply focus-style appearance-none forced-colors:appearance-auto;
 
         &[aria-disabled="true"] {
             @apply input-disabled;
@@ -61,5 +61,9 @@
 
     .input-bordered {
         --input-color: --border-color;
+    }
+
+    .input-error {
+        --input-color: var(--error-color);
     }
 }
