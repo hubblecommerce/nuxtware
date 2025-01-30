@@ -11,10 +11,11 @@
     --tertiary-color-shade-light: #ffea1a;
     --tertiary-color-shade-dark: #b1a015;
     --tertiary-content-color: #02133c;
-    --theme-link-color: #3344dd;
-    --theme-link-visited-color: #884488;
-    --theme-link-hover-color: #bb1122;
-    --theme-link-active-color: #bb1122;
+    --link-color: #3344dd;
+    --link-visited-color: #884488;
+    --link-hover-color: #bb1122;
+    --link-active-color: #bb1122;
+    --neutral-color: oklch(0.269 0 0);
     --border-color: #cccccc;
     --error-color: #dc2626;
 }

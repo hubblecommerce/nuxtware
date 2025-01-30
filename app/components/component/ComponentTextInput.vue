@@ -3,7 +3,7 @@
         <FoundationLabel
             v-if="showLabel"
             :for="id"
-            class="text-base text-gray-500"
+            class="block mb-1"
             :class="{
                 'text-error': error
             }"
@@ -21,11 +21,12 @@
                     'input',
                     inputSizes[size],
                     inputColors[color],
+                    inputCss,
                     {
                         'input-bordered': bordered,
                         'input-error': error,
-                        'pl-12': $slots.iconBefore,
-                        'pr-12': $slots.iconAfter,
+                        'pl-10': $slots.iconBefore && !inputCss,
+                        'pr-10': $slots.iconAfter && !inputCss,
                     }
                 ]"
                 :placeholder="placeholder"
@@ -41,7 +42,7 @@
             </div>
         </div>
         <p v-if="error" :id="`${id}-error`" class="mt-2 text-sm text-error">{{ error }}</p>
-        <p v-else-if="helperText" class="mt-2 text-sm text-gray-500">{{ helperText }}</p>
+        <p v-else-if="helperText" class="mt-2 text-sm text-neutral">{{ helperText }}</p>
     </div>
 </template>
 
@@ -57,6 +58,7 @@ withDefaults(defineProps<ComponentInputProps>(), {
     size: 'md',
     color: '',
     bordered: false,
+    inputCss: '',
 });
 
 const model = defineModel<string>()

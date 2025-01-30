@@ -8,7 +8,7 @@
             <FoundationLink href="/lib/foundations/links">Link to current (active) page</FoundationLink>
             <FoundationLink text="Link with text via prop" href="/" />
             <FoundationLink href="/home">Link to home</FoundationLink>
-            <FoundationLink href="/home" :style="{ '--theme-link-color': 'pink' }">Link with overriden color</FoundationLink>
+            <FoundationLink href="/home" :style="{ '--link-color': 'pink', '--link-visited-color': 'pink' }">Link with overridden color</FoundationLink>
         </div>
     </div>
 </template>

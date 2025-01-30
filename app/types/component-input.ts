@@ -1,3 +1,5 @@
+import type { FoundationInputType } from "#hubble/types/foundation-input-text";
+
 export type ComponentInputSize =  'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type ComponentInputColor =  'primary' | 'secondary' | 'tertiary' | '';
 
@@ -6,10 +8,11 @@ export interface ComponentInputProps {
     label: string;
     showLabel?: boolean;
     placeholder?: string;
-    type?: string;
+    type?: FoundationInputType;
     error?: string;
     helperText?: string;
     size?: ComponentInputSize;
     color?: ComponentInputColor;
     bordered?: boolean;
+    inputCss?: string;
 }
