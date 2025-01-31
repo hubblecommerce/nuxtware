@@ -1,0 +1,13 @@
+{
+    "search": {
+        "input": {
+            "submit": "Submit search",
+            "reset": "Reset search term",
+            "label": "Search",
+            "placeholder": "Search..."
+        },
+        "results": {
+            "noResults": "No results found."
+        }
+    }
+}

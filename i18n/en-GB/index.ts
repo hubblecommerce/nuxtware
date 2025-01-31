@@ -4,6 +4,7 @@ import currency from './currency.json'
 import form from './form.json'
 import checkout from './checkout.json'
 import header from './header.json'
+import search from './search.json'
 
 export default {
     ...layout,
@@ -12,4 +13,5 @@ export default {
     ...form,
     ...checkout,
     ...header,
+    ...search,
 }

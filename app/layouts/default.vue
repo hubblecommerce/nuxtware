@@ -7,17 +7,6 @@ provide('mainNavigation', data)
 
 const { getFormattedPrice } = usePrice()
 const { cart } = useCart()
-
-
-const searchTerm = ref('')
-const searchInput = ref()
-function submitSearch () {
-    console.log('submit');
-}
-function resetSearch () {
-    searchTerm.value = ''
-    searchInput.value.componentInput.foundationInput.focus()
-}
 </script>
 
 <template>
@@ -58,30 +47,7 @@ function resetSearch () {
             </div>
         </div>
 
-        <div class="w-full items-center px-2">
-            <ComponentTextInput
-                id="search"
-                ref="searchInput"
-                v-model="searchTerm"
-                label="Search"
-                placeholder="Search..."
-                :show-label="false"
-                bordered
-            >
-                <template #iconBefore>
-                    <FoundationButton variant="ghost" size="small" square @click="submitSearch">
-                        <span class="sr-only">Submit search</span>
-                        <FoundationIcon name="search" />
-                    </FoundationButton>
-                </template>
-                <template #iconAfter>
-                    <FoundationButton v-if="searchTerm" variant="ghost" size="small" square @click="resetSearch()">
-                        <span class="sr-only">Reset search term</span>
-                        <FoundationIcon name="x" />
-                    </FoundationButton>
-                </template>
-            </ComponentTextInput>
-        </div>
+        <WidgetQuickSearch />
     </header>
     <aside />
     <main>

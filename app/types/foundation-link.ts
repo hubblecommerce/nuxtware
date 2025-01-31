@@ -4,7 +4,7 @@ export type LinkType = 'internal' | 'external'
 
 export interface LinkProps {
     text?: string
-    href?: string
+    href?: string | RouteObject
     target?: LinkTarget
     variant?: LinkVariants
     type?: LinkType,
