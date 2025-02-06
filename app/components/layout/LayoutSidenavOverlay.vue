@@ -1,0 +1,56 @@
+<script setup lang="ts">
+import { onClickOutside } from '@vueuse/core'
+
+const props = withDefaults(defineProps<{
+    direction?: 'left' | 'right',
+    widthClass?: string,
+    // TODO: background color configurable?
+}>(), {
+    direction: 'left',
+    widthClass: 'w-[80%]',
+})
+
+const attrs = useAttrs()
+const open = defineModel<boolean>()
+
+const sidenavOverlayEl = shallowRef()
+onClickOutside(sidenavOverlayEl, () => open.value = false)
+</script>
+
+<template>
+    <ClientOnly>
+        <Teleport to="#teleports">
+            <div>
+                <Transition
+                    enter-active-class="transition-opacity duration-300 ease-in bg-gray-900"
+                    :enter-from-class="'opacity-0'"
+                    :enter-to-class="'opacity-80'"
+                    leave-active-class="transition-opacity duration-300 ease-out bg-gray-900"
+                    :leave-from-class="'opacity-80'"
+                    :leave-to-class="'opacity-0'"
+                >
+                    <div
+                        v-if="open"
+                        class="fixed h-screen w-screen top-0 left-0 bg-gray-900/80 cursor-pointer"
+                    />
+                </Transition>
+
+                <div
+                    ref="sidenavOverlayEl"
+                    class="fixed h-full top-0 z-[999] overflow-x-hidden transition-all duration-300"
+                    :class="[
+                    {
+                        'left-0 border-r': props.direction === 'left',
+                        'right-0 border-l': props.direction === 'right',
+                    },
+                    open ? widthClass : 'w-[0]'
+                ]"
+                    v-bind="attrs"
+                    @keydown.esc="open = false"
+                >
+                    <slot />
+                </div>
+            </div>
+        </Teleport>
+    </ClientOnly>
+</template>

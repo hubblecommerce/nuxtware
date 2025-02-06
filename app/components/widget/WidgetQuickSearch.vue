@@ -63,20 +63,18 @@ onClickOutside(quickSearchEl, () => showResult.value = false)
 
 <template>
     <div ref="quickSearchEl" @keydown.esc="onReset">
-        <form role="search" @submit.prevent="search">
+        <form role="search" class="relative" @submit.prevent="search">
             <WidgetSearchInput
                 v-model="searchTerm"
                 :loading="loading"
                 :label="$t('search.input.label')"
                 :placeholder="$t('search.input.placeholder')"
-                class="px-2"
                 @submit-search="onSearchSubmit"
                 @reset-search="onReset"
                 @on-focus="onFocus"
             />
 
-            <section v-if="showResult && !loading"  class="absolute bg-white w-full my-2 px-2" aria-live="polite">
-                <h2 class="sr-only">Search results</h2>
+            <section v-if="showResult && !loading"  class="absolute bg-white w-full my-2" aria-live="polite">
                 <WidgetQuickSearchResults class="border p-2" />
             </section>
         </form>

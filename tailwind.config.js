@@ -43,5 +43,9 @@ export default {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    ({ addVariant }) => {
+      addVariant("starting", "@starting-style");
+    }
+  ],
 }

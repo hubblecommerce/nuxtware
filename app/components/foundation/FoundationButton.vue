@@ -1,6 +1,7 @@
 <template>
     <component
         :is="tag"
+        ref="button"
         :class="[
             'btn',
             buttonSizes[size],
@@ -47,6 +48,9 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 const emit = defineEmits<{
     (e: 'click', event: MouseEvent): void
 }>()
+
+const button = shallowRef()
+defineExpose({ button })
 
 const { t } = useI18n()
 

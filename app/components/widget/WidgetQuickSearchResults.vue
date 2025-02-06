@@ -19,6 +19,7 @@ function getPrice (product: Schemas['Product']) {
     </div>
     <div v-else class="flex flex-col">
         <p role="alert" class="sr-only">{{ $t('search.results.label') }} {{ getTotal }}</p>
+        <h2 class="sr-only">{{ $t('search.results.title') }}</h2>
         <ul>
             <li
                 v-for="product in getProducts"

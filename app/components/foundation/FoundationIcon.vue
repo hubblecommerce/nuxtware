@@ -33,7 +33,7 @@ const sizeClass = computed(() => {
 
 const sanitizedIcon = computed(() => {
     if (!import.meta.client) {
-        return icon.value
+        return icon.value ?? ''
     }
 
     const div = document.createElement('div')

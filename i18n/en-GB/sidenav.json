@@ -1,0 +1,9 @@
+{
+    "sidenav": {
+        "menu": {
+            "open": "Open navigation menu",
+            "close": "Close navigation menu",
+            "title": "Navigation menu"
+        }
+    }
+}

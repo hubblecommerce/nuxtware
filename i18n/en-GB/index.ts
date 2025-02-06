@@ -5,6 +5,7 @@ import form from './form.json'
 import checkout from './checkout.json'
 import header from './header.json'
 import search from './search.json'
+import sidenav from './sidenav.json'
 
 export default {
     ...layout,
@@ -14,4 +15,5 @@ export default {
     ...checkout,
     ...header,
     ...search,
+    ...sidenav,
 }
