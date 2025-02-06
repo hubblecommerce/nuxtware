@@ -55,7 +55,7 @@ function onFocus () {
 watchDebounced(
     searchTerm,
     quickSearch,
-    { debounce: 500 }
+    { debounce: 1000 }
 )
 
 onClickOutside(quickSearchEl, () => showResult.value = false)
@@ -63,7 +63,7 @@ onClickOutside(quickSearchEl, () => showResult.value = false)
 
 <template>
     <div ref="quickSearchEl" @keydown.esc="onReset">
-        <form @submit.prevent="search">
+        <form role="search" @submit.prevent="search">
             <WidgetSearchInput
                 v-model="searchTerm"
                 :loading="loading"
@@ -74,11 +74,11 @@ onClickOutside(quickSearchEl, () => showResult.value = false)
                 @reset-search="onReset"
                 @on-focus="onFocus"
             />
-        </form>
 
-        <section v-if="showResult && !loading"  class="absolute bg-white w-full my-2 px-2">
-            <h2 class="sr-only">Search results</h2>
-            <WidgetQuickSearchResults class="border p-2" />
-        </section>
+            <section v-if="showResult && !loading"  class="absolute bg-white w-full my-2 px-2" aria-live="polite">
+                <h2 class="sr-only">Search results</h2>
+                <WidgetQuickSearchResults class="border p-2" />
+            </section>
+        </form>
     </div>
 </template>

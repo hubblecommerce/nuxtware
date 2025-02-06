@@ -14,27 +14,33 @@ function getPrice (product: Schemas['Product']) {
 </script>
 
 <template>
-    <div v-if="getTotal === 0" class="text-center">
+    <div v-if="getTotal === 0" class="text-center" role="alert">
         {{ $t('search.results.noResults') }}
     </div>
     <div v-else class="flex flex-col">
-        <FoundationLink
-            v-for="product in getProducts"
-            :key="product.id"
-            :href="formatLink(getProductRoute(product)).path"
-            class="flex items-center gap-2"
-        >
-            <img
-                ref="imageElement"
-                loading="lazy"
-                :src="getSmallestThumbnailUrl(product.cover?.media)"
-                class="h-8 w-8 object-cover"
-                alt=""
+        <p role="alert" class="sr-only">{{ $t('search.results.label') }} {{ getTotal }}</p>
+        <ul>
+            <li
+                v-for="product in getProducts"
+                :key="product.id"
             >
-            {{ getTranslatedProperty(product, 'name') }}
-            <div>
-                {{ getPrice(product) }}
-            </div>
-        </FoundationLink>
+                <FoundationLink
+                    :href="formatLink(getProductRoute(product)).path"
+                    class="flex items-center gap-2"
+                >
+                    <img
+                        ref="imageElement"
+                        loading="lazy"
+                        :src="getSmallestThumbnailUrl(product.cover?.media)"
+                        class="h-8 w-8 object-cover"
+                        alt=""
+                    >
+                    {{ getTranslatedProperty(product, 'name') }}
+                    <div>
+                        {{ getPrice(product) }}
+                    </div>
+                </FoundationLink>
+            </li>
+        </ul>
     </div>
 </template>

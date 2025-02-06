@@ -44,6 +44,7 @@ function resetSearch () {
         :label="label"
         :placeholder="placeholder"
         :show-label="false"
+        description="The search will be applied shortly after you have typed."
         bordered
         class="w-full items-center"
         @on-focus="onFocus"
@@ -62,8 +63,8 @@ function resetSearch () {
                 <FoundationIcon v-else name="loading" class="animate-spin" />
             </FoundationButton>
         </template>
-        <template #iconAfter>
-            <FoundationButton v-if="showResetButton" variant="ghost" size="small" square @click="resetSearch()">
+        <template v-if="showResetButton" #iconAfter>
+            <FoundationButton variant="ghost" size="small" square @click="resetSearch()">
                 <span class="sr-only">{{ $t('search.input.reset') }}</span>
                 <FoundationIcon name="x" />
             </FoundationButton>

@@ -32,7 +32,7 @@ const runtimeConfig = useRuntimeConfig()
 export const getCachedSeoUrl = cachedFunction(
     getSeoUrl,
     {
-        maxAge: runtimeConfig?.public?.apiCacheLifetime ?? 60 * 5, // Default 5 Minutes
+        maxAge: runtimeConfig?.public?.apiCacheLifetime as number ?? 60 * 5, // Default 5 Minutes
         name: 'seoUrl'
     }
 )

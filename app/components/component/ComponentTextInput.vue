@@ -7,6 +7,7 @@ withDefaults(defineProps<ComponentInputProps>(), {
     type: 'text',
     error: '',
     helperText: '',
+    description: '',
     size: 'md',
     color: '',
     bordered: false,
@@ -73,7 +74,7 @@ function onBlur (e: FocusEvent): void { emit('onBlur', e) }
                 :placeholder="placeholder"
                 :aria-label="!showLabel ? label : null"
                 :aria-invalid="error ? 'true' : 'false'"
-                :aria-describedby="error ? `${id}-error` : undefined"
+                :aria-describedby="error ? `${id}-error` : `${id}-description`"
                 @focus="onFocus"
                 @blur="onBlur"
             />
@@ -86,5 +87,6 @@ function onBlur (e: FocusEvent): void { emit('onBlur', e) }
         </div>
         <p v-if="error" :id="`${id}-error`" class="mt-2 text-sm text-error">{{ error }}</p>
         <p v-else-if="helperText" class="mt-2 text-sm text-neutral">{{ helperText }}</p>
+        <p v-if="description" :id="`${id}-description`" class="sr-only">{{ description }}</p>
     </div>
 </template>

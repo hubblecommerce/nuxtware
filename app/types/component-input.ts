@@ -11,6 +11,7 @@ export interface ComponentInputProps {
     type?: FoundationInputType;
     error?: string;
     helperText?: string;
+    description?: string;
     size?: ComponentInputSize;
     color?: ComponentInputColor;
     bordered?: boolean;
