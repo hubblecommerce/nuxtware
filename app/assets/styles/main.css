@@ -10,6 +10,7 @@
 @import '#hubble/assets/styles/lib/foundations/button.css';
 @import '#hubble/assets/styles/lib/foundations/link.css';
 @import '#hubble/assets/styles/lib/foundations/label.css';
+@import '#hubble/assets/styles/lib/foundations/scrollbar.css';
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/input.css';

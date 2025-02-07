@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Schemas } from '#shopware'
+
 const mobileMenuOpen = ref(false)
 const sidenavMenuOpenButton = shallowRef()
 const sidenavMenuCloseButton = shallowRef()
@@ -19,6 +21,8 @@ function closeNavigation () {
     mobileMenuOpen.value = false
     sidenavMenuOpenButton?.value?.button?.focus()
 }
+
+const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"]
 </script>
 
 <template>
@@ -35,8 +39,8 @@ function closeNavigation () {
     </FoundationButton>
 
     <LayoutSidenavOverlay v-model="mobileMenuOpen" class="bg-white" width-class="w-[90%] lg:w-[400px]">
-        <nav class="min-w-[300px] p-2">
-            <div class="flex justify-between items-center">
+        <nav class="w-full">
+            <div class="flex justify-between items-center p-2 pr-0">
                 <h2>{{ $t('sidenav.menu.title') }}</h2>
                 <FoundationButton
                     ref="sidenavMenuCloseButton"
@@ -48,8 +52,10 @@ function closeNavigation () {
                     <span class="sr-only">{{ $t('sidenav.menu.close') }}</span>
                     <FoundationIcon name="x" />
                 </FoundationButton>
+            </div>
 
-                
+            <div class="relative h-[calc(100vh-64px)] w-full">
+                <LayoutMenuRecursive :items="navigationItems" />
             </div>
         </nav>
     </LayoutSidenavOverlay>

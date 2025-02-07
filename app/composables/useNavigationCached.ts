@@ -13,6 +13,11 @@ export type UseNavigationCachedReturn = {
     }): Promise<Schemas["NavigationRouteResponse"]>;
 };
 
+/**
+ * Composable to load and use navigation of different types
+ * Data is not being shared to prevent serverside memory leaks.
+ * To use data across the app, use provide data on high level and inject into children.
+ */
 export function useNavigationCachedFunction (params?: {
     type?: Schemas["NavigationType"] | string;
 }): UseNavigationCachedReturn {

@@ -37,13 +37,14 @@ onClickOutside(sidenavOverlayEl, () => open.value = false)
 
                 <div
                     ref="sidenavOverlayEl"
-                    class="fixed h-full top-0 z-[999] overflow-x-hidden transition-all duration-300"
+                    class="fixed h-full top-0 z-[999] overflow-x-hidden transition-transform duration-300 no-scrollbar"
                     :class="[
                     {
-                        'left-0 border-r': props.direction === 'left',
-                        'right-0 border-l': props.direction === 'right',
+                        'left-0 right-auto origin-left border-r': props.direction === 'left',
+                        'right-0 left-auto origin-left border-l': props.direction === 'right',
                     },
-                    open ? widthClass : 'w-[0]'
+                    widthClass,
+                    open ? 'translate-x-0' : '-translate-x-full'
                 ]"
                     v-bind="attrs"
                     @keydown.esc="open = false"
