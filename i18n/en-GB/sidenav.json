@@ -3,7 +3,11 @@
         "menu": {
             "open": "Open navigation menu",
             "close": "Close navigation menu",
-            "title": "Navigation menu"
+            "title": "Navigation menu",
+            "openSubCategory": "Open subcategory",
+            "back": "Back",
+            "backDescription": "Back to parent category",
+            "allOfCategory": "(all)"
         }
     }
 }

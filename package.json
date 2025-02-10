@@ -22,13 +22,15 @@
     "postcss": "^8.4.49"
   },
   "dependencies": {
-    "@nuxtjs/i18n": "^9.1.1",
     "@nuxt/eslint": "latest",
+    "@nuxtjs/i18n": "^9.1.1",
     "@shopware-pwa/nuxt3-module": "^1.1.0",
+    "@vueuse/integrations": "^12.5.0",
     "eslint": "^9.17.0",
+    "focus-trap": "^7.6.4",
     "nuxt": "^3.15.1",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
-    "vue": "latest",
-    "tailwindcss": "^3.4.17"
+    "vue": "latest"
   }
 }

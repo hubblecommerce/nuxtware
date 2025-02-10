@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 
 const props = withDefaults(defineProps<{
     direction?: 'left' | 'right',
@@ -14,7 +15,12 @@ const attrs = useAttrs()
 const open = defineModel<boolean>()
 
 const sidenavOverlayEl = shallowRef()
+const { activate, deactivate } = useFocusTrap(sidenavOverlayEl, { allowOutsideClick: true })
 onClickOutside(sidenavOverlayEl, () => open.value = false)
+
+watch(open, (newVal) => {
+    void (newVal ? activate() : deactivate())
+})
 </script>
 
 <template>
