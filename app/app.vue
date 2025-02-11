@@ -133,6 +133,12 @@ onMounted(() => {
     refreshCart();
     getWishlistProducts();
 });
+
+useHead({
+    htmlAttrs: {
+        lang: localeProperties.value.code
+    },
+})
 </script>
 
 <template>
