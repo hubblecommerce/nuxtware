@@ -6,6 +6,7 @@ import checkout from './checkout.json'
 import header from './header.json'
 import search from './search.json'
 import sidenav from './sidenav.json'
+import megaMenu from './megaMenu.json'
 
 export default {
     ...layout,
@@ -16,4 +17,5 @@ export default {
     ...header,
     ...search,
     ...sidenav,
+    ...megaMenu,
 }

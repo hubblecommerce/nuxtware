@@ -74,8 +74,8 @@ onClickOutside(quickSearchEl, () => showResult.value = false)
                 @on-focus="onFocus"
             />
 
-            <section v-if="showResult && !loading"  class="absolute bg-white w-full my-2" aria-live="polite">
-                <WidgetQuickSearchResults class="border p-2" />
+            <section v-if="showResult && !loading" class="absolute bg-white w-full my-2 z-50" aria-live="polite">
+                <WidgetQuickSearchResults class="border p-2" @navigate="showResult = false" />
             </section>
         </form>
     </div>

@@ -1,0 +1,11 @@
+{
+    "megaMenu": {
+        "title": "Main navigation for categories",
+        "firstLevel": {
+            "openChildren": "Open {category} menu"
+        },
+        "popOver": {
+            "close": "Close popover menu"
+        }
+    }
+}

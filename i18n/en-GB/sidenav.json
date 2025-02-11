@@ -1,13 +1,16 @@
 {
     "sidenav": {
         "menu": {
-            "open": "Open navigation menu",
-            "close": "Close navigation menu",
-            "title": "Navigation menu",
-            "openSubCategory": "Open subcategory",
-            "back": "Back",
-            "backDescription": "Back to parent category",
-            "allOfCategory": "(all)"
+            "mobile": {
+                "description": "Mobile navigation",
+                "title": "Navigation menu",
+                "close": "Close mobile navigation menu",
+                "back": "Back",
+                "openSubCategory": "Open subcategory",
+                "allOfCategory": "(all)",
+                "open": "Open navigation menu",
+                "backDescription": "Back to parent category"
+            }
         }
     }
 }

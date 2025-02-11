@@ -12,7 +12,6 @@
         :rel="target === '_blank' ? 'noopener noreferrer' : undefined"
         :disabled="disabled"
         :aria-disabled="disabled"
-        :style="{ '--primary-color': color ?? undefined }"
         @click="handleClick"
     >
         <slot>{{ text }}</slot>
@@ -30,7 +29,6 @@ const props = withDefaults(defineProps<LinkProps>(), {
     target: '_self',
     variant: 'default',
     type: 'internal',
-    color: undefined,
     disabled: false,
 })
 

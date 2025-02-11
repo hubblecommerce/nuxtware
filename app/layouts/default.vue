@@ -18,8 +18,6 @@ provide('mainNavigation', data)
 <!--        <ContextLanguageSwitch />-->
 <!--        <ContextCurrencySwitch />-->
 
-<!--        <LayoutNavigationDesktop />-->
-
         <div class="m-auto w-full flex flex-wrap justify-between items-center p-2 lg:container">
             <LayoutSidenavMenu />
 
@@ -43,14 +41,14 @@ provide('mainNavigation', data)
         </div>
 
         <div class="hidden lg:block bg-primary">
-            <div class="container m-auto p-2">
-                <!-- Desktop Navigation -->
+            <div class="container m-auto px-2">
+                <LayoutNavigationMegaMenu />
             </div>
         </div>
     </header>
-    <aside />
+<!--    <aside />-->
     <main>
         <slot />
     </main>
-    <footer />
+<!--    <footer />-->
 </template>

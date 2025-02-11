@@ -2,6 +2,8 @@
 import type { Schemas } from '#shopware'
 import { getProductRoute, getSmallestThumbnailUrl, getTranslatedProperty } from '@shopware-pwa/helpers-next'
 
+defineEmits(['navigate'])
+
 const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)
 const { getProducts, getTotal } = useProductSearchSuggest()
@@ -28,6 +30,7 @@ function getPrice (product: Schemas['Product']) {
                 <FoundationLink
                     :href="formatLink(getProductRoute(product)).path"
                     class="flex items-center gap-2"
+                    @click="$emit('navigate')"
                 >
                     <img
                         ref="imageElement"

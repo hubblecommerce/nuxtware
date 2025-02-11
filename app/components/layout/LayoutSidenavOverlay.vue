@@ -29,11 +29,11 @@ watch(open, (newVal) => {
             <div>
                 <Transition
                     enter-active-class="transition-opacity duration-300 ease-in bg-gray-900"
-                    :enter-from-class="'opacity-0'"
-                    :enter-to-class="'opacity-80'"
+                    enter-from-class="opacity-0"
+                    enter-to-class="opacity-80"
                     leave-active-class="transition-opacity duration-300 ease-out bg-gray-900"
-                    :leave-from-class="'opacity-80'"
-                    :leave-to-class="'opacity-0'"
+                    leave-from-class="opacity-80"
+                    leave-to-class="opacity-0"
                 >
                     <div
                         v-if="open"
@@ -59,5 +59,10 @@ watch(open, (newVal) => {
                 </div>
             </div>
         </Teleport>
+
+        <!-- Prevent layout shift on desktop view -->
+        <template #fallback>
+            <div class="hidden" />
+        </template>
     </ClientOnly>
 </template>

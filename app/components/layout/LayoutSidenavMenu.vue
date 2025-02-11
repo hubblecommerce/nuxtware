@@ -35,13 +35,14 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
         :aria-expanded="mobileMenuOpen ? 'true' : 'false'"
         @click="mobileMenuOpen = true"
     >
-        <span class="sr-only">{{ $t('sidenav.menu.open') }}</span><FoundationIcon name="menu" />
+        <span class="sr-only">{{ $t('sidenav.menu.mobile.open') }}</span><FoundationIcon name="menu" />
     </FoundationButton>
 
     <LayoutSidenavOverlay v-model="mobileMenuOpen" class="bg-white" width-class="w-[90%] lg:w-[400px]">
-        <nav class="w-full">
+        <nav class="w-full" :aria-label="$t('sidenav.menu.mobile.description')">
             <div class="flex justify-between items-center p-2 pr-0">
-                <h2 class="text-lg font-semibold">{{ $t('sidenav.menu.title') }}</h2>
+                <FoundationHeadline tag="h2" class="text-lg font-semibold">
+                    {{ $t('sidenav.menu.mobile.title') }}</FoundationHeadline>
                 <FoundationButton
                     ref="sidenavMenuCloseButton"
                     size="medium"
@@ -49,13 +50,13 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
                     square
                     @click="closeNavigation()"
                 >
-                    <span class="sr-only">{{ $t('sidenav.menu.close') }}</span>
+                    <span class="sr-only">{{ $t('sidenav.menu.mobile.close') }}</span>
                     <FoundationIcon name="x" />
                 </FoundationButton>
             </div>
 
             <div class="relative h-[calc(100vh-64px)] w-full">
-                <LazyLayoutMenuRecursive v-if="mobileMenuOpen" :items="navigationItems" />
+                <LazyLayoutMenuRecursive v-if="mobileMenuOpen" :items="navigationItems" @navigate="mobileMenuOpen = false" />
             </div>
         </nav>
     </LayoutSidenavOverlay>
