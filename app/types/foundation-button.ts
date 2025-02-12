@@ -12,4 +12,5 @@ export interface ButtonProps {
     loading?: boolean;
     circle?: boolean;
     square?: boolean;
+    unStyled?: boolean;
 }

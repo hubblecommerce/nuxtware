@@ -4,9 +4,11 @@
         ref="button"
         :class="[
             'btn',
-            buttonSizes[size],
-            buttonVariants[variant],
-            buttonColors[color],
+            ...!unStyled ? [
+                buttonSizes[size],
+                buttonVariants[variant],
+                buttonColors[color],
+            ] : [],
             {
                 'btn-loading': loading,
                 'btn-square': square,
@@ -43,6 +45,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
     loading: false,
     circle: false,
     square: false,
+    unStyled: false,
 })
 
 const emit = defineEmits<{
