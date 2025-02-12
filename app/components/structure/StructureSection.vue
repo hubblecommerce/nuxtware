@@ -23,7 +23,7 @@ const sidebarBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
         class="cms-section"
         :class="{
             [content.cssClass as string]: content.cssClass,
-            'container m-auto p-6': content.sizingMode === 'boxed',
+            'lg:container m-auto p-2': content.sizingMode === 'boxed',
             'w-full': content.sizingMode === 'fullwidth'
         }"
         :style="backgroundStyles"
