@@ -44,7 +44,5 @@ const pageComponent = computed(() => {
 </script>
 
 <template>
-    <div>
-        <component :is='pageComponent' v-if='pageComponent' :navigation-id='foreignKey' />
-    </div>
+    <component :is='pageComponent' v-if='pageComponent' :navigation-id='foreignKey' />
 </template>
