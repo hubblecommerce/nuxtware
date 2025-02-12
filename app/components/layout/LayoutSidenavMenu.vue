@@ -2,32 +2,12 @@
 import type { Schemas } from '#shopware'
 
 const mobileMenuOpen = ref(false)
-const sidenavMenuOpenButton = shallowRef()
 const sidenavMenuCloseButton = shallowRef()
-
-watch(mobileMenuOpen, (value) => {
-    if (value === true) {
-        nextTick(() => {
-            sidenavMenuCloseButton?.value?.button?.focus()
-        })
-    }
-
-    if (value === false) {
-        sidenavMenuOpenButton?.value?.button?.focus()
-    }
-})
-
-function closeNavigation () {
-    mobileMenuOpen.value = false
-    sidenavMenuOpenButton?.value?.button?.focus()
-}
-
 const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"]
 </script>
 
 <template>
     <FoundationButton
-        ref="sidenavMenuOpenButton"
         size="medium"
         variant="ghost"
         class="flex-shrink-0 w-12 order-[10] lg:hidden"
@@ -48,7 +28,7 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
                     size="medium"
                     variant="ghost"
                     square
-                    @click="closeNavigation()"
+                    @click="mobileMenuOpen = false"
                 >
                     <span class="sr-only">{{ $t('sidenav.menu.mobile.close') }}</span>
                     <FoundationIcon name="x" />
