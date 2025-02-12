@@ -5,10 +5,12 @@ import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 const props = withDefaults(defineProps<{
     direction?: 'left' | 'right',
     widthClass?: string,
+    unwrap?: boolean,
     // TODO: background color configurable?
 }>(), {
     direction: 'left',
     widthClass: 'w-[80%]',
+    unwrap: false,
 })
 
 const attrs = useAttrs()
@@ -25,7 +27,8 @@ watch(open, (newVal) => {
 
 <template>
     <ClientOnly>
-        <Teleport to="#teleports">
+        <slot v-if="unwrap" />
+        <Teleport v-else to="#teleports">
             <div>
                 <Transition
                     enter-active-class="transition-opacity duration-300 ease-in bg-gray-900"
@@ -62,7 +65,9 @@ watch(open, (newVal) => {
 
         <!-- Prevent layout shift on desktop view -->
         <template #fallback>
-            <div class="hidden" />
+            <slot name="fallback">
+                <div class="hidden" />
+            </slot>
         </template>
     </ClientOnly>
 </template>
