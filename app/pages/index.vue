@@ -8,7 +8,7 @@ useHead({
 </script>
 
 <template>
-    <div>
+    <div class="lg:container m-auto p-2">
         <h1>Index</h1>
     </div>
 </template>

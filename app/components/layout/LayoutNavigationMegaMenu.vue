@@ -11,18 +11,23 @@ const openedCategory = ref<string | null>(null)
 const megaMenuEl = shallowRef()
 const megaMenuPopover = shallowRef()
 
-onClickOutside(megaMenuEl, () => openedCategory.value = null)
+onClickOutside(megaMenuEl, () => closePopover())
 const { activate, deactivate } = useFocusTrap(megaMenuPopover, { allowOutsideClick: true })
 
-async function openPopover (id: string) {
+async function openPopover (id: string, options?: { focusTrap: boolean }) {
     openedCategory.value = id
-    await nextTick()
-    activate()
+
+    if (options?.focusTrap) {
+        await nextTick()
+        activate()
+    }
 }
 
 async function closePopover () {
-    deactivate()
-    openedCategory.value = null
+    if (openedCategory.value != null) {
+        deactivate()
+        openedCategory.value = null
+    }
 }
 
 // Lazy Execution with Hover Validation
@@ -61,7 +66,7 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
                     size="small"
                     :aria-expanded="item.children.length && openedCategory === item.id"
                     :aria-controls="`menu-${item.id}`"
-                    @click="openPopover(item.id)"
+                    @click="openPopover(item.id, { focusTrap: true})"
                 >
                     <span class="sr-only">{{ $t('megaMenu.firstLevel.openChildren', { category: item.name }) }}</span>
                     <FoundationIcon v-show="openedCategory === item.id" name="chevron-up" />
@@ -72,7 +77,7 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
         <div
             v-show="openedCategory"
             ref="megaMenuPopover"
-            class="container absolute top-full left-0 bg-white border p-10"
+            class="container absolute top-full left-0 bg-white border p-10 z-50"
         >
             <FoundationButton
                 size="small"
