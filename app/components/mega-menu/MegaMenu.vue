@@ -94,7 +94,7 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
                     :id="`menu-${item.id}`"
                     class="flex flex-wrap items-start gap-8"
                 >
-                    <LayoutNavigationMegaMenuItem
+                    <MegaMenuItem
                         v-for="subItem in item.children"
                         v-show="openedCategory === item.id"
                         :key="subItem.id"

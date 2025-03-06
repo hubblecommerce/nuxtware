@@ -29,7 +29,7 @@ defineEmits(['navigate'])
         </FoundationLink>
 
         <div v-if="item.children.length" class="flex flex-col pl-6">
-            <LayoutNavigationMegaMenuItem
+            <MegaMenuItem
                 v-for="childItem in item.children"
                 :key="childItem.id"
                 :item="childItem"

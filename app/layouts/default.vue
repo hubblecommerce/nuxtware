@@ -19,11 +19,13 @@ provide('mainNavigation', data)
 <!--        <ContextCurrencySwitch />-->
 
         <div class="m-auto w-full flex flex-wrap justify-between items-center p-2 lg:container">
-            <LayoutSidenavMenu />
+            <SidenavMenu />
 
             <FoundationLink href="/" class="w-[calc(100%-3rem-50%)] max-w-[200px] order-[20] mr-auto lg:mr-0">
                 <span class="sr-only">{{ $t('header.homeLink') }}</span><FoundationIcon name="logo" class="w-full" />
             </FoundationLink>
+
+            <SearchQuick class="w-full mt-2 order-[40] lg:order-[25] lg:w-[300px] lg:mt-0" />
 
             <div class="flex-shrink-0 flex justify-between items-center gap-2 order-[30]">
                 <FoundationLink href="/customer" class="btn btn-ghost btn-medium btn-square">
@@ -36,13 +38,11 @@ provide('mainNavigation', data)
                     <span class="sr-only">{{ $t('header.cart.open') }}</span><FoundationIcon name="cart" />
                 </FoundationButton>
             </div>
-
-            <WidgetQuickSearch class="w-full mt-2 order-[40] lg:order-[25] lg:w-[300px] lg:mt-0" />
         </div>
 
         <div class="hidden lg:block bg-primary">
             <div class="container m-auto px-2">
-                <LayoutNavigationMegaMenu />
+                <MegaMenu />
             </div>
         </div>
     </header>

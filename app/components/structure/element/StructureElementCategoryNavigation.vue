@@ -26,7 +26,7 @@ onMounted(async () => {
             <div class="text-3xl tracking-tight text-secondary-900 m-0 px-5">
                 {{ getTranslatedProperty(activeCategory, "name") }}
             </div>
-            <LayoutSidebarNavigation
+            <CategoryNavigation
                 :level="0"
                 :elements="categoryNavigation"
                 :active-category="activeCategory"

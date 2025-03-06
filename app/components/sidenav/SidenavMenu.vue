@@ -18,7 +18,7 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
         <span class="sr-only">{{ $t('sidenav.menu.mobile.open') }}</span><FoundationIcon name="menu" />
     </FoundationButton>
 
-    <LayoutSidenavOverlay v-model="mobileMenuOpen" class="bg-white" width-class="w-[90%] lg:w-[400px]">
+    <SidenavOverlay v-model="mobileMenuOpen" class="bg-white" width-class="w-[90%] lg:w-[400px]">
         <nav class="w-full" :aria-label="$t('sidenav.menu.mobile.description')">
             <div class="flex justify-between items-center p-2 pr-0">
                 <FoundationHeadline tag="h2" class="text-lg font-semibold">
@@ -36,8 +36,8 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
             </div>
 
             <div class="relative h-[calc(100vh-64px)] w-full">
-                <LazyLayoutMenuRecursive v-if="mobileMenuOpen" :items="navigationItems" @navigate="mobileMenuOpen = false" />
+                <LazySidenavMenuRecursive v-if="mobileMenuOpen" :items="navigationItems" @navigate="mobileMenuOpen = false" />
             </div>
         </nav>
-    </LayoutSidenavOverlay>
+    </SidenavOverlay>
 </template>
