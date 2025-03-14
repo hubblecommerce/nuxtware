@@ -1,38 +1,52 @@
 <script setup lang="ts">
 import type { Schemas } from '#shopware'
 import { getCategoryRoute } from '@shopware/helpers'
-import { onClickOutside } from '@vueuse/core'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 
-const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"]
+const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"] ?? []
 const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)
-const openedCategory = ref<string | null>(null)
+const openedCategory = shallowRef<string | null>(null)
 const megaMenuEl = shallowRef()
 const megaMenuPopover = shallowRef()
+let popoverTimeout: ReturnType<typeof setTimeout> | null = null
 
-onClickOutside(megaMenuEl, () => closePopover())
 const { activate, deactivate } = useFocusTrap(megaMenuPopover, { allowOutsideClick: true })
 
-async function openPopover (id: string, options?: { focusTrap: boolean }) {
-    openedCategory.value = id
+const activeItem = computed(() =>
+    navigationItems.value.find((item: Schemas["Category"]) => item.id === openedCategory.value)
+)
 
-    if (options?.focusTrap) {
-        await nextTick()
-        activate()
-    }
+async function openPopover (
+    id: string,
+    { focusTrap = false, delay = 500 }: { focusTrap?: boolean; delay?: number } = {}
+) {
+    clearPopoverTimeout()
+
+    popoverTimeout = setTimeout(async () => {
+        openedCategory.value = id
+
+        if (focusTrap) {
+            await nextTick()
+            activate()
+        }
+    }, delay)
 }
 
 async function closePopover () {
+    clearPopoverTimeout()
+
     if (openedCategory.value != null) {
         deactivate()
         openedCategory.value = null
     }
 }
 
-// Lazy Execution with Hover Validation
-function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
-    setTimeout(() => (e?.target as HTMLElement | null)?.matches(':hover') ? openPopover(item.id) : null, 300)
+function clearPopoverTimeout () {
+    if (popoverTimeout) {
+        clearTimeout(popoverTimeout)
+        popoverTimeout = null
+    }
 }
 </script>
 
@@ -43,13 +57,14 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
         itemtype="https://schema.org/SiteNavigationElement"
         :aria-label="$t('megaMenu.title')"
         class="w-full relative"
+        @mouseleave="closePopover()"
     >
         <ul class="flex justify-start items-center flex-wrap">
             <li
                 v-for="item in navigationItems"
                 :key="item.id"
                 class="btn text-primary-content"
-                @mouseenter="item.children.length ? delayedHover($event, item) : null"
+                @mouseenter.passive="item.children.length ? openPopover(item.id) : clearPopoverTimeout()"
             >
                 <FoundationLink
                     :href="formatLink(getCategoryRoute(item))"
@@ -64,13 +79,12 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
                     v-if="item.children.length"
                     square
                     size="small"
-                    :aria-expanded="item.children.length && openedCategory === item.id"
+                    :aria-expanded="activeItem"
                     :aria-controls="`menu-${item.id}`"
-                    @click="openPopover(item.id, { focusTrap: true})"
+                    @click="openPopover(item.id, { focusTrap: true, delay: 0 })"
                 >
                     <span class="sr-only">{{ $t('megaMenu.firstLevel.openChildren', { category: item.name }) }}</span>
-                    <FoundationIcon v-show="openedCategory === item.id" name="chevron-up" />
-                    <FoundationIcon v-show="openedCategory !== item.id" name="chevron-down" />
+                    <FoundationIcon :name="activeItem ? 'chevron-up' : 'chevron-down'" />
                 </FoundationButton>
             </li>
         </ul>
@@ -78,6 +92,7 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
             v-show="openedCategory"
             ref="megaMenuPopover"
             class="container absolute top-full left-0 bg-white border p-10 z-50"
+            @mouseleave="closePopover()"
         >
             <FoundationButton
                 size="small"
@@ -90,13 +105,13 @@ function delayedHover (e: MouseEvent, item: Schemas["Category"]) {
             </FoundationButton>
             <template v-for="item in navigationItems" :key="item.id">
                 <div
-                    v-show="item.children.length && openedCategory === item.id"
+                    v-show="activeItem?.children?.length"
                     :id="`menu-${item.id}`"
                     class="flex flex-wrap items-start gap-8"
                 >
                     <MegaMenuItem
                         v-for="subItem in item.children"
-                        v-show="openedCategory === item.id"
+                        v-show="activeItem"
                         :key="subItem.id"
                         :item="subItem"
                         @navigate="closePopover()"

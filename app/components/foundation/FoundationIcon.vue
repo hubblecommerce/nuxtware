@@ -66,4 +66,8 @@ async function loadIcon() {
 }
 
 await loadIcon()
+
+watch(() => props.name, async () => {
+    await loadIcon()
+})
 </script>
