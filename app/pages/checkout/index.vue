@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { RequestParameters } from '#shopware'
 import { ApiClientError, type ApiError } from '@shopware/api-client'
-import { getShippingMethodDeliveryTime, getTranslatedProperty } from '@shopware-pwa/helpers-next'
+import { getShippingMethodDeliveryTime, getTranslatedProperty } from '@shopware/helpers'
 
 const { push } = useRouter()
 const { getCountries } = useCountries()

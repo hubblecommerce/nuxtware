@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from '#shopware'
-import { getCategoryRoute } from '@shopware-pwa/helpers-next'
+import { getCategoryRoute } from '@shopware/helpers'
 
 const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)

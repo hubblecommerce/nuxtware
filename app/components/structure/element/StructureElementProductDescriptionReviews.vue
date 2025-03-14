@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CmsElementProductDescriptionReviews } from '@shopware-pwa/composables-next'
-import { getTranslatedProperty } from '@shopware-pwa/helpers-next'
+import { getTranslatedProperty } from '@shopware/helpers'
 
 const props = defineProps<{
     content: CmsElementProductDescriptionReviews

@@ -11,20 +11,16 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  extends: [
-    // usage of composables
-    "@shopware-pwa/composables-next/nuxt-layer"
-  ],
   imports: {
     dirs: [
         // auto import composables
-        join(currentDir, "node_modules/@shopware-pwa/composables-next/src"),
+        join(currentDir, "node_modules/@shopware/nuxt-module/node_modules/@shopware/composables/src"),
         // auto import types
         'types/*.{ts,tsx}',
     ],
   },
   modules: [
-    '@shopware-pwa/nuxt3-module',
+    '@shopware/nuxt-module',
     '@nuxt/eslint',
     '@nuxtjs/i18n'
   ],

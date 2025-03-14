@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getCategoryRoute } from '@shopware-pwa/helpers-next'
+import { getCategoryRoute } from '@shopware/helpers'
 import type { Schemas } from '#shopware'
 
 const props = withDefaults(defineProps<{

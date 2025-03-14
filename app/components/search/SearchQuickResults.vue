@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from '#shopware'
-import { getProductRoute, getSmallestThumbnailUrl, getTranslatedProperty } from '@shopware-pwa/helpers-next'
+import { getProductRoute, getSmallestThumbnailUrl, getTranslatedProperty } from '@shopware/helpers'
 
 defineEmits(['navigate'])
 

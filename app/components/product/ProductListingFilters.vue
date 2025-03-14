@@ -2,7 +2,7 @@
 import type { UnwrapNestedRefs } from 'vue'
 import type { CmsElementSidebarFilter } from '@shopware-pwa/composables-next'
 import type { RequestParameters } from '#shopware'
-import { getTranslatedProperty } from '@shopware-pwa/helpers-next'
+import { getTranslatedProperty } from '@shopware/helpers'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const props = defineProps<{

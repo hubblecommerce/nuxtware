@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from '#shopware'
-import { getCategoryRoute } from '@shopware-pwa/helpers-next'
+import { getCategoryRoute } from '@shopware/helpers'
 import { onClickOutside } from '@vueuse/core'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
 

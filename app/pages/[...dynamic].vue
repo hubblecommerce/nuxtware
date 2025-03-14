@@ -10,7 +10,7 @@ const { localeProperties } = useI18n();
 const { data, error } = await useAsyncData(
     'cmsResponse' + routePath,
     async () => {
-        return await $fetch('/seo-url', {
+        const data = await $fetch('/seo-url', {
             method: 'POST',
             headers: {
                 ...(localeProperties.value.localeId && { 'sw-language-id': localeProperties.value.localeId })
@@ -18,11 +18,13 @@ const { data, error } = await useAsyncData(
             body: {
                 slug: routePath,
             }
-        })
+        });
+
+        return { payload: data };
     },
 );
 
-if (!data?.value) {
+if (!data?.value?.payload) {
     throw createError({
         statusCode: 404,
         message: 'not found',
@@ -35,7 +37,7 @@ if (error.value) {
 }
 
 const { routeName, foreignKey } = useNavigationContext(
-    data as Ref<Schemas['SeoUrl']>,
+    data?.value?.payload as Ref<Schemas['SeoUrl']>,
 );
 
 const pageComponent = computed(() => {

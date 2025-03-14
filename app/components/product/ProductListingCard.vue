@@ -5,7 +5,7 @@ import {
     getProductName,
     getProductRoute,
     getSmallestThumbnailUrl,
-} from "@shopware-pwa/helpers-next";
+} from "@shopware/helpers";
 
 const props = defineProps<{
     product: Schemas["Product"],

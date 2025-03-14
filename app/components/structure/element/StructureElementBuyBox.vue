@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getTranslatedProperty } from '@shopware-pwa/helpers-next'
+import { getTranslatedProperty } from '@shopware/helpers'
 import type { CmsElementBuyBox } from '@shopware-pwa/composables-next'
 import {
     useProductPrice,

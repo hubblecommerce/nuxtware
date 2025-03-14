@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware";
-import { getCategoryUrl } from "@shopware-pwa/helpers-next";
+import { getCategoryUrl } from "@shopware/helpers";
 
 const props = withDefaults(
     defineProps<{
