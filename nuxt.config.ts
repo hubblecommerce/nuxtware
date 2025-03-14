@@ -2,6 +2,7 @@
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { createResolver } from '@nuxt/kit'
+import tailwindcss from '@tailwindcss/vite'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 const { resolve } = createResolver(import.meta.url)
@@ -32,14 +33,10 @@ export default defineNuxtConfig({
     // alias to import files from layer, e.g. when consumer instance overrides main.css
     '#hubble': resolve('./app')
   },
-  postcss: {
-    // plugin order as tailwind recommends it
-    plugins: {
-      'postcss-import': {},
-      'tailwindcss/nesting': {},
-      tailwindcss: {},
-      autoprefixer: {},
-    }
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ]
   },
   i18n: {
     strategy: "prefix_except_default",

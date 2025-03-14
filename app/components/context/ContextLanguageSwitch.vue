@@ -26,7 +26,7 @@ const languageSwitchId = useId()
         <select
             :id="languageSwitchId"
             aria-label="Select language"
-            class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-sm focus:ring-brand-light focus:border-light"
+            class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-xs focus:ring-brand-light focus:border-light"
             @change="onChangeHandler"
         >
             <option

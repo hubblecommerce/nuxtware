@@ -5,25 +5,25 @@
         @apply hover:text-link-hover hover:underline;
         @apply active:text-link-active hover:underline;
         @apply focus-style;
-    }
 
-    .link-underline {
-        @apply underline;
-    }
-
-    .link-disabled {
-        @apply cursor-not-allowed opacity-60;
-    }
-
-    /* Invisible Hit Areas */
-    @media (pointer: coarse) {
-        .link::before  {
-            content: '';
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            bottom: -8px;
-            left: -8px;
+        /* Invisible Hit Areas */
+        @media (pointer: coarse) {
+            &:before  {
+                content: '';
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                bottom: -8px;
+                left: -8px;
+            }
         }
     }
+}
+
+@utility link-underline {
+    @apply underline;
+}
+
+@utility link-disabled {
+    @apply cursor-not-allowed opacity-60;
 }

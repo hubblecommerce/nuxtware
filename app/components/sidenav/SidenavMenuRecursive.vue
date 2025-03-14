@@ -59,7 +59,7 @@ function navigateBack () {
         <template v-if="level > 0">
             <FoundationButton
                 ref="backButton"
-                class="w-full flex justify-start items-center gap-2 p-4 h-14 border-b"
+                class="w-full flex justify-start items-center gap-2 p-4 h-14 border-b rounded-none"
                 :aria-label="$t('sidenav.menu.mobile.backDescription')"
                 @click="$emit('back')"
             >
@@ -72,7 +72,7 @@ function navigateBack () {
                     <FoundationLink
                         v-if="currentCategory"
                         :href="formatLink(getCategoryRoute(currentCategory))"
-                        class="block p-4 border-b"
+                        class="block p-4 border-b rounded-none"
                         @click="$emit('navigate')"
                     >
                         {{ currentCategory.name }} {{ $t('sidenav.menu.mobile.allOfCategory') }}
@@ -84,7 +84,7 @@ function navigateBack () {
                     <FoundationButton
                         :id="item.id"
                         ref="categoryButtons"
-                        class="w-full flex justify-between items-center gap-2 p-4 h-14 border-b"
+                        class="w-full flex justify-between items-center gap-2 p-4 h-14 border-b rounded-none"
                         :aria-label="`${$t('sidenav.menu.mobile.openSubCategory')}: ${item.name}`"
                         @click="navigateToSubcategory(item)"
                     >
@@ -93,7 +93,7 @@ function navigateBack () {
                     </FoundationButton>
                 </template>
                 <template v-else>
-                    <FoundationLink :href="formatLink(getCategoryRoute(item))" class="block p-4 border-b" @click="$emit('navigate')">
+                    <FoundationLink :href="formatLink(getCategoryRoute(item))" class="block p-4 border-b rounded-none" @click="$emit('navigate')">
                         {{ item.name }}
                     </FoundationLink>
                 </template>
@@ -102,7 +102,7 @@ function navigateBack () {
     </div>
 
     <div v-for="item in items" :key="`subcategory-${item.id}`">
-        <LayoutMenuRecursive
+        <SidenavMenuRecursive
             v-if="item.children && item.children.length"
             :ref="(el) => (subcategoryItems[item.id] = el)"
             :items="item.children"

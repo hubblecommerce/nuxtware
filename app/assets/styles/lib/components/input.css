@@ -9,61 +9,61 @@
             @apply input-disabled;
         }
     }
+}
 
-    .input-disabled {
-        @apply opacity-60 cursor-not-allowed;
-    }
+@utility input-default {
+    --color-input: transparent;
 
-    .input-xs {
-        @apply h-6 px-2 text-xs leading-relaxed;
-    }
+    @apply border border-input text-input-content;
+}
 
-    .input-sm {
-        @apply h-8 px-3 text-sm leading-8;
-    }
+@utility input-disabled {
+    @apply opacity-60 cursor-not-allowed;
+}
 
-    .input-md {
-        @apply h-12 px-4 leading-loose;
-    }
+@utility input-xs {
+    @apply h-6 px-2 text-xs leading-relaxed;
+}
 
-    .input-lg {
-        @apply h-16 px-6 text-lg leading-loose;
-    }
+@utility input-sm {
+    @apply h-8 px-3 text-sm leading-8;
+}
 
-    .input-xl {
-        @apply h-20 px-8 text-xl leading-loose;
-    }
+@utility input-md {
+    @apply h-12 px-4 leading-loose;
+}
 
-    .input-2xl {
-        @apply h-24 px-10 text-2xl leading-loose;
-    }
+@utility input-lg {
+    @apply h-16 px-6 text-lg leading-loose;
+}
 
-    .input-primary {
-        --input-color: var(--primary-color);
-        --input-color-content: var(--primary-color);
-    }
+@utility input-xl {
+    @apply h-20 px-8 text-xl leading-loose;
+}
 
-    .input-secondary {
-        --input-color: var(--secondary-color);
-        --input-color-content: var(--secondary-color);
-    }
+@utility input-2xl {
+    @apply h-24 px-10 text-2xl leading-loose;
+}
 
-    .input-tertiary {
-        --input-color: var(--tertiary-color);
-        --input-color-content: var(--tertiary-color);
-    }
+@utility input-primary {
+    --color-input: var(--color-primary);
+    --color-input-content: var(--color-primary);
+}
 
-    .input-default {
-        --input-color: transparent;
+@utility input-secondary {
+    --color-input: var(--color-secondary);
+    --color-input-content: var(--color-secondary);
+}
 
-        @apply border border-input-color text-input-color-content;
-    }
+@utility input-tertiary {
+    --color-input: var(--color-tertiary);
+    --color-input-content: var(--color-tertiary);
+}
 
-    .input-bordered {
-        --input-color: --border-color;
-    }
+@utility input-bordered {
+    --color-input: --color-border;
+}
 
-    .input-error {
-        --input-color: var(--error-color);
-    }
+@utility input-error {
+    --color-input: var(--color-error);
 }

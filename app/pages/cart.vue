@@ -18,7 +18,7 @@ const { getFormattedPrice } = usePrice()
                 </li>
             </ul>
 
-            <aside class="md:col-span-1 pb-4 px-4 bg-secondary-50 rounded dark:bg-secondary-800">
+            <aside class="md:col-span-1 pb-4 px-4 bg-secondary-50 rounded-sm dark:bg-secondary-800">
                 <h2 class="text-xl font-medium text-secondary-900">
                     {{ $t("cart.orderSummary") }}
                 </h2>

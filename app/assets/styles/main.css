@@ -1,9 +1,4 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
-/* Theme */
-@import '#hubble/assets/styles/lib/theme.css';
+@import 'tailwindcss' source('../../');
 
 /* Foundations */
 @import '#hubble/assets/styles/lib/foundations/focus.css';
@@ -14,3 +9,42 @@
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/input.css';
+
+@theme {
+    /* Semantic colors */
+    --color-primary: oklch(0.357 0.191 261.39);
+    --color-primary-shade-light: oklch(0.423 0.185 256.42);
+    --color-primary-shade-dark: oklch(0.308 0.156 261.41);
+    --color-primary-content: oklch(1 0 0);
+
+    --color-secondary: oklch(0.316 0.265 303.89);
+    --color-secondary-shade-light: oklch(0.368 0.286 303.52);
+    --color-secondary-shade-dark: oklch(0.259 0.225 303.85);
+    --color-secondary-content: oklch(1 0 0);
+
+    --color-tertiary: oklch(0.942 0.182 100.42);
+    --color-tertiary-shade-light: oklch(0.955 0.198 100.19);
+    --color-tertiary-shade-dark: oklch(0.72 0.144 100.36);
+    --color-tertiary-content: oklch(0.15 0.035 261.99);
+
+    --color-link: oklch(0.431 0.166 263.08);
+    --color-link-visited: oklch(0.419 0.145 327.76);
+    --color-link-hover: oklch(0.493 0.234 27.67);
+    --color-link-active: oklch(0.493 0.234 27.67);
+
+    --color-neutral: oklch(0.269 0 0);
+    --color-border: oklch(0.823 0.007 90.02);
+    --color-error: oklch(0.488 0.257 29.27);
+
+    /* Components colors */
+    --color-input: var(--color-input, --color-border);
+    --color-input-content: var(--color-input-content);
+
+    --color-btn: var(--color-btn);
+    --color-btn-shade-light: var(--color-btn-shade-light);
+    --color-btn-shade-dark: var(--color-btn-shade-dark);
+    --color-btn-content: var(--color-btn-content);
+
+    --color-focus: var(--color-primary-shade-light);
+    --color-label: var(--color-neutral);
+}

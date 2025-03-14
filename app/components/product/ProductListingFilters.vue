@@ -115,7 +115,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
                 <ComponentDropdown
                     :trigger-label="getTranslatedProperty(filter, 'name')"
                     class="w-full border hover:bg-gray-100 btn-small justify-between"
-                    content-classes="bg-white w-full p-2 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-sm lg:shadow-lg lg:border"
+                    content-classes="bg-white w-full p-2 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
                 >
                     <div v-if="filter.code === 'properties'" class="flex flex-col">
                         <label v-for="option in filter.options" :key="option.id">

@@ -1,5 +1,5 @@
 @layer components {
     .label {
-        @apply text-label-color font-semibold;
+        @apply text-label font-semibold;
     }
 }

@@ -46,7 +46,7 @@ watch(open, (newVal) => {
 
                 <div
                     ref="sidenavOverlayEl"
-                    class="fixed h-full top-0 z-[999] overflow-x-hidden transition-transform duration-300 no-scrollbar"
+                    class="fixed h-full top-0 z-999 overflow-x-hidden transition-transform duration-300 no-scrollbar"
                     :class="[
                     {
                         'left-0 right-auto origin-left border-r': props.direction === 'left',

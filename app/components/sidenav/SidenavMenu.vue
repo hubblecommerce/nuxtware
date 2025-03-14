@@ -10,7 +10,7 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
     <FoundationButton
         size="medium"
         variant="ghost"
-        class="flex-shrink-0 w-12 order-[10] lg:hidden"
+        class="shrink-0 w-12 order-10 lg:hidden"
         square
         :aria-expanded="mobileMenuOpen ? 'true' : 'false'"
         @click="mobileMenuOpen = true"

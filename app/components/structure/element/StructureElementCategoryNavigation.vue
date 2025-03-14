@@ -21,7 +21,7 @@ onMounted(async () => {
     <div>
         <div
             v-if="categoryNavigation && categoryNavigation.length > 0"
-            class="cms-element-category-navigation max-w-screen-xl mx-auto"
+            class="cms-element-category-navigation max-w-(--breakpoint-xl) mx-auto"
         >
             <div class="text-3xl tracking-tight text-secondary-900 m-0 px-5">
                 {{ getTranslatedProperty(activeCategory, "name") }}
