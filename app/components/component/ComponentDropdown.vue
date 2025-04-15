@@ -16,7 +16,7 @@
             @keydown.esc="closeDropdown"
             @keydown.arrow-down.prevent="openDropdown"
         >
-            {{ $t(triggerLabel) }}
+            {{ triggerLabel }}
             <FoundationIcon v-show="isOpen" name="chevron-up" />
             <FoundationIcon v-show="!isOpen" name="chevron-down" />
         </FoundationButton>
