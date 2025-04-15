@@ -4,7 +4,7 @@ node_modules
 nuxt.d.ts
 .output
 .data
-.env
+.playground/.env
 package-lock.json
 framework
 dist

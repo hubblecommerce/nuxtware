@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
         // auto import composables
-        join(currentDir, "node_modules/@shopware/nuxt-module/node_modules/@shopware/composables/src"),
+        join(currentDir, 'node_modules/@shopware/composables/src'),
         // auto import types
         'types/*.{ts,tsx}',
     ],
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
     vueI18n: './config',
     langDir: './src/langs/',
-    defaultLocale: "en",
+    defaultLocale: 'en',
     locales: [
       {
         code: 'en',
