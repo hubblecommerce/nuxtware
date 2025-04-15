@@ -1,0 +1,13 @@
+{
+    "header": {
+        "nav": {
+            "open": "Hauptnavigation öffnen"
+        },
+        "cart": {
+            "open": "Warenkorb Schnellansicht öffnen"
+        },
+        "homeLink": "Zur Startseite",
+        "customerLink": "Zum Kundenkonto",
+        "wishlistLink": "Zur Wunschliste"
+    }
+}

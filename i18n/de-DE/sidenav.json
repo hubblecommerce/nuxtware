@@ -1,0 +1,16 @@
+{
+    "sidenav": {
+        "menu": {
+            "mobile": {
+                "description": "Mobile Navigation",
+                "title": "Navigationsmenü",
+                "close": "Mobile Navigation schließen",
+                "back": "Zurück",
+                "openSubCategory": "Unterkategorie öffnen",
+                "allOfCategory": "(alle)",
+                "open": "Navigationsmenü öffnen",
+                "backDescription": "Zurück zur übergeordneten Kategorie"
+            }
+        }
+    }
+}

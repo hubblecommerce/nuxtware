@@ -1,0 +1,16 @@
+{
+    "search": {
+        "input": {
+            "submit": "Suche absenden",
+            "reset": "Suchbegriff zurücksetzen",
+            "label": "Suchen",
+            "placeholder": "Suchen...",
+            "description": "Die Suche wird kurz nach der Eingabe angewendet."
+        },
+        "results": {
+            "title": "Suchergebnisse",
+            "noResults": "Keine Ergebnisse gefunden.",
+            "label": "Gefundene Produkte: "
+        }
+    }
+}
