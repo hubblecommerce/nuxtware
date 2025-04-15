@@ -36,7 +36,7 @@ const { getFormattedPrice } = usePrice();
             ref="imageElement"
             loading="lazy"
             :src="srcPath"
-            :alt="getProductName({ product }) || ''"
+            :alt="getProductName({ product }) || $t('product.emptyAltText')"
             class=""
         >
         <NuxtLinkLocale

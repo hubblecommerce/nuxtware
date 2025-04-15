@@ -4,7 +4,8 @@
             "submit": "Submit search",
             "reset": "Reset search term",
             "label": "Search",
-            "placeholder": "Search..."
+            "placeholder": "Search...",
+            "description": "The search will be applied shortly after you have typed."
         },
         "results": {
             "title": "Search results",

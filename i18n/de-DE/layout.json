@@ -1,4 +1,7 @@
 {
+    "product": {
+        "emptyAltText": "Produktbild"
+    },
     "layout": {
         "language": "Sprache",
         "currency": "Währung"

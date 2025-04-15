@@ -1,5 +1,9 @@
 {
     "form": {
+        "aria": {
+            "selectLanguage": "Select language",
+            "selectCurrency": "Select currency"
+        },
         "salutation": "Salutation",
         "chooseSalutation": "Please choose a salutation",
         "firstName": "First Name",

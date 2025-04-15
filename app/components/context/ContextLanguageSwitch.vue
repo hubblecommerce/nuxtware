@@ -25,7 +25,7 @@ const languageSwitchId = useId()
         </label>
         <select
             :id="languageSwitchId"
-            aria-label="Select language"
+            :aria-label="$t('form.aria.selectLanguage')"
             class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-xs focus:ring-brand-light focus:border-light"
             @change="onChangeHandler"
         >

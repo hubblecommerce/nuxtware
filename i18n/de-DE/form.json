@@ -1,5 +1,9 @@
 {
     "form": {
+        "aria": {
+            "selectLanguage": "Sprache auswählen",
+            "selectCurrency": "Währung auswählen"
+        },
         "salutation": "Anrede",
         "chooseSalutation": "Bitte wählen Sie eine Anrede",
         "firstName": "Vorname",

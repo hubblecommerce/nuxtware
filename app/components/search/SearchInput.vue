@@ -44,7 +44,7 @@ function resetSearch () {
         :label="label"
         :placeholder="placeholder"
         :show-label="false"
-        description="The search will be applied shortly after you have typed."
+        :description="$t('search.input.description')"
         bordered
         class="w-full items-center"
         @on-focus="onFocus"
