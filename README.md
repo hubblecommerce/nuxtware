@@ -1,209 +1,93 @@
-# Nuxt Layer Starter
+# Nuxtware
 
-Create Nuxt extendable layer with this GitHub template.
+A Nuxt 3 layer with Shopware integration for building e-commerce frontends.
 
-## Setup
-
-Make sure to install the dependencies:
+## Quick Start
 
 ```bash
-pnpm install
+npm install
+npm dev
 ```
 
-## Working on your layer
+## Documentation
 
-Your layer is at the root of this repository, it is exactly like a regular Nuxt project, except you can publish it on NPM.
+Detailed documentation is available in the `/docs` directory:
 
-The `.playground` directory should help you on trying your layer during development.
+- [Project Overview](/docs/project-overview.md) - High-level overview of the project
+- [Coding Standards](/docs/coding-standards.md) - Code formatting and style guidelines
+- [I18n Guide](/docs/i18n-guide.md) - Internationalization implementation and best practices
+- [Common Workflows](/docs/common-workflows.md) - Step-by-step guides for common tasks
 
-Running `pnpm dev` will prepare and boot `.playground` directory, which imports your layer itself.
+### Working with AI Assistant
 
-## Distributing your layer
+To maximize productivity when using Claude or other AI assistants with this project:
 
-Your Nuxt layer is shaped exactly the same as any other Nuxt project, except you can publish it on NPM.
+1. Start with: "Please read the documentation in the /docs directory to understand the project standards before we begin."
 
-To do so, you only have to check if `files` in `package.json` are valid, then run:
+2. For updates after project changes: "I've made some changes to the project since we last spoke. Please review the current state of the codebase and update the documentation in the /docs directory to reflect these changes. Specifically, we've [description of changes]. Make sure the documentation accurately reflects our current standards, workflows, and project structure."
 
-```bash
-npm publish --access public
-```
+## Development
 
-Once done, your users will only have to run:
+### Shopware Configuration
 
-```bash
-npm install --save your-layer
-```
-
-Then add the dependency to their `extends` in `nuxt.config`:
-
-```ts
-defineNuxtConfig({
-  extends: 'your-layer'
-})
-```
-
-## Shopware configuration
 Create `.env` file in `/.playground`:
+
 ```
 NUXT_PUBLIC_SHOPWARE_ENDPOINT = 'https://my-shopware.com/store-api/'
 NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN = 'SWXXXXXXXXXXXXXXXXXXXX'
 NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL = 'https://my-shopware.com'
 ```
 
-## API Client
-Based on official [api client tutorial](https://api-client-tutorial-composable-frontends.pages.dev/1-intro/1-brief/1-brief/). 
-
-### Setup
-Install shopware api-gen:
-```
-npm install -D @shopware/api-gen
-```
-
-Set variables to .env:
-```
-OPENAPI_JSON_URL="https://my-shopware.com"
-OPENAPI_ACCESS_KEY="SWXXXXXXXXXXXXXXXXXXXX"
-```
-
-Create a subdirectory `api-types` in your project’s root dir.
-
-Load external schema:
-```
-npx @shopware/api-gen loadSchema --apiType=store
-```
-
-Generate types:
-```
-npx @shopware/api-gen generate --apiType=store
-```
-
-Register synchronized types:
-Create shopware.d.ts file in root
-```.ts
-declare module "#shopware" {
-  import type { createAPIClient } from "@shopware/api-client";
-  import type { operations, components } from './api-types/storeApiTypes'
-  import type {
-    RequestParameters as DefaultRequestParameters,
-    RequestReturnType as DefaultRequestReturnType,
-  } from "@shopware/api-client";
-
-  export type operations = operations<changedComponents>;
-  export type Schemas = changedComponents["schemas"];
-
-  // we're exporting our own Api Client definition as it depends on our own instance
-  export type ApiClient = ReturnType<
-    typeof createAPIClient<operations>
-  >;
-
-  export type RequestParameters<T extends keyof operations> =
-    DefaultRequestParameters<T, operations>;
-
-  export type RequestReturnType<T extends keyof operations> =
-    DefaultRequestReturnType<T, operations>;
-}
-```
-
-### Add new definition
-Create file `/api-types/storeApiTypes.overrides.ts`
-```.ts
-import type { components as mainComponents } from "./storeApiTypes";
-
-export type components = mainComponents & {
-    schemas: Schemas;
-};
-
-export type Schemas = {
-    // here go the entities definitions available, that can be used in operations but also imported and used standalone
-    AiAnswer: {
-        content: string;
-    };
-    AiPrompt: {
-        role: "system" | "user" | "assistant";
-        content: string;
-    };
-};
-
-export type operations = {
-    // here go the endpoints and its definitions that can refer to the Schemas but it's not a requirement
-    "sendAskAi post /ai-assistant/prompt": {
-        contentType?: "application/json";
-        accept?: "application/json";
-        body: components["schemas"]["AiPrompt"];
-        response: components["schemas"]["AiAnswer"];
-        responseCode: 200;
-    };
-};
-```
-
-Generate types:
-```
-npx @shopware/api-gen generate --apiType=store
-```
-
-### Edit existing definition
-Extend type in `shopware.d.ts`:
-```
-declare module "#shopware" {
-  import type { createAPIClient } from "@shopware/api-client";
-  import type { operations, components } from './api-types/storeApiTypes'
-  import type {
-    RequestParameters as DefaultRequestParameters,
-    RequestReturnType as DefaultRequestReturnType,
-  } from "@shopware/api-client";
-
-  type changedComponents = components;
-  // example how to extend Cart schema:
-  type changedComponents = components & {
-    schemas: {
-      Cart: components["schemas"]["Cart"] & {
-        myspecialfield: "hello field";
-      };
-    };
-  };
-
-  export type operations = operations<changedComponents>;
-  export type Schemas = changedComponents["schemas"];
-
-  // we're exporting our own Api Client definition as it depends on our own instance
-  export type ApiClient = ReturnType<
-    typeof createAPIClient<operations>
-  >;
-
-  export type RequestParameters<T extends keyof operations> =
-    DefaultRequestParameters<T, operations>;
-
-  export type RequestReturnType<T extends keyof operations> =
-    DefaultRequestReturnType<T, operations>;
-}
-```
-
-## Development Server
+### Development Server
 
 Start the development server on http://localhost:3000
 
 ```bash
-pnpm dev
+npm dev
 ```
 
-## Production
+### Production
 
 Build the application for production:
 
 ```bash
-pnpm build
+npm build
 ```
 
 Or statically generate it with:
 
 ```bash
-pnpm generate
+npm generate
 ```
 
 Locally preview production build:
 
 ```bash
-pnpm preview
+npm preview
 ```
 
-Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Distribution
+
+This Nuxt layer can be published to NPM. Check if `files` in `package.json` are valid, then run:
+
+```bash
+npm publish --access public
+```
+
+Users can install it with:
+
+```bash
+npm install --save nuxtware
+```
+
+And add it to their Nuxt configuration:
+
+```ts
+defineNuxtConfig({
+  extends: 'nuxtware'
+})
+```
+
+## Additional Resources
+
+For more information about Shopware API integration and advanced configurations, please refer to the [API Client](/docs/api-client.md) documentation.
