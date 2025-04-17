@@ -7,6 +7,8 @@ provide('mainNavigation', data)
 
 // const { getFormattedPrice } = usePrice()
 // const { cart } = useCart()
+
+const showCartSidenav = ref(false)
 </script>
 
 <template>
@@ -34,7 +36,13 @@ provide('mainNavigation', data)
                 <FoundationLink href="/wishlist" class="btn btn-ghost btn-medium btn-square">
                     <span class="sr-only">{{ $t('header.wishlistLink') }}</span><FoundationIcon name="heart" />
                 </FoundationLink>
-                <FoundationButton size="medium" variant="ghost" square>
+                <FoundationButton 
+                    size="medium" 
+                    variant="ghost" 
+                    square
+                    :aria-label="$t('header.cart.open')"
+                    @click="showCartSidenav = true"
+                >
                     <span class="sr-only">{{ $t('header.cart.open') }}</span><FoundationIcon name="cart" />
                 </FoundationButton>
             </div>
@@ -50,5 +58,8 @@ provide('mainNavigation', data)
     <main>
         <slot />
     </main>
+    
+    <!-- Cart Sidenav -->
+    <CartSidenav v-model="showCartSidenav" />
 <!--    <footer />-->
 </template>

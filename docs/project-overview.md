@@ -34,6 +34,7 @@ nuxtware/
 
 Components are organized by feature/function:
 
+- `cart/` - Shopping cart related components
 - `category/` - Category-related components
 - `component/` - Base UI component wrappers
 - `context/` - Context providers (language, currency)

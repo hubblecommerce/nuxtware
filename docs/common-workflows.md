@@ -15,6 +15,13 @@ This document outlines common tasks and workflows for the Nuxtware project.
 3. Use `<script setup lang="ts">` syntax
 4. Add necessary translations to i18n files
 5. Document component usage and props
+6. Follow the component implementation best practices:
+   - Use existing composables instead of direct API calls
+   - Properly type all props, emits, and data
+   - Leverage Foundation components for UI elements
+   - Use theme tokens instead of hardcoded colors/values
+   - Ensure all text is internationalized
+   - Apply accessibility best practices
 
 ## Translation Workflow
 
@@ -37,6 +44,16 @@ This document outlines common tasks and workflows for the Nuxtware project.
 1. Use the Shopware composables for data fetching
 2. Follow the established patterns for product and category display
 3. Test thoroughly with the Shopware API
+
+## Working with Cart Functionality
+
+1. Use the `useCart()` composable for cart operations
+2. Use the `useApiErrorsResolver()` composable for error handling
+3. Implement proper error handling with TypeScript types
+4. Use `getFormattedPrice()` from `usePrice()` for all price displays
+5. Handle all cart states: loading, empty, error, and populated
+6. Test cart operations to ensure they update properly
+7. Ensure proper internationalization of all cart-related text
 
 ## Adding New Pages
 

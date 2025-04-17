@@ -9,6 +9,7 @@ Welcome to the Nuxtware documentation. This collection of documents serves as a 
 - [I18n Guide](./i18n-guide.md) - Internationalization implementation and best practices
 - [Common Workflows](./common-workflows.md) - Step-by-step guides for common tasks
 - [API Client](./api-client.md) - Shopware API integration details
+- [E-Commerce Components](./e-commerce-components.md) - Guidelines for implementing e-commerce features
 - [Collaboration Guidelines](./collaboration-guidelines.md) - How to work effectively with AI assistants
 
 ## How to Use These Documents
@@ -19,7 +20,7 @@ At the beginning of a new conversation with Claude, you can instruct it to:
 2. Apply the standards and conventions described
 3. Follow the workflows for specific types of tasks
 
-Example instruction: "Please read the documentation files in the /docs directory to understand the project standards and conventions before we begin working on [specific task]."
+Example instruction: "Please read the documentation files in the nuxtware/docs directory to understand the project standards and conventions before we begin working on [specific task]."
 
 ## Updating Documentation
 

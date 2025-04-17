@@ -15,6 +15,54 @@ This document outlines the coding standards and style guidelines for the Nuxtwar
 - Component names should use PascalCase
 - Props should be properly typed with TypeScript interfaces
 - Use composition API instead of options API
+- Components must follow these requirements:
+  1. Zero dependencies (base deps only e.g.: Vue, VueUse, Tailwind, CSS, HTML5)
+  2. Configurable / Reusable 
+  3. Fully typed (TypeScript)
+  4. "Theme"-able (uses the existing design system)
+  5. Translatable (all text elements use i18n)
+  6. Accessible:
+     - Semantically correct HTML
+     - Screen reader support
+     - Keyboard support
+     - User feedback
+     - Responsive design
+     - Target Size (24px × 24px for links and 44px × 44px for buttons)
+  7. SEO (if relevant):
+     - Semantically correct HTML
+     - SSR support
+
+### Component Best Practices
+
+#### API Integration
+- Use component-specific composables (e.g., `useCart()`) instead of direct API calls
+- Handle errors as arrays to display multiple error messages when needed
+- Manage state through composables rather than component-local state where appropriate
+- Use `getFormattedPrice()` from `usePrice()` for all price displays
+
+#### UI/UX Implementation
+- Use self-closing HTML tags for void elements (e.g., `<img>` not `<img />`)
+- Maintain consistent spacing in templates and script sections
+- Use Foundation component props instead of custom styling when available:
+  - Use `square` attribute instead of custom styling for square buttons
+  - Use `size="small"` instead of custom width/height classes
+  - Set `aria-hidden="true"` on decorative icons
+
+#### Design System Integration
+- Use theme tokens for colors (e.g., `border-border` instead of `border-gray-200`)
+- Follow icon size standards (typically `w-2 h-2` for small icons)
+- Use refined responsive width patterns (e.g., `w-[90%] md:w-[400px]`)
+- Apply consistent spacing from the design system
+- Use standard icons from the system
+
+#### Accessibility Implementation
+- Use translated ARIA labels with `$t()` (e.g., `:aria-label="$t('cart.remove')"`)
+- Ensure appropriate sizing for interactive elements
+- Apply appropriate button variants in different contexts
+
+#### Internationalization
+- Use `useLocalePath()` and `formatLink()` for proper i18n of navigation paths
+- Ensure all user-facing text uses translation keys
 
 ## TypeScript
 

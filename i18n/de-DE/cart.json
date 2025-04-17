@@ -6,5 +6,7 @@
   "cart.shippingEstimate": "Versandkosten",
   "cart.orderTotal": "Gesamtsumme",
   "cart.checkout": "Zur Kasse",
-  "cart.emptyCartLabel": "Warenkorb ist leer."
+  "cart.emptyCartLabel": "Warenkorb ist leer.",
+  "cart.quantity": "Menge",
+  "cart.remove": "Entfernen"
 }

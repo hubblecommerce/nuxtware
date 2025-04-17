@@ -6,5 +6,7 @@
   "cart.shippingEstimate": "Shipping costs",
   "cart.orderTotal": "Total",
   "cart.checkout": "Checkout",
-  "cart.emptyCartLabel": "Cart is empty."
+  "cart.emptyCartLabel": "Cart is empty.",
+  "cart.quantity": "Quantity",
+  "cart.remove": "Remove"
 }
