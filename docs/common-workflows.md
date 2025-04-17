@@ -55,6 +55,29 @@ This document outlines common tasks and workflows for the Nuxtware project.
 6. Test cart operations to ensure they update properly
 7. Ensure proper internationalization of all cart-related text
 
+## Working with Notifications
+
+1. Use the `useGlobalNotifications()` composable to manage notifications
+2. Display different types of notifications (success, error, warning, info)
+3. Configure notification behavior:
+   - Set duration for auto-dismissal
+   - Configure notification position for both desktop and mobile
+   - Set maximum number of visible notifications
+4. For manual control, use methods like:
+   - `addNotification()` for custom notifications
+   - `removeNotification()` to dismiss specific notifications
+   - `clearNotifications()` to remove all notifications
+   - `updateConfig()` to modify global settings
+5. For common notification types, use convenience methods:
+   - `success()` for success messages
+   - `error()` for error messages
+   - `warning()` for warning messages
+   - `info()` for informational messages
+6. Ensure notifications follow accessibility best practices:
+   - Use `aria-live="polite"` for screen reader announcements
+   - Provide clear messages with appropriate context
+   - Include visual cues through colors and icons
+
 ## Adding New Pages
 
 1. Create a new page in the `app/pages/` directory

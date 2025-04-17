@@ -40,6 +40,7 @@ Components are organized by feature/function:
 - `context/` - Context providers (language, currency)
 - `foundation/` - Core UI elements
 - `mega-menu/` - Navigation menu components
+- `notification/` - Global notification system components
 - `product/` - Product display components
 - `search/` - Search functionality
 - `sidenav/` - Mobile navigation
@@ -52,4 +53,5 @@ Translations are organized by feature in separate JSON files:
 - `checkout.json` - Checkout process translations
 - `form.json` - Form element translations
 - `header.json` - Header component translations
+- `notification.json` - Notification system translations
 - etc.

@@ -10,6 +10,7 @@ Welcome to the Nuxtware documentation. This collection of documents serves as a 
 - [Common Workflows](./common-workflows.md) - Step-by-step guides for common tasks
 - [API Client](./api-client.md) - Shopware API integration details
 - [E-Commerce Components](./e-commerce-components.md) - Guidelines for implementing e-commerce features
+- [Notification System](./notification-system.md) - Documentation for the global notification system
 - [Collaboration Guidelines](./collaboration-guidelines.md) - How to work effectively with AI assistants
 
 ## How to Use These Documents
