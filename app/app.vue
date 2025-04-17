@@ -126,7 +126,7 @@ usePrice({
  */
 const { getWishlistProducts } = useWishlist();
 const { refreshCart } = useCart();
-useNotifications();
+useGlobalNotifications();
 useAddress();
 
 onMounted(() => {

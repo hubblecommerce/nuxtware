@@ -61,5 +61,8 @@ const showCartSidenav = ref(false)
     
     <!-- Cart Sidenav -->
     <CartSidenav v-model="showCartSidenav" />
+    
+    <!-- Global Notifications -->
+    <NotificationContainer />
 <!--    <footer />-->
 </template>
