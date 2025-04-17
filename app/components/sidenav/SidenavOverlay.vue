@@ -50,10 +50,10 @@ watch(open, (newVal) => {
                     :class="[
                     {
                         'left-0 right-auto origin-left border-r': props.direction === 'left',
-                        'right-0 left-auto origin-left border-l': props.direction === 'right',
+                        'right-0 left-auto origin-right border-l': props.direction === 'right',
                     },
                     widthClass,
-                    open ? 'translate-x-0' : '-translate-x-full'
+                    open ? 'translate-x-0' : props.direction === 'left' ? '-translate-x-full' : 'translate-x-full'
                 ]"
                     v-bind="attrs"
                     @keydown.esc="open = false"
