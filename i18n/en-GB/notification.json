@@ -1,0 +1,9 @@
+{
+    "notification": {
+        "close": "Close notification",
+        "success": "Success",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Information"
+    }
+}

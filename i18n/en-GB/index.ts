@@ -7,6 +7,7 @@ import header from './header.json'
 import search from './search.json'
 import sidenav from './sidenav.json'
 import megaMenu from './megaMenu.json'
+import notification from './notification.json'
 
 export default {
     ...layout,
@@ -18,4 +19,5 @@ export default {
     ...search,
     ...sidenav,
     ...megaMenu,
+    ...notification,
 }
