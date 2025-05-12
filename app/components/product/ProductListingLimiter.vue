@@ -56,14 +56,9 @@ const limitOptions = computed<SelectOption[]>(() => {
                 v-model="model"
                 :options="limitOptions"
                 size="small"
-                color="primary"
                 :name="`${limiterId}-select`"
                 :aria-label="$t('limiter.items_per_page')"
-            >
-                <template #icon>
-                    <FoundationIcon name="layers" class="w-3 h-3" />
-                </template>
-            </FoundationSelect>
+            />
         </div>
         
         <span class="hidden sm:inline">{{ $t('limiter.items') }}</span>
