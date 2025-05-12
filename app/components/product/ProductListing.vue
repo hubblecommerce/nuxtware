@@ -151,14 +151,14 @@ const baseRoute = computed(() => {
 <template>
     <div id="product-listing">
         <div class="flex flex-wrap items-center justify-between mb-4">
-            <div class="w-full md:w-auto flex flex-wrap items-center gap-4">
+            <div class="w-full md:w-auto flex flex-wrap items-center justify-between md:justify-start gap-4">
                 <ProductListingSorter
                     v-if="showTopSorter !== false && getSortingOrders?.length"
                     instanceId="product-listing-sorter-top"
                     :current-sorting="getCurrentSortingOrder"
                     :available-sortings="getSortingOrders"
                     @update:sorting="onSortChange"
-                    class="w-full md:w-auto"
+                    class="w-auto"
                 />
                 
                 <ProductListingLimiter
@@ -167,7 +167,7 @@ const baseRoute = computed(() => {
                     :current-limit="getLimit"
                     :available-limits="availableLimits"
                     @update:limit="onLimitChange"
-                    class="w-full md:w-auto"
+                    class="w-auto"
                 />
             </div>
             
@@ -178,7 +178,7 @@ const baseRoute = computed(() => {
                 :total-pages="getTotalPagesCount"
                 :base-route="baseRoute"
                 :sr-only="srOnlyPagination"
-                class="w-full md:w-auto mt-4 md:mt-0"
+                class="w-full md:w-auto mt-2 md:mt-0"
                 @page-change="onPageChange"
             />
         </div>
@@ -196,14 +196,14 @@ const baseRoute = computed(() => {
         </div>
         
         <div class="flex flex-wrap items-center justify-between mt-4">
-            <div class="w-full md:w-auto flex flex-wrap items-center gap-4">
+            <div class="w-full md:w-auto flex flex-wrap items-center justify-between md:justify-start gap-4">
                 <ProductListingSorter
                     v-if="showBottomSorter !== false && getSortingOrders?.length"
                     instanceId="product-listing-sorter-bottom"
                     :current-sorting="getCurrentSortingOrder"
                     :available-sortings="getSortingOrders"
                     @update:sorting="onSortChange"
-                    class="w-full md:w-auto"
+                    class="w-full"
                 />
                 
                 <ProductListingLimiter
@@ -212,7 +212,7 @@ const baseRoute = computed(() => {
                     :current-limit="getLimit"
                     :available-limits="availableLimits"
                     @update:limit="onLimitChange"
-                    class="w-full md:w-auto"
+                    class="w-full"
                 />
             </div>
             
@@ -223,7 +223,7 @@ const baseRoute = computed(() => {
                 :total-pages="getTotalPagesCount"
                 :base-route="baseRoute"
                 :sr-only="srOnlyPagination"
-                class="w-full md:w-auto mt-4 md:mt-0"
+                class="w-full md:w-auto mt-2 md:mt-0"
                 @page-change="onPageChange"
             />
         </div>

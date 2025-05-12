@@ -54,11 +54,10 @@
 }
 
 @utility btn-default {
-    @media (hover: hover) {
-        @apply hover:bg-btn-shade-light;
-    }
+    --color-btn-shade-light: theme('colors.gray.200');
+    --color-btn-shade-dark: theme('colors.gray.300');
 
-    @apply bg-btn text-btn-content active:bg-btn-shade-dark;
+    @apply bg-btn text-btn-content active:bg-btn-shade-dark hover:bg-btn-shade-light;
 }
 
 @utility btn-outline {

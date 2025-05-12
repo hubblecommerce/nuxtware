@@ -56,18 +56,16 @@ const sortingOptions = computed<SelectOption[]>(() => {
             {{ $t('sorter.sort_by') }}:
         </label>
         
-        <div class="relative mt-1">
-            <FoundationSelect
-                v-model="model"
-                :name="`${sorterId}-select`"
-                :options="sortingOptions"
-                class="min-w-[200px]"
-                size="small"
-            >
-                <template #icon>
-                    <FoundationIcon name="arrow-up-down" />
-                </template>
-            </FoundationSelect>
-        </div>
+        <FoundationSelect
+            v-model="model"
+            :name="`${sorterId}-select`"
+            :options="sortingOptions"
+            class="min-w-[200px]"
+            size="small"
+        >
+            <template #icon>
+                <FoundationIcon name="arrow-up-down" />
+            </template>
+        </FoundationSelect>
     </div>
 </template>

@@ -97,7 +97,7 @@ const lastPageUrl = computed(() => getPageUrl(props.totalPages))
         :id="paginationId"
         :class="{ 'sr-only': srOnly }"
         :aria-label="$t('pagination.page')"
-        class="product-pagination my-4"
+        class="product-pagination"
     >
         <div class="flex items-center justify-center">
             <!-- First page link -->
@@ -106,7 +106,7 @@ const lastPageUrl = computed(() => getPageUrl(props.totalPages))
                 :href="formatLink(firstPageUrl)"
                 :aria-label="$t('pagination.first_page')"
                 :disabled="!hasPreviousPage"
-                class="pagination-link mx-1"
+                class="pagination-link btn btn-small btn-square"
                 @click="(e) => handlePageClick(1, e)"
             >
                 <FoundationIcon name="chevrons-left" size="sm" class="block" aria-hidden="true" />
@@ -117,7 +117,7 @@ const lastPageUrl = computed(() => getPageUrl(props.totalPages))
                 :href="formatLink(previousPageUrl)"
                 :aria-label="$t('pagination.previous_page')"
                 :disabled="!hasPreviousPage"
-                class="pagination-link mx-1"
+                class="pagination-link btn btn-small btn-square"
                 @click="(e) => hasPreviousPage && handlePageClick(currentPage - 1, e)"
             >
                 <FoundationIcon name="chevron-left" size="sm" class="block" aria-hidden="true" />
@@ -139,8 +139,8 @@ const lastPageUrl = computed(() => getPageUrl(props.totalPages))
                         : $t('pagination.go_to_page', { page: pageNum })"
                     :aria-current="pageNum === currentPage ? 'page' : undefined"
                     :class="[
-                        'pagination-link mx-1 min-w-[2rem] text-center',
-                        pageNum === currentPage ? 'font-bold border-b-2 border-primary' : ''
+                        'pagination-link btn btn-small btn-square',
+                        pageNum === currentPage ? 'font-bold btn-primary' : ''
                     ]"
                     @click="(e) => handlePageClick(pageNum, e)"
                 >
@@ -153,7 +153,7 @@ const lastPageUrl = computed(() => getPageUrl(props.totalPages))
                 :href="formatLink(nextPageUrl)"
                 :aria-label="$t('pagination.next_page')"
                 :disabled="!hasNextPage"
-                class="pagination-link mx-1"
+                class="pagination-link btn btn-small btn-square"
                 @click="(e) => hasNextPage && handlePageClick(currentPage + 1, e)"
             >
                 <FoundationIcon name="chevron-right" size="sm" class="block" aria-hidden="true" />
@@ -165,7 +165,7 @@ const lastPageUrl = computed(() => getPageUrl(props.totalPages))
                 :href="formatLink(lastPageUrl)"
                 :aria-label="$t('pagination.last_page')"
                 :disabled="!hasNextPage"
-                class="pagination-link mx-1"
+                class="pagination-link btn btn-small btn-square"
                 @click="(e) => handlePageClick(totalPages, e)"
             >
                 <FoundationIcon name="chevrons-right" size="sm" class="block" aria-hidden="true" />

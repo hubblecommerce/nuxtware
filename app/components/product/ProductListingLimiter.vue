@@ -46,7 +46,7 @@ const limitOptions = computed<SelectOption[]>(() => {
 <template>
     <div 
         :id="limiterId"
-        class="product-listing-limiter flex items-center justify-end gap-2 text-sm my-4"
+        class="product-listing-limiter flex items-center justify-end gap-2 text-sm"
         :aria-label="$t('limiter.items_per_page')"
     >
         <span class="hidden sm:inline">{{ $t('limiter.show') }}:</span>
