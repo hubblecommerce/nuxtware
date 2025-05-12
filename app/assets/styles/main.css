@@ -6,6 +6,7 @@
 @import '#hubble/assets/styles/lib/foundations/link.css';
 @import '#hubble/assets/styles/lib/foundations/label.css';
 @import '#hubble/assets/styles/lib/foundations/scrollbar.css';
+@import '#hubble/assets/styles/lib/foundations/select.css';
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/input.css';
@@ -53,6 +54,9 @@
     --color-btn-shade-light: var(--color-btn-shade-light);
     --color-btn-shade-dark: var(--color-btn-shade-dark);
     --color-btn-content: var(--color-btn-content);
+
+    --color-select: var(--color-select);
+    --color-select-content: var(--color-select-content);
 
     --color-focus: var(--color-primary-shade-light);
     --color-label: var(--color-neutral);

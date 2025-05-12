@@ -1,0 +1,43 @@
+@layer components {
+    .select {
+        @apply relative w-full rounded transition-all duration-100;
+        @apply bg-white border border-border;
+        @apply focus-style;
+        @apply appearance-none;
+        @apply disabled:opacity-60 disabled:cursor-not-allowed;
+        @apply select-default select-medium;
+    }
+}
+
+@utility select-small {
+    @apply text-sm min-h-10 px-4 py-2;
+}
+
+@utility select-medium {
+    @apply text-base min-h-12 px-6 py-3;
+}
+
+@utility select-large {
+    @apply text-lg min-h-14 px-8 py-4;
+}
+
+@utility select-primary {
+    --color-select: var(--color-primary);
+}
+
+@utility select-secondary {
+    --color-select: var(--color-secondary);
+}
+
+@utility select-tertiary {
+    --color-select: var(--color-tertiary);
+}
+
+@utility select-default {
+    @apply border-select focus:border-select focus:ring-select text-select-content;
+}
+
+@utility select-error {
+    @apply border-error;
+    @apply focus:ring-error focus:border-error;
+}
