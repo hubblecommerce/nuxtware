@@ -1,5 +1,8 @@
 <template>
     <div class="relative inline-block w-full">
+        <div v-if="$slots.icon" class="select-icon-wrapper absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none z-10" aria-hidden="true">
+            <slot name="icon"></slot>
+        </div>
         <select
             ref="foundationSelect"
             v-model="model"
@@ -8,7 +11,8 @@
                 selectSizes[size],
                 selectColors[color],
                 {
-                    'select-error': error
+                    'select-error': error,
+                    'select-with-icon': $slots.icon
                 }
             ]"
             :disabled="disabled"

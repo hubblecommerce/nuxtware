@@ -36,6 +36,50 @@
             </div>
         </section>
 
+        <!-- With Icons -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold mb-4">With Icons</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-medium mb-2">User Icon</h3>
+                    <FoundationSelect
+                        v-model="selectedValue"
+                        :options="options"
+                        placeholder="Select a user"
+                    >
+                        <template #icon>
+                            <FoundationIcon name="user" class="w-4 h-4" />
+                        </template>
+                    </FoundationSelect>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium mb-2">Search Icon</h3>
+                    <FoundationSelect
+                        v-model="selectedValue"
+                        :options="options"
+                        placeholder="Search options"
+                    >
+                        <template #icon>
+                            <FoundationIcon name="search" class="w-4 h-4" />
+                        </template>
+                    </FoundationSelect>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium mb-2">Filter Icon with Error</h3>
+                    <FoundationSelect
+                        v-model="selectedValue"
+                        :options="options"
+                        placeholder="Filter results"
+                        error
+                    >
+                        <template #icon>
+                            <FoundationIcon name="filter" class="w-4 h-4" />
+                        </template>
+                    </FoundationSelect>
+                </div>
+            </div>
+        </section>
+
         <!-- Size Variants -->
         <section class="mb-12">
             <h2 class="text-2xl font-semibold mb-4">Size Variants</h2>
@@ -148,14 +192,17 @@
                     />
                 </div>
                 <div>
-                    <h3 class="text-lg font-medium mb-2">Tertiary Disabled</h3>
+                    <h3 class="text-lg font-medium mb-2">Tertiary with Icon</h3>
                     <FoundationSelect
                         v-model="selectedValue"
                         :options="options"
                         color="tertiary"
-                        disabled
-                        placeholder="Tertiary disabled"
-                    />
+                        placeholder="Tertiary with icon"
+                    >
+                        <template #icon>
+                            <FoundationIcon name="globe" class="w-4 h-4" />
+                        </template>
+                    </FoundationSelect>
                 </div>
             </div>
         </section>
