@@ -41,12 +41,3 @@
     @apply border-error;
     @apply focus:ring-error focus:border-error;
 }
-
-.select-with-icon {
-    @apply pl-10;
-}
-
-.select-icon-wrapper {
-    @apply flex items-center justify-center;
-    @apply text-body;
-}

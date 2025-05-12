@@ -48,7 +48,7 @@
                         placeholder="Select a user"
                     >
                         <template #icon>
-                            <FoundationIcon name="user" class="w-4 h-4" />
+                            <FoundationIcon name="user" />
                         </template>
                     </FoundationSelect>
                 </div>
@@ -60,20 +60,20 @@
                         placeholder="Search options"
                     >
                         <template #icon>
-                            <FoundationIcon name="search" class="w-4 h-4" />
+                            <FoundationIcon name="search" />
                         </template>
                     </FoundationSelect>
                 </div>
                 <div>
-                    <h3 class="text-lg font-medium mb-2">Filter Icon with Error</h3>
+                    <h3 class="text-lg font-medium mb-2">Search Icon with Error</h3>
                     <FoundationSelect
                         v-model="selectedValue"
                         :options="options"
-                        placeholder="Filter results"
+                        placeholder="Search options"
                         error
                     >
                         <template #icon>
-                            <FoundationIcon name="filter" class="w-4 h-4" />
+                            <FoundationIcon name="search" />
                         </template>
                     </FoundationSelect>
                 </div>
@@ -200,7 +200,7 @@
                         placeholder="Tertiary with icon"
                     >
                         <template #icon>
-                            <FoundationIcon name="globe" class="w-4 h-4" />
+                            <FoundationIcon name="info" />
                         </template>
                     </FoundationSelect>
                 </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="relative inline-block w-full">
-        <div v-if="$slots.icon" class="select-icon-wrapper absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none z-10" aria-hidden="true">
+        <div v-if="$slots.icon" class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none z-10 flex items-center justify-center text-body" aria-hidden="true">
             <slot name="icon"></slot>
         </div>
         <select
@@ -12,7 +12,7 @@
                 selectColors[color],
                 {
                     'select-error': error,
-                    'select-with-icon': $slots.icon
+                    'pl-10': $slots.icon
                 }
             ]"
             :disabled="disabled"
@@ -31,7 +31,7 @@
                 {{ option.label }}
             </option>
         </select>
-        <span class="select-arrow absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none" aria-hidden="true">
+        <span class="absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none text-body" aria-hidden="true">
             <FoundationIcon name="chevron-down" class="block" />
         </span>
     </div>

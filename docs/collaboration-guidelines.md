@@ -43,6 +43,8 @@ This document outlines the preferred collaboration methods when working with AI 
 ## Git Operations
 
 - **Never** perform Git operations (commit, push, pull, merge, etc.) without explicit permission
+- **Only commit changes when explicitly instructed to do so** with a clear command like "commit these changes"
+- Do not make assumptions about when to commit - always wait for a direct instruction
 - Always present planned Git actions before suggesting any Git commands
 - When suggesting Git operations:
   - Outline the specific files to be committed
