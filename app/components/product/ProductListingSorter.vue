@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware";
+import type { SelectOption } from "#imports";
 
 interface ProductListingSorterProps {
     currentSorting?: string
@@ -23,45 +24,50 @@ const emit = defineEmits<{
 const uniqueId = useId()
 const sorterId = computed(() => props.instanceId || `sorter-${uniqueId}`)
 
-const changeSorting = (event: Event) => {
-    const select = event.target as HTMLSelectElement
-    const value = select.value
-    
-    if (value !== props.currentSorting) {
-        emit('update:sorting', value)
+const model = ref(props.currentSorting)
+watch(model, (newValue) => {
+    if (newValue !== props.currentSorting) {
+        emit('update:sorting', newValue as string)
     }
-}
+})
+
+watch(() => props.currentSorting, (newValue) => {
+    model.value = newValue
+})
 
 const getSortingLabel = (sorting: any) => {
     return sorting.translated?.label || sorting.label || sorting.key || sorting
 }
+
+const sortingOptions = computed<SelectOption[]>(() => {
+    return props.availableSortings.map(sorting => ({
+        value: sorting.key,
+        label: getSortingLabel(sorting)
+    }))
+})
 </script>
 
 <template>
     <div class="product-listing-sorter relative" :aria-label="$t('sorter.sort_by')">
         <label 
             :for="`${sorterId}-select`" 
-            class="block text-sm font-medium text-gray-700 mr-2"
+            class="sr-only"
         >
             {{ $t('sorter.sort_by') }}:
         </label>
         
         <div class="relative mt-1">
-            <select
-                :id="`${sorterId}-select`"
-                class="block w-full pl-3 pr-10 py-2 text-base border-border rounded-md focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                @change="changeSorting"
+            <FoundationSelect
+                v-model="model"
+                :name="`${sorterId}-select`"
+                :options="sortingOptions"
+                class="min-w-[200px]"
+                size="small"
             >
-                <option
-                    v-for="sorting in availableSortings"
-                    :key="sorting.key"
-                    :value="sorting.key"
-                    :selected="sorting.key === currentSorting"
-                    :aria-label="$t('sorter.sort_by_option', { option: getSortingLabel(sorting) })"
-                >
-                    {{ getSortingLabel(sorting) }}
-                </option>
-            </select>
+                <template #icon>
+                    <FoundationIcon name="arrow-up-down" />
+                </template>
+            </FoundationSelect>
         </div>
     </div>
 </template>
