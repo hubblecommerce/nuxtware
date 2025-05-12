@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { SelectOption } from "#imports";
+
 interface ProductListingLimiterProps {
     currentLimit: number
     availableLimits?: number[]
@@ -21,11 +23,24 @@ const emit = defineEmits<{
 const uniqueId = useId()
 const limiterId = computed(() => props.instanceId || `limiter-${uniqueId}`)
 
-const changeLimit = (limit: number) => {
-    if (limit !== props.currentLimit) {
-        emit('update:limit', limit)
+const model = ref(props.currentLimit)
+
+watch(model, (newValue) => {
+    if (newValue !== props.currentLimit) {
+        emit('update:limit', Number(newValue))
     }
-}
+})
+
+watch(() => props.currentLimit, (newValue) => {
+    model.value = newValue
+})
+
+const limitOptions = computed<SelectOption[]>(() => {
+    return props.availableLimits.map(limit => ({
+        value: limit,
+        label: limit.toString()
+    }))
+})
 </script>
 
 <template>
@@ -36,22 +51,19 @@ const changeLimit = (limit: number) => {
     >
         <span class="hidden sm:inline">{{ $t('limiter.show') }}:</span>
         
-        <div class="flex flex-wrap gap-2">
-            <FoundationButton
-                v-for="limit in availableLimits"
-                :key="`${limiterId}-${limit}`"
-                :aria-label="$t('limiter.change_items_per_page', { limit })"
-                :aria-current="limit === currentLimit ? 'true' : undefined"
-                :class="[
-                    'px-3 py-1 min-w-[2.5rem] border',
-                    limit === currentLimit 
-                        ? 'border-primary bg-primary-light font-bold' 
-                        : 'border-border hover:border-primary'
-                ]"
-                @click="changeLimit(limit)"
+        <div class="w-24">
+            <FoundationSelect
+                v-model="model"
+                :options="limitOptions"
+                size="small"
+                color="primary"
+                :name="`${limiterId}-select`"
+                :aria-label="$t('limiter.items_per_page')"
             >
-                {{ limit }}
-            </FoundationButton>
+                <template #icon>
+                    <FoundationIcon name="layers" class="w-3 h-3" />
+                </template>
+            </FoundationSelect>
         </div>
         
         <span class="hidden sm:inline">{{ $t('limiter.items') }}</span>
