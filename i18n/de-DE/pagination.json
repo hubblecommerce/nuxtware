@@ -1,0 +1,12 @@
+{
+    "pagination": {
+        "page": "Seite",
+        "of": "von",
+        "go_to_page": "Zu Seite {page} wechseln",
+        "previous_page": "Zur vorherigen Seite wechseln",
+        "next_page": "Zur nächsten Seite wechseln",
+        "current_page": "Aktuelle Seite, Seite {page}",
+        "first_page": "Zur ersten Seite wechseln",
+        "last_page": "Zur letzten Seite wechseln"
+    }
+}

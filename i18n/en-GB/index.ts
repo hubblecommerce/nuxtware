@@ -8,6 +8,9 @@ import search from './search.json'
 import sidenav from './sidenav.json'
 import megaMenu from './megaMenu.json'
 import notification from './notification.json'
+import pagination from './pagination.json'
+import limiter from './limiter.json'
+import sorter from './sorter.json'
 
 export default {
     ...layout,
@@ -20,4 +23,7 @@ export default {
     ...sidenav,
     ...megaMenu,
     ...notification,
+    ...pagination,
+    ...limiter,
+    ...sorter,
 }

@@ -1,0 +1,8 @@
+{
+    "limiter": {
+        "items_per_page": "Items per page",
+        "show": "Show",
+        "items": "items",
+        "change_items_per_page": "Change number of items per page to {limit}"
+    }
+}

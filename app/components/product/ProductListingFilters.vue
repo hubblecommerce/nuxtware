@@ -78,7 +78,6 @@ async function onFilterChange () {
 async function executeSearch () {
     await search(searchCriteriaForRequest.value);
     const query = filtersToQuery(searchCriteriaForRequest.value);
-    delete query.limit; // this will remove limit from the url query but still use it in the search
     router.push({
         query,
     });

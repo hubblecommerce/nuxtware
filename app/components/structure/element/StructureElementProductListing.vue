@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CmsElementProductListing } from "@shopware-pwa/composables-next";
+import type { CmsElementProductListing } from "@shopware/composables";
 
 const props = defineProps<{
     content: CmsElementProductListing;
@@ -7,5 +7,11 @@ const props = defineProps<{
 </script>
 
 <template>
-    <ProductListing v-if="content?.data?.listing" :listing="content.data.listing" />
+    <ProductListing 
+        v-if="content?.data?.listing" 
+        :listing="content.data.listing" 
+        showTopPagination
+        showTopLimiter
+        showTopSorter
+    />
 </template>

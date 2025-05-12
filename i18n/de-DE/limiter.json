@@ -1,0 +1,8 @@
+{
+    "limiter": {
+        "items_per_page": "Artikel pro Seite",
+        "show": "Zeige",
+        "items": "Artikel",
+        "change_items_per_page": "Anzahl der Artikel pro Seite auf {limit} ändern"
+    }
+}
