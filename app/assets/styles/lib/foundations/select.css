@@ -34,7 +34,7 @@
 }
 
 @utility select-default {
-    @apply border-select focus:border-select focus:ring-select text-select-content;
+    @apply border-select focus:border-select text-select-content;
 }
 
 @utility select-error {
