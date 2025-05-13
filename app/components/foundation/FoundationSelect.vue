@@ -1,13 +1,10 @@
 <template>
-    <div class="relative inline-block w-full">
-        <div v-if="$slots.icon" class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none z-10 flex items-center justify-center text-body" aria-hidden="true">
-            <slot name="icon"></slot>
-        </div>
+    <div class="relative inline-block w-full ">
         <select
             ref="foundationSelect"
             v-model="model"
             :class="[
-                'select',
+                'select cursor-pointer',
                 selectSizes[size],
                 selectColors[color],
                 {
@@ -31,9 +28,12 @@
                 {{ option.label }}
             </option>
         </select>
-        <span class="absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none text-body" aria-hidden="true">
+        <span class="absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none" aria-hidden="true">
             <FoundationIcon name="chevron-down" class="block" />
         </span>
+        <div v-if="$slots.icon" class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none flex items-center justify-center" aria-hidden="true">
+            <slot name="icon"></slot>
+        </div>
     </div>
 </template>
 

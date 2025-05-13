@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UnwrapNestedRefs } from 'vue'
-import type { CmsElementSidebarFilter } from '@shopware-pwa/composables-next'
+import type { CmsElementSidebarFilter } from '@shopware/composables'
 import type { RequestParameters } from '#shopware'
 import { getTranslatedProperty } from '@shopware/helpers'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
@@ -92,7 +92,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
     <FoundationButton color="primary" class="w-full lg:hidden" @click="open = true">
         Filter
     </FoundationButton>
-    <LayoutSidenavOverlay v-model="open" :unwrap="lgAndLarger" class="bg-white">
+    <SidenavOverlay v-model="open" :unwrap="lgAndLarger" class="bg-white">
         <div class="flex justify-between items-center p-2 pr-0 lg:hidden">
             <FoundationHeadline tag="h2" class="text-lg font-semibold">Filter</FoundationHeadline>
             <FoundationButton
@@ -106,18 +106,18 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
                 <FoundationIcon name="x" />
             </FoundationButton>
         </div>
-        <div v-if="getInitialFilters.length" class="flex flex-col gap-3 lg:flex-row lg:flex-wrap">
+        <div v-if="getInitialFilters.length" class="flex flex-col gap-3 px-2 lg:flex-row lg:flex-wrap lg:px-0">
             <div
                 v-for="filter in getInitialFilters"
                 :key="`${filter?.id || filter?.code}`"
             >
                 <ComponentDropdown
                     :trigger-label="getTranslatedProperty(filter, 'name')"
-                    class="w-full border hover:bg-gray-100 btn-small justify-between"
-                    content-classes="bg-white w-full p-2 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
+                    class="w-full border btn-small justify-between"
+                    content-classes="bg-white w-full p-2 z-10 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
                 >
                     <div v-if="filter.code === 'properties'" class="flex flex-col">
-                        <label v-for="option in filter.options" :key="option.id">
+                        <FoundationLabel v-for="option in filter.options" :key="option.id">
                             <input
                                 v-model="selectedFilters.properties"
                                 type="checkbox"
@@ -125,10 +125,10 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
                                 @change="onFilterChange()"
                             >
                             {{ getTranslatedProperty(option, 'name') }}
-                        </label>
+                        </FoundationLabel>
                     </div>
                     <div v-if="filter.code === 'manufacturer'" class="flex flex-col">
-                        <label v-for="entity in filter.entities" :key="entity.id">
+                        <FoundationLabel v-for="entity in filter.entities" :key="entity.id">
                             <input
                                 v-model="selectedFilters.manufacturer"
                                 type="checkbox"
@@ -136,7 +136,7 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
                                 @change="onFilterChange()"
                             >
                             {{ getTranslatedProperty(entity, 'name') }}
-                        </label>
+                        </FoundationLabel>
                     </div>
                 </ComponentDropdown>
             </div>
@@ -146,5 +146,5 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
                 Loading...
             </div>
         </template>
-    </LayoutSidenavOverlay>
+    </SidenavOverlay>
 </template>

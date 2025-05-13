@@ -63,13 +63,13 @@ function clearPopoverTimeout () {
             <li
                 v-for="item in navigationItems"
                 :key="item.id"
-                class="btn text-primary-content"
+                class="btn text-primary-content hover:bg-primary"
                 @mouseenter.passive="item.children.length ? openPopover(item.id) : clearPopoverTimeout()"
             >
                 <FoundationLink
                     :href="formatLink(getCategoryRoute(item))"
                     itemprop="url"
-                    class="btn px-1"
+                    class="btn hover:bg-primary px-1"
                     @click="closePopover()"
                 >
                     <span itemprop="name">{{ item.name }}</span>
@@ -79,6 +79,7 @@ function clearPopoverTimeout () {
                     v-if="item.children.length"
                     square
                     size="small"
+                    class="hover:bg-primary"
                     :aria-expanded="activeItem"
                     :aria-controls="`menu-${item.id}`"
                     @click="openPopover(item.id, { focusTrap: true, delay: 0 })"
