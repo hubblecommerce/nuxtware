@@ -20,8 +20,24 @@ At the beginning of a new conversation with Claude, you can instruct it to:
 1. Read these documentation files
 2. Apply the standards and conventions described
 3. Follow the workflows for specific types of tasks
+4. Respect the collaboration guidelines
 
-Example instruction: "Please read the documentation files in the nuxtware/docs directory to understand the project standards and conventions before we begin working on [specific task]."
+### Recommended Prompt Template
+
+Use this improved prompt template when starting new conversations:
+
+```
+Please read the nuxtware/docs directory, especially collaboration-guidelines.md, before proceeding.
+
+For [specific task], please:
+1. Present 2-3 conceptual approaches with pros/cons
+2. Do NOT modify any files until explicitly authorized
+3. Start with your understanding of the task and project structure
+
+I'll review your options and explicitly authorize implementation when ready.
+```
+
+This prompt template ensures proper collaboration by enforcing a conceptualization phase before any implementation work begins.
 
 ## Updating Documentation
 

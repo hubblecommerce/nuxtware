@@ -1,6 +1,6 @@
 # Collaboration Guidelines
 
-This document outlines the preferred collaboration methods when working with AI assistants on this project.
+This document outlines the required collaboration methods when working with AI assistants on this project. These guidelines are designed to ensure consistent, careful, and methodical development processes when collaborating with AI tools.
 
 ## Communication Style
 
@@ -9,6 +9,7 @@ This document outlines the preferred collaboration methods when working with AI 
 - Instead, share your thoughts and proposed approach first.
 - Ask explicitly for permission before making any actual changes to files.
 - Wait for explicit confirmation before proceeding with file modifications.
+- Use clear language distinguishing conceptualization from implementation: "Let's think about...", "Let's discuss...", or "Let's consider..." indicates you are in conceptualization phase.
 
 ### Decision Making Process
 - Present options when multiple approaches are possible
@@ -53,3 +54,25 @@ This document outlines the preferred collaboration methods when working with AI 
   - Wait for explicit approval before providing actual Git commands
 - Do not execute any Git commands that would push changes to remote repositories
 
+## Recommended AI Collaboration Prompt
+
+To ensure these guidelines are followed properly, use the following prompt template when starting a new conversation with an AI assistant:
+
+```
+Please read the nuxtware/docs directory, especially collaboration-guidelines.md, before proceeding.
+
+For [specific task], please:
+1. Present 2-3 conceptual approaches with pros/cons
+2. Do NOT modify any files until explicitly authorized
+3. Start with your understanding of the task and project structure
+
+I'll review your options and explicitly authorize implementation when ready.
+```
+
+## Common Collaboration Errors to Avoid
+
+- **Immediate Implementation**: Starting to write code or modify files without going through a conceptualization phase.
+- **Unauthorized File Creation**: Creating new files without explicit permission.
+- **Assumption of Approach**: Deciding on an implementation approach without presenting options.
+- **Skipping Structural Discussions**: Not discussing the architectural implications of changes.
+- **Proceeding Without Clear Permission**: Making any file modifications without hearing "Yes, please implement that approach" or similar explicit approval.
