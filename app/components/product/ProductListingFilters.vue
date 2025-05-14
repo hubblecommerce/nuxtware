@@ -11,6 +11,7 @@ import {
     ProductListingFilterShippingFree
 } from '#components'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     content: CmsElementSidebarFilter
 }>()
@@ -21,16 +22,14 @@ const router = useRouter()
 const { t } = useI18n()
 
 const {
-    changeCurrentSortingOrder,
     filtersToQuery,
-    getCurrentFilters,
     getCurrentSortingOrder,
     getInitialFilters,
-    getSortingOrders,
     search,
 } = useCategoryListing();
 
 const selectedFilters: UnwrapNestedRefs<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
 }> = reactive<{
     manufacturer: Array<string>;

@@ -10,15 +10,14 @@ const props = defineProps<{
         label: string;
     };
     selectedFilters: {
-        [key: string]: any;
+        [key: string]: unknown;
     };
 }>()
 
 const emit = defineEmits<{
-    'select-value': [value?: any]
+    'select-value': [value?: unknown]
 }>()
 
-const { t } = useI18n()
 const { getFormattedPrice } = usePrice();
 
 // Min/max values with defaults
@@ -43,6 +42,8 @@ function onMinPriceChange(newPrice: number) {
     if (typeof newPrice !== 'number' || newPrice === Number(props.selectedFilters['min-price'])) return
 
     // Directly update the selectedFilters object
+    // Note: Parent component expects direct mutation of this reactive object
+    // eslint-disable-next-line vue/no-mutating-props
     props.selectedFilters['min-price'] = newPrice
 
     // Then emit the event to trigger search
@@ -53,6 +54,8 @@ function onMaxPriceChange(newPrice: number) {
     if (typeof newPrice !== 'number' || newPrice === Number(props.selectedFilters['max-price'])) return
 
     // Directly update the selectedFilters object
+    // Note: Parent component expects direct mutation of this reactive object
+    // eslint-disable-next-line vue/no-mutating-props
     props.selectedFilters['max-price'] = newPrice
 
     // Then emit the event to trigger search
