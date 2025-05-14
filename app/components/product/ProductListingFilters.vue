@@ -4,6 +4,12 @@ import type { CmsElementSidebarFilter } from '@shopware/composables'
 import type { RequestParameters } from '#shopware'
 import { getTranslatedProperty } from '@shopware/helpers'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import {
+    ProductListingFilterPrice,
+    ProductListingFilterProperties,
+    ProductListingFilterRating,
+    ProductListingFilterShippingFree
+} from '#components'
 
 const props = defineProps<{
     content: CmsElementSidebarFilter
@@ -11,6 +17,8 @@ const props = defineProps<{
 
 const route = useRoute()
 const router = useRouter()
+
+const { t } = useI18n()
 
 const {
     changeCurrentSortingOrder,
@@ -77,7 +85,7 @@ async function onFilterChange () {
 
 async function executeSearch () {
     await search(searchCriteriaForRequest.value);
-    const query = filtersToQuery(searchCriteriaForRequest.value);
+    const query = filtersToQuery(searchCriteriaForRequest.value) as { query: string };
     router.push({
         query,
     });
@@ -86,6 +94,36 @@ async function executeSearch () {
 const open = ref(false)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
+
+/*
+* Filter Types
+*/
+const filterMap = (filterCode: string) => {
+  const map: {
+    [key: string]: object;
+  } = {
+    manufacturer: ProductListingFilterProperties,
+    properties: ProductListingFilterProperties,
+    price: ProductListingFilterPrice,
+    rating: ProductListingFilterRating,
+    'shipping-free': ProductListingFilterShippingFree,
+  };
+
+  return map[filterCode];
+};
+
+const getStaticFilterName = (filterCode: string): string => {
+const map: {
+    [key: string]: string;
+  } = {
+    manufacturer: t('listing.filter.manufacturerLabel'),
+    price: t('listing.filter.priceLabel'),
+    rating: t('listing.filter.ratingLabel'),
+    'shipping-free': t('listing.filter.shippingFreeLabel'),
+  };
+
+  return map[filterCode] ? map[filterCode] : '';
+}
 </script>
 
 <template>
@@ -112,32 +150,16 @@ const lgAndLarger = breakpoints.greaterOrEqual('lg')
                 :key="`${filter?.id || filter?.code}`"
             >
                 <ComponentDropdown
-                    :trigger-label="getTranslatedProperty(filter, 'name')"
+                    :trigger-label="filter?.code === 'properties' ? getTranslatedProperty(filter, 'name') : getStaticFilterName(filter?.code)"
                     class="w-full border btn-small justify-between"
                     content-classes="bg-white w-full p-2 z-10 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
                 >
-                    <div v-if="filter.code === 'properties'" class="flex flex-col">
-                        <FoundationLabel v-for="option in filter.options" :key="option.id">
-                            <input
-                                v-model="selectedFilters.properties"
-                                type="checkbox"
-                                :value="option.id"
-                                @change="onFilterChange()"
-                            >
-                            {{ getTranslatedProperty(option, 'name') }}
-                        </FoundationLabel>
-                    </div>
-                    <div v-if="filter.code === 'manufacturer'" class="flex flex-col">
-                        <FoundationLabel v-for="entity in filter.entities" :key="entity.id">
-                            <input
-                                v-model="selectedFilters.manufacturer"
-                                type="checkbox"
-                                :value="entity.id"
-                                @change="onFilterChange()"
-                            >
-                            {{ getTranslatedProperty(entity, 'name') }}
-                        </FoundationLabel>
-                    </div>
+                    <component
+                        :is="filterMap(filter?.code)"
+                        :filter="filter"
+                        :selected-filters="selectedFilters"
+                        @select-value="onFilterChange()"
+                    />
                 </ComponentDropdown>
             </div>
         </div>
