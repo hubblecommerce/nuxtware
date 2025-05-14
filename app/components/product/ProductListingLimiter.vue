@@ -11,7 +11,7 @@ interface ProductListingLimiterProps {
 }
 
 const props = withDefaults(defineProps<ProductListingLimiterProps>(), {
-    availableLimits: () => [1, 12, 24, 36, 48],
+    availableLimits: () => [1, 5, 15, 24, 36, 48],
     instanceId: ''
 })
 
