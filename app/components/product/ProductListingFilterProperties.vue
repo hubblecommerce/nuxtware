@@ -25,8 +25,8 @@ const emits =
     <div class="flex flex-col">
         <FoundationLabel v-for="option in filter.options || filter.entities" :key="option.id">
             <FoundationCheckbox
-                type="checkbox"
                 v-model="selectedFilters[filter.options ? 'properties' : 'manufacturer']"
+                type="checkbox"
                 :value="option.id"
                 @change="emits('select-value', {
                   code: props.filter.code,
