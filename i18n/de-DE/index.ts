@@ -11,6 +11,7 @@ import notification from './notification.json'
 import pagination from './pagination.json'
 import limiter from './limiter.json'
 import sorter from './sorter.json'
+import listing from './listing.json'
 
 export default {
     ...layout,
@@ -26,4 +27,5 @@ export default {
     ...pagination,
     ...limiter,
     ...sorter,
+    ...listing,
 }

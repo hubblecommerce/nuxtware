@@ -1,0 +1,13 @@
+{
+  "listing": {
+    "filter": {
+      "title": "Filter",
+      "close": "Close filters",
+      "loading": "Loading filters...",
+      "manufacturerLabel": "Manufacturer",
+      "priceLabel": "Price",
+      "ratingLabel": "Rating",
+      "shippingFreeLabel": "Free Shipping"
+    }
+  }
+}

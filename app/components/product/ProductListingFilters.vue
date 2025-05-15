@@ -127,11 +127,11 @@ const map: {
 
 <template>
     <FoundationButton color="primary" class="w-full lg:hidden" @click="open = true">
-        Filter
+        {{ $t('listing.filter.title') }}
     </FoundationButton>
     <SidenavOverlay v-model="open" :unwrap="lgAndLarger" class="bg-white">
         <div class="flex justify-between items-center p-2 pr-0 lg:hidden">
-            <FoundationHeadline tag="h2" class="text-lg font-semibold">Filter</FoundationHeadline>
+            <FoundationHeadline tag="h2" class="text-lg font-semibold">{{ $t('listing.filter.title') }}</FoundationHeadline>
             <FoundationButton
                 ref="sidenavMenuCloseButton"
                 size="medium"
@@ -139,7 +139,7 @@ const map: {
                 square
                 @click="open = false"
             >
-                <span class="sr-only">{{ $t('sidenav.menu.mobile.close') }}</span>
+                <span class="sr-only">{{ $t('listing.filter.close') }}</span>
                 <FoundationIcon name="x" />
             </FoundationButton>
         </div>
@@ -164,7 +164,7 @@ const map: {
         </div>
         <template #fallback>
             <div class="hidden lg:flex lg:gap-3">
-                Loading...
+                {{ $t('listing.filter.loading') }}
             </div>
         </template>
     </SidenavOverlay>

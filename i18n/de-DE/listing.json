@@ -1,0 +1,13 @@
+{
+  "listing": {
+    "filter": {
+      "title": "Filter",
+      "close": "Filter schließen",
+      "loading": "Filter werden geladen...",
+      "manufacturerLabel": "Hersteller",
+      "priceLabel": "Preis",
+      "ratingLabel": "Bewertung",
+      "shippingFreeLabel": "Versandkostenfrei"
+    }
+  }
+}
