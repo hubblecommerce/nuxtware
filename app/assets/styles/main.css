@@ -10,6 +10,7 @@
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/input.css';
+@import '#hubble/assets/styles/lib/components/toggle.css';
 
 @theme {
     /* Semantic colors */
@@ -60,4 +61,5 @@
 
     --color-focus: var(--color-primary-shade-light);
     --color-label: var(--color-neutral);
+    --color-toggle: var(--color-toggle, var(--color-primary));
 }

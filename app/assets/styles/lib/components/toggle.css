@@ -1,0 +1,112 @@
+@layer components {
+    .toggle {
+        @apply toggle-md toggle-default;
+        @apply inline-block relative;
+    }
+
+    .toggle-button {
+        @apply inline-flex items-center justify-center;
+        @apply disabled:toggle-disabled;
+        @apply cursor-pointer;
+
+        &[aria-disabled="true"] {
+            @apply toggle-disabled;
+        }
+    }
+
+    .toggle-track {
+        @apply block rounded-full transition-colors duration-200 ease-in-out;
+        background-color: var(--color-border);
+    }
+
+    .toggle-dot {
+        @apply absolute rounded-full bg-white shadow transition-transform duration-200 ease-in-out;
+    }
+    
+    .toggle-dot-checked {
+        transform: translateX(120%);
+    }
+
+    [role="switch"][aria-checked="true"] .toggle-track {
+        background-color: var(--color-toggle);
+    }
+
+    .toggle-input {
+        @apply focus-style;
+    }
+}
+
+/* Size Utilities */
+@utility toggle-sm {
+    @apply h-4;
+}
+
+@utility toggle-md {
+    @apply h-5;
+}
+
+@utility toggle-lg {
+    @apply h-6;
+}
+
+/* Theme Utilities */
+@utility toggle-default {
+    --color-toggle: var(--color-primary);
+}
+
+@utility toggle-primary {
+    --color-toggle: var(--color-primary);
+}
+
+@utility toggle-secondary {
+    --color-toggle: var(--color-secondary);
+}
+
+@utility toggle-tertiary {
+    --color-toggle: var(--color-tertiary);
+}
+
+@utility toggle-error {
+    --color-toggle: var(--color-error);
+}
+
+@utility toggle-success {
+    --color-toggle: var(--color-success);
+}
+
+@utility toggle-warning {
+    --color-toggle: var(--color-warning);
+}
+
+@utility toggle-info {
+    --color-toggle: var(--color-info);
+}
+
+@utility toggle-disabled {
+    @apply opacity-60 cursor-not-allowed;
+}
+
+/* Additional selectors for different sizes */
+.toggle-sm .toggle-track {
+    @apply w-8 h-4;
+}
+
+.toggle-sm .toggle-dot {
+    @apply w-3 h-3 left-0.5 top-0.5;
+}
+
+.toggle-md .toggle-track {
+    @apply w-10 h-5;
+}
+
+.toggle-md .toggle-dot {
+    @apply w-4 h-4 left-0.5 top-0.5;
+}
+
+.toggle-lg .toggle-track {
+    @apply w-12 h-6;
+}
+
+.toggle-lg .toggle-dot {
+    @apply w-5 h-5 left-0.5 top-0.5;
+}
