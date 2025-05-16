@@ -25,7 +25,7 @@ const {
     filtersToQuery,
     getCurrentSortingOrder,
     getInitialFilters,
-    search,
+    search
 } = useCategoryListing();
 
 const selectedFilters: UnwrapNestedRefs<{
@@ -144,10 +144,7 @@ const map: {
             </FoundationButton>
         </div>
         <div v-if="getInitialFilters.length" class="flex flex-col gap-3 px-2 lg:flex-row lg:flex-wrap lg:px-0">
-            <div
-                v-for="filter in getInitialFilters"
-                :key="`${filter?.id || filter?.code}`"
-            >
+            <div v-for="filter in getInitialFilters" :key="`${filter?.id || filter?.code}`">
                 <ComponentDropdown
                     :trigger-label="filter?.code === 'properties' ? getTranslatedProperty(filter, 'name') : getStaticFilterName(filter?.code)"
                     class="w-full border btn-small justify-between"
@@ -163,8 +160,9 @@ const map: {
             </div>
         </div>
         <template #fallback>
-            <div class="hidden lg:flex lg:gap-3">
-                {{ $t('listing.filter.loading') }}
+            <span class="sr-only">{{ $t('listing.filter.loading') }}</span>
+            <div class="hidden lg:flex flex-wrap gap-3">
+                <ComponentSkeleton preset="button" :repeat="8" />
             </div>
         </template>
     </SidenavOverlay>
