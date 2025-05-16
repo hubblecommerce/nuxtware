@@ -11,6 +11,7 @@
 /* Components */
 @import '#hubble/assets/styles/lib/components/input.css';
 @import '#hubble/assets/styles/lib/components/toggle.css';
+@import '#hubble/assets/styles/lib/components/skeleton.css';
 
 @theme {
     /* Semantic colors */

@@ -1,0 +1,85 @@
+@layer components {
+  /* Base skeleton styling */
+  .skeleton-container {
+    @apply bg-gray-200 relative overflow-hidden;
+  }
+
+  /* Animation: Pulse */
+  .skeleton-pulse {
+    @apply animate-pulse;
+  }
+
+  /* Animation: Wave */
+  .skeleton-wave {
+    @apply relative overflow-hidden;
+  }
+
+  .skeleton-wave::after {
+    @apply absolute inset-0;
+    content: '';
+    animation: skeleton-wave 1.6s linear 0.5s infinite;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: translateX(-100%);
+  }
+
+  @keyframes skeleton-wave {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Shapes */
+  .skeleton-circle {
+    @apply rounded-full;
+  }
+
+  .skeleton-rounded {
+    @apply rounded-md;
+  }
+
+  .skeleton-inline {
+    @apply inline-block;
+  }
+
+  /* Preset Styles */
+  .skeleton-text {
+    @apply h-4 w-full max-w-[20rem];
+  }
+
+  .skeleton-heading {
+    @apply h-6 w-full max-w-[15rem];
+  }
+
+  .skeleton-button {
+    @apply h-10 w-24;
+  }
+
+  .skeleton-card {
+    @apply w-full h-64 flex flex-col;
+  }
+
+  .skeleton-card::before {
+    @apply w-full h-40 block mb-2;
+    content: '';
+  }
+
+  .skeleton-card::after {
+    @apply w-3/4 h-4 block mb-2;
+    content: '';
+  }
+
+  .skeleton-image {
+    @apply w-full h-40;
+  }
+
+  .skeleton-avatar {
+    @apply w-10 h-10 rounded-full;
+  }
+
+  .skeleton-line {
+    @apply h-3 w-full;
+  }
+}
