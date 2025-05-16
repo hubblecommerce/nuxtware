@@ -93,8 +93,6 @@ const onChangeRating = () => {
             @click="props.interactive && onChangeRating()" 
             @keydown.enter="props.interactive && onChangeRating()"
             @keydown.space.prevent="props.interactive && onChangeRating()"
-            @keydown.right.prevent="props.interactive && i < 5 && hoverRating(i + 1)"
-            @keydown.left.prevent="props.interactive && i > 1 && hoverRating(i - 1)"
             @focus="props.interactive && hoverRating(i)"
         >
             <FoundationIcon 

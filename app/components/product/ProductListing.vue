@@ -154,31 +154,31 @@ const baseRoute = computed(() => {
             <div class="w-full md:w-auto flex flex-wrap items-center justify-between md:justify-start gap-4">
                 <ProductListingSorter
                     v-if="showTopSorter !== false && getSortingOrders?.length"
-                    instanceId="product-listing-sorter-top"
+                    instance-id="product-listing-sorter-top"
+                    class="w-auto"
                     :current-sorting="getCurrentSortingOrder"
                     :available-sortings="getSortingOrders"
                     @update:sorting="onSortChange"
-                    class="w-auto"
                 />
                 
                 <ProductListingLimiter
                     v-if="showTopLimiter !== false"
-                    instanceId="product-listing-limiter-top"
+                    instance-id="product-listing-limiter-top"
+                    class="w-auto"
                     :current-limit="getLimit"
                     :available-limits="availableLimits"
                     @update:limit="onLimitChange"
-                    class="w-auto"
                 />
             </div>
             
             <ProductListingPagination
                 v-if="getTotalPagesCount > 1 && showTopPagination !== false"
-                instanceId="product-listing-pagination-top"
+                instance-id="product-listing-pagination-top"
+                class="w-full md:w-auto mt-2 md:mt-0"
                 :current-page="getCurrentPage"
                 :total-pages="getTotalPagesCount"
                 :base-route="baseRoute"
                 :sr-only="srOnlyPagination"
-                class="w-full md:w-auto mt-2 md:mt-0"
                 @page-change="onPageChange"
             />
         </div>
@@ -199,31 +199,31 @@ const baseRoute = computed(() => {
             <div class="w-full md:w-auto flex flex-wrap items-center justify-between md:justify-start gap-4">
                 <ProductListingSorter
                     v-if="showBottomSorter !== false && getSortingOrders?.length"
-                    instanceId="product-listing-sorter-bottom"
+                    instance-id="product-listing-sorter-bottom"
+                    class="w-full"
                     :current-sorting="getCurrentSortingOrder"
                     :available-sortings="getSortingOrders"
                     @update:sorting="onSortChange"
-                    class="w-full"
                 />
                 
                 <ProductListingLimiter
                     v-if="showBottomLimiter !== false"
-                    instanceId="product-listing-limiter-bottom"
+                    instance-id="product-listing-limiter-bottom"
+                    class="w-full"
                     :current-limit="getLimit"
                     :available-limits="availableLimits"
                     @update:limit="onLimitChange"
-                    class="w-full"
                 />
             </div>
             
             <ProductListingPagination
                 v-if="getTotalPagesCount > 1 && showBottomPagination !== false"
-                instanceId="product-listing-pagination-bottom"
+                instance-id="product-listing-pagination-bottom"
+                class="w-full md:w-auto mt-2 md:mt-0"
                 :current-page="getCurrentPage"
                 :total-pages="getTotalPagesCount"
                 :base-route="baseRoute"
                 :sr-only="srOnlyPagination"
-                class="w-full md:w-auto mt-2 md:mt-0"
                 @page-change="onPageChange"
             />
         </div>
