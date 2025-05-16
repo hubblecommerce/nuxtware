@@ -6,6 +6,8 @@ Welcome to the Nuxtware documentation. This collection of documents serves as a 
 
 - [Project Overview](./project-overview.md) - High-level overview of the project
 - [Coding Standards](./coding-standards.md) - Code formatting and style guidelines
+- [Atomic Design](./atomic-design.md) - Component organization using atomic design principles
+- [Skeleton Component](./component-skeleton.md) - Implementation and usage of skeleton loading components
 - [I18n Guide](./i18n-guide.md) - Internationalization implementation and best practices
 - [Common Workflows](./common-workflows.md) - Step-by-step guides for common tasks
 - [API Client](./api-client.md) - Shopware API integration details

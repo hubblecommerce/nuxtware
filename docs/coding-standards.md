@@ -15,6 +15,10 @@ This document outlines the coding standards and style guidelines for the Nuxtwar
 - Component names should use PascalCase
 - Props should be properly typed with TypeScript interfaces
 - Use composition API instead of options API
+- Use self-closing tags for HTML elements that don't have content (e.g., `<slot />`)
+- Rely on Nuxt's auto-imports for Vue functions instead of explicit imports
+- Avoid inline CSS in SFCs - use external CSS files in the assets/styles directory
+- Avoid dynamic Tailwind class names (e.g., `bg-${color}-500`) as they won't be detected by Tailwind's purging process
 - Components must follow these requirements:
   1. Zero dependencies (base deps only e.g.: Vue, VueUse, Tailwind, CSS, HTML5)
   2. Configurable / Reusable 

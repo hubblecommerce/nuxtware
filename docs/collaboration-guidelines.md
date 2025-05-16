@@ -40,6 +40,9 @@ This document outlines the required collaboration methods when working with AI a
 - Keep documentation in sync with code changes
 - Suggest documentation updates when implementing new features
 - Follow the established documentation style and format
+- Only create component documentation for complex components whose code is not self-explanatory
+- Place component documentation in the `/docs` directory, not alongside the component
+- Use prop comments in the TypeScript interface to document component props
 
 ## Git Operations
 
