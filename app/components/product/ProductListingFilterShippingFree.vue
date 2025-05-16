@@ -30,7 +30,7 @@ const isShippingFree = computed(() => !!props.selectedFilters['shipping-free']);
     <div class="shipping-free-filter py-2 px-4">
         <ComponentToggleSwitch
             :model-value="isShippingFree"
-            :label="filter.label"
+            :label="$t('listing.filter.shippingFreeLabel')"
             theme="toggle-primary"
             @change="onToggleChange"
         />
