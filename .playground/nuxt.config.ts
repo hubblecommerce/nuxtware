@@ -53,7 +53,7 @@ export default defineNuxtConfig({
   },
   // Required for consumer to set individual localeId
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'de',
     bundle: {
       optimizeTranslationDirective: false,
     },
