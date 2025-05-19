@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { UnwrapNestedRefs } from 'vue'
 import type { CmsElementSidebarFilter } from '@shopware/composables'
 import type { RequestParameters } from '#shopware'
+import type { RouteLocationRaw } from 'vue-router'
 import { getTranslatedProperty } from '@shopware/helpers'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 import {
@@ -28,19 +28,18 @@ const {
     search
 } = useCategoryListing();
 
-const selectedFilters: UnwrapNestedRefs<{
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-}> = reactive<{
-    manufacturer: Array<string>;
-    properties: Array<string>;
+// Local reactive state for filters using Sets for multi-value filters
+const selectedFilters = reactive<{
+    manufacturer: Set<string>;
+    properties: Set<string>;
     "min-price": string | number | undefined;
     "max-price": string | number | undefined;
     rating: string | number | undefined;
     "shipping-free": boolean | undefined;
+    [key: string]: Set<string> | string | number | boolean | undefined;
 }>({
-    manufacturer: [],
-    properties: [],
+    manufacturer: new Set<string>(),
+    properties: new Set<string>(),
     "min-price": undefined,
     "max-price": undefined,
     rating: undefined,
@@ -49,46 +48,143 @@ const selectedFilters: UnwrapNestedRefs<{
 
 const searchCriteriaForRequest: ComputedRef<RequestParameters<"searchPage">> =
     computed(() => ({
-        manufacturer: selectedFilters.manufacturer?.join("|"),
-        properties: selectedFilters.properties?.join("|"),
-        "min-price": selectedFilters["min-price"],
-        "max-price": selectedFilters["max-price"],
+        manufacturer: [...selectedFilters.manufacturer]?.join("|"),
+        properties: [...selectedFilters.properties]?.join("|"),
+        "min-price": Number(selectedFilters["min-price"]) || undefined,
+        "max-price": Number(selectedFilters["max-price"]) || undefined,
         order: getCurrentSortingOrder.value,
-        "shipping-free": selectedFilters["shipping-free"],
-        rating: selectedFilters["rating"],
+        "shipping-free": Boolean(selectedFilters["shipping-free"]),
+        rating: Number(selectedFilters.rating) || undefined,
         search: "",
         limit: route.query.limit ? Number(route.query.limit) : 15,
     }))
 
-// Set selected filters from query
+// Initialize selected filters from query
 for (const param in route.query) {
     if (Object.prototype.hasOwnProperty.call(selectedFilters, param)) {
         if (
             selectedFilters[param] &&
             typeof selectedFilters[param] === "object"
         ) {
-            (route.query[param] as unknown as string)
-            .split("|")
-            .forEach((element) => {
-                selectedFilters[param].push(element)
-            });
+            const elements = (route.query[param] as unknown as string).split("|");
+            for (const element of elements) {
+                (selectedFilters[param] as Set<string>).add(element);
+            }
         } else {
-            selectedFilters[param] = route.query[param]
+            const queryValue = route.query[param];
+            if (queryValue && !Array.isArray(queryValue)) {
+                selectedFilters[param] = queryValue;
+            }
         }
     }
 }
 
-async function onFilterChange () {
-    await executeSearch()
+// Handle filter changes
+const onOptionSelectToggle = async ({
+    code,
+    value,
+}: {
+    code: string;
+    value: string;
+}) => {
+    if (!["properties", "manufacturer"].includes(code)) {
+        selectedFilters[code] = value;
+    } else {
+        const filterSet = selectedFilters[code] as Set<string>;
+        if (filterSet.has(value)) {
+            filterSet.delete(value);
+        } else {
+            filterSet.add(value);
+        }
+    }
+    await router.push({
+        query: {
+            ...filtersToQuery(searchCriteriaForRequest.value),
+        },
+    } as RouteLocationRaw);
+    await search({
+        ...searchCriteriaForRequest.value,
+        ...route.query,
+    });
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function filterIsSelected (filter: any): boolean {
+    let isSelected = false
+    
+    if (filter?.code === 'manufacturer' && selectedFilters.manufacturer?.size > 0) {
+        isSelected = true
+    }
+
+    if (filter?.code === 'price' 
+        && (
+            selectedFilters['min-price'] != null && Number(selectedFilters['min-price']) > 0 && selectedFilters['min-price'] !== Math.floor(Number(filter.min)) || 
+            selectedFilters['max-price'] != null && Number(selectedFilters['max-price']) > 0 && selectedFilters['max-price'] !== Math.floor(Number(filter.max))
+        )) {
+        isSelected = true
+    }
+
+    if (filter?.code === 'rating' && selectedFilters[filter?.code] != null && Number(selectedFilters[filter?.code]) > 0) {
+        isSelected = true
+    }
+
+    if (filter?.code === 'shipping-free' && selectedFilters[filter?.code]) {
+        isSelected = true
+    }
+
+    if (filter?.code === 'properties') {
+        for (const optionId of selectedFilters.properties) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            filter?.options?.map((option: any) => {
+                if (option?.id === optionId) isSelected = true
+            })
+        }   
+    }
+
+    return isSelected
 }
 
-async function executeSearch () {
-    await search(searchCriteriaForRequest.value);
-    const query = filtersToQuery(searchCriteriaForRequest.value) as { query: string };
-    router.push({
-        query,
+// Clear all filters
+const clearFilters = async () => {
+    selectedFilters.manufacturer.clear();
+    selectedFilters.properties.clear();
+    selectedFilters["min-price"] = undefined;
+    selectedFilters["max-price"] = undefined;
+    selectedFilters.rating = undefined;
+    selectedFilters["shipping-free"] = undefined;
+    await router.push({
+        query: {
+            ...filtersToQuery(searchCriteriaForRequest.value),
+        },
+    } as RouteLocationRaw);
+};
+
+async function onResetFilters() {
+    await clearFilters();
+    await search({
+        ...route.query,
+        ...filtersToQuery(searchCriteriaForRequest.value),
     });
 }
+
+// Computed properties for displaying current state
+const selectedOptionIds = computed(() => [
+    ...selectedFilters.properties,
+    ...selectedFilters.manufacturer,
+]);
+
+const showResetFiltersButton = computed<boolean>(() => {
+    if (
+        selectedOptionIds.value.length !== 0 ||
+        selectedFilters["max-price"] ||
+        selectedFilters["min-price"] ||
+        selectedFilters.rating ||
+        selectedFilters["shipping-free"]
+    ) {
+        return true;
+    }
+    return false;
+});
 
 const open = ref(false)
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -144,7 +240,7 @@ const map: {
             </FoundationButton>
         </div>
         <div v-if="getInitialFilters.length" class="flex flex-col gap-3 px-2 lg:flex-row lg:flex-wrap lg:px-0">
-            <div v-for="filter in getInitialFilters" :key="`${filter?.id || filter?.code}`">
+            <div v-for="filter in getInitialFilters" :key="`${filter?.id || filter?.code}`" class="relative">
                 <ComponentDropdown
                     :trigger-label="filter?.code === 'properties' ? getTranslatedProperty(filter, 'name') : getStaticFilterName(filter?.code)"
                     class="w-full border btn-small justify-between"
@@ -154,9 +250,10 @@ const map: {
                         :is="filterMap(filter?.code)"
                         :filter="filter"
                         :selected-filters="selectedFilters"
-                        @select-value="onFilterChange()"
+                        @select-filter-value="onOptionSelectToggle"
                     />
                 </ComponentDropdown>
+                <div v-if="filterIsSelected(filter)" class="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full" />
             </div>
         </div>
         <template #fallback>
@@ -165,5 +262,9 @@ const map: {
                 <ComponentSkeleton preset="button" :repeat="8" />
             </div>
         </template>
+        <FoundationButton 
+            v-if="showResetFiltersButton"
+            @click="onResetFilters()"
+        >Reset all filters</FoundationButton>
     </SidenavOverlay>
 </template>
