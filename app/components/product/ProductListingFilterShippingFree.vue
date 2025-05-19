@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import type { Schemas } from '#shopware';
-
 interface ListingFilter {
     code: string;
     label: string;
 }
 
-const emits = defineEmits<(e: 'select-value', value: unknown) => void>();
+const emits = defineEmits<{
+    'select-filter-value': [value: { code: string; value: boolean | undefined }];
+}>();
 
 const props = defineProps<{
     filter: ListingFilter;
-    selectedFilters: Schemas['ProductListingResult']['currentFilters'];
+    selectedFilters: {
+        'shipping-free': boolean | undefined;
+    };
 }>();
 
 // Handle shipping-free toggle change
 const onToggleChange = () => {
-    // Directly update the selectedFilters object
-    // Note: Parent component expects direct mutation of this reactive object
-    // eslint-disable-next-line vue/no-mutating-props
-    props.selectedFilters['shipping-free'] = !props.selectedFilters['shipping-free'];
-    emits('select-value', {});
+    const newValue = !props.selectedFilters['shipping-free'];
+    emits('select-filter-value', {
+        code: 'shipping-free',
+        value: newValue || undefined
+    });
 };
 
 // Computed property to get current filter state
