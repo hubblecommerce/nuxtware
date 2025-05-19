@@ -16,7 +16,7 @@ withDefaults(defineProps<FoundationCheckboxProps>(), {
     disabled: false
 })
 
-const model = defineModel<string|string[]>()
+const model = defineModel<boolean>()
 const foundationCheckbox = ref<HTMLInputElement>()
 
 defineExpose({ foundationCheckbox })
