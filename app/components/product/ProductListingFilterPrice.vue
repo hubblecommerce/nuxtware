@@ -10,56 +10,51 @@ const props = defineProps<{
         label: string;
     };
     selectedFilters: {
-        [key: string]: unknown;
+        'min-price': string | number | undefined;
+        'max-price': string | number | undefined;
     };
 }>()
 
 const emit = defineEmits<{
-    'select-value': [value?: unknown]
+    'select-filter-value': [value: { code: string; value: string | number | undefined }]
 }>()
 
 const { getFormattedPrice } = usePrice();
-
-// Min/max values with defaults
-const minPrice = ref(
-    props.selectedFilters['min-price'] !== undefined
-        ? Number(props.selectedFilters['min-price'])
-        : props.filter.min ? Number(props.filter.min) : 0
-)
-
-const maxPrice = ref(
-    props.selectedFilters['max-price'] !== undefined
-        ? Number(props.selectedFilters['max-price'])
-        : props.filter.max ? Number(props.filter.max) : 1000
-)
 
 // Default limits - ensure they're numbers
 const minLimit = props.filter.min ? Number(props.filter.min) : 0
 const maxLimit = props.filter.max ? Number(props.filter.max) : 1000
 
-// Handle price changes with debounce
+// Min/max values with defaults
+const minPrice = ref(
+    props.selectedFilters['min-price'] !== undefined
+        ? Number(props.selectedFilters['min-price'])
+        : minLimit
+)
+
+const maxPrice = ref(
+    props.selectedFilters['max-price'] !== undefined
+        ? Number(props.selectedFilters['max-price'])
+        : maxLimit
+)
+
+// Handle price changes
 function onMinPriceChange(newPrice: number) {
-    if (typeof newPrice !== 'number' || newPrice === Number(props.selectedFilters['min-price'])) return
+    if (typeof newPrice !== 'number') return
 
-    // Directly update the selectedFilters object
-    // Note: Parent component expects direct mutation of this reactive object
-    // eslint-disable-next-line vue/no-mutating-props
-    props.selectedFilters['min-price'] = newPrice
-
-    // Then emit the event to trigger search
-    emit('select-value', {})
+    emit('select-filter-value', {
+        code: 'min-price',
+        value: newPrice === minLimit ? undefined : newPrice
+    })
 }
 
 function onMaxPriceChange(newPrice: number) {
-    if (typeof newPrice !== 'number' || newPrice === Number(props.selectedFilters['max-price'])) return
+    if (typeof newPrice !== 'number') return
 
-    // Directly update the selectedFilters object
-    // Note: Parent component expects direct mutation of this reactive object
-    // eslint-disable-next-line vue/no-mutating-props
-    props.selectedFilters['max-price'] = newPrice
-
-    // Then emit the event to trigger search
-    emit('select-value', {})
+    emit('select-filter-value', {
+        code: 'max-price',
+        value: newPrice === maxLimit ? undefined : newPrice
+    })
 }
 
 // Apply debounce to avoid too many filter changes while sliding
@@ -69,6 +64,23 @@ const debouncedMaxPriceUpdate = useDebounceFn(onMaxPriceChange, 300)
 // Watch for changes and emit events
 watch(minPrice, debouncedMinPriceUpdate)
 watch(maxPrice, debouncedMaxPriceUpdate)
+
+// Watch for prop changes to update local refs
+watch(() => props.selectedFilters['min-price'], (newValue) => {
+    if (newValue !== undefined && newValue !== minPrice.value) {
+        minPrice.value = Number(newValue)
+    } else if (newValue === undefined) {
+        minPrice.value = minLimit
+    }
+})
+
+watch(() => props.selectedFilters['max-price'], (newValue) => {
+    if (newValue !== undefined && newValue !== maxPrice.value) {
+        maxPrice.value = Number(newValue)
+    } else if (newValue === undefined) {
+        maxPrice.value = maxLimit
+    }
+})
 
 // Format price with currency
 function formatPrice(value: number): string {
