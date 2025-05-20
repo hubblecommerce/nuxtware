@@ -1,0 +1,295 @@
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+
+const props = defineProps({
+  /**
+   * Items to be displayed in the container
+   */
+  items: {
+    type: Array,
+    required: true
+  },
+  /**
+   * Space to reserve for control elements (in pixels)
+   */
+  reservedWidth: {
+    type: Number,
+    default: 80
+  },
+  /**
+   * Space between items (in pixels)
+   */
+  itemSpacing: {
+    type: Number,
+    default: 12
+  },
+  /**
+   * Text for the show more button
+   */
+  showMoreText: {
+    type: String,
+    default: 'Show More'
+  },
+  /**
+   * Text for the show less button
+   */
+  showLessText: {
+    type: String,
+    default: 'Show Less'
+  }
+})
+
+const emit = defineEmits(['update:expanded'])
+
+// Refs for DOM elements
+const containerRef = ref<HTMLElement | null>(null)
+const itemRefs = ref<HTMLElement[]>([])
+const toggleButtonRef = ref<HTMLElement | null>(null)
+
+// State management
+const isExpanded = ref(false)
+const visibleItems = ref<any[]>([])
+const hiddenItems = ref<any[]>([])
+const hasOverflow = ref(false)
+const isInitializing = ref(true)
+const isCalculating = ref(false)
+const isToggling = ref(false)
+
+// Store item widths to avoid recalculation
+const itemWidths = ref<number[]>([])
+
+// ResizeObserver setup
+let resizeObserver: ResizeObserver | null = null
+let resizeTimer: number
+
+// Capture item widths once during initialization
+function captureItemWidths() {
+  itemWidths.value = []
+  
+  if (props.items && itemRefs.value.length) {
+    props.items.forEach((_, index) => {
+      const element = itemRefs.value[index]
+      if (element) {
+        itemWidths.value.push(element.offsetWidth)
+      } else {
+        itemWidths.value.push(0) // Fallback
+      }
+    })
+  }
+}
+
+// Calculate which items should be visible based on container width
+function calculateVisibleItems() {
+  if (isCalculating.value || !containerRef.value || !props.items?.length) return
+  
+  // Set calculating flag to prevent recursive calls
+  isCalculating.value = true
+  
+  try {
+    const containerWidth = containerRef.value.offsetWidth - props.reservedWidth
+    let availableWidth = containerWidth
+    
+    // Reset arrays
+    visibleItems.value = []
+    hiddenItems.value = []
+    
+    // Use stored item widths rather than measuring dynamically
+    props.items.forEach((item, index) => {
+      const itemWidth = itemWidths.value[index] || 0
+      const marginSpace = props.itemSpacing
+      
+      if (availableWidth >= (itemWidth + marginSpace) || isExpanded.value) {
+        visibleItems.value.push(item)
+        availableWidth -= (itemWidth + marginSpace)
+      } else {
+        hiddenItems.value.push(item)
+      }
+    })
+    
+    // Determine if we have overflow based on current calculation
+    hasOverflow.value = hiddenItems.value.length > 0
+    
+    // Only auto-collapse during initialization or resize, not during toggling
+    if (!isToggling.value && isExpanded.value && hiddenItems.value.length === 0) {
+      isExpanded.value = false
+    }
+  } finally {
+    // Always reset the calculating flag
+    isCalculating.value = false
+  }
+}
+
+// Toggle expanded state
+function toggleExpanded() {
+  isToggling.value = true
+  isExpanded.value = !isExpanded.value
+  
+  emit('update:expanded', isExpanded.value)
+  
+  // Use nextTick to ensure DOM is updated before recalculation
+  nextTick(() => {
+    calculateVisibleItems()
+    
+    // Small delay to avoid interference from resize events
+    setTimeout(() => {
+      isToggling.value = false
+    }, 1)
+  })
+}
+
+// Register an item ref
+function setItemRef(el: HTMLElement | null, index: number) {
+  if (el) {
+    itemRefs.value[index] = el
+  }
+}
+
+// Determine if an item should be rendered
+function shouldRenderItem(item: any): boolean {
+  // During initialization or toggling, render everything
+  if (isInitializing.value || isToggling.value) {
+    return true
+  }
+  
+  // When expanded, render everything
+  if (isExpanded.value) {
+    return true
+  }
+  
+  // When collapsed, only render visible items
+  return visibleItems.value.some((visibleItem) => {
+    if (visibleItem.id != null && item.id != null) {
+      return visibleItem.id === item.id
+    } else if (visibleItem.code != null && item.code != null) {
+      return visibleItem.code === item.code
+    }
+    return visibleItem === item
+  })
+}
+
+// Initialize on mount
+onMounted(() => {
+  setTimeout(() => {
+    // Phase 1: Initialize all items as visible to get dimensions
+    if (props.items && props.items.length) {
+      isInitializing.value = true
+      visibleItems.value = [...props.items]
+    }
+    
+    // Phase 2: After items are rendered and measured, calculate actual visibility
+    captureItemWidths()
+    calculateVisibleItems()
+    
+    // Set up ResizeObserver
+    initResizeObserver()
+    isInitializing.value = false
+    
+    // Add window resize handler
+    window.addEventListener('resize', handleResize)
+  }, 300) // Wait for animations/rendering
+})
+
+// Clean up on unmount
+onBeforeUnmount(() => {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
+  }
+  window.removeEventListener('resize', handleResize)
+  
+  if (resizeTimer) {
+    clearTimeout(resizeTimer)
+  }
+})
+
+// Initialize ResizeObserver
+function initResizeObserver() {
+  if (!containerRef.value) return
+  
+  resizeObserver = new ResizeObserver(entries => {
+    // Skip if we're in a special state
+    if (entries.length === 0 || isInitializing.value || isCalculating.value || isToggling.value) return
+    
+    // Only recalculate on container width changes
+    const entry = entries[0]
+    if (entry?.contentRect) {
+      handleResize()
+    }
+  })
+  
+  resizeObserver.observe(containerRef.value)
+}
+
+// Handle window resize or container size changes
+function handleResize() {
+  // Skip during toggle operations
+  if (isToggling.value) return
+  
+  // Debounce resize calculations
+  if (resizeTimer) {
+    clearTimeout(resizeTimer)
+  }
+  
+  resizeTimer = window.setTimeout(() => {
+    if (!isCalculating.value && !isToggling.value) {
+      calculateVisibleItems()
+    }
+  }, 150)
+}
+
+// Expose key methods and properties for parent component
+defineExpose({
+  isExpanded,
+  hasOverflow,
+  toggleExpanded
+})
+</script>
+
+<template>
+  <div
+    ref="containerRef"
+    role="region"
+    aria-live="polite"
+    class="relative"
+  >
+    <!-- Main content area -->
+    <slot
+      :visible-items="visibleItems"
+      :hidden-items="hiddenItems"
+      :is-expanded="isExpanded"
+      :has-overflow="hasOverflow"
+      :set-item-ref="setItemRef"
+      :should-render-item="shouldRenderItem"
+    ></slot>
+    
+    <!-- Gradient fade when collapsed with overflow -->
+    <div 
+      v-if="hasOverflow && !isExpanded" 
+      class="absolute right-12 h-full w-16 pointer-events-none"
+      style="background: linear-gradient(to left, white, transparent);"
+      aria-hidden="true"
+    ></div>
+    
+    <!-- Toggle button with customization options -->
+    <slot
+      name="toggle-button"
+      :toggle="toggleExpanded"
+      :is-expanded="isExpanded"
+      :has-overflow="hasOverflow"
+    >
+      <button
+        v-if="hasOverflow"
+        ref="toggleButtonRef"
+        @click="toggleExpanded"
+        :aria-expanded="isExpanded"
+        aria-controls="collapsible-content"
+        :class="[
+          'toggle-button',
+          isExpanded ? 'relative' : 'absolute right-0'
+        ]"
+      >
+        {{ isExpanded ? showLessText : showMoreText }}
+        <slot name="toggle-icon" :is-expanded="isExpanded"></slot>
+      </button>
+    </slot>
+  </div>
+</template>
