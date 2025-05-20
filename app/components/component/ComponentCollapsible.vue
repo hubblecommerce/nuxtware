@@ -1,50 +1,41 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
-const props = defineProps({
+interface CollapsibleProps {
   /**
    * Items to be displayed in the container
    */
-  items: {
-    type: Array,
-    required: true
-  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  items: any[];
   /**
    * Space to reserve for control elements (in pixels)
    */
-  reservedWidth: {
-    type: Number,
-    default: 80
-  },
+  reservedWidth?: number;
   /**
    * Space between items (in pixels)
    */
-  itemSpacing: {
-    type: Number,
-    default: 12
-  },
+  itemSpacing?: number;
   /**
    * Text for the show more button
    */
-  showMoreText: {
-    type: String,
-    default: 'Show More'
-  },
+  showMoreText?: string;
   /**
    * Text for the show less button
    */
-  showLessText: {
-    type: String,
-    default: 'Show Less'
-  },
+  showLessText?: string;
   /**
    * Whether the component is in desktop mode
    * When false, all items will be shown without collapsing
    */
-  isDesktopMode: {
-    type: Boolean,
-    default: true
-  }
+  isDesktopMode?: boolean;
+}
+
+const props = withDefaults(defineProps<CollapsibleProps>(), {
+  reservedWidth: 80,
+  itemSpacing: 12,
+  showMoreText: 'Show More',
+  showLessText: 'Show Less',
+  isDesktopMode: true
 })
 
 const emit = defineEmits(['update:expanded'])
