@@ -239,15 +239,21 @@ const map: {
                 <FoundationIcon name="x" />
             </FoundationButton>
         </div>
+
         <!-- Reset filters button -->
-        <FoundationButton 
-            v-if="showResetFiltersButton"
-            variant="ghost"
-            size="small"
-            @click="onResetFilters()"
-        >
-          {{ $t('listing.filter.reset') }}
-        </FoundationButton>
+        <div class="px-2 mb-3 lg:px-0">
+          <FoundationButton 
+              v-if="showResetFiltersButton"
+              variant="outline"
+              size="small"
+              class="w-full lg:w-auto"
+              @click="onResetFilters()"
+          >
+            {{ $t('listing.filter.reset') }}
+          </FoundationButton>
+        </div>
+        
+        
         <ComponentCollapsible
             v-if="getInitialFilters.length"
             id="filterContainer"
@@ -286,7 +292,8 @@ const map: {
             <template #toggle-button="{ toggle, isExpanded, hasOverflow }">
                 <FoundationButton
                     v-if="hasOverflow || (isExpanded && !hasOverflow)"
-                    variant="ghost"
+                    color="secondary"
+                    variant="outline"
                     size="small"
                     :class="[
                       'lg:flex items-center',
@@ -301,6 +308,7 @@ const map: {
                 </FoundationButton>
             </template>
         </ComponentCollapsible>
+        
         <template #fallback>
             <span class="sr-only">{{ $t('listing.filter.loading') }}</span>
             <div class="hidden lg:flex flex-wrap gap-3">
