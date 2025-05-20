@@ -31,7 +31,7 @@ interface CollapsibleProps {
 }
 
 const props = withDefaults(defineProps<CollapsibleProps>(), {
-  reservedWidth: 80,
+  reservedWidth: 200,
   itemSpacing: 12,
   showMoreText: 'Show More',
   showLessText: 'Show Less',
