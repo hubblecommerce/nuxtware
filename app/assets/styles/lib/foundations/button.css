@@ -61,7 +61,7 @@
     @apply bg-transparent border-2 border-current text-btn active:bg-transparent;
 
     @media (hover: hover) {
-        @apply hover:bg-btn hover:text-btn-content active:bg-btn-shade-dark;
+        @apply hover:bg-btn hover:text-btn-content hover:border-btn active:bg-btn-shade-dark;
     }
 }
 
