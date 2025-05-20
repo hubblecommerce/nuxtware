@@ -1,25 +1,3 @@
-<template>
-    <div 
-        v-for="i in repeat"
-        :key="i"
-        :class="[
-            'skeleton-container',
-            'skeleton-' + preset,
-            {
-                'skeleton-pulse': animation === 'pulse',
-                'skeleton-wave': animation === 'wave',
-                'skeleton-circle': circle,
-                'skeleton-rounded': rounded && !circle,
-                'skeleton-inline': inline
-            }
-        ]"  
-        :style="skeletonStyles" 
-        :aria-hidden="true"
-    >
-        <slot />
-    </div>
-</template>
-
 <script setup lang="ts">
 export interface SkeletonProps {
     /**
@@ -88,3 +66,25 @@ const skeletonStyles = computed(() => {
     return styles;
 });
 </script>
+
+<template>
+    <div 
+        v-for="i in repeat"
+        :key="i"
+        :class="[
+            'skeleton-container',
+            'skeleton-' + preset,
+            {
+                'skeleton-pulse': animation === 'pulse',
+                'skeleton-wave': animation === 'wave',
+                'skeleton-circle': circle,
+                'skeleton-rounded': rounded && !circle,
+                'skeleton-inline': inline
+            }
+        ]"  
+        :style="skeletonStyles" 
+        :aria-hidden="true"
+    >
+        <slot />
+    </div>
+</template>

@@ -91,3 +91,36 @@ defineNuxtConfig({
 ## Additional Resources
 
 For more information about Shopware API integration and advanced configurations, please refer to the [API Client](/docs/api-client.md) documentation.
+
+
+## Roadmap
+
+Nuxtware:
+- [ ] Listing:
+    - [x] Pagination
+    - [x] Limiter
+    - [x] Sorter
+    - [ ] Filter
+    - [ ] Category Sidebar Navigation
+    - [ ] Card
+- [ ] Images (Products)
+- [ ] Detail:
+    - [ ] Gallery
+    - [ ] Buybox
+    - [ ] Variant Selection
+    - [ ] Tabs: Description / Reviews
+    - [ ] X-Selling (Product Carousel)
+- [ ] Cart
+- [ ] Checkout
+- [ ] Wishlist
+- [ ] Account
+    - [ ] Login
+    - [ ] Register
+- [ ] CMS
+- [ ] Skiplinks
+- [ ] Scroll To Top
+- [ ] Newsletter Form
+- [ ] Popups (Modals)
+- [ ] Footer
+- [ ] Topbar / Banderole 
+- [ ] Brands Page
