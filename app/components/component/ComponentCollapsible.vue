@@ -36,6 +36,14 @@ const props = defineProps({
   showLessText: {
     type: String,
     default: 'Show Less'
+  },
+  /**
+   * Whether the component is in desktop mode
+   * When false, all items will be shown without collapsing
+   */
+  isDesktopMode: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -48,7 +56,9 @@ const toggleButtonRef = ref<HTMLElement | null>(null)
 
 // State management
 const isExpanded = ref(false)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const visibleItems = ref<any[]>([])
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const hiddenItems = ref<any[]>([])
 const hasOverflow = ref(false)
 const isInitializing = ref(true)
@@ -86,6 +96,14 @@ function calculateVisibleItems() {
   isCalculating.value = true
   
   try {
+    // If not in desktop mode, show all items
+    if (!props.isDesktopMode) {
+      visibleItems.value = [...props.items]
+      hiddenItems.value = []
+      hasOverflow.value = false
+      return
+    }
+    
     const containerWidth = containerRef.value.offsetWidth - props.reservedWidth
     let availableWidth = containerWidth
     
@@ -144,8 +162,14 @@ function setItemRef(el: HTMLElement | null, index: number) {
   }
 }
 
-// Determine if an item should be rendered
+// Determine if an item should be rendered based on visibility state
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function shouldRenderItem(item: any): boolean {
+  // In mobile mode, always render all items
+  if (!props.isDesktopMode) {
+    return true
+  }
+  
   // During initialization or toggling, render everything
   if (isInitializing.value || isToggling.value) {
     return true
@@ -259,36 +283,29 @@ defineExpose({
       :has-overflow="hasOverflow"
       :set-item-ref="setItemRef"
       :should-render-item="shouldRenderItem"
-    ></slot>
-    
-    <!-- Gradient fade when collapsed with overflow -->
-    <div 
-      v-if="hasOverflow && !isExpanded" 
-      class="absolute right-12 h-full w-16 pointer-events-none"
-      style="background: linear-gradient(to left, white, transparent);"
-      aria-hidden="true"
-    ></div>
+    />
     
     <!-- Toggle button with customization options -->
     <slot
+      v-if="isDesktopMode"
       name="toggle-button"
       :toggle="toggleExpanded"
       :is-expanded="isExpanded"
       :has-overflow="hasOverflow"
     >
       <button
-        v-if="hasOverflow"
+        v-if="hasOverflow || (isExpanded && !hasOverflow)"
         ref="toggleButtonRef"
-        @click="toggleExpanded"
         :aria-expanded="isExpanded"
         aria-controls="collapsible-content"
         :class="[
           'toggle-button',
           isExpanded ? 'relative' : 'absolute right-0'
         ]"
+        @click="toggleExpanded"
       >
         {{ isExpanded ? showLessText : showMoreText }}
-        <slot name="toggle-icon" :is-expanded="isExpanded"></slot>
+        <slot name="toggle-icon" :is-expanded="isExpanded" />
       </button>
     </slot>
   </div>
