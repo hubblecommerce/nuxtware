@@ -36,6 +36,96 @@ This document outlines the coding standards and style guidelines for the Nuxtwar
      - Semantically correct HTML
      - SSR support
 
+### Template Structure
+
+When building complex templates, follow these guidelines to ensure maintainability and performance:
+
+- Use `<template>` tags with `v-for` when conditional rendering is needed within loops:
+  ```vue
+  <!-- Preferred -->
+  <template v-for="(item, index) in items" :key="item.id">
+    <div v-if="shouldRenderItem(item)" class="item">
+      {{ item.name }}
+    </div>
+  </template>
+  
+  <!-- Avoid -->
+  <div v-for="(item, index) in items" :key="item.id" v-if="shouldRenderItem(item)" class="item">
+    {{ item.name }}
+  </div>
+  ```
+
+- Group related attributes together in a consistent order:
+  1. Key/ref attributes (`:key`, `ref`)
+  2. Structural directives (`v-if`, `v-else`, `v-for`)
+  3. Other v-directives (`v-model`, `v-bind`)
+  4. Standard HTML attributes (`class`, `id`, etc.)
+  5. Aria attributes (`aria-*`, `role`)
+  6. Event handlers (`@click`, etc.)
+
+- For complex conditional rendering, use computed properties instead of complex expressions:
+  ```vue
+  <!-- Preferred -->
+  <div v-if="isItemVisible">{{ item.name }}</div>
+  
+  <!-- Avoid -->
+  <div v-if="item.isActive && !item.isHidden && currentFilter === 'all'">
+    {{ item.name }}
+  </div>
+  ```
+
+### Reactive Property Access
+
+When working with Vue's reactivity system, be consistent in how you access reactive values:
+
+- Always use `.value` to access values from `ref()` and `computed()` properties:
+  ```ts
+  // Correct
+  const count = ref(0)
+  function increment() {
+    count.value++
+  }
+  
+  // Also correct - accessing value from composable
+  if (getInitialFilters.value.length > 0) {
+    // Do something
+  }
+  
+  // Incorrect - missing .value
+  function decrement() {
+    count-- // This won't work!
+  }
+  ```
+
+- Remember that properties from composables are often refs or computed values:
+  ```ts
+  // Composable usage
+  const { items, isLoading } = useMyComposable()
+  
+  // Correct
+  if (!isLoading.value && items.value.length > 0) {
+    processItems()
+  }
+  ```
+
+- For reactive objects created with `reactive()`, do not use `.value`:
+  ```ts
+  // Correct
+  const state = reactive({ count: 0 })
+  function increment() {
+    state.count++
+  }
+  ```
+
+- Be consistent with destructuring - prefer using `toRefs` instead of manual destructuring:
+  ```ts
+  // Preferred
+  const state = reactive({ count: 0, name: 'Example' })
+  const { count, name } = toRefs(state)
+  
+  // Now you can use count.value and name.value while maintaining reactivity
+  ```
+
 ### Component Best Practices
 
 #### API Integration
@@ -67,6 +157,76 @@ This document outlines the coding standards and style guidelines for the Nuxtwar
 #### Internationalization
 - Use `useLocalePath()` and `formatLink()` for proper i18n of navigation paths
 - Ensure all user-facing text uses translation keys
+
+## Common Pitfalls
+
+Avoid these common issues to maintain code quality and prevent bugs:
+
+### Unused Parameters and Variables
+
+- Remove unused parameters from functions:
+  ```ts
+  // Incorrect
+  function shouldRenderFilter(filter: any, index: number): boolean {
+    // index is never used
+    return filter.isActive
+  }
+  
+  // Correct
+  function shouldRenderFilter(filter: any): boolean {
+    return filter.isActive
+  }
+  ```
+
+- Declare types for all variables and parameters:
+  ```ts
+  // Incorrect
+  let resizeTimer;
+  
+  // Correct
+  let resizeTimer: number;
+  ```
+
+### Reactive Access Inconsistencies
+
+- Always check if reactive properties are defined before accessing nested properties:
+  ```ts
+  // Incorrect
+  if (items.value.length > 0) { ... }
+  
+  // Correct
+  if (items.value && items.value.length > 0) { ... }
+  ```
+
+- Use optional chaining for safer property access:
+  ```ts
+  // Preferred
+  const itemName = items.value?.[0]?.name
+  ```
+
+### DOM Manipulation Errors
+
+- Always check if DOM references exist before accessing their properties:
+  ```ts
+  // Incorrect
+  const width = containerRef.value.offsetWidth
+  
+  // Correct
+  const width = containerRef.value?.offsetWidth || 0
+  ```
+
+- Clean up event listeners and observers to prevent memory leaks:
+  ```ts
+  // Set up listeners
+  onMounted(() => {
+    window.addEventListener('resize', handleResize)
+  })
+  
+  // Clean up
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize)
+  })
+  ```
 
 ## TypeScript
 
