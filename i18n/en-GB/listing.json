@@ -7,7 +7,10 @@
       "manufacturerLabel": "Manufacturer",
       "priceLabel": "Price",
       "ratingLabel": "Rating",
-      "shippingFreeLabel": "Free Shipping"
+      "shippingFreeLabel": "Free Shipping",
+      "showMore": "Show More",
+      "showLess": "Show Less",
+      "reset": "Reset all filters"
     }
   }
 }

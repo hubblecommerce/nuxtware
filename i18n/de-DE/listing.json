@@ -7,7 +7,10 @@
       "manufacturerLabel": "Hersteller",
       "priceLabel": "Preis",
       "ratingLabel": "Bewertung",
-      "shippingFreeLabel": "Versandkostenfrei"
+      "shippingFreeLabel": "Versandkostenfrei",
+      "showMore": "Mehr anzeigen",
+      "showLess": "Weniger anzeigen",
+      "reset": "Alle Filter zurücksetzen"
     }
   }
 }
