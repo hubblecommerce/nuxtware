@@ -1,39 +1,113 @@
 <script setup lang="ts">
-import { getTranslatedProperty } from "@shopware/helpers";
-import type { Schemas } from "#shopware";
+import type { Schemas } from "#shopware"
+import { useWindowSize } from "@vueuse/core"
+import { onMounted, onUnmounted, ref, computed, nextTick } from "vue"
+import { useCategory, useNavigation } from "#imports"
 
-const { category: activeCategory } = useCategory();
-const loading: Ref<boolean> = ref(true);
-const categoryNavigation: Ref<Schemas["Category"][]> = ref([]);
-const currentCategoryId = activeCategory.value?.id ?? "main-navigation";
-const { loadNavigationElements } = useNavigation({
-    type: currentCategoryId,
-});
+const { category: activeCategory } = useCategory()
+const loading = ref(true)
+const categoryNavigation = ref<Schemas["Category"][]>([])
+const menuElement = ref<HTMLElement | null>(null)
+const lastScrollTop = ref(0)
+const scrollListenerAttached = ref(false)
+
+const currentCategoryId = activeCategory.value?.id ?? "main-navigation"
+const parentCategoryId = activeCategory.value?.parentId ?? currentCategoryId
+const { loadNavigationElements, navigationElements } = useNavigation({ type: parentCategoryId })
+
+const { height: windowHeight } = useWindowSize()
+const isWindowHigh = computed(() => windowHeight.value > 900)
 
 onMounted(async () => {
     // depth 0 means, we load only first level of categories, depth 1 means we load first and second level of categories ...
-    categoryNavigation.value = await loadNavigationElements({ depth: 0 });
-    loading.value = false;
-});
+    categoryNavigation.value = await loadNavigationElements({ depth: 1 })
+    loading.value = false
+    if (categoryNavigation.value.length > 0) {
+        await setupStickyNavigation()
+    }
+})
+
+onUnmounted(() => {
+    if (scrollListenerAttached.value) {
+        window.removeEventListener("scroll", handleNavigationScrollBehaviour)
+    }
+})
+
+async function setupStickyNavigation() {
+    await nextTick()
+
+    const el = menuElement.value
+    const block = el?.closest(".cms-block") as HTMLElement | null
+    const header = getHeaderElement()
+
+    if (!el || !block || !header) return
+
+    const fitsViewport = (block.offsetHeight + header.clientHeight) <= window.innerHeight
+    block.classList.add("sticky", "top-0")
+
+    if (!fitsViewport) {
+        window.addEventListener("scroll", handleNavigationScrollBehaviour, { passive: true })
+        scrollListenerAttached.value = true
+    }
+}
+
+function handleNavigationScrollBehaviour() {
+    const el = menuElement.value
+    const footer = getFooterElement()
+    const currentScrollTop = window.scrollY
+
+    if (!el) return
+
+    const atTop = isAtTop(el)
+    let deltaScroll = lastScrollTop.value - currentScrollTop
+
+    const shouldScroll = footer
+        ? footer.getBoundingClientRect().top > window.innerHeight
+        : true
+
+    if (atTop && shouldScroll) {
+        if (deltaScroll > 0 && isWindowHigh.value) {
+            deltaScroll -= 0.7 // dampen upward scroll
+        }
+        el.scrollTop -= deltaScroll
+    }
+
+    lastScrollTop.value = currentScrollTop
+}
+
+// Utilities
+function isAtTop(el: HTMLElement): boolean {
+    return el.getBoundingClientRect().top <= el.offsetTop
+}
+
+function getHeaderElement(): HTMLElement | null {
+    return document.querySelector("header")
+}
+
+function getFooterElement(): HTMLElement | null {
+    return document.querySelector("footer")
+}
 </script>
 
 <template>
-    <div>
-        <div
-            v-if="categoryNavigation && categoryNavigation.length > 0"
-            class="cms-element-category-navigation max-w-(--breakpoint-xl) mx-auto"
-        >
-            <div class="text-3xl tracking-tight text-secondary-900 m-0 px-5">
-                {{ getTranslatedProperty(activeCategory, "name") }}
-            </div>
-            <CategoryNavigation
-                :level="0"
-                :elements="categoryNavigation"
-                :active-category="activeCategory"
-            />
-        </div>
+    <div ref="menuElement" role="navigation" :aria-label="$t('listing.sidenav.label')" class="hidden md:block">
+        <ComponentCategoryNavigation
+            v-if="navigationElements"
+            :elements="categoryNavigation"
+            :active-category="activeCategory"
+        />
         <div v-if="loading">
-            Loading...
+            <div class="px-5">
+                <span class="sr-only">
+                    {{ $t('listing.sidenav.loading') }}
+                </span>
+                <div class="hidden lg:grid lg:gap-4">
+                    <ComponentSkeleton preset="heading" />
+                    <ComponentSkeleton preset="text" width="50%" />
+                    <ComponentSkeleton preset="text" width="50%" />
+                    <ComponentSkeleton preset="text" width="50%" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
