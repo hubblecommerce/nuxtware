@@ -2,28 +2,25 @@
 import type { Schemas } from "#shopware"
 import { useWindowSize } from "@vueuse/core"
 import { onMounted, onUnmounted, ref, computed, nextTick } from "vue"
-import { useCategory, useNavigation } from "#imports"
+import { useCategory } from "#imports"
+
+const props = defineProps<{
+    navContent: Schemas["Category"][]
+}>()
 
 const { category: activeCategory } = useCategory()
 const loading = ref(true)
-const categoryNavigation = ref<Schemas["Category"][]>([])
 const menuElement = ref<HTMLElement | null>(null)
 const lastScrollTop = ref(0)
 const scrollListenerAttached = ref(false)
-
-const currentCategoryId = activeCategory.value?.id ?? "main-navigation"
-const parentCategoryId = activeCategory.value?.parentId ?? currentCategoryId
-const { loadNavigationElements, navigationElements } = useNavigation({ type: parentCategoryId })
 const minHeightForScollDampening = ref(0)
 const { height: windowHeight } = useWindowSize()
 const shouldDampenScroll = computed(() => windowHeight.value > minHeightForScollDampening.value)
 
 onMounted(async () => {
-    // depth 0 means, we load only first level of categories, depth 1 means we load first and second level of categories ...
-    categoryNavigation.value = await loadNavigationElements({ depth: 1 })
     minHeightForScollDampening.value = window.innerHeight * 0.75 // 75% of viewport
     loading.value = false
-    if (categoryNavigation.value.length > 0) {
+    if (props.navContent.length > 0) {
         await setupStickyNavigation()
     }
 })
@@ -76,7 +73,6 @@ function handleNavigationScrollBehaviour() {
     lastScrollTop.value = currentScrollTop
 }
 
-// Utilities
 function isAtTop(el: HTMLElement): boolean {
     return el.getBoundingClientRect().top <= el.offsetTop
 }
@@ -97,8 +93,8 @@ function getFooterElement(): HTMLElement | null {
         class="hidden md:block"
     >
         <CategoryNavigationMenu
-            v-if="navigationElements"
-            :elements="categoryNavigation"
+            v-if="props.navContent"
+            :elements="props.navContent"
             :active-category="activeCategory"
         />
         <div v-if="loading">

@@ -12,8 +12,21 @@ const props = withDefaults(
     },
 )
 
+function findChildById(navElement: Schemas["Category"], activeCategoryId: string): Schemas["Category"] | null {
+    if (navElement.id === activeCategoryId) return navElement;
+
+    if (Array.isArray(navElement.children)) {
+        for (const child of navElement.children) {
+            const found = findChildById(child, activeCategoryId);
+            if (found) return found;
+        }
+    }
+
+    return null;
+}
+
 function isCurrentCategorySelected (navElement : Schemas["Category"]) {
-    return navElement.parentId === props.activeCategory?.id || navElement.id === props.activeCategory?.id
+    return findChildById(navElement, props.activeCategory?.id)
 }
 
 function getHighlightCategory(navigationElement: Schemas["Category"]) {
