@@ -29,13 +29,13 @@ function getHighlightCategory(navigationElement: Schemas["Category"]) {
             v-for="(navigationElement, index) in props.elements"
             :key="index"
         >
-            <ComponentCategoryNavigationLink
+            <CategoryNavigationMenuLink
                 :navigation-element="navigationElement"
                 :is-highlighted="getHighlightCategory(navigationElement)"
                 :is-active="navigationElement.id === props.activeCategory?.id"
                 :is-expanded="navigationElement.id === props.activeCategory?.id"
             />
-            <ComponentCategoryNavigation
+            <CategoryNavigationMenu
                 v-if="navigationElement.children && isCurrentCategorySelected(navigationElement)"
                 :elements="navigationElement.children"
                 :active-category="props.activeCategory"
