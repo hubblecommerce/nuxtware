@@ -241,9 +241,8 @@ const map: {
         </div>
 
         <!-- Reset filters button -->
-        <div class="px-2 mb-3 lg:px-0">
+        <div v-if="showResetFiltersButton" class="px-2 mb-3 lg:px-0">
           <FoundationButton 
-              v-if="showResetFiltersButton"
               variant="outline"
               size="small"
               class="w-full lg:w-auto"
@@ -252,7 +251,6 @@ const map: {
             {{ $t('listing.filter.reset') }}
           </FoundationButton>
         </div>
-        
         
         <ComponentCollapsible
             v-if="getInitialFilters.length"
