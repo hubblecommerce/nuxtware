@@ -33,6 +33,7 @@ function getHighlightCategory(navigationElement: Schemas["Category"]) {
                 :navigation-element="navigationElement"
                 :is-highlighted="getHighlightCategory(navigationElement)"
                 :is-active="navigationElement.id === props.activeCategory?.id"
+                :is-expanded="navigationElement.id === props.activeCategory?.id"
             />
             <ComponentCategoryNavigation
                 v-if="navigationElement.children && isCurrentCategorySelected(navigationElement)"

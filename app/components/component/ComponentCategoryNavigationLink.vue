@@ -4,25 +4,24 @@ import {
     getCategoryRoute,
     getTranslatedProperty,
     urlIsAbsolute,
-} from "@shopware/helpers";
-import { computed } from "vue";
-import { useUrlResolver } from "#imports";
-import type { Schemas } from "#shopware";
+} from "@shopware/helpers"
+import { computed } from "vue"
+import { useUrlResolver } from "#imports"
+import type { Schemas } from "#shopware"
 
-interface Props {
-    navigationElement: Schemas["Category"];
-    isActive?: boolean;
-    isHighlighted?: boolean;
-}
-
-const props = defineProps<Props>();
-const { getUrlPrefix } = useUrlResolver();
+const props = defineProps<{
+    navigationElement: Schemas["Category"]
+    isActive?: boolean
+    isHighlighted?: boolean
+    isExpanded?: boolean
+}>()
+const { getUrlPrefix } = useUrlResolver()
 const url = computed(() => {
     return buildUrlPrefix(
         getCategoryRoute(props.navigationElement),
         getUrlPrefix(),
-    );
-});
+    )
+})
 </script>
 <template>
     <div
@@ -30,29 +29,30 @@ const url = computed(() => {
     >
         <FoundationLink
             v-if="!urlIsAbsolute(url.path)"
-            :to="url"
+            :to="url.path"
             :class="[
                 props.isHighlighted ? 'font-bold' : 'font-normal',
-                {'text-indigo-600' : props.isActive }
+                {'text-secondary' : props.isActive }
             ]"
+            :aria-expanded="props.isExpanded"
         >
-            <span>{{ getTranslatedProperty(navigationElement, "name") }}</span>
+            <span>{{ getTranslatedProperty(props.navigationElement, "name") }}</span>
         </FoundationLink>
 
         <FoundationLink
             v-else
-            :href="url.path"
+            :to="url.path"
             :class="[
                 props.isHighlighted ? 'font-bold' : 'font-normal',
-                props.isActive ? 'text-indigo-600' : 'text-gray-900',
-              ]"
+                {'text-secondary' : props.isActive }
+            ]"
             :target="
-                navigationElement.externalLink || navigationElement.linkNewTab
+                props.navigationElement.externalLink || props.navigationElement.linkNewTab
                     ? '_blank'
-                : ''
+                : undefined
             "
         >
-            <span>{{ getTranslatedProperty(navigationElement, "name") }}</span>
+            <span>{{ getTranslatedProperty(props.navigationElement, "name") }}</span>
         </FoundationLink>
     </div>
 </template>

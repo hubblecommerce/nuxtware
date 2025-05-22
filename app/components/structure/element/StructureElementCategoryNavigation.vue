@@ -14,13 +14,14 @@ const scrollListenerAttached = ref(false)
 const currentCategoryId = activeCategory.value?.id ?? "main-navigation"
 const parentCategoryId = activeCategory.value?.parentId ?? currentCategoryId
 const { loadNavigationElements, navigationElements } = useNavigation({ type: parentCategoryId })
-
+const minHeightForScollDampening = ref(0)
 const { height: windowHeight } = useWindowSize()
-const isWindowHigh = computed(() => windowHeight.value > 900)
+const shouldDampenScroll = computed(() => windowHeight.value > minHeightForScollDampening.value)
 
 onMounted(async () => {
     // depth 0 means, we load only first level of categories, depth 1 means we load first and second level of categories ...
     categoryNavigation.value = await loadNavigationElements({ depth: 1 })
+    minHeightForScollDampening.value = window.innerHeight * 0.75 // 75% of viewport
     loading.value = false
     if (categoryNavigation.value.length > 0) {
         await setupStickyNavigation()
@@ -66,7 +67,7 @@ function handleNavigationScrollBehaviour() {
         : true
 
     if (atTop && shouldScroll) {
-        if (deltaScroll > 0 && isWindowHigh.value) {
+        if (deltaScroll > 0 && shouldDampenScroll.value) {
             deltaScroll -= 0.7 // dampen upward scroll
         }
         el.scrollTop -= deltaScroll
