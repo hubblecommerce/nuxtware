@@ -101,7 +101,7 @@ Nuxtware:
     - [x] Limiter
     - [x] Sorter
     - [ ] Filter
-    - [ ] Category Sidebar Navigation
+    - [x] Category Sidebar Navigation
     - [ ] Card
 - [ ] Images (Products)
 - [ ] Detail:
