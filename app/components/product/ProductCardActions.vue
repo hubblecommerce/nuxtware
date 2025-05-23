@@ -96,7 +96,7 @@ const handleShowDetails = () => {
 </script>
 
 <template>
-    <div class="product-card-actions w-full flex gap-2">
+    <div class="product-card-actions w-full flex flex-col gap-2">
         <!-- Add to Cart Button -->
         <FoundationButton
             v-if="showAddToCart"
@@ -107,8 +107,8 @@ const handleShowDetails = () => {
             :loading="isAddingToCart"
             :aria-label="addToCartAriaLabel"
             data-testid="product-add-to-cart-button"
-            class="w-full flex-1 flex items-center justify-center gap-2"
-            @click="handleAddToCart"
+            class="w-full flex items-center justify-center gap-2"
+            @click.stop="handleAddToCart"
         >
             <span>{{ $t("cart.addToCart") }}</span>
             <template v-if="isInCart">
@@ -132,8 +132,8 @@ const handleShowDetails = () => {
             :disabled="props.loading"
             :aria-label="detailsAriaLabel"
             data-testid="product-details-link"
-            class="w-full flex-1 flex items-center justify-center gap-2"
-            @click="handleShowDetails"
+            class="w-full flex items-center justify-center gap-2"
+            @click.stop="handleShowDetails"
         >
             <span>{{ $t("product.viewDetails") }}</span>
         </FoundationButton>
@@ -146,7 +146,7 @@ const handleShowDetails = () => {
             size="small"
             disabled
             role="status"
-            class="w-full flex-1 flex items-center justify-center gap-2"
+            class="w-full flex items-center justify-center gap-2"
             :aria-label="$t('product.unavailable', { product: getTranslatedProperty(product, 'name') })"
         >
             <span>{{ $t("product.unavailable") }}</span>

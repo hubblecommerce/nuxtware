@@ -209,7 +209,7 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                         <ProductCardActions 
                             :product="product" 
                             :has-variants="!!fromPrice"
-                            class="hidden lg:block w-full relative z-10"
+                            class="hidden lg:flex w-full relative z-10"
                             @show-details="navigateTo(formatLink(getProductRoute(product)))"
                         />
                     </div>
