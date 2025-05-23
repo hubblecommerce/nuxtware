@@ -32,7 +32,7 @@ const srcPath = computed(() => {
 })
 
 const containerClasses = computed(() => ({
-    'w-full rounded-md overflow-hidden hover:opacity-75': true,
+    'w-full rounded-md overflow-hidden': true,
     'h-80': props.layoutType === 'image',
     'h-60': props.layoutType === 'standard'
 }))
@@ -40,17 +40,12 @@ const containerClasses = computed(() => ({
 
 <template>
     <div :class="containerClasses">
-        <RouterLink
-            :to="formatLink(getProductRoute(product))"
-            class="overflow-hidden"
+        <img
+            ref="imageElement"
+            :src="srcPath"
+            :alt="getProductName({ product }) || ''"
+            class="w-full h-full object-contain"
+            data-testid="product-card-image"
         >
-            <img
-                ref="imageElement"
-                :src="srcPath"
-                :alt="getProductName({ product }) || ''"
-                class="w-full h-full object-contain"
-                data-testid="product-card-image"
-            >
-        </RouterLink>
     </div>
 </template>
