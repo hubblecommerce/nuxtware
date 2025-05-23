@@ -2,7 +2,7 @@
 import { navigateTo } from "#imports"
 import type { Schemas } from "#shopware"
 import type { BoxLayout } from "@shopware/composables"
-import { getProductName, getProductRoute } from "@shopware/helpers"
+import { getProductName, getProductRoute, getProductFromPrice } from "@shopware/helpers"
 import { useFocusWithin, breakpointsTailwind, useBreakpoints, useResizeObserver } from '@vueuse/core'
 
 interface ProductCardProps {
@@ -26,13 +26,17 @@ const { formatLink } = useInternationalization(localePath)
 const { product } = toRefs(props)
 const { unitPrice, displayFromVariants, displayFrom } = useProductPrice(product)
 
+// Check if product has variants that require configuration
+const fromPrice = getProductFromPrice(props.product)
+
+// Additional information on hover
 const productCard = ref<HTMLElement>()
-const initialProductCardHeight = ref(0)
+const initialProductCardHeight = ref<number>(0)
 const productCardContent = ref<HTMLElement>()
-const initCardContentHeight = ref(0)
+const initCardContentHeight = ref<number>(0)
 const productCardInteractive = ref<HTMLElement>()
-const productCardInteractiveHeight = ref(0)
-const cardActive = ref(false)
+const productCardInteractiveHeight = ref<number>(0)
+const cardActive = ref<boolean>(false)
 const { focused } = useFocusWithin(productCard)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
@@ -46,21 +50,41 @@ watch(focused, (focused) => {
 })
 
 onMounted(() => {
-    initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
-    initCardContentHeight.value = productCardContent.value?.offsetHeight ?? 0
-    productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+    try {
+        initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
+        initCardContentHeight.value = productCardContent.value?.offsetHeight ?? 0
+        productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+    } catch (error) {
+        console.warn('Error calculating card dimensions:', error)
+        // Set fallback values
+        initialProductCardHeight.value = 300
+        initCardContentHeight.value = 80
+        productCardInteractiveHeight.value = 60
+    }
 })
 
 useResizeObserver(productCard, () => {
     if (lgAndLarger.value) {
-       productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+       try {
+           productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+       } catch (error) {
+           console.warn('Error recalculating card dimensions:', error)
+       }
     }
 })
 
-function getChildHeightSum (children: HTMLElement["children"]) {
-    return Array.from(children).reduce((sum, child) => {
-        return sum + child.getBoundingClientRect()?.height
-    }, 0)
+function getChildHeightSum(children: HTMLCollection | undefined): number {
+    if (!children) return 0
+    
+    try {
+        return Array.from(children).reduce((sum, child) => {
+            const height = child.getBoundingClientRect()?.height || 0
+            return sum + height
+        }, 0)
+    } catch (error) {
+        console.warn('Error calculating child heights:', error)
+        return 0
+    }
 }
 </script>
 
@@ -71,7 +95,7 @@ function getChildHeightSum (children: HTMLElement["children"]) {
         <article 
             ref="productCard"
             class="
-                product-card absolute top-0 left-0 border border-border cursor-pointer 
+                product-card w-full absolute top-0 left-0 border border-border cursor-pointer 
                 transition-all 
                 focus-style
                 lg:focus-within-style
@@ -93,16 +117,29 @@ function getChildHeightSum (children: HTMLElement["children"]) {
                 {{ $t('product.view_details', { name: getProductName({ product }) }) }}
             </RouterLink>
 
-            <!-- Product image -->
             <ProductCardImage 
                 :product="product"
                 :layout-type="layoutType"
                 class="relative"
             />
 
+            <ProductBadges 
+                v-if="showBadges"
+                :product="product" 
+                variant="floating"
+                class="absolute top-5 -left-1"
+            />
+
+            <ProductWishlist 
+                v-if="showWishlist"
+                :product-id="product.id"
+                variant="icon"
+                class="absolute top-2 right-2"
+            />
+
             <div 
                 ref="productCardContent"
-                class="w-full relative cursor-auto transition-all duration-500 bg-white/60 backdrop-blur-sm z-10 py-2"
+                class="w-full relative cursor-auto transition-all duration-500 bg-white/60 backdrop-blur-sm z-10 p-2"
                 @click.stop="() => null"
             >
                 <!-- Product name -->
@@ -138,7 +175,7 @@ function getChildHeightSum (children: HTMLElement["children"]) {
                 </div>
                 <div 
                     ref="productCardInteractive"
-                    class="transition-height ease-in duration-300 overflow-visible lg:overflow-hidden mt-2"
+                    class="transition-all duration-300 ease-in-out overflow-visible lg:overflow-hidden mt-2"
                     :style="`height: ${cardActive ? productCardInteractiveHeight : 0 }px;`"
                 >
                     <div class="px-4 py-2 flex flex-col gap-2">
@@ -148,12 +185,11 @@ function getChildHeightSum (children: HTMLElement["children"]) {
                             class="hidden lg:flex justify-center items-center gap-2"
                         />
 
-                        <FoundationButton 
-                            color="primary" 
+                        <ProductCardActions 
+                            :product="product" 
+                            :from-price="fromPrice"
                             class="hidden lg:block w-full relative z-10"
-                        >
-                            Add to Cart
-                        </FoundationButton>
+                        />
                     </div>
                 </div>
             </div>
