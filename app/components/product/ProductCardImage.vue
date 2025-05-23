@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
 import type { BoxLayout } from "@shopware/composables"
-import { getProductName, getProductRoute, getSmallestThumbnailUrl } from "@shopware/helpers"
+import { getProductName, getSmallestThumbnailUrl } from "@shopware/helpers"
 import { useElementSize } from "@vueuse/core"
 
 interface ProductCardImageProps {
@@ -12,9 +12,6 @@ interface ProductCardImageProps {
 const props = withDefaults(defineProps<ProductCardImageProps>(), {
     layoutType: 'standard',
 })
-
-const localePath = useLocalePath()
-const { formatLink } = useInternationalization(localePath)
 
 const imageElement = useTemplateRef("imageElement")
 const { height } = useElementSize(imageElement)
@@ -31,21 +28,19 @@ const srcPath = computed(() => {
     )}?&height=${roundUp(height.value)}&fit=cover`
 })
 
-const containerClasses = computed(() => ({
+const imageClasses = computed(() => ({
     'w-full rounded-md overflow-hidden': true,
-    'h-80': props.layoutType === 'image',
-    'h-60': props.layoutType === 'standard'
+    'h-80 object-cover': props.layoutType === 'image',
+    'h-60 object-contain': props.layoutType === 'standard'
 }))
 </script>
 
 <template>
-    <div :class="containerClasses">
-        <img
-            ref="imageElement"
-            :src="srcPath"
-            :alt="getProductName({ product }) || ''"
-            class="w-full h-full object-contain"
-            data-testid="product-card-image"
-        >
-    </div>
+    <img
+        ref="imageElement"
+        :src="srcPath"
+        :alt="getProductName({ product }) || ''"
+        :class="imageClasses"
+        data-testid="product-card-image"
+    >
 </template>
