@@ -2,8 +2,8 @@
 import { navigateTo } from "#imports"
 import type { Schemas } from "#shopware"
 import type { BoxLayout } from "@shopware/composables"
-import { getProductFromPrice, getProductName, getProductRoute } from "@shopware/helpers"
-import { useFocusWithin } from '@vueuse/core'
+import { getProductName, getProductRoute } from "@shopware/helpers"
+import { useFocusWithin, breakpointsTailwind, useBreakpoints, useResizeObserver } from '@vueuse/core'
 
 interface ProductCardProps {
     product: Schemas["Product"]
@@ -24,50 +24,21 @@ const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)
 
 const { product } = toRefs(props)
-
-// Get price display data from Shopware
 const { unitPrice, displayFromVariants, displayFrom } = useProductPrice(product)
-
-// Check if product has variants that require configuration
-const fromPrice = getProductFromPrice(props.product)
 
 const productCard = ref<HTMLElement>()
 const initialProductCardHeight = ref(0)
 const productCardContent = ref<HTMLElement>()
 const initCardContentHeight = ref(0)
 const productCardInteractive = ref<HTMLElement>()
-const productCardInteractiveIsTransitioning = ref(false)
 const productCardInteractiveHeight = ref(0)
 const cardActive = ref(false)
 const { focused } = useFocusWithin(productCard)
-
-// Computed property for overflow management
-const productCardInteractiveOverflow = computed(() => {
-  if (productCardInteractiveIsTransitioning.value) {
-    return 'hidden'
-  }
-
-  if (cardActive.value && !productCardInteractiveIsTransitioning.value) {
-    return 'visible'
-  }
-
-  return 'hidden'
-})
-
-const onCardInteractiveTransitionStart = (event) => {
-    if (event.propertyName === 'height') {
-        productCardInteractiveIsTransitioning.value = true
-    }
-}
-
-const onCardInteractiveTransitionEnd = (event) => {
-    if (event.propertyName === 'height') {
-        productCardInteractiveIsTransitioning.value = false
-    }
-}
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const lgAndLarger = breakpoints.greaterOrEqual('lg')
 
 watch(focused, (focused) => {
-    if (focused) {
+    if (focused && lgAndLarger.value) {
         cardActive.value = true
     } else {
         cardActive.value = false
@@ -77,27 +48,39 @@ watch(focused, (focused) => {
 onMounted(() => {
     initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
     initCardContentHeight.value = productCardContent.value?.offsetHeight ?? 0
-    productCardInteractiveHeight.value = Array.from(productCardInteractive.value?.children).reduce((sum, child) => {
+    productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+})
+
+useResizeObserver(productCard, () => {
+    if (lgAndLarger.value) {
+       productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+    }
+})
+
+function getChildHeightSum (children: HTMLElement["children"]) {
+    return Array.from(children).reduce((sum, child) => {
         return sum + child.getBoundingClientRect()?.height
     }, 0)
-})
+}
 </script>
 
 <template>
     <div class="product-card-stage relative">
-        <div 
-            class="product-card-placeholder" 
-            :style="`height: ${initialProductCardHeight}px;`"
-        />
+        <div class="product-card-placeholder" :style="`height: ${initialProductCardHeight}px;`" />
 
         <article 
             ref="productCard"
-            class="product-card absolute top-0 left-0 border border-transparent transition-all cursor-pointer focus-style hover:ring-2 hover:ring-offset-2" 
-            :style="cardActive ? `padding-bottom: ${initCardContentHeight};` : ''"
+            class="
+                product-card absolute top-0 left-0 border border-border cursor-pointer 
+                transition-all 
+                focus-style
+                lg:focus-within-style
+                lg:hover:ring-3 lg:hover:ring-offset-2
+            " 
             data-testid="product-card"
             tabindex="0"
-            @mouseover="cardActive = true"
-            @mouseleave="cardActive = false"
+            @mouseover="lgAndLarger ? cardActive = true : null"
+            @mouseleave="lgAndLarger? cardActive = false : null"
             @click="navigateTo(formatLink(getProductRoute(product)))"
             @keydown.enter="navigateTo(formatLink(getProductRoute(product)))"
         >
@@ -119,8 +102,7 @@ onMounted(() => {
 
             <div 
                 ref="productCardContent"
-                class="w-full relative cursor-auto transition-all duration-500 bg-white/60 backdrop-blur-sm z-10 py-4"
-                :class="{'-mt-20': cardActive}"
+                class="w-full relative cursor-auto transition-all duration-500 bg-white/60 backdrop-blur-sm z-10 py-2"
                 @click.stop="() => null"
             >
                 <!-- Product name -->
@@ -156,24 +138,19 @@ onMounted(() => {
                 </div>
                 <div 
                     ref="productCardInteractive"
-                    class="transition-all duration-500"
-                    :style="`
-                        overflow: ${productCardInteractiveOverflow};
-                        height: ${cardActive ? productCardInteractiveHeight : 0 }px;
-                    `"
-                    @transitionstart="onCardInteractiveTransitionStart"
-                    @transitionend="onCardInteractiveTransitionEnd"
+                    class="transition-height ease-in duration-300 overflow-visible lg:overflow-hidden mt-2"
+                    :style="`height: ${cardActive ? productCardInteractiveHeight : 0 }px;`"
                 >
-                    <div class="px-4">
+                    <div class="px-4 py-2 flex flex-col gap-2">
                         <ProductCardOptions 
                             v-if="showOptions && product.options && product.options.length"
                             :product="product"
-                            class="flex justify-center items-center gap-2"
+                            class="hidden lg:flex justify-center items-center gap-2"
                         />
 
                         <FoundationButton 
                             color="primary" 
-                            class="w-full relative z-10"
+                            class="hidden lg:block w-full relative z-10"
                         >
                             Add to Cart
                         </FoundationButton>

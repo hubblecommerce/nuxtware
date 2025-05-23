@@ -7,3 +7,13 @@
         }
     }
 }
+
+@utility focus-within-style {
+    @apply focus-within:ring-3 focus-within:ring-offset-3 focus-within:ring-focus rounded outline-none;
+
+    @media (forced-colors: active) {
+        &:focus-visible {
+            outline: ActiveText solid 10px !important;
+        }
+    }
+}
