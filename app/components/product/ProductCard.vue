@@ -11,13 +11,17 @@ interface ProductCardProps {
     showOptions?: boolean
     showWishlist?: boolean
     showBadges?: boolean
+    showDescription?: boolean
+    descriptionLines?: number
 }
 
 const props = withDefaults(defineProps<ProductCardProps>(), {
     layoutType: 'standard',
     showOptions: true,
     showWishlist: true,
-    showBadges: true
+    showBadges: true,
+    showDescription: true,
+    descriptionLines: 2
 })
 
 const localePath = useLocalePath()
@@ -33,7 +37,6 @@ const fromPrice = getProductFromPrice(props.product)
 const productCard = ref<HTMLElement>()
 const initialProductCardHeight = ref<number>(0)
 const productCardContent = ref<HTMLElement>()
-const initCardContentHeight = ref<number>(0)
 const productCardInteractive = ref<HTMLElement>()
 const productCardInteractiveHeight = ref<number>(0)
 const cardActive = ref<boolean>(false)
@@ -52,24 +55,21 @@ watch(focused, (focused) => {
 onMounted(() => {
     try {
         initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
-        initCardContentHeight.value = productCardContent.value?.offsetHeight ?? 0
         productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
     } catch (error) {
         console.warn('Error calculating card dimensions:', error)
         // Set fallback values
         initialProductCardHeight.value = 300
-        initCardContentHeight.value = 80
         productCardInteractiveHeight.value = 60
     }
 })
 
 useResizeObserver(productCard, () => {
-    if (lgAndLarger.value) {
-       try {
-           productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
-       } catch (error) {
-           console.warn('Error recalculating card dimensions:', error)
-       }
+    try {
+        initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
+        productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
+    } catch (error) {
+        console.warn('Error recalculating card dimensions:', error)
     }
 })
 
@@ -117,11 +117,21 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                 {{ $t('product.view_details', { name: getProductName({ product }) }) }}
             </RouterLink>
 
-            <ProductCardImage 
-                :product="product"
-                :layout-type="layoutType"
-                class="relative"
-            />
+            <div class="relative">
+                <ProductCardImage 
+                    :product="product"
+                    :layout-type="layoutType"
+                    class="relative"
+                />
+
+                <ComponentReviewStars 
+                    v-if="product.ratingAverage"
+                    v-model="product.ratingAverage" 
+                    :interactive="false" 
+                    size="sm"
+                    class="absolute w-[100px] bottom-0 left-0 right-0 mx-auto"
+                />
+            </div>
 
             <ProductBadges 
                 v-if="showBadges"
@@ -139,7 +149,7 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
 
             <div 
                 ref="productCardContent"
-                class="w-full relative cursor-auto transition-all duration-500 bg-white/60 backdrop-blur-sm z-10 p-2"
+                class="w-full relative cursor-auto transition-all duration-500 p-2"
                 @click.stop="() => null"
             >
                 <!-- Product name -->
@@ -173,6 +183,7 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                         </div>
                     </div>
                 </div>
+
                 <div 
                     ref="productCardInteractive"
                     class="transition-all duration-300 ease-in-out overflow-visible lg:overflow-hidden mt-2"
@@ -183,6 +194,15 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                             v-if="showOptions && product.options && product.options.length"
                             :product="product"
                             class="hidden lg:flex justify-center items-center gap-2"
+                        />
+
+                        <!-- Product description - only shows for standard layout -->
+                        <ProductDescription
+                            v-if="showDescription && layoutType === 'standard'"
+                            :product="product"
+                            :lines="descriptionLines"
+                            variant="compact"
+                            class="hidden lg:block"
                         />
 
                         <ProductCardActions 
