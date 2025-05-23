@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import type { CmsElementCategoryNavigation } from "@shopware/composables";
-import {useCategory, useNavigation} from "#imports";
-import type { Schemas } from "#shopware"
 
 const props = defineProps<{
     content: CmsElementCategoryNavigation
 }>()
-const { category: activeCategory } = useCategory()
-const currentCategoryId = activeCategory.value?.id ?? "main-navigation"
-const parentCategoryId = activeCategory.value?.parentId ?? currentCategoryId
-// use type: 'main-navigation' to show full category tree or type: parentCategoryId to only show parent as level 0 in category nav
-const { loadNavigationElements } = useNavigation({ type: 'main-navigation' })
-const categoryNavigation = ref<Schemas["Category"][]>([])
 
-onMounted(async () => {
-    // depth 0 means, we load only first level of categories, depth 1 means we load first and second level of categories ...
-    categoryNavigation.value = await loadNavigationElements({ depth: 3 })
+const topBoundElement = ref<HTMLElement | null>(null)
+const bottomBoundElement = ref<HTMLElement | null>(null)
+
+function getDomElement(selector: string): HTMLElement | null {
+    return document.querySelector(selector)
+}
+
+onMounted(() => {
+    topBoundElement.value = getDomElement('header')
+    bottomBoundElement.value = getDomElement('footer')
 })
 </script>
 
 <template>
-    <CategoryNavigation :nav-content="categoryNavigation" />
+    <ComponentStickyWrapper
+        v-if="topBoundElement || bottomBoundElement"
+        :limit-top-element="topBoundElement"
+        :limit-bottom-element="bottomBoundElement"
+        closest-el-to-stick-to=".cms-block"
+        aria-label="Sticky Category Navigation Wrapper"
+    >
+        <CategoryNavigation :show-full-category-tree="true" />
+    </ComponentStickyWrapper>
 </template>
