@@ -1,0 +1,41 @@
+<script setup lang="ts">
+import type { Schemas } from "#shopware"
+
+interface ProductDescriptionProps {
+    product: Schemas["Product"]
+    lines?: number
+    variant?: 'default' | 'compact'
+}
+
+const props = withDefaults(defineProps<ProductDescriptionProps>(), {
+    lines: 2,
+    variant: 'default'
+})
+
+// Get the product description from translated content
+const description = computed(() => {
+    return props.product?.translated?.description || props.product?.description || ''
+})
+
+// Dynamic line-clamp classes
+const descriptionClasses = computed(() => ({
+    'text-xs text-gray-600 text-center leading-relaxed': props.variant === 'default',
+    'text-xs text-gray-500 text-center leading-tight': props.variant === 'compact',
+    [`line-clamp-${props.lines}`]: true,
+    'min-h-[32px]': props.lines === 2,
+    'min-h-[24px]': props.lines === 1,
+    'min-h-[48px]': props.lines === 3
+}))
+</script>
+
+<template>
+    <div 
+        v-if="description"
+        class="product-description"
+        data-testid="product-description"
+    >
+        <p :class="descriptionClasses">
+            {{ description }}
+        </p>
+    </div>
+</template>
