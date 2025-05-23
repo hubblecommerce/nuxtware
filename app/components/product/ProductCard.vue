@@ -31,7 +31,7 @@ const { product } = toRefs(props)
 const { unitPrice, displayFromVariants, displayFrom } = useProductPrice(product)
 
 // Check if product has variants that require configuration
-const fromPrice = getProductFromPrice(props.product)
+const fromPrice = computed(() => getProductFromPrice(props.product))
 
 // Additional information on hover
 const productCard = ref<HTMLElement>()
@@ -205,10 +205,12 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                             class="hidden lg:block"
                         />
 
+                        <!-- TODO: displaying view details button based on fromPrice doesn't work, find another way -->
                         <ProductCardActions 
                             :product="product" 
-                            :from-price="fromPrice"
+                            :has-variants="!!fromPrice"
                             class="hidden lg:block w-full relative z-10"
+                            @show-details="navigateTo(formatLink(getProductRoute(product)))"
                         />
                     </div>
                 </div>
