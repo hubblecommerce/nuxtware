@@ -8,5 +8,9 @@
   "cart.checkout": "Zur Kasse",
   "cart.emptyCartLabel": "Warenkorb ist leer.",
   "cart.quantity": "Menge",
-  "cart.remove": "Entfernen"
+  "cart.remove": "Entfernen",
+  "cart.addToCart": "In den Warenkorb",
+  "cart.addMoreToCart": "Weitere {product} zum Warenkorb hinzufügen ({count} im Warenkorb)",
+  "cart.messages.addedToCart": "{product} wurde zu Ihrem Warenkorb hinzugefügt",
+  "cart.messages.addToCartError": "Artikel konnte nicht zum Warenkorb hinzugefügt werden. Bitte versuchen Sie es erneut."
 }
