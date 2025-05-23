@@ -124,30 +124,57 @@ Displays the cart totals and checkout button.
 
 ### Error Handling
 
-Implement TypeScript-safe error handling using the ApiClientError class:
+For cart operations, use the specialized cart error handling composables:
+
+```typescript
+// Initialize cart-specific error handling
+const { getErrorsCodes } = useCartNotification()
+const { resolveCartError } = useCartErrorParamsResolver()
+
+// Handle cart operations
+const handleAddToCart = async () => {
+    try {
+        await addToCart()
+        
+        // Check for cart-specific errors
+        const errors = getErrorsCodes()
+        
+        if (errors && errors.length > 0) {
+            // Process each error with cart-specific resolver
+            for (const errorCode of errors) {
+                const { messageKey, params } = resolveCartError(errorCode)
+                error(t(`errors.${messageKey}`, params as Record<string, unknown>))
+            }
+        } else {
+            // Success case
+            success(t('cart.messages.addedToCart', { product: productName }))
+        }
+    } catch (e) {
+        // Fallback for unexpected errors
+        console.error('Unexpected error:', e)
+        error(t('cart.messages.genericError'))
+    }
+}
+```
+
+For general API error handling (non-cart operations), use the generic error resolver:
 
 ```typescript
 import { ApiClientError } from '@shopware/api-client'
 
-// Initialize error handling
+// Initialize general error handling
 const { resolveApiErrors } = useApiErrorsResolver()
-const errors = ref<string[]>([])
 
-// Handle operations with try/catch pattern
-const onChangeQuantity = async (data: { id: string, quantity: number }) => {
+// Handle general API operations
+const handleApiOperation = async () => {
     try {
-        await changeProductQuantity({ id: data.id, quantity: data.quantity })
+        await someApiOperation()
     } catch (e) {
-        handleError(e as ApiClientError<unknown>)
-    }
-}
-
-// Error handler function with proper typing
-const handleError = (e: ApiClientError<unknown>) => {
-    if (e instanceof ApiClientError) {
-        const _errors = resolveApiErrors(e.details.errors)
-        for (const error of _errors) {
-            errors?.value?.push(error)
+        if (e instanceof ApiClientError && e.details?.errors) {
+            const errors = resolveApiErrors(e.details.errors)
+            errors.forEach((errorMessage) => {
+                error(errorMessage)
+            })
         }
     }
 }

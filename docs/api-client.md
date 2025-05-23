@@ -149,6 +149,32 @@ declare module "#shopware" {
 }
 ```
 
+## Auto-imported Shopware Composables
+
+The project is configured to automatically import all composables from `@shopware/composables/src` through the Nuxt auto-imports feature. This means you have direct access to all Shopware-specific composables without needing to import them explicitly.
+
+### Available Composables
+
+Some commonly used Shopware composables that are auto-imported include:
+
+- `useAddToCart` - Managing add to cart functionality
+- `useCart` - Cart state and operations
+- `useCartErrorParamsResolver` - Resolving cart-specific errors with proper parameters
+- `useCartNotification` - Cart notification handling and error code extraction
+- `usePrice` - Price formatting utilities
+- `useProduct` - Product data management
+- `useCategory` - Category data management
+- `useNavigation` - Navigation menu handling
+- `useUser` - User authentication and profile
+- `useWishlist` - Wishlist functionality
+
+### Best Practices
+
+1. **Always use Shopware composables** for e-commerce functionality instead of creating custom implementations
+2. **Leverage built-in error handling** - Use `useCartErrorParamsResolver` and `useCartNotification` for cart operations
+3. **Type safety** - These composables are fully typed and integrated with the generated API types
+4. **Consistency** - Using these composables ensures consistent behavior across the application
+
 ## Usage Guidelines
 
 ### Basic API Request
