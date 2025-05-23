@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
+import { getTranslatedProperty } from '@shopware/helpers'
 
 interface ProductDescriptionProps {
     product: Schemas["Product"]
@@ -12,15 +13,12 @@ const props = withDefaults(defineProps<ProductDescriptionProps>(), {
     variant: 'default'
 })
 
-// Get the product description from translated content
-const description = computed(() => {
-    return props.product?.translated?.description || props.product?.description || ''
-})
+const description = computed(() => getTranslatedProperty(props.product, 'description'))
 
 // Dynamic line-clamp classes
 const descriptionClasses = computed(() => ({
-    'text-xs text-gray-600 text-center leading-relaxed': props.variant === 'default',
-    'text-xs text-gray-500 text-center leading-tight': props.variant === 'compact',
+    'text-sm text-center leading-relaxed': props.variant === 'default',
+    'text-xs text-center leading-tight': props.variant === 'compact',
     [`line-clamp-${props.lines}`]: true,
     'min-h-[32px]': props.lines === 2,
     'min-h-[24px]': props.lines === 1,
