@@ -36,7 +36,7 @@ onMounted(async () => {
         :aria-label="$t('listing.sidenav.label')"
         class="hidden md:block"
     >
-        <CategoryNavigationMenu
+        <CategoryNavigationItems
             v-if="categoryNavigation"
             :elements="categoryNavigation"
             :active-category="activeCategory"
