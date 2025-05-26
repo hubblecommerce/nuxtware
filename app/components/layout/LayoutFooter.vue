@@ -17,17 +17,21 @@ const footerNavigation = await footerNavigationComposable.loadNavigationElements
 const serviceNavigation = await serviceNavigationComposable.loadNavigationElements({ depth: props.depthServiceNavigation })
 </script>
 <template>
-    <footer class="mt-2 lg:mt-8">
+    <footer>
         <div class="border-primary border-t">
-            <section class="flex flex-col sm:flex-row sm:gap-6 m-auto p-6">
-                <FooterNavigation :navigation="footerNavigation" />
-            </section>
+            <div class="container m-auto px-2">
+                <section class="flex flex-col sm:flex-row sm:gap-6 m-auto py-6">
+                    <FooterNavigation :navigation="footerNavigation" />
+                </section>
+            </div>
         </div>
-        <div class="px-6 py-5 bg-border-light flex flex-col lg:gap-0">
-            <section class="flex flex-wrap justify-start text-sm underline gap-4 pb-4">
-                <FooterServiceNavigation :navigation="serviceNavigation" />
-            </section>
-            <p>{{ $t('layout.footerLight.copyright', { 'year': new Date().getFullYear() }) }}</p>
+        <div class="bg-border-light flex flex-col lg:gap-0 py-6">
+            <div class="container m-auto px-2">
+                <section class="flex flex-wrap justify-start text-sm underline gap-4 pb-4">
+                    <FooterServiceNavigation :navigation="serviceNavigation" />
+                </section>
+                <p>{{ $t('layout.footerLight.copyright', { 'year': new Date().getFullYear() }) }}</p>
+            </div>
         </div>
     </footer>
 </template>
