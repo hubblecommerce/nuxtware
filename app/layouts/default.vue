@@ -54,6 +54,8 @@ const showCartSidenav = ref(false)
             </div>
         </div>
     </header>
+
+    <LayoutTopBar />
 <!--    <aside />-->
     <main>
         <slot />

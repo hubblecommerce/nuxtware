@@ -125,5 +125,5 @@ Nuxtware:
 - [ ] Newsletter Form
 - [ ] Popups (Modals)
 - [x] Footer
-- [ ] Topbar / Banderole 
+- [x] Topbar / Banderole 
 - [ ] Brands Page
