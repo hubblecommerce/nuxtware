@@ -66,5 +66,5 @@ const showCartSidenav = ref(false)
     <NotificationContainer />
 
     <!--    <footer />-->
-    <LayoutFooter />
+    <LayoutFooter :depth-footer-navigation="1" :depth-service-navigation="1" />
 </template>

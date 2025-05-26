@@ -4,6 +4,9 @@
     },
     "layout": {
         "language": "Sprache",
-        "currency": "Währung"
+        "currency": "Währung",
+        "footerLight": {
+            "copyright": "©{year} SHOPNAME. Alle Rechte vorbehalten"
+        }
     }
 }
