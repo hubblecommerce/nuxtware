@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import { useWindowSize } from "@vueuse/core"
 
-const props = withDefaults(
-    defineProps<{
-        topBoundElement: HTMLElement | null,
-        bottomBoundElement: HTMLElement | null,
-        parentSelector: string,
-        ariaLabel?: string
-    }>(),
-    {
-        ariaLabel: 'Sticky Wrapper'
-    },
-)
+const props = defineProps<{
+    topBoundElement: HTMLElement | null,
+    bottomBoundElement: HTMLElement | null,
+    parentSelector: string,
+}>()
 
 const stickyElement = ref<HTMLElement | null>(null)
 const lastScrollTop = ref(0)
@@ -73,7 +67,7 @@ function handleScrollBehaviour() {
 }
 </script>
 <template>
-    <section ref="stickyElement" :aria-label="props.ariaLabel">
+    <div ref="stickyElement">
         <slot />
-    </section>
+    </div>
 </template>

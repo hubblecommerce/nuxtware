@@ -21,11 +21,10 @@ onMounted(() => {
 <template>
     <ComponentStickyWrapper
         v-if="topBoundElement || bottomBoundElement"
-        :limit-top-element="topBoundElement"
-        :limit-bottom-element="bottomBoundElement"
-        closest-el-to-stick-to=".cms-block"
-        aria-label="Sticky Category Navigation Wrapper"
+        :top-bound-element="topBoundElement"
+        :bottom-bound-element="bottomBoundElement"
+        parent-selector=".cms-block"
     >
-        <CategoryNavigation :show-full-category-tree="true" />
+        <CategoryNavigation :show-full-category-tree="true" :depth="3" />
     </ComponentStickyWrapper>
 </template>

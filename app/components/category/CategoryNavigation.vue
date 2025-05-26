@@ -3,9 +3,15 @@ import type { Schemas } from "#shopware"
 import { onMounted, ref } from "vue"
 import { useCategory } from "#imports"
 
-const props = defineProps<{
-    showFullCategoryTree: boolean
-}>()
+const props = withDefaults(
+    defineProps<{
+    showFullCategoryTree: boolean,
+    depth?: number
+}>(),
+    {
+        depth: 0
+    }
+)
 
 const { category: activeCategory } = useCategory()
 const currentCategoryId = activeCategory.value?.id ?? "main-navigation"
@@ -20,7 +26,7 @@ const loading = ref(true)
 
 onMounted(async () => {
     // depth 0 means, we load only first level of categories, depth 1 means we load first and second level of categories ...
-    categoryNavigation.value = await loadNavigationElements({ depth: 3 })
+    categoryNavigation.value = await loadNavigationElements({ depth: props.depth })
     loading.value = false
 })
 </script>
