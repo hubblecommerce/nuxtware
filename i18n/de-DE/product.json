@@ -1,6 +1,17 @@
 {
-  "product.viewDetails": "Details anzeigen",
-  "product.viewDetailsFor": "Details für {product} anzeigen",
-  "product.unavailable": "Derzeit nicht verfügbar",
-  "product.price.from": "ab"
+  "product": {
+    "viewDetails": "Details anzeigen",
+    "viewDetailsFor": "Details für {product} anzeigen",
+    "unavailable": "Derzeit nicht verfügbar",
+    "price": {
+      "regulationPrice": "30-Tage-Bestpreis**: {price}",
+      "referencePrice": "pro {unit} {unitName}",
+      "boxUnitLabel": "Inhalt:",
+      "cheapestPriceLabel": "ab",
+      "listingTextFrom": "ab"
+    },
+    "badges": {
+      "topseller": "Tipp"
+    }
+  }
 }

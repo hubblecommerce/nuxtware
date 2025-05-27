@@ -172,14 +172,14 @@ function onTransitionEnd () {
             >
                 <!-- Product name -->
                 <h2 
-                    class="text-sm font-semibold text-center line-clamp-2 min-h-[40px]"
+                    class="text-sm font-semibold text-center line-clamp-2 min-h-[40px] mb-2"
                     data-testid="product-card-name"
                 >
                     {{ getProductName({ product }) }}
                 </h2>
 
                 <!-- Price section -->
-                <ProductPrice :product="product" />
+                <ProductPrice :product="product" size="small" />
 
                 <div 
                     ref="productCardInteractive"

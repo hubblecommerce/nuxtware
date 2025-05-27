@@ -5,14 +5,23 @@ interface ProductBadgesProps {
     product: Schemas["Product"]
     showTopSeller?: boolean
     showNew?: boolean
+    showSale?: boolean
     variant?: 'default' | 'floating'
 }
 
 const props = withDefaults(defineProps<ProductBadgesProps>(), {
     showTopSeller: true,
     showNew: true,
+    showSale: true,
     variant: 'default'
 })
+
+const productRef = computed(() => props.product)
+const {
+    price,
+    displayFrom,
+    isListPrice
+} = useProductPriceCustom(productRef)
 
 const badgeClasses = computed(() => ({
     'inline-flex items-center px-2.5 py-1.5 text-sm font-medium': true,
@@ -23,12 +32,17 @@ const badgeClasses = computed(() => ({
 
 const topSellerBadgeClasses = computed(() => ({
     ...badgeClasses.value,
-    'bg-[#FFBD5D] text-black': true
+    'bg-secondary text-secondary-content': true
 }))
 
 const newBadgeClasses = computed(() => ({
     ...badgeClasses.value,
-    'bg-primary-600 text-white': true
+    'bg-primary text-primary-content': true
+}))
+
+const saleBadgeClasses = computed(() => ({
+    ...badgeClasses.value,
+    'bg-error text-error-light': true
 }))
 </script>
 
@@ -48,6 +62,14 @@ const newBadgeClasses = computed(() => ({
             data-testid="product-new-badge"
         >
             {{ $t("product.badges.new") }}
+        </span>
+
+        <span 
+            v-if="showSale && isListPrice && !displayFrom && price?.listPrice"
+            :class="saleBadgeClasses"
+            data-testid="product-topseller-badge"
+        >
+            -{{ price.listPrice.percentage }}%
         </span>
     </div>
 </template>
