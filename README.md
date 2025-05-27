@@ -92,6 +92,10 @@ defineNuxtConfig({
 
 For more information about Shopware API integration and advanced configurations, please refer to the [API Client](/docs/api-client.md) documentation.
 
+## Api Constraints (differences to Storefront)
+
+- Rendering correct "from price" in listing, see composables composables/useProductPriceCustom.ts for detailed info and solutions 
+
 
 ## Roadmap
 
