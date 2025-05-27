@@ -13,6 +13,7 @@ import limiter from './limiter.json'
 import sorter from './sorter.json'
 import listing from './listing.json'
 import product from './product.json'
+import wishlist from './wishlist.json'
 
 export default {
     ...layout,
@@ -30,4 +31,5 @@ export default {
     ...sorter,
     ...listing,
     ...product,
+    ...wishlist,
 }

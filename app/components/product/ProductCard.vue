@@ -99,7 +99,7 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                 transition-all 
                 focus-style
                 lg:focus-within-style
-                lg:hover:ring-3 lg:hover:ring-offset-2
+                lg:hover:shadow-lg
             " 
             data-testid="product-card"
             tabindex="0"
@@ -111,10 +111,10 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
             <RouterLink 
                 :to="formatLink(getProductRoute(product))"
                 class="sr-only"
-                :aria-label="$t('product.view_details', { name: getProductName({ product }) })"
+                :aria-label="$t('product.viewDetailsFor', { name: getProductName({ product }) })"
                 tabindex="-1"
             >
-                {{ $t('product.view_details', { name: getProductName({ product }) }) }}
+                {{ $t('product.viewDetailsFor', { name: getProductName({ product }) }) }}
             </RouterLink>
 
             <div class="relative">
@@ -140,11 +140,11 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                 class="absolute top-5 -left-1"
             />
 
-            <ProductWishlist 
+            <ProductWishlistToggle 
                 v-if="showWishlist"
-                :product-id="product.id"
+                :product="product"
                 variant="icon"
-                class="absolute top-2 right-2"
+                class="absolute top-2 right-2 z-50"
             />
 
             <div 
@@ -196,7 +196,7 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                             class="hidden lg:flex justify-center items-center gap-2"
                         />
 
-                        <!-- Product description - only shows for standard layout -->
+                        <!-- Product description - standard layout only -->
                         <ProductDescription
                             v-if="showDescription && layoutType === 'standard'"
                             :product="product"

@@ -12,6 +12,7 @@
 @import '#hubble/assets/styles/lib/components/input.css';
 @import '#hubble/assets/styles/lib/components/toggle.css';
 @import '#hubble/assets/styles/lib/components/skeleton.css';
+@import '#hubble/assets/styles/lib/components/wishlist.css';
 
 @theme {
     /* Semantic colors */
@@ -63,4 +64,7 @@
     --color-focus: var(--color-primary-shade-light);
     --color-label: var(--color-neutral);
     --color-toggle: var(--color-toggle, var(--color-primary));
+
+    --color-wishlist-toggle: var(--color-neutral);
+    --color-wishlist-toggle-active: var(--color-secondary);
 }

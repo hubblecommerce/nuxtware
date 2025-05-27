@@ -1,0 +1,23 @@
+/* ProductWishlistToggle heartbeat animation */
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    50% {
+        transform: scale(1);
+    }
+    75% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.product-wishlist-toggle:hover .foundation-icon,
+.product-wishlist-toggle:focus .foundation-icon {
+    animation: heartbeat 1.2s ease-in-out infinite;
+}
