@@ -1,5 +1,6 @@
 {
   "product.viewDetails": "View details",
   "product.viewDetailsFor": "View details for {product}",
-  "product.unavailable": "Currently unavailable"
+  "product.unavailable": "Currently unavailable",
+  "product.price.from": "from"
 }
