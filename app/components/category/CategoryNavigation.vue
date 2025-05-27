@@ -1,27 +1,25 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
-import { onMounted, ref } from "vue"
-import { useCategory } from "#imports"
 
 const props = withDefaults(
     defineProps<{
-    showFullCategoryTree: boolean,
-    depth?: number
-}>(),
+        showFullCategoryTree: boolean,
+        depth?: number
+    }>(),
     {
         depth: 0
     }
 )
 
 const { category: activeCategory } = useCategory()
-const currentCategoryId = activeCategory.value?.id ?? "main-navigation"
+const currentCategoryId = activeCategory.value?.id ?? 'main-navigation'
 const parentCategoryId = activeCategory.value?.parentId ?? currentCategoryId
 const layoutOfCategoryTree = computed(() => {
     // use type: 'main-navigation' to show full category tree or type: parentCategoryId to only show parent as level 0 in category nav
     return props.showFullCategoryTree ? { type: 'main-navigation'} : { type: parentCategoryId }
 })
 const { loadNavigationElements } = useNavigation(layoutOfCategoryTree.value)
-const categoryNavigation = ref<Schemas["Category"][]>([])
+const categoryNavigation = ref<Schemas['Category'][]>([])
 const loading = ref(true)
 
 onMounted(async () => {

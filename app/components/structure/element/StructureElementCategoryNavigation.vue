@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CmsElementCategoryNavigation } from "@shopware/composables";
+import type { CmsElementCategoryNavigation } from "@shopware/composables"
 
 const props = defineProps<{
     content: CmsElementCategoryNavigation
@@ -27,4 +27,15 @@ onMounted(() => {
     >
         <CategoryNavigation :show-full-category-tree="true" :depth="3" />
     </ComponentStickyWrapper>
+    <div v-else class="px-5">
+        <span class="sr-only">
+            {{ $t('listing.sidenav.loading') }}
+        </span>
+        <div class="hidden lg:grid lg:gap-4">
+            <ComponentSkeleton preset="heading" />
+            <ComponentSkeleton preset="text" width="50%" />
+            <ComponentSkeleton preset="text" width="50%" />
+            <ComponentSkeleton preset="text" width="50%" />
+        </div>
+    </div>
 </template>

@@ -5,7 +5,6 @@ import {
     getTranslatedProperty,
     urlIsAbsolute,
 } from "@shopware/helpers"
-import { computed } from "vue"
 import { useUrlResolver } from "#imports"
 import type { Schemas } from "#shopware"
 
@@ -15,7 +14,9 @@ const props = defineProps<{
     isHighlighted?: boolean
     isExpanded?: boolean
 }>()
+
 const { getUrlPrefix } = useUrlResolver()
+
 const url = computed(() => {
     return buildUrlPrefix(
         getCategoryRoute(props.navigationElement),
@@ -24,9 +25,7 @@ const url = computed(() => {
 })
 </script>
 <template>
-    <div
-        class="flex items-center py-2 px-5 text-base my-2"
-    >
+    <div class="flex items-center py-2 px-5 text-base my-2">
         <FoundationLink
             v-if="!urlIsAbsolute(url.path)"
             :to="url.path"

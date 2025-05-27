@@ -13,16 +13,16 @@ const props = withDefaults(
 )
 
 function findChildById(navElement: Schemas["Category"], activeCategoryId: string): Schemas["Category"] | null {
-    if (navElement.id === activeCategoryId) return navElement;
+    if (navElement.id === activeCategoryId) return navElement
 
     if (Array.isArray(navElement.children)) {
         for (const child of navElement.children) {
-            const found = findChildById(child, activeCategoryId);
-            if (found) return found;
+            const found = findChildById(child, activeCategoryId)
+            if (found) return found
         }
     }
 
-    return null;
+    return null
 }
 
 function isCurrentCategorySelected (navElement : Schemas["Category"]) {
