@@ -37,6 +37,7 @@
 
     --color-neutral: oklch(0.269 0 0);
     --color-border: oklch(0.823 0.007 90.02);
+    --color-border-light: oklch(0.823 0.007 90.02 / 0.25);
 
     /* Notification colors */
     --color-error: oklch(0.488 0.257 29.27);

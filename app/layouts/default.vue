@@ -64,5 +64,7 @@ const showCartSidenav = ref(false)
     
     <!-- Global Notifications -->
     <NotificationContainer />
-<!--    <footer />-->
+
+    <!--    <footer />-->
+    <LayoutFooter :depth-footer-navigation="1" :depth-service-navigation="1" />
 </template>

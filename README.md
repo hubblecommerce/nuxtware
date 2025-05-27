@@ -121,6 +121,6 @@ Nuxtware:
 - [ ] Scroll To Top
 - [ ] Newsletter Form
 - [ ] Popups (Modals)
-- [ ] Footer
+- [x] Footer
 - [ ] Topbar / Banderole 
 - [ ] Brands Page
