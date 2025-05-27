@@ -96,14 +96,13 @@ For more information about Shopware API integration and advanced configurations,
 ## Roadmap
 
 Nuxtware:
-- [ ] Listing:
+- [x] Listing:
     - [x] Pagination
     - [x] Limiter
     - [x] Sorter
-    - [ ] Filter
+    - [x] Filter
     - [x] Category Sidebar Navigation
-    - [ ] Card
-- [ ] Images (Products)
+    - [x] Card
 - [ ] Detail:
     - [ ] Gallery
     - [ ] Buybox
