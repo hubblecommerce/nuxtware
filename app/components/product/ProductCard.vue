@@ -43,6 +43,8 @@ const cardActive = ref<boolean>(false)
 const { focused } = useFocusWithin(productCard)
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
+const isTransitioning = ref(false)
+const mounted = ref(false)
 
 watch(focused, (focused) => {
     if (focused && lgAndLarger.value) {
@@ -61,12 +63,13 @@ onMounted(() => {
         // Set fallback values
         initialProductCardHeight.value = 300
         productCardInteractiveHeight.value = 60
+    } finally {
+        mounted.value = true
     }
 })
 
 useResizeObserver(productCard, () => {
     try {
-        initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
         productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
     } catch (error) {
         console.warn('Error recalculating card dimensions:', error)
@@ -86,21 +89,36 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
         return 0
     }
 }
+
+function onTransitionRun () {
+    if (cardActive.value) {
+        isTransitioning.value = true
+    }
+}
+
+function onTransitionEnd () {
+     if (cardActive.value) {
+        isTransitioning.value = true
+     } else {
+        isTransitioning.value = false
+     }
+}
 </script>
 
 <template>
     <div class="product-card-stage relative">
-        <div class="product-card-placeholder" :style="`height: ${initialProductCardHeight}px;`" />
+        <div v-if="mounted" class="product-card-placeholder" :style="`height: ${initialProductCardHeight}px;`" />
 
         <article 
             ref="productCard"
             class="
-                product-card w-full absolute top-0 left-0 border border-border cursor-pointer 
+                product-card w-full top-0 left-0 border border-border cursor-pointer 
                 transition-all 
                 focus-style
                 lg:focus-within-style
                 lg:hover:shadow-lg
-            " 
+            "
+            :class="mounted ? 'absolute' : 'relative'" 
             data-testid="product-card"
             tabindex="0"
             @mouseover="lgAndLarger ? cardActive = true : null"
@@ -121,7 +139,7 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                 <ProductCardImage 
                     :product="product"
                     :layout-type="layoutType"
-                    class="relative"
+                    class="relative -z-10"
                 />
 
                 <ComponentReviewStars 
@@ -144,12 +162,13 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                 v-if="showWishlist"
                 :product="product"
                 variant="icon"
-                class="absolute top-2 right-2 z-50"
+                class="absolute top-2 right-2 z-10"
             />
 
             <div 
                 ref="productCardContent"
-                class="w-full relative cursor-auto transition-all duration-500 p-2"
+                class="w-full relative cursor-auto transition-all duration-500 p-2 bg-white"
+                :class="{ 'z-20': isTransitioning }"
                 @click.stop="() => null"
             >
                 <!-- Product name -->
@@ -188,6 +207,8 @@ function getChildHeightSum(children: HTMLCollection | undefined): number {
                     ref="productCardInteractive"
                     class="transition-all duration-300 ease-in-out overflow-visible lg:overflow-hidden mt-2"
                     :style="`height: ${cardActive ? productCardInteractiveHeight : 0 }px;`"
+                    @transitionrun="onTransitionRun"
+                    @transitionend="onTransitionEnd"
                 >
                     <div class="px-4 py-2 flex flex-col gap-2">
                         <ProductCardOptions 
