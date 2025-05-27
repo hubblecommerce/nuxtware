@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Schemas, operations } from "#shopware";
+import type { BoxLayout } from "@shopware/composables";
 
 const props = defineProps<{
     listing: Schemas['ProductListingResult'],
@@ -20,7 +21,8 @@ const props = defineProps<{
     showTopSorter?: boolean,
     showBottomSorter?: boolean,
     defaultLimit?: number,
-    defaultSorting?: string
+    defaultSorting?: string,
+    layoutType?: BoxLayout,
 }>()
 
 // Default values
@@ -40,6 +42,7 @@ const {
     setInitialListing,
 } = useCategoryListing();
 
+// !!! IMPORTANT !!! to provide data for listing relevant components like filter 
 setInitialListing(
     props?.listing as Schemas["ProductListingResult"],
 );
@@ -184,11 +187,12 @@ const baseRoute = computed(() => {
         </div>
         
         <!-- Product grid -->
-        <div v-if="!loading" class="grid grid-cols-4 gap-3">
-            <ProductListingCard
+        <div v-if="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <ProductCard 
                 v-for="element in getElements"
                 :key="element.id"
                 :product="element"
+                :layout-type="layoutType"
             />
         </div>
         <div v-else>

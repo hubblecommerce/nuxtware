@@ -1,0 +1,7 @@
+{
+    "wishlist.addToWishlist": "Zur Wunschliste hinzufügen",
+    "wishlist.removeFromWishlist": "Von Wunschliste entfernen",
+    "wishlist.messages.addedToWishlist": "{product} wurde zu Ihrer Wunschliste hinzugefügt",
+    "wishlist.messages.removedFromWishlist": "{product} wurde von Ihrer Wunschliste entfernt",
+    "wishlist.messages.wishlistError": "Wunschliste konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut."
+}

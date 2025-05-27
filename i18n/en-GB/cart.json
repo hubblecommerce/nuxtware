@@ -8,5 +8,9 @@
   "cart.checkout": "Checkout",
   "cart.emptyCartLabel": "Cart is empty.",
   "cart.quantity": "Quantity",
-  "cart.remove": "Remove"
+  "cart.remove": "Remove",
+  "cart.addToCart": "Add to Cart",
+  "cart.addMoreToCart": "Add more {product} to cart ({count} in cart)",
+  "cart.messages.addedToCart": "{product} has been added to your cart",
+  "cart.messages.addToCartError": "Failed to add item to cart. Please try again."
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getTranslatedProperty } from '@shopware/helpers'
-import type { CmsElementBuyBox } from '@shopware-pwa/composables-next'
+import type { CmsElementBuyBox } from '@shopware/composables'
 import {
     useProductPrice,
     useProduct,
@@ -55,7 +55,7 @@ const { addToCart, quantity } = useAddToCart(product);
                     :min="product.minPurchase || 1"
                     :max="product.calculatedMaxPurchase"
                     :step="product.purchaseSteps || 1"
-                    class="border rounded-md py-2 px-4 border-solid border-1 border-cyan-600 w-full mt-4"
+                    class="border rounded-md py-2 px-4 border-solid border-cyan-600 w-full mt-4"
                 >
             </div>
             <button @click="addToCart">

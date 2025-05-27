@@ -1,0 +1,7 @@
+{
+    "wishlist.addToWishlist": "Add to wishlist",
+    "wishlist.removeFromWishlist": "Remove from wishlist",
+    "wishlist.messages.addedToWishlist": "{product} has been added to your wishlist",
+    "wishlist.messages.removedFromWishlist": "{product} has been removed from your wishlist",
+    "wishlist.messages.wishlistError": "Unable to update wishlist. Please try again."
+}

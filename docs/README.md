@@ -29,14 +29,8 @@ At the beginning of a new conversation with Claude, you can instruct it to:
 Use this improved prompt template when starting new conversations:
 
 ```
-Please read the nuxtware/docs directory, especially collaboration-guidelines.md, before proceeding.
-
-For [specific task], please:
-1. Present 2-3 conceptual approaches with pros/cons
-2. Do NOT modify any files until explicitly authorized
-3. Start with your understanding of the task and project structure
-
-I'll review your options and explicitly authorize implementation when ready.
+Please read the nuxtware/docs directory, especially the nuxtware/docs/README.md and it's linked contents, before proceeding. After that we will work on a new feature, improvement or bug fix. 
+If you are sure about everything to move on, you don't need to summarize you understanding.
 ```
 
 This prompt template ensures proper collaboration by enforcing a conceptualization phase before any implementation work begins.
