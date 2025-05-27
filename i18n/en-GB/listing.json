@@ -13,7 +13,7 @@
       "reset": "Reset all filters"
     },
     "sidenav": {
-      "loading": "Kategorienavigation wird geladen...",
+      "loading": "Loading category navigation...",
       "label": "Category Navigation"
     }
   }

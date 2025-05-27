@@ -28,7 +28,6 @@ const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)
 
 const { product } = toRefs(props)
-const { unitPrice, displayFromVariants, displayFrom } = useProductPrice(product)
 
 // Check if product has variants that require configuration
 const fromPrice = computed(() => getProductFromPrice(props.product))
@@ -173,35 +172,14 @@ function onTransitionEnd () {
             >
                 <!-- Product name -->
                 <h2 
-                    class="text-sm font-semibold text-center line-clamp-2 min-h-[40px]"
+                    class="text-sm font-semibold text-center line-clamp-2 min-h-[40px] mb-2"
                     data-testid="product-card-name"
                 >
                     {{ getProductName({ product }) }}
                 </h2>
 
                 <!-- Price section -->
-                <div class="flex items-center justify-center">
-                    <div class="product-card-price">
-                        <!-- Variant prices (if applicable) -->
-                        <div v-if="displayFromVariants" class="flex items-center gap-1">
-                            <span class="text-xs">{{ $t("product.variantsFrom") }}</span>
-                            <FoundationPrice 
-                                :value="displayFromVariants" 
-                                variant="compact"
-                                data-testid="product-variant-price"
-                            />
-                        </div>
-                        
-                        <!-- Main product price -->
-                        <div class="flex items-center gap-1">
-                            <span v-if="displayFrom" class="text-sm">{{ $t("product.price.from") }}</span>
-                            <FoundationPrice 
-                                :value="unitPrice"
-                                data-testid="product-price"
-                            />
-                        </div>
-                    </div>
-                </div>
+                <ProductPrice :product="product" size="small" />
 
                 <div 
                     ref="productCardInteractive"
