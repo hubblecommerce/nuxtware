@@ -11,6 +11,10 @@
       "showMore": "Show More",
       "showLess": "Show Less",
       "reset": "Reset all filters"
+    },
+    "sidenav": {
+      "loading": "Kategorienavigation wird geladen...",
+      "label": "Category Navigation"
     }
   }
 }

@@ -1,39 +1,41 @@
 <script setup lang="ts">
-import { getTranslatedProperty } from "@shopware/helpers";
-import type { Schemas } from "#shopware";
+import type { CmsElementCategoryNavigation } from "@shopware/composables"
 
-const { category: activeCategory } = useCategory();
-const loading: Ref<boolean> = ref(true);
-const categoryNavigation: Ref<Schemas["Category"][]> = ref([]);
-const currentCategoryId = activeCategory.value?.id ?? "main-navigation";
-const { loadNavigationElements } = useNavigation({
-    type: currentCategoryId,
-});
+const props = defineProps<{
+    content: CmsElementCategoryNavigation
+}>()
 
-onMounted(async () => {
-    // depth 0 means, we load only first level of categories, depth 1 means we load first and second level of categories ...
-    categoryNavigation.value = await loadNavigationElements({ depth: 0 });
-    loading.value = false;
-});
+const topBoundElement = ref<HTMLElement | null>(null)
+const bottomBoundElement = ref<HTMLElement | null>(null)
+
+function getDomElement(selector: string): HTMLElement | null {
+    return document.querySelector(selector)
+}
+
+onMounted(() => {
+    topBoundElement.value = getDomElement('header')
+    bottomBoundElement.value = getDomElement('footer')
+})
 </script>
 
 <template>
-    <div>
-        <div
-            v-if="categoryNavigation && categoryNavigation.length > 0"
-            class="cms-element-category-navigation max-w-(--breakpoint-xl) mx-auto"
-        >
-            <div class="text-3xl tracking-tight text-secondary-900 m-0 px-5">
-                {{ getTranslatedProperty(activeCategory, "name") }}
-            </div>
-            <CategoryNavigation
-                :level="0"
-                :elements="categoryNavigation"
-                :active-category="activeCategory"
-            />
-        </div>
-        <div v-if="loading">
-            Loading...
+    <ComponentStickyWrapper
+        v-if="topBoundElement || bottomBoundElement"
+        :top-bound-element="topBoundElement"
+        :bottom-bound-element="bottomBoundElement"
+        parent-selector=".cms-block"
+    >
+        <CategoryNavigation :show-full-category-tree="true" :depth="3" />
+    </ComponentStickyWrapper>
+    <div v-else class="px-5">
+        <span class="sr-only">
+            {{ $t('listing.sidenav.loading') }}
+        </span>
+        <div class="hidden lg:grid lg:gap-4">
+            <ComponentSkeleton preset="heading" />
+            <ComponentSkeleton preset="text" width="50%" />
+            <ComponentSkeleton preset="text" width="50%" />
+            <ComponentSkeleton preset="text" width="50%" />
         </div>
     </div>
 </template>
