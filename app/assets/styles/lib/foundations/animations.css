@@ -1,0 +1,24 @@
+
+@layer utilities {
+    .animate-blink {
+        animation: blink 0.3s linear 0s;
+    }
+
+    .animate-flow {
+        animation: scroll-left 20s linear infinite;
+    }
+}
+
+@keyframes blink {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}

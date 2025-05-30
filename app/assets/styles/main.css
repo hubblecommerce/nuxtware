@@ -7,6 +7,7 @@
 @import '#hubble/assets/styles/lib/foundations/label.css';
 @import '#hubble/assets/styles/lib/foundations/scrollbar.css';
 @import '#hubble/assets/styles/lib/foundations/select.css';
+@import '#hubble/assets/styles/lib/foundations/animations.css';
 
 /* Components */
 @import '#hubble/assets/styles/lib/components/input.css';
@@ -68,21 +69,4 @@
 
     --color-wishlist-toggle: var(--color-neutral);
     --color-wishlist-toggle-active: var(--color-secondary);
-
-    --animate-blink: blink 0.3s linear 0s;
-    @keyframes blink {
-        0% { opacity: 0; }
-
-        100% { opacity: 1; }
-    }
-
-    --animate-flow: scroll-left 20s linear infinite;
-    @keyframes scroll-left {
-        0% {
-            transform: translateX(0%);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
-    }
 }
