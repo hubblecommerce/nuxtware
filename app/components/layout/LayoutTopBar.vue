@@ -3,10 +3,10 @@
         <span id="topbarHeadline" class="sr-only">{{ $t('topBar.headline') }}</span>
         <section class="relative px-6 h-6">
             <client-only>
-                <template v-if="salesChannelCountryId != null && uspsByShippingCountry[salesChannelCountryId] != null">
+                <template v-if="salesChannelCountryId != undefined && uspsByShippingCountry[salesChannelCountryId] != undefined">
                     <ComponentBanderole
                         animation="blink"
-                        :items="uspsByShippingCountry[salesChannelCountryId]"
+                        :items="uspsByShippingCountry[salesChannelCountryId]!"
                         :icons="['check']"
                     />
                 </template>
@@ -14,7 +14,6 @@
                     <ComponentBanderole
                         animation="blink"
                         :items="uspsByShippingCountry.fallback"
-                        :icons="['check']"
                     />
                 </template>
             </client-only>
