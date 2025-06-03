@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getTranslatedProperty } from "@shopware/helpers"
 import type { Schemas } from "#shopware"
 
 const props = defineProps<{
@@ -9,7 +10,11 @@ const props = defineProps<{
     <div class="h-full flex flex-col justify-start">
         <!-- TODO: schema.org content, preferably as it's own component -->
 
-        <!-- Product name -->
+        <div class="hidden gap-3 justify-between flex-col">
+            <h1 class="font-semibold text-xl" itemprop="name">
+                {{ getTranslatedProperty(product, 'name') }}
+            </h1>
+        </div>
 
         <!-- ProductPrice.vue -->
 
