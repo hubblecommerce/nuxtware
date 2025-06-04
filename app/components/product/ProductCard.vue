@@ -114,7 +114,6 @@ function onTransitionEnd () {
                 product-card w-full top-0 left-0 border border-border cursor-pointer 
                 transition-all 
                 focus-style
-                lg:focus-within-style
                 lg:hover:shadow-lg
             "
             :class="mounted ? 'absolute' : 'relative'" 
