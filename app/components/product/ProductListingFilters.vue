@@ -239,18 +239,6 @@ const map: {
                 <FoundationIcon name="x" />
             </FoundationButton>
         </div>
-
-        <!-- Reset filters button -->
-        <div v-if="showResetFiltersButton" class="px-2 mb-3 lg:px-0">
-          <FoundationButton 
-              variant="outline"
-              size="small"
-              class="w-full lg:w-auto"
-              @click="onResetFilters()"
-          >
-            {{ $t('listing.filter.reset') }}
-          </FoundationButton>
-        </div>
         
         <ComponentCollapsible
             v-if="getInitialFilters.length"
@@ -262,28 +250,28 @@ const map: {
             class="flex flex-col gap-3 px-2 lg:flex-row lg:flex-wrap lg:px-0"
         >
             <template #default="{ shouldRenderItem, setItemRef }">
-              <!-- Visible filters -->
-              <template v-for="(filter, index) in getInitialFilters" :key="`${filter?.id || filter?.code}`">
-                  <div
-                      v-if="shouldRenderItem(filter)"
-                      :ref="el => setItemRef(el as HTMLElement, index)"
-                      class="relative"
-                  >
-                      <ComponentDropdown
-                          :trigger-label="filter?.code === 'properties' ? getTranslatedProperty(filter, 'name') : getStaticFilterName(filter?.code)"
-                          class="w-full border btn-small justify-between"
-                          content-classes="bg-white w-full p-2 z-10 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
-                      >
-                          <component
-                              :is="filterMap(filter?.code)"
-                              :filter="filter"
-                              :selected-filters="selectedFilters"
-                              @select-filter-value="onOptionSelectToggle"
-                          />
-                      </ComponentDropdown>
-                      <div v-if="filterIsSelected(filter)" class="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full" />
-                  </div>
-              </template>
+                <!-- Visible filters -->
+                <template v-for="(filter, index) in getInitialFilters" :key="`${filter?.id || filter?.code}`">
+                    <div
+                        v-if="shouldRenderItem(filter)"
+                        :ref="el => setItemRef(el as HTMLElement, index)"
+                        class="relative"
+                    >
+                        <ComponentDropdown
+                            :trigger-label="filter?.code === 'properties' ? getTranslatedProperty(filter, 'name') : getStaticFilterName(filter?.code)"
+                            class="w-full border btn-small justify-between"
+                            content-classes="bg-white w-full p-2 z-50 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
+                        >
+                            <component
+                                :is="filterMap(filter?.code)"
+                                :filter="filter"
+                                :selected-filters="selectedFilters"
+                                @select-filter-value="onOptionSelectToggle"
+                            />
+                        </ComponentDropdown>
+                        <div v-if="filterIsSelected(filter)" class="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full" />
+                    </div>
+                </template>
             </template>
             
             <!-- Custom toggle button slot implementation -->
@@ -306,11 +294,23 @@ const map: {
                 </FoundationButton>
             </template>
         </ComponentCollapsible>
+
+        <!-- Reset filters button -->
+        <div v-if="showResetFiltersButton" class="px-2 mt-3 lg:px-0">
+          <FoundationButton 
+              variant="outline"
+              size="small"
+              class="w-full lg:w-auto"
+              @click="onResetFilters()"
+          >
+            {{ $t('listing.filter.reset') }}
+          </FoundationButton>
+        </div>
         
         <template #fallback>
             <span class="sr-only">{{ $t('listing.filter.loading') }}</span>
             <div class="hidden lg:flex flex-wrap gap-3">
-                <ComponentSkeleton preset="button" :repeat="8" />
+                <ComponentSkeleton preset="button" :repeat="4" />
             </div>
         </template>
     </SidenavOverlay>
