@@ -4,7 +4,6 @@
         @apply relative inline-flex items-center justify-center font-semibold rounded transition-all duration-100 cursor-pointer;
         @apply focus-style;
         @apply disabled:opacity-60 disabled:cursor-not-allowed;
-        @apply active:translate-y-px;
 
         /* Invisible Hit Areas */
         @media (pointer: coarse) {
@@ -107,4 +106,8 @@
     &:where(.btn-large) {
         @apply w-16 h-16 rounded-full p-0;
     }
+}
+
+@utility no-animation {
+    @apply active:translate-y-0;
 }
