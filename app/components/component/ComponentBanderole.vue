@@ -1,4 +1,11 @@
 <script setup lang="ts">
+/*
+    Accepts arrays of text items and icon names.
+    Please provide as many icons as text items if each text item should have a different icon.
+    Only provide one icon name if each text should have the same icon.
+    Two built in animation types, blink and flow or default no animation.
+    If an animation is chosen, this will be used on every device.
+ */
 const props = withDefaults(
     defineProps<{
         animation?: 'blink' | 'flow' | null,
