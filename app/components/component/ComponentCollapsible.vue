@@ -185,7 +185,7 @@ onMounted(() => {
         isInitializing.value = false
 
         window.addEventListener('resize', handleResize)
-    }, 300) // Wait for animations/rendering
+    }, 1) // Wait for animations/rendering
 })
 
 onBeforeUnmount(() => {
@@ -229,7 +229,7 @@ function handleResize() {
         if (!isCalculating.value && !isToggling.value) {
             calculateVisibleItems()
         }
-    }, 150)
+    }, 1)
 }
 
 defineExpose({
