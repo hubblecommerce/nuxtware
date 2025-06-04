@@ -14,7 +14,7 @@ const props = withDefaults(
     }>(),
     {
         animation: null,
-        icons: ['check']
+        icons: () => ['check']
     },
 )
 
