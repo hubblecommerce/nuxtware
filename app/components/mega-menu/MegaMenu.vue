@@ -63,7 +63,7 @@ function clearPopoverTimeout () {
             <li
                 v-for="item in navigationItems"
                 :key="item.id"
-                class="btn text-primary-content hover:bg-primary"
+                class="btn text-primary-content hover:bg-primary no-animation"
                 @mouseenter.passive="item.children.length ? openPopover(item.id) : clearPopoverTimeout()"
             >
                 <FoundationLink
@@ -92,7 +92,7 @@ function clearPopoverTimeout () {
         <div
             v-show="openedCategory"
             ref="megaMenuPopover"
-            class="container absolute top-full left-0 bg-white border p-10 z-50"
+            class="container absolute top-full -mt-px left-0 bg-white border p-10 z-50"
             @mouseleave="closePopover()"
         >
             <FoundationButton

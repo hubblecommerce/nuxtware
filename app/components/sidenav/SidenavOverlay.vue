@@ -40,7 +40,7 @@ watch(open, (newVal) => {
                 >
                     <div
                         v-if="open"
-                        class="fixed h-screen w-screen top-0 left-0 bg-gray-900/80 cursor-pointer"
+                        class="fixed h-screen w-screen top-0 left-0 bg-gray-900/80 cursor-pointer z-999"
                     />
                 </Transition>
 
