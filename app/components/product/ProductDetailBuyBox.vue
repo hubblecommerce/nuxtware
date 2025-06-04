@@ -13,6 +13,10 @@ const props = defineProps<{
 
         <!-- ProductPrice.vue -->
 
+        <section class="mb-6">
+            <ProductPurchaseUnitAndInfos v-if="props.product.purchaseUnit" :product="props.product" :show-product-info="true" />
+        </section>
+
         <!-- Delivery snippet by sales channel logic  -->
 
         <!-- Product is not available `!product.active`  -->

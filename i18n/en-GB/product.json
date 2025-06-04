@@ -12,6 +12,17 @@
     },
     "badges": {
       "topseller": "Topseller"
+    },
+    "productPurchaseUnitAndInfos": {
+      "unit": "Unit",
+      "weight": "Weight",
+      "width": "Width",
+      "length": "Length",
+      "height": "Height",
+      "mm": "mm",
+      "kg": "kg",
+      "info": "More Information",
+      "productInfo": "Product Information"
     }
   }
 }
