@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FoundationCheckboxProps } from '#imports'
+import type { FoundationCheckboxProps } from '../../types/foundation-checkbox'
 
 withDefaults(defineProps<FoundationCheckboxProps>(), {
     type: 'checkbox',
