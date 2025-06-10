@@ -2,6 +2,7 @@
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { createResolver } from '@nuxt/kit'
+import fs from 'fs'
 import tailwindcss from '@tailwindcss/vite'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
@@ -33,28 +34,23 @@ export default defineNuxtConfig({
     // alias to import files from layer, e.g. when consumer instance overrides main.css
     '#hubble': fileURLToPath(new URL('./app', import.meta.url))
   },
-  vite: {
-    plugins: [
-      tailwindcss({
-        // Layer provides content paths for consumer's TailwindCSS
-        content: [
-          resolve('./app/**/*.{vue,js,ts}')
-        ]
-      }),
-    ]
-  },
   hooks: {
-    'vite:extend': ({ config }) => {
-      // Ensure consumer's TailwindCSS includes layer content
-      if (config.plugins) {
-        const tailwindPlugin = config.plugins.find(p =>
-          p && typeof p === 'object' && 'name' in p && p.name === 'vite:tailwindcss'
+    'build:before': () => {
+      // Layer patches consumer's CSS to include absolute paths
+      const consumerCssPath = resolve(process.cwd(), 'app/assets/styles/main.css')
+
+      if (fs.existsSync(consumerCssPath)) {
+        const content = fs.readFileSync(consumerCssPath, 'utf8')
+        const layerPath = resolve('./app').replace(/\\/g, '/')
+
+        const updated = content.replace(
+          '@source \'#hubble\';',
+          `@source '${layerPath}';`
         )
 
-        if (tailwindPlugin) {
-          // Add layer content to consumer's TailwindCSS config
-          const layerContent = resolve('./app/**/*.{vue,js,ts}')
-          // Inject layer content paths
+        if (content !== updated) {
+          fs.writeFileSync(consumerCssPath, updated)
+          console.log('✅ Layer: TailwindCSS paths resolved')
         }
       }
     }
