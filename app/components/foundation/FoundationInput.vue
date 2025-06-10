@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FoundationInputTextProps } from '#imports'
+import type { FoundationInputTextProps } from '../../types/foundation-input-text'
 
 withDefaults(defineProps<FoundationInputTextProps>(), {
     type: 'text',

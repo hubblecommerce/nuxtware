@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ApiClientError } from '@shopware/api-client'
-import type { ProductWishlistToggleProps } from '#imports'
+import type { ProductWishlistToggleProps } from '../../types/product-wishlist-toggle'
 
 const props = withDefaults(defineProps<ProductWishlistToggleProps>(), {
     variant: 'icon',

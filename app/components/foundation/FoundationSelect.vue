@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FoundationSelectProps, SelectSize, SelectColor } from '#imports'
+import type { FoundationSelectProps, SelectSize, SelectColor } from '../../types/foundation-select'
 
 const props = withDefaults(defineProps<FoundationSelectProps>(), {
     disabled: false,

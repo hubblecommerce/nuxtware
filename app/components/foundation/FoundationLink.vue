@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { NuxtLink } from '#components'
-import type { LinkVariants, LinkProps } from '#imports'
+import type { LinkVariants, LinkProps } from '../../types/foundation-link'
 
 const props = withDefaults(defineProps<LinkProps>(), {
     text: '',

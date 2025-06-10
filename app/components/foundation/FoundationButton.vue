@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, shallowRef, defineEmits, defineExpose, reactive } from 'vue'
+import { computed, shallowRef, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { ButtonProps, ButtonSize, ButtonVariant, ButtonColor } from '#imports'
+import type { ButtonProps, ButtonSize, ButtonVariant, ButtonColor } from '../../types/foundation-button'
 
 const props = withDefaults(defineProps<ButtonProps>(), {
     tag: 'button',

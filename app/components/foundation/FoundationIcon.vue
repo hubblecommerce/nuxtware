@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { IconProps } from '#imports'
+import type { IconProps } from '../../types/foundation-icon'
 
 const props = withDefaults(defineProps<IconProps>(), {
     size: 'md',
