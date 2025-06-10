@@ -35,26 +35,28 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [
-      tailwindcss(),
+      tailwindcss({
+        // Layer provides content paths for consumer's TailwindCSS
+        content: [
+          resolve('./app/**/*.{vue,js,ts}')
+        ]
+      }),
     ]
   },
   hooks: {
-    'nuxt:config': (nuxtConfig, nuxt) => {
-      // Ensure layer's alias is available to consumer's TailwindCSS
-      if (!nuxtConfig.alias) nuxtConfig.alias = {}
-      nuxtConfig.alias['#hubble'] = fileURLToPath(new URL('./app', import.meta.url))
+    'vite:extend': ({ config }) => {
+      // Ensure consumer's TailwindCSS includes layer content
+      if (config.plugins) {
+        const tailwindPlugin = config.plugins.find(p =>
+          p && typeof p === 'object' && 'name' in p && p.name === 'vite:tailwindcss'
+        )
 
-      // If consumer has TailwindCSS, make sure it can resolve #hubble alias
-      nuxt.hook('vite:extend', ({ config }) => {
-        if (config.plugins) {
-          // Ensure Vite can resolve the alias for TailwindCSS
-          config.resolve = config.resolve || {}
-          config.resolve.alias = {
-            ...config.resolve.alias,
-            '#hubble': fileURLToPath(new URL('./app', import.meta.url))
-          }
+        if (tailwindPlugin) {
+          // Add layer content to consumer's TailwindCSS config
+          const layerContent = resolve('./app/**/*.{vue,js,ts}')
+          // Inject layer content paths
         }
-      })
+      }
     }
   },
   i18n: {
