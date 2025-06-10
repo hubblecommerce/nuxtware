@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   ],
   alias: {
     // alias to import files from layer, e.g. when consumer instance overrides main.css
-    '#hubble': resolve('./app')
+    '#hubble': fileURLToPath(new URL('./app', import.meta.url))
   },
   vite: {
     plugins: [
