@@ -57,7 +57,7 @@ const sanitizedIcon = computed(() => {
 
 async function loadIcon() {
     try {
-        const iconModule = await import(`../../assets/icons/${props.name}.svg?raw`)
+        const iconModule = await import(`#hubble/assets/icons/${props.name}.svg?raw`)
         icon.value = iconModule.default
     } catch (e) {
         console.error(`Icon '${props.name}' doesn't exist in 'assets/icons'`, e)
