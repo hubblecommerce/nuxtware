@@ -38,6 +38,25 @@ export default defineNuxtConfig({
       tailwindcss(),
     ]
   },
+  hooks: {
+    'nuxt:config': (nuxtConfig, nuxt) => {
+      // Ensure layer's alias is available to consumer's TailwindCSS
+      if (!nuxtConfig.alias) nuxtConfig.alias = {}
+      nuxtConfig.alias['#hubble'] = fileURLToPath(new URL('./app', import.meta.url))
+
+      // If consumer has TailwindCSS, make sure it can resolve #hubble alias
+      nuxt.hook('vite:extend', ({ config }) => {
+        if (config.plugins) {
+          // Ensure Vite can resolve the alias for TailwindCSS
+          config.resolve = config.resolve || {}
+          config.resolve.alias = {
+            ...config.resolve.alias,
+            '#hubble': fileURLToPath(new URL('./app', import.meta.url))
+          }
+        }
+      })
+    }
+  },
   i18n: {
     strategy: "prefix_except_default",
     detectBrowserLanguage: false,
