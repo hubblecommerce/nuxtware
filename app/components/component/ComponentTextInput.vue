@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { ComponentInputProps, ComponentInputSize, ComponentInputColor } from '#imports'
+import { ref, reactive } from 'vue'
+import type { ComponentInputProps, ComponentInputSize, ComponentInputColor } from '../../types/component-input'
 
 withDefaults(defineProps<ComponentInputProps>(), {
     showLabel: true,
