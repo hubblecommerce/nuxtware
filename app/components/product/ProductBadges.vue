@@ -65,11 +65,11 @@ const saleBadgeClasses = computed(() => ({
         </span>
 
         <span 
-            v-if="showSale && isListPrice && !displayFrom && price?.listPrice"
+            v-if="showSale && isListPrice && !displayFrom && price?.listPrice && price.listPrice.percentage"
             :class="saleBadgeClasses"
             data-testid="product-topseller-badge"
         >
-            -{{ price.listPrice.percentage }}%
+            -{{ Math.round(price.listPrice.percentage) }}%
         </span>
     </div>
 </template>
