@@ -34,9 +34,9 @@ const isHoverActive = ref(false);
 const hoveredIndex = ref(0);
 
 // The rating to display (either the hovered rating or the actual rating)
-const displayedScore = computed(() =>
-    isHoverActive.value ? hoveredIndex.value : Number(props.modelValue) || 0
-);
+const displayedScore = computed(() => {
+    return isHoverActive.value ? hoveredIndex.value : Number(props.modelValue) || 0
+});
 
 // Handle hovering over a star
 const hoverRating = (rating: number) => {
@@ -64,6 +64,11 @@ const onChangeRating = () => {
 
     emit('update:modelValue', newValue);
 };
+
+const onMouseOver = (i: number) => props.interactive && hoverRating(i);
+const onClick = () => props.interactive && onChangeRating();
+const onKeyDown = () => props.interactive && onChangeRating();
+const onFocus = async (i: number) => setTimeout(() => props.interactive && hoverRating(i), 50); // Wait until element appears and receives focus
 </script>
 
 <template>
@@ -89,11 +94,11 @@ const onChangeRating = () => {
             :aria-label="`${i} star${i === 1 ? '' : 's'}`"
             :aria-setsize="5"
             :aria-posinset="i"
-            @mouseover="props.interactive && hoverRating(i)" 
-            @click="props.interactive && onChangeRating()" 
-            @keydown.enter="props.interactive && onChangeRating()"
-            @keydown.space.prevent="props.interactive && onChangeRating()"
-            @focus="props.interactive && hoverRating(i)"
+            @mouseover="onMouseOver(i)" 
+            @click="onClick()" 
+            @keydown.enter="onKeyDown()"
+            @keydown.space.prevent="onKeyDown()"
+            @focus="onFocus(i)"
         >
             <FoundationIcon 
                 :name="displayedScore >= i ? 'star-filled' : 'star'" 

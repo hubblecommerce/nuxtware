@@ -15,6 +15,7 @@
             @click="toggleDropdown"
             @keydown.esc="closeDropdown"
             @keydown.arrow-down.prevent="openDropdown"
+            @keydown.enter.prevent="openDropdown"
         >
             {{ triggerLabel }}
             <FoundationIcon v-show="isOpen" name="chevron-up" />
@@ -77,17 +78,13 @@ const contentEl = ref()
 onClickOutside(contentEl, () => closeDropdown(), { ignore: [triggerEl] })
 const { activate, deactivate } = useFocusTrap(contentEl, { allowOutsideClick: true })
 
-function toggleDropdown () {
-    if (!props.disabled) {
+function toggleDropdown (e: PointerEvent) {
+    if (!props.disabled && e.type === 'click') {
         isOpen.value = !isOpen.value
         if (isOpen.value) {
             emit('open')
-            nextTick(() => {
-                activate()
-            })
         } else {
             emit('close')
-            deactivate()
         }
     }
 }
