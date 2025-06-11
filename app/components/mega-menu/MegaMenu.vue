@@ -106,7 +106,7 @@ function clearPopoverTimeout () {
             </FoundationButton>
             <template v-for="item in navigationItems" :key="item.id">
                 <div
-                    v-show="activeItem?.children?.length"
+                    v-show="openedCategory === item.id && activeItem?.children?.length"
                     :id="`menu-${item.id}`"
                     class="flex flex-wrap items-start gap-8"
                 >
