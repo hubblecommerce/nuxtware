@@ -14,6 +14,7 @@ import sorter from './sorter.json'
 import listing from './listing.json'
 import product from './product.json'
 import wishlist from './wishlist.json'
+import carousel from './carousel.json'
 
 export default {
     ...layout,
@@ -32,4 +33,5 @@ export default {
     ...listing,
     ...product,
     ...wishlist,
+    ...carousel,
 }

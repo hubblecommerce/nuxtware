@@ -9,6 +9,7 @@
 @import '#hubble/assets/styles/lib/foundations/select.css';
 
 /* Components */
+@import '#hubble/assets/styles/lib/components/carousel.css';
 @import '#hubble/assets/styles/lib/components/input.css';
 @import '#hubble/assets/styles/lib/components/toggle.css';
 @import '#hubble/assets/styles/lib/components/skeleton.css';

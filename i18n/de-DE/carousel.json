@@ -1,0 +1,16 @@
+{
+    "carousel": {
+        "label": "Karussell",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "items": "Zeige slide {current} von {total}",
+        "item": "Element {index}",
+        "slide": "Slide {index}",
+        "noTemplate": "Keine Vorlage bereitgestellt",
+        "empty": "Keine Elemente anzuzeigen",
+        "loading": "Karussell wird geladen...",
+        "indicatorsLabel": "Karussell-Navigation",
+        "goToSlide": "Gehe zu slide {slide}",
+        "currentSlide": "Aktueller Slide: {current} von {total}"
+    }
+}
