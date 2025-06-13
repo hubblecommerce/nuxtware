@@ -31,5 +31,8 @@
         "save": "Save",
         "cancel": "Cancel",
         "chooseCountry": "Please select your country"
+    },
+    "button": {
+        "loading": "Loading..."
     }
 }

@@ -31,5 +31,8 @@
         "save": "Speichern",
         "cancel": "Abbrechen",
         "chooseCountry": "Bitte wählen Sie Ihr Land aus"
+    },
+    "button": {
+        "loading": "Lädt..."
     }
 }
