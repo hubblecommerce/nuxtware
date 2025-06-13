@@ -30,6 +30,7 @@
                     color="secondary"
                     :loading="isLoading"
                     :disabled="!voucherCode.trim() || isLoading"
+                    @click="handleApplyVoucher"
                 >
                     {{ $t('checkout.voucher.apply') }}
                 </FoundationButton>
@@ -49,11 +50,11 @@
                     class="flex items-center justify-between p-3 bg-success/5 border border-success/20 rounded-md"
                 >
                     <div class="flex items-center gap-3">
-                        <FoundationIcon name="check-circle" class="w-4 h-4 text-success" />
+                        <FoundationIcon name="check" class="block text-success" />
                         <div>
                             <p class="font-medium text-sm">{{ promotion.label }}</p>
-                            <p v-if="promotion.payload?.code" class="text-xs text-secondary">
-                                {{ $t('checkout.voucher.code') }}: {{ promotion.payload.code }}
+                            <p v-if="(promotion.payload as any)?.code" class="text-xs text-secondary">
+                                {{ $t('checkout.voucher.code') }}: {{ (promotion.payload as any).code }}
                             </p>
                         </div>
                     </div>
@@ -106,14 +107,34 @@ const isRemovingPromotion = ref<string | null>(null)
 const handleApplyVoucher = async () => {
     if (!voucherCode.value.trim() || isLoading.value || props.disabled) return
 
+    const trimmedCode = voucherCode.value.trim()
     isLoading.value = true
 
     try {
-        await addPromotionCode(voucherCode.value.trim())
-        success(t('checkout.voucher.success', { code: voucherCode.value.trim() }))
-        voucherCode.value = ''
+        const cartResponse = await addPromotionCode(trimmedCode)
+        
+        // Check if operation was successful (filter out success messages)
+        if (cartResponse.errors && Object.keys(cartResponse.errors).length > 0) {
+            const errorValues = Object.values(cartResponse.errors)
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const actualErrors = errorValues.filter((err: any) => err.level === 20)
+            
+            if (actualErrors.length > 0) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const errorMessages = actualErrors.map((err: any) => err.message || t('checkout.voucher.unknownError'))
+                error(errorMessages.join(', '))
+            } else {
+                // No actual errors, just success notifications
+                success(t('checkout.voucher.success', { code: trimmedCode }))
+                voucherCode.value = ''
+            }
+        } else {
+            success(t('checkout.voucher.success', { code: trimmedCode }))
+            voucherCode.value = ''
+        }
     } catch (apiError) {
-        if (apiError instanceof ApiClientError) {
+        // Handle unexpected API errors
+        if (apiError instanceof ApiClientError && Array.isArray(apiError.details?.errors)) {
             const errorMessages = resolveApiErrors(apiError.details.errors)
             error(errorMessages.join(', ') || t('checkout.voucher.unknownError'))
         } else {
