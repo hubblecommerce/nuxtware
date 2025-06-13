@@ -1,0 +1,6 @@
+{
+    "tabs": {
+        "navigation": "Tab navigation",
+        "noContent": "No content available for {tabName}"
+    }
+}

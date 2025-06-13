@@ -1,0 +1,101 @@
+@layer components {
+    .tabs-container {
+        @apply w-full;
+    }
+
+    .tabs {
+        @apply tabs-md tabs-default;
+        @apply flex items-center;
+        @apply focus-within:outline-none;
+    }
+
+    .tab {
+        @apply relative flex items-center justify-center;
+        @apply px-4 py-2 min-w-0 flex-shrink-0;
+        @apply text-neutral hover:text-black;
+        @apply border-b-2 border-transparent;
+        @apply transition-all duration-200 ease-in-out;
+        @apply focus-style;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+
+        &:hover:not(:disabled) {
+            @apply text-black bg-neutral/10;
+        }
+
+        &.tab-active {
+            @apply text-primary border-primary bg-primary/5;
+        }
+
+        &.tab-disabled {
+            @apply opacity-50 cursor-not-allowed pointer-events-none;
+        }
+    }
+
+    .tabs-content {
+        @apply relative;
+    }
+
+    .tab-panel {
+        @apply outline-none;
+
+        &.tab-panel-hidden {
+            @apply hidden;
+        }
+
+        &.tab-panel-active {
+            @apply block;
+        }
+    }
+}
+
+@utility tabs-default {
+    @apply border-b border-border;
+}
+
+@utility tabs-scrollable {
+    @apply overflow-x-auto no-scrollbar;
+
+    .tab {
+        @apply whitespace-nowrap;
+    }
+}
+
+@utility tabs-bordered {
+    @apply border border-border rounded-t-lg;
+}
+
+@utility tabs-sm {
+    .tab {
+        @apply px-3 py-1.5 text-sm;
+    }
+}
+
+@utility tabs-md {
+    .tab {
+        @apply px-4 py-2 text-base;
+    }
+}
+
+@utility tabs-lg {
+    .tab {
+        @apply px-6 py-3 text-lg;
+    }
+}
+
+@utility tabs-primary {
+    .tab.tab-active {
+        @apply text-primary-content border-primary bg-primary/80;
+    }
+}
+
+@utility tabs-secondary {
+    .tab.tab-active {
+        @apply text-secondary-content border-secondary bg-secondary/80;
+    }
+}
+
+@utility tabs-tertiary {
+    .tab.tab-active {
+        @apply text-tertiary-content border-tertiary bg-tertiary/80;
+    }
+}
