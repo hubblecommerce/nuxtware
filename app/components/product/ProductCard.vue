@@ -3,7 +3,7 @@ import { navigateTo } from "#imports"
 import type { Schemas } from "#shopware"
 import type { BoxLayout } from "@shopware/composables"
 import { getProductName, getProductRoute, getProductFromPrice } from "@shopware/helpers"
-import { useFocusWithin, breakpointsTailwind, useBreakpoints, useResizeObserver } from '@vueuse/core'
+import { useFocusWithin, breakpointsTailwind, useBreakpoints, useResizeObserver, useWindowSize } from '@vueuse/core'
 
 interface ProductCardProps {
     product: Schemas["Product"]
@@ -44,6 +44,7 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
 const isTransitioning = ref(false)
 const mounted = ref(false)
+const { width } = useWindowSize()
 
 watch(focused, (focused) => {
     if (focused && lgAndLarger.value) {
@@ -51,6 +52,10 @@ watch(focused, (focused) => {
     } else {
         cardActive.value = false
     }
+})
+
+watch(width, () => {
+    initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
 })
 
 onMounted(() => {
