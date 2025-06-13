@@ -31,7 +31,8 @@
                 <div class="flex items-center justify-between p-4 rounded-lg border border-border hover:border-secondary/50 transition-colors">
                     <div class="flex items-center space-x-4 flex-1">
                         <!-- Radio Input -->
-                        <FoundationInput
+                        <!-- TODO: Replace with FoundationRadio -->
+                        <input
                             :id="`payment-${method.id}`"
                             v-model="selectedMethodId"
                             type="radio"
@@ -39,7 +40,7 @@
                             name="payment-method"
                             :disabled="disabled || isUpdating === method.id"
                             @change="handleMethodChange(method.id)"
-                        />
+                        >
 
                         <!-- Method Info -->
                         <div class="flex-1">
