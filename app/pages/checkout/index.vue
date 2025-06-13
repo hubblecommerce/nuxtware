@@ -1,8 +1,10 @@
 <script setup lang='ts'>
 const { push } = useRouter()
-const { isLoggedIn, isGuestSession, user } = useUser()
+const { isLoggedIn, isGuestSession, user, logout } = useUser()
 const { refreshSessionContext } = useSessionContext()
 const { isVirtualCart } = useCart()
+const { success } = useGlobalNotifications()
+const { t } = useI18n()
 
 // State for checkout flow
 const currentStep = ref<'login' | 'registration' | 'checkout'>('checkout')
@@ -10,13 +12,19 @@ const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
 
 // Event handlers
 const handleLoginSuccess = async () => {
-    currentStep.value = 'checkout'
     await refreshSessionContext()
+    currentStep.value = 'checkout'
+    success(t('checkout.login.loginSuccess'))
 }
 
 const handleRegistrationSuccess = async () => {
-    currentStep.value = 'checkout'
-    await refreshSessionContext()
+    try {
+        await refreshSessionContext()
+        currentStep.value = 'checkout'
+        success(t('checkout.registration.registrationSuccess'))
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 const handleOrderPlaced = async (orderId: string) => {
@@ -37,9 +45,8 @@ const handleSwitchToRegistration = () => {
 }
 
 const handleLogout = async () => {
-    const { logout } = useUser()
     await logout()
-    currentStep.value = 'checkout'
+    currentStep.value = 'login'
 }
 
 // Initialize on mount

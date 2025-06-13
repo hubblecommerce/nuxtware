@@ -27,7 +27,8 @@
             "rememberMe": "Remember me",
             "forgotPassword": "Forgot password?",
             "signIn": "Sign In",
-            "createAccount": "Create Account"
+            "createAccount": "Create Account",
+            "loginSuccess": "Successfully signed in!"
         },
         "registration": {
             "title": "Create Account",
@@ -38,7 +39,8 @@
             "continueAsGuest": "Continue as Guest",
             "createAccount": "Create Account",
             "alreadyHaveAccount": "Already have an account?",
-            "unknownError": "An unexpected error occurred"
+            "unknownError": "An unexpected error occurred",
+            "registrationSuccess": "Account created successfully!"
         },
         "voucher": {
             "title": "Voucher Code",

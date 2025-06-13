@@ -68,6 +68,7 @@
                         class="flex-1"
                         :loading="isLoading"
                         :disabled="!isFormValid"
+                        @click="handleLogin"
                     >
                         {{ $t('checkout.login.signIn') }}
                     </FoundationButton>
@@ -137,8 +138,12 @@ const handleLogin = async () => {
             password: formData.password
         })
 
+        // Check if login was successful
         if (isLoggedIn.value) {
             emit('login-success')
+        } else {
+            // Login function completed but user is not logged in
+            errors.value = ['Login failed. Please check your credentials.']
         }
     } catch (error) {
         if (error instanceof ApiClientError) {

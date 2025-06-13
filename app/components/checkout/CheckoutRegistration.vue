@@ -130,6 +130,7 @@
                         class="flex-1"
                         :loading="isLoading"
                         :disabled="!isFormValid"
+                        @click="handleSubmit"
                     >
                         {{ formData.guest ? $t('checkout.registration.continueAsGuest') : $t('checkout.registration.createAccount') }}
                     </FoundationButton>
@@ -247,8 +248,14 @@ const handleSubmit = async () => {
     isLoading.value = true
 
     try {
+        // Ensure storefrontUrl is set for the registration
+        formData.storefrontUrl = window.location.origin
+
         const response = await register(formData)
-        if (!response.active) {
+        
+        // For guest checkout, we should proceed regardless of account activation
+        // For regular registration, we should also proceed as the user is now registered
+        if (response) {
             emit('registration-success')
         }
     } catch (apiError) {

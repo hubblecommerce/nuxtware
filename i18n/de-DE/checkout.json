@@ -27,7 +27,8 @@
             "rememberMe": "Angemeldet bleiben",
             "forgotPassword": "Passwort vergessen?",
             "signIn": "Anmelden",
-            "createAccount": "Konto erstellen"
+            "createAccount": "Konto erstellen",
+            "loginSuccess": "Erfolgreich angemeldet!"
         },
         "registration": {
             "title": "Konto erstellen",
@@ -38,7 +39,8 @@
             "continueAsGuest": "Als Gast fortfahren",
             "createAccount": "Konto erstellen",
             "alreadyHaveAccount": "Bereits ein Konto?",
-            "unknownError": "Ein unerwarteter Fehler ist aufgetreten"
+            "unknownError": "Ein unerwarteter Fehler ist aufgetreten",
+            "registrationSuccess": "Konto erfolgreich erstellt!"
         },
         "voucher": {
             "title": "Gutscheincode",
