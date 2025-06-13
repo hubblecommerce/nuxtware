@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { CmsBlockGalleryBuybox } from '@shopware-pwa/composables-next'
+import { resolveComponent } from 'vue'
+import type { CmsBlockGalleryBuybox } from '@shopware/composables'
 
 const props = defineProps<{
     content: CmsBlockGalleryBuybox
@@ -11,8 +12,8 @@ const rightSlot = computed(() => getCmsSlot(props.content, 'right'))
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row md:justify-between">
-        <component :is="resolveComponent(getCmsElementName(leftSlot?.type))" v-if="leftSlot" :content="leftSlot" />
-        <component :is="resolveComponent(getCmsElementName(rightSlot?.type))" v-if="rightSlot" :content="rightSlot" />
+    <div class="grid grid-cols-1 md:grid-cols-12 md:justify-between gap-4 md:gap-8">
+        <component :is="resolveComponent(getCmsElementName(leftSlot?.type))" v-if="leftSlot" :content="leftSlot" class="col-span-8" />
+        <component :is="resolveComponent(getCmsElementName(rightSlot?.type))" v-if="rightSlot" :content="rightSlot" class="col-span-4" />
     </div>
 </template>
