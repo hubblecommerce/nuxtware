@@ -86,7 +86,14 @@
         "success": {
             "title": "Thank you for your order",
             "orderId": "Your order id is:",
-            "orderNotification": "We've sent a notification at: "
+            "orderNotification": "We've sent a notification at: ",
+            "orderConfirmed": "Order Confirmed!",
+            "thankYou": "Thank you for your purchase. Your order has been successfully placed.",
+            "orderNumber": "Order Number",
+            "orderTotal": "Order Total",
+            "confirmationEmail": "Confirmation Email",
+            "orderNotFound": "Order Not Found",
+            "orderNotFoundDescription": "We couldn't find the order you're looking for. Please check the order ID and try again."
         }
     }
 }
