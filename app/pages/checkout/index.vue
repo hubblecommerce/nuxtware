@@ -8,6 +8,7 @@ const { t } = useI18n()
 
 // State for checkout flow
 const currentStep = ref<'login' | 'registration' | 'checkout'>('checkout')
+const isInitializing = ref(true)
 const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
 
 // Event handlers
@@ -51,18 +52,25 @@ const handleLogout = async () => {
 
 // Initialize on mount
 onMounted(async () => {
-    await refreshSessionContext()
-    
-    // If user is not logged in, show login/registration option
-    if (!isUserSession.value) {
+    try {
+        await refreshSessionContext()
+        
+        // If user is not logged in, show login/registration option
+        if (!isUserSession.value) {
+            currentStep.value = 'login'
+        }
+    } catch (error) {
+        console.warn('Failed to refresh session context:', error)
         currentStep.value = 'login'
+    } finally {
+        isInitializing.value = false
     }
 })
 </script>
 
 <template>
     <div class="min-h-screen bg-surface-secondary">
-        <div class="lg:container mx-auto px-4 py-8">
+        <div class="lg:container mx-auto px-2 py-8">
             <div class="mx-auto">
                 <!-- Page Header -->
                 <div class="mb-8">
@@ -78,8 +86,21 @@ onMounted(async () => {
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <!-- Left Column: Forms -->
                     <div class="lg:col-span-2 space-y-6">
+                        <!-- Loading Placeholder -->
+                        <div v-if="isInitializing" class="p-6 border border-border rounded-lg bg-surface">
+                            <div class="animate-pulse">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <div class="h-5 bg-border rounded w-48 mb-2" />
+                                        <div class="h-4 bg-border rounded w-32"/>
+                                    </div>
+                                    <div class="h-8 bg-border rounded w-20"/>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Login/Registration Section -->
-                        <div v-if="currentStep === 'login'">
+                        <div v-else-if="currentStep === 'login'">
                             <CheckoutLogin
                                 @login-success="handleLoginSuccess"
                                 @switch-to-register="handleSwitchToRegistration"

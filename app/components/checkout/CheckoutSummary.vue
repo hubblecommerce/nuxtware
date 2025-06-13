@@ -36,17 +36,17 @@
         <!-- Order Actions -->
         <div class="space-y-3 pt-4">
             <!-- Login Required Message -->
-            <div v-if="!isUserSession" class="text-center">
+            <div v-if="!isInitializing && !isUserSession" class="text-center">
                 <p class="text-sm text-error mb-3">{{ $t('checkout.loginRequired') }}</p>
             </div>
 
             <!-- Place Order Button -->
             <FoundationButton
-                :disabled="!isUserSession || disabled || isPlacingOrder"
+                :disabled="isInitializing || !isUserSession || disabled || isPlacingOrder"
                 color="tertiary"
                 size="large"
                 class="w-full"
-                :loading="isPlacingOrder"
+                :loading="isPlacingOrder || isInitializing"
                 @click="handlePlaceOrder"
             >
                 {{ $t('checkout.placeOrder') }}
@@ -72,6 +72,7 @@ interface ComponentCheckoutSummaryProps {
 
 interface ComponentCheckoutSummaryEmits {
     (e: 'order-placed', orderId: string): void
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     (e: 'order-error', error: string): void
 }
 
@@ -89,11 +90,13 @@ const {
 } = useCart()
 const { createOrder } = useCheckout()
 const { isLoggedIn, isGuestSession } = useUser()
+const { refreshSessionContext } = useSessionContext()
 const { success, error: notifyError } = useGlobalNotifications()
 const { t } = useI18n()
 
 // State
 const isPlacingOrder = ref(false)
+const isInitializing = ref(true)
 
 // Computed
 const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
@@ -122,4 +125,15 @@ const handlePlaceOrder = async () => {
         isPlacingOrder.value = false
     }
 }
+
+// Initialize session context on mount
+onMounted(async () => {
+    try {
+        await refreshSessionContext()
+    } catch (error) {
+        console.warn('Failed to refresh session context:', error)
+    } finally {
+        isInitializing.value = false
+    }
+})
 </script>
