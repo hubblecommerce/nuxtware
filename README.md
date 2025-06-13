@@ -108,17 +108,20 @@ Nuxtware:
     - [x] Category Sidebar Navigation
     - [x] Card
 - [ ] Detail:
-    - [ ] Gallery
+    - [x] Gallery
     - [ ] Buybox
     - [ ] Variant Selection
-    - [ ] Tabs: Description / Reviews
+    - [x] Tabs: Description / Reviews
+        - [x] Description
+        - [ ] Reviews
     - [ ] X-Selling (Product Carousel)
 - [ ] Cart
-- [ ] Checkout
+- [x] Checkout
 - [ ] Wishlist
 - [ ] Account
-    - [ ] Login
-    - [ ] Register
+    - [x] Login
+    - [x] Register
+    - [ ] Dashboard
 - [ ] CMS
 - [ ] Skiplinks
 - [ ] Scroll To Top
