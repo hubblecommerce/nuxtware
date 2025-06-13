@@ -12,6 +12,12 @@
     },
     "badges": {
       "topseller": "Tipp"
+    },
+    "detail": {
+      "tabs": {
+        "description": "Beschreibung",
+        "reviews": "Bewertungen"
+      }
     }
   }
 }
