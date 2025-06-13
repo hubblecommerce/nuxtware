@@ -1,5 +1,7 @@
 {
     "checkout": {
+        "title": "Checkout",
+        "description": "Complete your purchase securely",
         "personalInformationLabel": "Personal Information",
         "personalInformationInfo": "Please enter your personal details",
         "notCreateAccount": "Do not create an account",
@@ -17,6 +19,68 @@
         "orderTotal": "Order Total",
         "loginRequired": "Please log in to complete your order",
         "placeOrder": "Place Order",
+        "login": {
+            "title": "Sign In",
+            "description": "Sign in to your account to continue with checkout",
+            "error": "Login failed",
+            "passwordPlaceholder": "Enter your password",
+            "rememberMe": "Remember me",
+            "forgotPassword": "Forgot password?",
+            "signIn": "Sign In",
+            "createAccount": "Create Account"
+        },
+        "registration": {
+            "title": "Create Account",
+            "description": "Create a new account or continue as guest",
+            "billingAddress": "Billing Address",
+            "passwordPlaceholder": "Enter a secure password",
+            "dataProtection": "I accept the privacy policy and terms of service",
+            "continueAsGuest": "Continue as Guest",
+            "createAccount": "Create Account",
+            "alreadyHaveAccount": "Already have an account?",
+            "unknownError": "An unexpected error occurred"
+        },
+        "voucher": {
+            "title": "Voucher Code",
+            "description": "Enter a valid voucher or promotion code",
+            "placeholder": "Enter voucher code",
+            "apply": "Apply",
+            "applied": "Applied Vouchers",
+            "code": "Code",
+            "remove": "Remove voucher {code}",
+            "success": "Voucher {code} applied successfully",
+            "removed": "Voucher {code} removed",
+            "error": "Failed to apply voucher",
+            "unknownError": "An unexpected error occurred"
+        },
+        "shipping": {
+            "free": "Free",
+            "noMethodsAvailable": "No shipping methods available",
+            "error": "Shipping Error",
+            "updateError": "Failed to update shipping method",
+            "loadError": "Failed to load shipping methods"
+        },
+        "payment": {
+            "afterOrder": "Pay after order",
+            "noMethodsAvailable": "No payment methods available",
+            "selectedMethod": "Selected Payment Method",
+            "error": "Payment Error",
+            "updateError": "Failed to update payment method",
+            "loadError": "Failed to load payment methods"
+        },
+        "summary": {
+            "items": "Items",
+            "quantity": "Qty",
+            "each": "each",
+            "tax": "Tax",
+            "termsNotice": "By placing your order, you agree to our",
+            "termsLink": "Terms & Conditions",
+            "orderSuccess": "Order {orderId} placed successfully!",
+            "orderError": "Failed to place order"
+        },
+        "address": {
+            "add": "Add Address"
+        },
         "success": {
             "title": "Thank you for your order",
             "orderId": "Your order id is:",

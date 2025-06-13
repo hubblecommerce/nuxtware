@@ -1,5 +1,7 @@
 {
     "checkout": {
+        "title": "Kasse",
+        "description": "Schließen Sie Ihren Einkauf sicher ab",
         "personalInformationLabel": "Persönliche Informationen",
         "personalInformationInfo": "Bitte geben Sie Ihre persönlichen Daten ein",
         "notCreateAccount": "Kein Konto erstellen",
@@ -17,6 +19,68 @@
         "orderTotal": "Gesamtsumme",
         "loginRequired": "Bitte melden Sie sich an, um Ihre Bestellung abzuschließen",
         "placeOrder": "Bestellung aufgeben",
+        "login": {
+            "title": "Anmelden",
+            "description": "Melden Sie sich in Ihrem Konto an, um mit der Kasse fortzufahren",
+            "error": "Anmeldung fehlgeschlagen",
+            "passwordPlaceholder": "Passwort eingeben",
+            "rememberMe": "Angemeldet bleiben",
+            "forgotPassword": "Passwort vergessen?",
+            "signIn": "Anmelden",
+            "createAccount": "Konto erstellen"
+        },
+        "registration": {
+            "title": "Konto erstellen",
+            "description": "Erstellen Sie ein neues Konto oder fahren Sie als Gast fort",
+            "billingAddress": "Rechnungsadresse",
+            "passwordPlaceholder": "Sicheres Passwort eingeben",
+            "dataProtection": "Ich akzeptiere die Datenschutzerklärung und AGB",
+            "continueAsGuest": "Als Gast fortfahren",
+            "createAccount": "Konto erstellen",
+            "alreadyHaveAccount": "Bereits ein Konto?",
+            "unknownError": "Ein unerwarteter Fehler ist aufgetreten"
+        },
+        "voucher": {
+            "title": "Gutscheincode",
+            "description": "Geben Sie einen gültigen Gutschein- oder Aktionscode ein",
+            "placeholder": "Gutscheincode eingeben",
+            "apply": "Anwenden",
+            "applied": "Angewendete Gutscheine",
+            "code": "Code",
+            "remove": "Gutschein {code} entfernen",
+            "success": "Gutschein {code} erfolgreich angewendet",
+            "removed": "Gutschein {code} entfernt",
+            "error": "Gutschein konnte nicht angewendet werden",
+            "unknownError": "Ein unerwarteter Fehler ist aufgetreten"
+        },
+        "shipping": {
+            "free": "Kostenlos",
+            "noMethodsAvailable": "Keine Versandmethoden verfügbar",
+            "error": "Versandfehler",
+            "updateError": "Versandmethode konnte nicht aktualisiert werden",
+            "loadError": "Versandmethoden konnten nicht geladen werden"
+        },
+        "payment": {
+            "afterOrder": "Nach Bestellung zahlen",
+            "noMethodsAvailable": "Keine Zahlungsmethoden verfügbar",
+            "selectedMethod": "Gewählte Zahlungsmethode",
+            "error": "Zahlungsfehler",
+            "updateError": "Zahlungsmethode konnte nicht aktualisiert werden",
+            "loadError": "Zahlungsmethoden konnten nicht geladen werden"
+        },
+        "summary": {
+            "items": "Artikel",
+            "quantity": "Anz.",
+            "each": "je",
+            "tax": "MwSt.",
+            "termsNotice": "Mit Ihrer Bestellung stimmen Sie unseren",
+            "termsLink": "AGB",
+            "orderSuccess": "Bestellung {orderId} erfolgreich aufgegeben!",
+            "orderError": "Bestellung konnte nicht aufgegeben werden"
+        },
+        "address": {
+            "add": "Adresse hinzufügen"
+        },
         "success": {
             "title": "Vielen Dank für Ihre Bestellung",
             "orderId": "Ihre Bestellnummer lautet:",

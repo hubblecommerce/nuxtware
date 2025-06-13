@@ -365,7 +365,8 @@ useHead({
                 class="bg-gray-50 rounded-lg p-4"
             >
                 <template #default="{ item, index }">
-                    <div class="h-full bg-white rounded-lg shadow-sm p-6 flex items-center justify-center border-l-4"
+                    <div
+class="h-full bg-white rounded-lg shadow-sm p-6 flex items-center justify-center border-l-4"
                          :class="{
                              'border-blue-500': index % 3 === 0,
                              'border-green-500': index % 3 === 1,
@@ -373,13 +374,14 @@ useHead({
                          }"
                     >
                         <div class="text-center">
-                            <div class="w-8 h-8 rounded-full mx-auto mb-2"
+                            <div
+class="w-8 h-8 rounded-full mx-auto mb-2"
                                  :class="{
                                      'bg-blue-100': index % 3 === 0,
                                      'bg-green-100': index % 3 === 1,
                                      'bg-purple-100': index % 3 === 2
                                  }"
-                            ></div>
+                            />
                             <h4 class="font-semibold text-gray-900">{{ item.title }}</h4>
                         </div>
                     </div>

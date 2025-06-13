@@ -1,0 +1,277 @@
+<template>
+    <div class="space-y-4">
+        <div v-if="title">
+            <FoundationHeadline level="h4" class="text-base font-medium text-primary mb-3">
+                {{ title }}
+            </FoundationHeadline>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Street Address -->
+            <div class="md:col-span-2">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-street`"
+                    v-model="addressData.street"
+                    :label="$t('form.streetAddress')"
+                    type="text"
+                    :placeholder="$t('form.streetPlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- Postal Code -->
+            <div>
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-postal-code`"
+                    v-model="addressData.zipcode"
+                    :label="$t('form.postalCode')"
+                    type="text"
+                    :placeholder="$t('form.postalCodePlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- City -->
+            <div>
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-city`"
+                    v-model="addressData.city"
+                    :label="$t('form.city')"
+                    type="text"
+                    :placeholder="$t('form.cityPlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- Country -->
+            <div class="md:col-span-2">
+                <FoundationLabel :for="`${fieldPrefix}-country`" required>
+                    {{ $t('form.country') }}
+                </FoundationLabel>
+                <FoundationSelect
+                    :id="`${fieldPrefix}-country`"
+                    v-model="addressData.countryId"
+                    :placeholder="$t('form.chooseCountry')"
+                    :options="countryOptions"
+                    :disabled="disabled"
+                    required
+                    name="country"
+                />
+            </div>
+
+            <!-- State/Province (if country has states) -->
+            <div v-if="countryStatesOptions.length > 0" class="md:col-span-2">
+                <FoundationLabel :for="`${fieldPrefix}-state`">
+                    {{ $t('form.state') }}
+                </FoundationLabel>
+                <FoundationSelect
+                    :id="`${fieldPrefix}-state`"
+                    v-model="addressData.countryStateId"
+                    :placeholder="$t('form.chooseState')"
+                    :options="countryStatesOptions"
+                    :disabled="disabled"
+                    name="state"
+                />
+            </div>
+
+            <!-- Additional Address Line (optional) -->
+            <div v-if="showAdditionalFields" class="md:col-span-2">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-additional`"
+                    v-model="addressData.additionalAddressLine1"
+                    :label="$t('form.additionalAddress')"
+                    type="text"
+                    :placeholder="$t('form.additionalAddressPlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- Company (optional) -->
+            <div v-if="showAdditionalFields" class="md:col-span-2">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-company`"
+                    v-model="addressData.company"
+                    :label="$t('form.company')"
+                    type="text"
+                    :placeholder="$t('form.companyPlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- Phone Number (optional) -->
+            <div v-if="showAdditionalFields">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-phone`"
+                    v-model="addressData.phoneNumber"
+                    :label="$t('form.phone')"
+                    type="tel"
+                    :placeholder="$t('form.phonePlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+        </div>
+
+        <!-- Actions (if not embedded) -->
+        <div v-if="showActions" class="flex gap-3 pt-4">
+            <FoundationButton
+                v-if="mode === 'edit'"
+                color="primary"
+                :loading="loading"
+                :disabled="!isValid || disabled"
+                @click="handleSave"
+            >
+                {{ $t('form.save') }}
+            </FoundationButton>
+            <FoundationButton
+                v-if="mode === 'create'"
+                color="primary"
+                :loading="loading"
+                :disabled="!isValid || disabled"
+                @click="handleSave"
+            >
+                {{ $t('checkout.address.add') }}
+            </FoundationButton>
+            <FoundationButton
+                v-if="showCancel"
+                variant="outline"
+                @click="$emit('cancel')"
+            >
+                {{ $t('form.cancel') }}
+            </FoundationButton>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+
+interface AddressData {
+    street: string
+    zipcode: string
+    city: string
+    countryId: string
+    countryStateId?: string
+    additionalAddressLine1?: string
+    company?: string
+    phoneNumber?: string
+}
+
+interface ComponentCheckoutAddressProps {
+    modelValue?: AddressData
+    title?: string
+    fieldPrefix?: string
+    mode?: 'create' | 'edit' | 'embedded'
+    disabled?: boolean
+    loading?: boolean
+    showAdditionalFields?: boolean
+    showActions?: boolean
+    showCancel?: boolean
+}
+
+interface ComponentCheckoutAddressEmits {
+    (e: 'update:modelValue' | 'save', value: AddressData): void
+    (e: 'cancel'): void
+    (e: 'validation-change', isValid: boolean): void
+}
+
+const props = withDefaults(defineProps<ComponentCheckoutAddressProps>(), {
+    modelValue: undefined,
+    title: undefined,
+    fieldPrefix: 'address',
+    mode: 'embedded',
+    disabled: false,
+    loading: false,
+    showAdditionalFields: false,
+    showActions: false,
+    showCancel: false
+})
+
+const emit = defineEmits<ComponentCheckoutAddressEmits>()
+
+// Composables
+const { getCountries } = useCountries()
+
+// Initialize address data
+const addressData = reactive<AddressData>({
+    street: '',
+    zipcode: '',
+    city: '',
+    countryId: '',
+    countryStateId: '',
+    additionalAddressLine1: '',
+    company: '',
+    phoneNumber: '',
+    ...props.modelValue
+})
+
+// Computed
+const countryOptions = computed(() => 
+    getCountries.value.map(country => ({
+        value: country.id,
+        label: country.name
+    }))
+)
+
+const selectedCountry = computed(() => 
+    getCountries.value.find(country => country.id === addressData.countryId)
+)
+
+const countryStatesOptions = computed(() => {
+    if (!selectedCountry.value?.states) return []
+    
+    return selectedCountry.value.states.map(state => ({
+        value: state.id,
+        label: state.name
+    }))
+})
+
+const isValid = computed(() => {
+    const requiredFields = [
+        addressData.street,
+        addressData.zipcode,
+        addressData.city,
+        addressData.countryId
+    ]
+    
+    return requiredFields.every(field => field?.trim().length > 0)
+})
+
+// Watch for changes and emit
+watch(addressData, (newValue) => {
+    emit('update:modelValue', { ...newValue })
+}, { deep: true })
+
+watch(isValid, (newValue) => {
+    emit('validation-change', newValue)
+})
+
+// Clear state when country changes
+watch(() => addressData.countryId, () => {
+    addressData.countryStateId = ''
+})
+
+// Methods
+const handleSave = () => {
+    if (isValid.value && !props.disabled) {
+        emit('save', { ...addressData })
+    }
+}
+
+// Initialize with prop value
+watch(() => props.modelValue, (newValue) => {
+    if (newValue) {
+        Object.assign(addressData, newValue)
+    }
+}, { immediate: true })
+</script>

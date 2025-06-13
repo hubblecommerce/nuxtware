@@ -32,7 +32,7 @@
             <FoundationIcon name="chevron-down" class="block" />
         </span>
         <div v-if="$slots.icon" class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none flex items-center justify-center" aria-hidden="true">
-            <slot name="icon"></slot>
+            <slot name="icon"/>
         </div>
     </div>
 </template>

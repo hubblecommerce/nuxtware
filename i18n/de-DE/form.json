@@ -20,7 +20,16 @@
         "city": "Stadt",
         "cityPlaceholder": "Geben Sie Ihre Stadt ein",
         "country": "Land",
+        "state": "Bundesland/Region",
+        "chooseState": "Bitte wählen Sie Ihr Bundesland/Ihre Region",
+        "additionalAddress": "Adresszusatz",
+        "additionalAddressPlaceholder": "Apartment, Suite, etc. (optional)",
+        "company": "Firma",
+        "companyPlaceholder": "Geben Sie Ihre Firma ein (optional)",
+        "phone": "Telefonnummer",
+        "phonePlaceholder": "Geben Sie Ihre Telefonnummer ein (optional)",
         "save": "Speichern",
+        "cancel": "Abbrechen",
         "chooseCountry": "Bitte wählen Sie Ihr Land aus"
     }
 }

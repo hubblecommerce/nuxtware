@@ -259,7 +259,8 @@ defineExpose({
             :is-expanded="isExpanded"
             :has-overflow="hasOverflow"
         >
-            <button v-if="hasOverflow || (isExpanded && !hasOverflow)" ref="toggleButtonRef" :aria-expanded="isExpanded"
+            <button
+v-if="hasOverflow || (isExpanded && !hasOverflow)" ref="toggleButtonRef" :aria-expanded="isExpanded"
                 aria-controls="collapsible-content" :class="[
                     'toggle-button',
                     isExpanded ? 'relative' : 'absolute right-0'

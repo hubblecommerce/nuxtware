@@ -27,7 +27,7 @@ function onFocus (e: FocusEvent): void { emit('onFocus', e) }
 function onBlur (e: FocusEvent): void { emit('onBlur', e) }
 
 function submitSearch (): void {
-    emit('submitSearch', searchTerm)
+    emit('submitSearch', searchTerm.value)
 }
 function resetSearch () {
     searchTerm.value = ''

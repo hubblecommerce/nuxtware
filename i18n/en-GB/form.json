@@ -20,7 +20,16 @@
         "city": "City",
         "cityPlaceholder": "Enter your city",
         "country": "Country",
+        "state": "State/Province",
+        "chooseState": "Please select your state/province",
+        "additionalAddress": "Additional Address Line",
+        "additionalAddressPlaceholder": "Apartment, suite, unit, etc. (optional)",
+        "company": "Company",
+        "companyPlaceholder": "Enter your company name (optional)",
+        "phone": "Phone Number",
+        "phonePlaceholder": "Enter your phone number (optional)",
         "save": "Save",
+        "cancel": "Cancel",
         "chooseCountry": "Please select your country"
     }
 }

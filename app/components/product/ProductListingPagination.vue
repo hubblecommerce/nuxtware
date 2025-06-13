@@ -49,7 +49,7 @@ const visiblePageNumbers = computed(() => {
     
     const half = Math.floor(maxPageLinks / 2)
     let startPage = Math.max(currentPage - half, 1)
-    let endPage = Math.min(startPage + maxPageLinks - 1, totalPages)
+    const endPage = Math.min(startPage + maxPageLinks - 1, totalPages)
     
     // Adjust start page if end page is maxed out
     if (endPage === totalPages) {

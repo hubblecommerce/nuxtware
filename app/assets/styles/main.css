@@ -28,10 +28,10 @@
     --color-secondary-shade-dark: oklch(0.259 0.225 303.85);
     --color-secondary-content: oklch(1 0 0);
 
-    --color-tertiary: oklch(0.942 0.182 100.42);
-    --color-tertiary-shade-light: oklch(0.955 0.198 100.19);
-    --color-tertiary-shade-dark: oklch(0.72 0.144 100.36);
-    --color-tertiary-content: oklch(0.15 0.035 261.99);
+    --color-tertiary: oklch(0.55 0.18 150);
+    --color-tertiary-shade-light: oklch(0.62 0.2 150);
+    --color-tertiary-shade-dark: oklch(0.48 0.16 150);
+    --color-tertiary-content: oklch(1 0 0);
 
     --color-link: oklch(0.431 0.166 263.08);
     --color-link-visited: oklch(0.419 0.145 327.76);
