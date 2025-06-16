@@ -53,6 +53,6 @@ export default defineNuxtConfig({
         code: 'de',
         file: 'de-DE.ts'
       }
-    ],
+    ]
   },
 })

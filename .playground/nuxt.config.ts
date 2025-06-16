@@ -53,20 +53,20 @@ export default defineNuxtConfig({
   },
   // Required for consumer to set individual localeId
   i18n: {
-    defaultLocale: 'de',
+    defaultLocale: 'en',
     bundle: {
       optimizeTranslationDirective: false,
     },
     locales: [
       {
         code: 'en',
-        localeId: '018f2b868f7d73438b6a861fffdaf1d5'
+        localeId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b'
       },
       {
         code: 'de',
-        localeId: '2fbb5fe2e29a4d70aa5854ce7ce3e20b'
+        localeId: '0197405b01f370689447a63b7de2afd1'
       }
-    ],
+    ]
   },
   compatibilityDate: '2025-01-09',
   // Layer dev only
