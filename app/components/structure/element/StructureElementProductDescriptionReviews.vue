@@ -30,17 +30,12 @@ const description = computed(() =>
         </template>
         
         <template #reviews>
-            <div class="p-6">
-                <div class="space-y-4">
-                    <div class="border-l-4 border-primary pl-4">
-                        <p class="font-semibold">⭐⭐⭐⭐⭐ Amazing product!</p>
-                        <p class="text-muted">Really exceeded my expectations. Highly recommended!</p>
-                    </div>
-                    <div class="border-l-4 border-primary pl-4">
-                        <p class="font-semibold">⭐⭐⭐⭐ Great quality</p>
-                        <p class="text-muted">Good build quality and fast shipping.</p>
-                    </div>
-                </div>
+            <div class="py-6">
+                <ReviewContainer 
+                    v-if="product"
+                    :product-id="product.id"
+                    :initial-reviews="content.data?.reviews?.elements || []"
+                />
             </div>
         </template>
     </ComponentTabs>
