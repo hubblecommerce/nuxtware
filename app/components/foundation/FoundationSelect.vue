@@ -1,5 +1,5 @@
 <template>
-    <div class="relative inline-block w-full ">
+    <div class="relative inline-block">
         <select
             ref="foundationSelect"
             v-model="model"
@@ -28,7 +28,7 @@
                 {{ option.label }}
             </option>
         </select>
-        <span class="absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none" aria-hidden="true">
+        <span class="chevron" aria-hidden="true">
             <FoundationIcon name="chevron-down" class="block" />
         </span>
         <div v-if="$slots.icon" class="absolute top-1/2 left-4 -translate-y-1/2 pointer-events-none flex items-center justify-center" aria-hidden="true">

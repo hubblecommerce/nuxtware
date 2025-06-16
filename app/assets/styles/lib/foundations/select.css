@@ -1,6 +1,6 @@
 @layer components {
     .select {
-        @apply relative w-full rounded transition-all duration-100;
+        @apply relative rounded transition-all duration-100;
         @apply bg-white border border-border;
         @apply focus-style;
         @apply appearance-none;
@@ -10,15 +10,27 @@
 }
 
 @utility select-small {
-    @apply text-sm min-h-10 px-4 py-2;
+    @apply text-sm min-h-10 px-4 pr-8 py-2;
+
+    & ~ .chevron {
+        @apply absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none;
+    }
 }
 
 @utility select-medium {
-    @apply text-base min-h-12 px-6 py-3;
+    @apply text-base min-h-12 px-6 pr-10 py-3;
+
+    & ~ .chevron {
+        @apply absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none;
+    }
 }
 
 @utility select-large {
-    @apply text-lg min-h-14 px-8 py-4;
+    @apply text-lg min-h-14 px-8 pr-12 py-4;
+
+    & ~ .chevron {
+        @apply absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none;
+    }
 }
 
 @utility select-primary {
