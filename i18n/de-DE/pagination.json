@@ -7,6 +7,8 @@
         "next_page": "Zur nächsten Seite wechseln",
         "current_page": "Aktuelle Seite, Seite {page}",
         "first_page": "Zur ersten Seite wechseln",
-        "last_page": "Zur letzten Seite wechseln"
+        "last_page": "Zur letzten Seite wechseln",
+        "previous": "Zurück",
+        "next": "Weiter"
     }
 }

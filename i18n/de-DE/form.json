@@ -28,9 +28,13 @@
         "companyPlaceholder": "Geben Sie Ihre Firma ein (optional)",
         "phone": "Telefonnummer",
         "phonePlaceholder": "Geben Sie Ihre Telefonnummer ein (optional)",
+        "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
         "save": "Speichern",
         "cancel": "Abbrechen",
-        "chooseCountry": "Bitte wählen Sie Ihr Land aus"
+        "chooseCountry": "Bitte wählen Sie Ihr Land aus",
+        "signIn": "Anmelden",
+        "errorOccurred": "Ein Fehler ist aufgetreten",
+        "charactersMinimum": "Zeichen mindestens"
     },
     "button": {
         "loading": "Lädt..."

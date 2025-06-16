@@ -28,9 +28,13 @@
         "companyPlaceholder": "Enter your company name (optional)",
         "phone": "Phone Number",
         "phonePlaceholder": "Enter your phone number (optional)",
+        "passwordPlaceholder": "Enter your password",
         "save": "Save",
         "cancel": "Cancel",
-        "chooseCountry": "Please select your country"
+        "chooseCountry": "Please select your country",
+        "signIn": "Sign In",
+        "errorOccurred": "An error occurred",
+        "charactersMinimum": "characters minimum"
     },
     "button": {
         "loading": "Loading..."
