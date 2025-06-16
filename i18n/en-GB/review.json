@@ -1,0 +1,65 @@
+{
+    "review": {
+        "title": "Reviews ({count})",
+        "averageRating": "{rating} out of {maxRating}",
+        "ratingDistribution": "Rating distribution",
+        "showAllLanguages": "Show reviews in all languages",
+        "sortBy": "Sort by",
+        "sortByDate": "Most recent",
+        "sortByRating": "Highest rated",
+        "pagination": {
+            "showing": "Showing {from} - {to} of {total} reviews",
+            "total": "{count} review | {count} reviews"
+        },
+        "filter": {
+            "rating": "{stars} star | {stars} stars",
+            "ratingCount": "({count})"
+        },
+        "form": {
+            "title": "Write a review",
+            "rating": "Rating",
+            "reviewTitle": "Review title",
+            "reviewTitlePlaceholder": "Give your review a title",
+            "content": "Your review",
+            "contentPlaceholder": "Share your thoughts about this product",
+            "submit": "Submit review",
+            "cancel": "Cancel",
+            "requiredFields": "Required fields are marked with *",
+            "validation": {
+                "ratingRequired": "Please select a rating",
+                "titleRequired": "Please enter a review title",
+                "titleMinLength": "Title must be at least 5 characters",
+                "contentRequired": "Please write your review",
+                "contentMinLength": "Review must be at least 40 characters"
+            }
+        },
+        "login": {
+            "title": "Sign in to write a review",
+            "description": "You need to be signed in to write a review.",
+            "registerLink": "Create an account",
+            "cancel": "Cancel"
+        },
+        "item": {
+            "author": "By {author}",
+            "publishedOn": "Published on {date}",
+            "verified": "Verified purchase",
+            "merchantComment": "Our feedback",
+            "notApproved": "This review is pending approval"
+        },
+        "empty": "No reviews yet",
+        "emptyDescription": "Be the first to write a review for this product",
+        "success": {
+            "created": "Thank you for your review! It will be published after approval."
+        },
+        "error": {
+            "general": "Something went wrong. Please try again.",
+            "alreadyExists": "You have already reviewed this product."
+        },
+        "teaser": {
+            "title": "Share your experience",
+            "description": "Help other customers by sharing your experience with this product.",
+            "button": "Write review",
+            "buttonHide": "Hide reviews"
+        }
+    }
+}

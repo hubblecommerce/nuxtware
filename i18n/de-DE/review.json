@@ -1,0 +1,65 @@
+{
+    "review": {
+        "title": "Bewertungen ({count})",
+        "averageRating": "{rating} von {maxRating}",
+        "ratingDistribution": "Bewertungsverteilung",
+        "showAllLanguages": "Bewertungen in allen Sprachen anzeigen",
+        "sortBy": "Sortieren nach",
+        "sortByDate": "Neueste",
+        "sortByRating": "Bestbewertet",
+        "pagination": {
+            "showing": "Zeige {from} - {to} von {total} Bewertungen",
+            "total": "{count} Bewertung | {count} Bewertungen"
+        },
+        "filter": {
+            "rating": "{stars} Stern | {stars} Sterne",
+            "ratingCount": "({count})"
+        },
+        "form": {
+            "title": "Bewertung schreiben",
+            "rating": "Bewertung",
+            "reviewTitle": "Titel der Bewertung",
+            "reviewTitlePlaceholder": "Geben Sie Ihrer Bewertung einen Titel",
+            "content": "Ihre Bewertung",
+            "contentPlaceholder": "Teilen Sie Ihre Gedanken zu diesem Produkt mit",
+            "submit": "Bewertung abschicken",
+            "cancel": "Abbrechen",
+            "requiredFields": "Pflichtfelder sind mit * markiert",
+            "validation": {
+                "ratingRequired": "Bitte wählen Sie eine Bewertung aus",
+                "titleRequired": "Bitte geben Sie einen Bewertungstitel ein",
+                "titleMinLength": "Der Titel muss mindestens 5 Zeichen lang sein",
+                "contentRequired": "Bitte schreiben Sie Ihre Bewertung",
+                "contentMinLength": "Die Bewertung muss mindestens 40 Zeichen lang sein"
+            }
+        },
+        "login": {
+            "title": "Anmelden um eine Bewertung zu schreiben",
+            "description": "Sie müssen angemeldet sein, um eine Bewertung zu schreiben.",
+            "registerLink": "Konto erstellen",
+            "cancel": "Abbrechen"
+        },
+        "item": {
+            "author": "Von {author}",
+            "publishedOn": "Veröffentlicht am {date}",
+            "verified": "Verifizierter Kauf",
+            "merchantComment": "Unsere Antwort",
+            "notApproved": "Diese Bewertung wartet auf Freigabe"
+        },
+        "empty": "Noch keine Bewertungen",
+        "emptyDescription": "Seien Sie der Erste, der eine Bewertung für dieses Produkt schreibt",
+        "success": {
+            "created": "Vielen Dank für Ihre Bewertung! Sie wird nach Prüfung veröffentlicht."
+        },
+        "error": {
+            "general": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+            "alreadyExists": "Sie haben dieses Produkt bereits bewertet."
+        },
+        "teaser": {
+            "title": "Teilen Sie Ihre Erfahrung",
+            "description": "Helfen Sie anderen Kunden, indem Sie Ihre Erfahrung mit diesem Produkt teilen.",
+            "button": "Bewertung schreiben",
+            "buttonHide": "Bewertungen ausblenden"
+        }
+    }
+}
