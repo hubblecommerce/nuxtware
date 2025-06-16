@@ -41,7 +41,7 @@ const {
     productId: props.productId,
     autoFetch: true,
     defaultFilters: {
-        limit: 10,
+        limit: 4,
         sort: 'createdAt',
         order: 'desc'
     }
@@ -278,18 +278,18 @@ const hasActiveFilters = computed(() => {
                     </ClientOnly>
 
                     <!-- Pagination -->
-                    <div v-if="totalPages > 1 && !loading" class="flex justify-center">
+                    <div v-if="totalPages > 1" class="flex justify-center">
                         <nav class="flex items-center gap-2" aria-label="Reviews pagination">
-                            
                             <!-- Previous Page -->
                             <FoundationButton
                                 variant="outline"
                                 size="small"
+                                square
                                 :disabled="currentPage <= 1"
                                 :aria-label="$t('pagination.previous')"
                                 @click="handlePageChange(currentPage - 1)"
                             >
-                                <FoundationIcon name="chevron-left" size="xs" />
+                                <FoundationIcon name="chevron-left" />
                             </FoundationButton>
 
                             <!-- Page Numbers -->
@@ -297,7 +297,7 @@ const hasActiveFilters = computed(() => {
                                 <FoundationButton
                                     v-if="page === currentPage"
                                     variant="default"
-                                    color="primary"
+                                    color="secondary"
                                     size="small"
                                     :aria-label="`Current page ${page}`"
                                     aria-current="page"
@@ -324,11 +324,12 @@ const hasActiveFilters = computed(() => {
                             <FoundationButton
                                 variant="outline"
                                 size="small"
+                                square
                                 :disabled="currentPage >= totalPages"
                                 :aria-label="$t('pagination.next')"
                                 @click="handlePageChange(currentPage + 1)"
                             >
-                                <FoundationIcon name="chevron-right" size="xs" />
+                                <FoundationIcon name="chevron-right" />
                             </FoundationButton>
                         </nav>
                     </div>

@@ -53,7 +53,8 @@ interface ReviewFilters {
     sort?: 'createdAt' | 'points'
     order?: 'asc' | 'desc'
     points?: number[]
-    language?: boolean
+    language?: boolean,
+    'total-count-mode'?: number,
 }
 
 export interface UseProductReviewsOptions {
@@ -135,6 +136,7 @@ export function useProductReviews(options: UseProductReviewsOptions): UseProduct
         order: 'desc',
         points: [],
         language: false,
+        'total-count-mode': 1,
         ...defaultFilters
     }
     
@@ -159,8 +161,9 @@ export function useProductReviews(options: UseProductReviewsOptions): UseProduct
             
             // Build API request parameters
             const params: Record<string, unknown> = {
-                page: filters.value.page || 1,
-                limit: filters.value.limit || 10
+                page: filters.value.page || defaultFilterValues.page,
+                limit: filters.value.limit || defaultFilterValues.limit,
+                'total-count-mode': defaultFilterValues['total-count-mode']
             }
             
             // Add sorting
