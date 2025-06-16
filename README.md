@@ -94,7 +94,9 @@ For more information about Shopware API integration and advanced configurations,
 
 ## Api Constraints (differences to Storefront)
 
-- Rendering correct "from price" in listing, see composables composables/useProductPriceCustom.ts for detailed info and solutions 
+- Rendering correct "from price" in listing, see composables composables/useProductPriceCustom.ts for detailed info and solutions
+- Store API lacks endpoint to check if current customer has already reviewed a specific product (requires client-side tracking via localStorage)
+- Store API does not provide PATCH endpoint for updating existing reviews (edit functionality not available) 
 
 
 ## Roadmap
@@ -113,7 +115,7 @@ Nuxtware:
     - [ ] Variant Selection
     - [x] Tabs: Description / Reviews
         - [x] Description
-        - [ ] Reviews
+        - [x] Reviews
     - [ ] X-Selling (Product Carousel)
 - [ ] Cart
 - [x] Checkout
