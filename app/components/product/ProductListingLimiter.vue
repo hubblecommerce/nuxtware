@@ -51,7 +51,7 @@ const limitOptions = computed<SelectOption[]>(() => {
     >
         <span class="hidden sm:inline">{{ $t('limiter.show') }}:</span>
         
-        <div class="w-24">
+        <div>
             <FoundationSelect
                 v-model="model"
                 :options="limitOptions"

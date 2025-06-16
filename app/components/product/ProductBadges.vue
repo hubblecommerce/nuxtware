@@ -25,7 +25,7 @@ const {
 
 const badgeClasses = computed(() => ({
     'inline-flex items-center px-2.5 py-1.5 text-sm font-medium': true,
-    'absolute -left-1': props.variant === 'floating',
+    '': props.variant === 'floating',
     'rounded-md mr-2': props.variant === 'default',
     'z-10': true
 }))
@@ -47,7 +47,15 @@ const saleBadgeClasses = computed(() => ({
 </script>
 
 <template>
-    <div class="product-badges">
+    <div class="product-badges absolute -left-1 flex flex-col items-start gap-2">
+         <span 
+            v-if="showSale && isListPrice && !displayFrom && price?.listPrice && price.listPrice.percentage"
+            :class="saleBadgeClasses"
+            data-testid="product-sale-badge"
+        >
+            -{{ Math.round(price.listPrice.percentage) }}%
+        </span>
+
         <span
             v-if="showTopSeller && product.markAsTopseller"
             :class="topSellerBadgeClasses"
@@ -62,14 +70,6 @@ const saleBadgeClasses = computed(() => ({
             data-testid="product-new-badge"
         >
             {{ $t("product.badges.new") }}
-        </span>
-
-        <span 
-            v-if="showSale && isListPrice && !displayFrom && price?.listPrice && price.listPrice.percentage"
-            :class="saleBadgeClasses"
-            data-testid="product-topseller-badge"
-        >
-            -{{ Math.round(price.listPrice.percentage) }}%
         </span>
     </div>
 </template>

@@ -60,7 +60,6 @@ const sortingOptions = computed<SelectOption[]>(() => {
             v-model="model"
             :name="`${sorterId}-select`"
             :options="sortingOptions"
-            class="min-w-[200px]"
             size="small"
         >
             <template #icon>
