@@ -37,29 +37,32 @@
             "title": "Anmelden um eine Bewertung zu schreiben",
             "description": "Sie müssen angemeldet sein, um eine Bewertung zu schreiben.",
             "registerLink": "Konto erstellen",
-            "cancel": "Abbrechen"
+            "cancel": "Abbrechen",
+            "welcomeMessage": "Willkommen! Sie können jetzt eine Bewertung schreiben.",
+            "successMessage": "Erfolgreich angemeldet!",
+            "failed": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Zugangsdaten.",
+            "unknownError": "Ein unbekannter Fehler ist aufgetreten"
         },
         "item": {
             "author": "Von {author}",
-            "publishedOn": "Veröffentlicht am {date}",
-            "verified": "Verifizierter Kauf",
             "merchantComment": "Unsere Antwort",
             "notApproved": "Diese Bewertung wartet auf Freigabe"
         },
         "empty": "Noch keine Bewertungen",
         "emptyDescription": "Seien Sie der Erste, der eine Bewertung für dieses Produkt schreibt",
+        "emptyFiltered": "Keine Bewertungen entsprechen Ihren Filtern",
+        "emptyFilteredDescription": "Versuchen Sie, Ihre Filter anzupassen, um mehr Bewertungen zu sehen.",
         "success": {
             "created": "Vielen Dank für Ihre Bewertung! Sie wird nach Prüfung veröffentlicht."
         },
         "error": {
             "general": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
-            "alreadyExists": "Sie haben dieses Produkt bereits bewertet."
+            "tryAgain": "Erneut versuchen"
         },
         "teaser": {
             "title": "Teilen Sie Ihre Erfahrung",
             "description": "Helfen Sie anderen Kunden, indem Sie Ihre Erfahrung mit diesem Produkt teilen.",
-            "button": "Bewertung schreiben",
-            "buttonHide": "Bewertungen ausblenden"
+            "button": "Bewertung schreiben"
         }
     }
 }

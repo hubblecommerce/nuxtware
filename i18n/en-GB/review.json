@@ -37,29 +37,32 @@
             "title": "Sign in to write a review",
             "description": "You need to be signed in to write a review.",
             "registerLink": "Create an account",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "welcomeMessage": "Welcome! You can now write a review.",
+            "successMessage": "Successfully signed in!",
+            "failed": "Login failed. Please check your credentials.",
+            "unknownError": "An unknown error occurred"
         },
         "item": {
             "author": "By {author}",
-            "publishedOn": "Published on {date}",
-            "verified": "Verified purchase",
             "merchantComment": "Our feedback",
             "notApproved": "This review is pending approval"
         },
         "empty": "No reviews yet",
         "emptyDescription": "Be the first to write a review for this product",
+        "emptyFiltered": "No reviews match your filters",
+        "emptyFilteredDescription": "Try adjusting your filters to see more reviews.",
         "success": {
             "created": "Thank you for your review! It will be published after approval."
         },
         "error": {
             "general": "Something went wrong. Please try again.",
-            "alreadyExists": "You have already reviewed this product."
+            "tryAgain": "Try again"
         },
         "teaser": {
             "title": "Share your experience",
             "description": "Help other customers by sharing your experience with this product.",
-            "button": "Write review",
-            "buttonHide": "Hide reviews"
+            "button": "Write review"
         }
     }
 }
