@@ -12,17 +12,6 @@
     },
     "badges": {
       "topseller": "Tipp"
-    },
-    "productPurchaseUnitAndInfos": {
-      "unit": "Anzahl",
-      "weight": "Gewicht",
-      "width": "Breite",
-      "length": "Länge",
-      "height": "Höhe",
-      "mm": "mm",
-      "kg": "kg",
-      "info": "Mehr Informationen",
-      "productInfo": "Produktinformationen"
     }
   }
 }

@@ -14,6 +14,7 @@ import sorter from './sorter.json'
 import listing from './listing.json'
 import product from './product.json'
 import wishlist from './wishlist.json'
+import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
 
 export default {
     ...layout,
@@ -31,5 +32,6 @@ export default {
     ...sorter,
     ...listing,
     ...product,
+    ...productPurchaseUnitAndInfos,
     ...wishlist,
 }
