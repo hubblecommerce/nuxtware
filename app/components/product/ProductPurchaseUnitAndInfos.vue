@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
-import {getTranslatedProperty} from "@shopware/helpers";
+
 const { t } = useI18n()
 
 const props = withDefaults(
@@ -13,16 +13,12 @@ const props = withDefaults(
     },
 )
 
-const uniqueId = useId()
-const infoSectionId = computed(() => `product-info-${uniqueId}`)
-const isInfoExpanded = ref(false)
-
-function toggleInfo() {
-    isInfoExpanded.value = !isInfoExpanded.value
-}
+const productInfoItems = computed(() => {
+    return props.showProductInfo ? [props.product] : []
+})
 </script>
 <template>
-    <div class="product-info flex flex-col gap-1 text-xs" aria-labelledby="product-info-heading">
+    <div class="product-info flex flex-col gap-1 text-sm" aria-labelledby="product-info-heading">
         <h3 id="product-info-heading" class="sr-only">{{ t('productPurchaseUnitAndInfos.info') }}</h3>
 
         <!-- Purchase unit information -->
@@ -33,48 +29,58 @@ function toggleInfo() {
             </span>
         </div>
 
-        <!-- Product info collapsible section -->
-        <div v-if="props.showProductInfo" class="product-additional-info">
-            <FoundationButton
-                size="small"
-                variant="outline"
-                :aria-expanded="isInfoExpanded"
-                :aria-controls="infoSectionId"
-                @click="toggleInfo"
-            >
-                {{ $t('productPurchaseUnitAndInfos.info') }}
-                <FoundationIcon :name="isInfoExpanded ? 'chevron-up' : 'chevron-down'" aria-hidden="true" />
-            </FoundationButton>
+        <ComponentCollapsible 
+            v-if="props.showProductInfo && (props.product.weight || props.product.width || props.product.length || props.product.height)"
+            :items="productInfoItems"
+            :show-more-text="$t('productPurchaseUnitAndInfos.info')"
+            :show-less-text="$t('productPurchaseUnitAndInfos.info')"
+            class="product-additional-info flex flex-col items-start"
+        >
 
-            <div 
-                v-if="isInfoExpanded && (props.product.weight || props.product.width || props.product.length || props.product.height)"
-                :id="infoSectionId"
-                class="product-dimensions mt-2"
-                role="region"
-                :aria-label="t('productPurchaseUnitAndInfos.productInfo')"
-            >
-                <dl class="product-specs grid grid-cols-2 gap-2">
-                    <div v-if="props.product.weight">
-                        <dt class="inline">{{ t('productPurchaseUnitAndInfos.weight') }}: </dt>
-                        <dd class="inline">{{ props.product.weight }}{{ t('productPurchaseUnitAndInfos.kg') }}</dd>
-                    </div>
+            <!-- Customize toggle button -->
+            <template #toggle-button="{ toggle, isExpanded }">
+                <FoundationButton
+                    size="small"
+                    color="secondary"
+                    variant="outline"
+                    class="lg:flex items-center justify-evenly order-1"
+                    @click="toggle"
+                >
+                    {{ $t('productPurchaseUnitAndInfos.info') }}
+                    <FoundationIcon :name="isExpanded ? 'chevron-up' : 'chevron-down'" aria-hidden="true" />
+                </FoundationButton>
+            </template>
 
-                    <div v-if="props.product.width">
-                        <dt class="inline">{{ t('productPurchaseUnitAndInfos.width') }}: </dt>
-                        <dd class="inline">{{ props.product.width }}{{ t('productPurchaseUnitAndInfos.mm') }}</dd>
-                    </div>
+            <template #default="{ isExpanded }">
+                <div 
+                    v-if="isExpanded"
+                    class="product-dimensions mt-2 order-2 w-full"
+                    role="region"
+                    :aria-label="t('productPurchaseUnitAndInfos.productInfo')"
+                >
+                    <dl class="product-specs grid grid-cols-2 gap-2">
+                        <div v-if="props.product.weight">
+                            <dt class="inline">{{ t('productPurchaseUnitAndInfos.weight') }}: </dt>
+                            <dd class="inline">{{ props.product.weight }}{{ t('productPurchaseUnitAndInfos.kg') }}</dd>
+                        </div>
 
-                    <div v-if="props.product.length">
-                        <dt class="inline">{{ t('productPurchaseUnitAndInfos.length') }}: </dt>
-                        <dd class="inline">{{ props.product.length }}{{ t('productPurchaseUnitAndInfos.mm') }}</dd>
-                    </div>
+                        <div v-if="props.product.width">
+                            <dt class="inline">{{ t('productPurchaseUnitAndInfos.width') }}: </dt>
+                            <dd class="inline">{{ props.product.width }}{{ t('productPurchaseUnitAndInfos.mm') }}</dd>
+                        </div>
 
-                    <div v-if="props.product.height">
-                        <dt class="inline">{{ t('productPurchaseUnitAndInfos.height') }}: </dt>
-                        <dd class="inline">{{ props.product.height }}{{ t('productPurchaseUnitAndInfos.mm') }}</dd>
-                    </div>
-                </dl>
-            </div>
-        </div>
+                        <div v-if="props.product.length">
+                            <dt class="inline">{{ t('productPurchaseUnitAndInfos.length') }}: </dt>
+                            <dd class="inline">{{ props.product.length }}{{ t('productPurchaseUnitAndInfos.mm') }}</dd>
+                        </div>
+
+                        <div v-if="props.product.height">
+                            <dt class="inline">{{ t('productPurchaseUnitAndInfos.height') }}: </dt>
+                            <dd class="inline">{{ props.product.height }}{{ t('productPurchaseUnitAndInfos.mm') }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </template>
+        </ComponentCollapsible>
     </div>
 </template>
