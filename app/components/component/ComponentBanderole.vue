@@ -18,17 +18,35 @@ const props = withDefaults(
     },
 )
 
+const parentElement = ref<HTMLElement>()
+const banderoleContent = ref<HTMLElement>()
+const repetitionCount = ref(1)
 const activeUsp = ref(0)
 let interval: ReturnType<typeof setInterval>
 
 onMounted(() => {
     if (props.animation != 'flow') {
         interval = setInterval(setActiveUsp, 3000)
+    } else {
+        measureAndSetRepeat()
     }
 })
+
 onUnmounted(() => {
     clearInterval(interval)
 })
+
+function measureAndSetRepeat() {
+    // get width of banderole and banderole content
+    // calc repetition times of content to fill banderole width twice
+    // prevent gap in animation flow
+    if (parentElement.value != null && banderoleContent.value != null) {
+        const parentContainerWidth = parentElement.value.offsetWidth
+        const banderoleContentWidth = banderoleContent.value.offsetWidth
+        const relationContentBanderole = Math.floor(parentContainerWidth / banderoleContentWidth)
+        repetitionCount.value = relationContentBanderole * 2
+    }
+}
 
 function setActiveUsp () {
     const length = props.items.length
@@ -50,16 +68,18 @@ function getIcon(index: number): string {
 </script>
 <template>
     <div
+        ref="parentElement"
         class="m-auto text-xs leading-6 flex justify-center items-center gap-4 lg:gap-16 overflow-hidden"
         :class="[props.animation === 'flow' ? 'justify-start' : 'justify-center']"
     >
         <!-- FLOW ANIMATION -->
         <div
             v-if="props.animation === 'flow'"
+            ref="banderoleContent"
             class="flex items-center gap-4 lg:gap-16 animate-flow"
         >
         <!-- duplication to fill the banderole while scrolling, adjust dependent on props.items length -->
-            <template v-for="i in 3" :key="i">
+            <template v-for="i in repetitionCount" :key="i">
                 <template v-for="(item, index) in props.items" :key="index">
                     <div class="banderole-item text-xs leading-6 flex justify-center items-center gap-1 shrink-0">
                         <template v-if="props.icons != null">
