@@ -10,11 +10,9 @@ const props = defineProps<{
     <div class="h-full flex flex-col justify-start">
         <!-- TODO: schema.org content, preferably as it's own component -->
 
-        <div class="hidden gap-3 justify-between flex-col">
-            <h1 class="font-semibold text-xl" itemprop="name">
-                {{ getTranslatedProperty(product, 'name') }}
-            </h1>
-        </div>
+        <h1 class="sr-only font-semibold text-xl" itemprop="name">
+            {{ getTranslatedProperty(product, 'name') }}
+        </h1>
 
         <!-- ProductPrice.vue -->
 
