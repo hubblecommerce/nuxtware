@@ -44,7 +44,7 @@ const props = defineProps<{
 
         <!-- Product delivery time if product is in stock  -->
 
-        <ProductSoldOut :product="product" version="minimal" />
+        <ProductSoldOut :product="product" />
 
         <!-- ProductDetailVariants.vue  -->
 

@@ -189,6 +189,9 @@ function onTransitionEnd () {
                     class="min-h-[50px]"
                 />
 
+                <!-- Show info if product is out of stock or sold out -->
+                <ProductSoldOut :product="product" version="minimal" />
+
                 <div 
                     ref="productCardInteractive"
                     class="transition-all duration-300 ease-in-out overflow-visible lg:overflow-hidden mt-2"
