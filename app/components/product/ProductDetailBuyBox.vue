@@ -7,16 +7,29 @@ const props = defineProps<{
 }>()
 </script>
 <template>
-    <div class="h-full flex flex-col justify-start">
+    <div class="h-full flex flex-col justify-start gap-4">
         <!-- TODO: schema.org content, preferably as it's own component -->
 
         <h1 class="sr-only font-semibold text-xl" itemprop="name">
             {{ getTranslatedProperty(product, 'name') }}
         </h1>
 
-        <!-- ProductPrice.vue -->
+        <section class="flex flex-col gap-3">
+            <ProductBadges
+                :product="product"
+                variant="default"
+                class="!relative !left-auto"
+            />
 
-        <section class="mb-6">
+            <ProductPrice
+                :product="product"
+                alignment="start"
+                :show-tier-prices="true"
+                :show-tax="true"
+            />
+        </section>
+
+        <section>
             <LazyProductPurchaseUnitAndInfos v-if="props.product.purchaseUnit" :product="props.product" :show-product-info="true" />
         </section>
 

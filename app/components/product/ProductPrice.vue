@@ -1,5 +1,12 @@
 <template>
-    <div class="product-price-info flex justify-center items-center min-h-[50px]">
+    <div
+        class="product-price-info flex min-h-[50px]"
+        :class="{
+            'justify-center items-center' : props.alignment === 'center',
+            'justify-start items-start' : props.alignment === 'start',
+            'flex-col items-start' : props.showTierPrices
+        }"
+    >
         <!-- Reference/Unit Price Information -->
         <div 
             v-if="referencePrice?.unitName"
@@ -26,7 +33,13 @@
         </div>
 
         <!-- Main Price Container -->
-        <div class="product-price-wrapper flex items-center flex-col gap-1">
+        <div
+            class="product-price-wrapper flex flex-col gap-1"
+            :class="{
+                'justify-center items-center' : props.alignment === 'center',
+                'justify-start items-start' : props.alignment === 'start'
+            }"
+        >
             <!-- Cheapest Price Display -->
             <div 
                 v-if="displayCheapestPrice"
@@ -81,6 +94,31 @@
             >
                 {{ t('product.price.regulationPrice', { price: getFormattedPrice(regulationPrice) }) }}*
             </div>
+
+            <!-- Tier Prices -->
+            <template v-if="tierPrices.length > 0 && props.showTierPrices">
+                <div class="grid grid-cols-2 gap-2 text-sm border border-border">
+                    <div class="font-semibold p-2">{{ $t('product.price.pieces') }}</div>
+                    <div class="font-semibold p-2">{{ $t('product.price.unitPrice') }}</div>
+
+                    <template v-for="(tierPrice, index) in tierPrices" :key="index">
+                        <template v-if="index === 0">
+                            <span class="p-2">{{ $t('product.price.until') }} {{ tierPrice.quantity }} {{ $t('product.price.pcs') }}</span>
+                            <span class="p-2">{{ getFormattedPrice(tierPrice.unitPrice) }}</span>
+                        </template>
+                        <template v-else>
+                            <span class="p-2">{{ $t('product.price.listingTextFrom') }} {{ tierPrices[index - 1]?.quantity + 1 }}</span>
+                            <span class="p-2">{{ $t('product.price.pcs') }} {{ getFormattedPrice(tierPrice.unitPrice) }}</span>
+                        </template>
+                    </template>
+                </div>
+            </template>
+
+            <template v-if="props.showTax">
+                <span class="flex flex-col text-xs text-neutral gap-2">
+              {{ $t(taxState === 'gross' ? 'product.price.inclTax' : 'product.price.exclTax') }}
+            </span>
+            </template>
         </div>
     </div>
 </template>
@@ -91,12 +129,18 @@ import type { Schemas } from '#shopware'
 interface ProductPriceProps {
     product: Schemas['Product']
     size?: 'small' | 'medium' | 'large'
-    showReferencePrice?: boolean
+    showReferencePrice?: boolean,
+    alignment?: 'start' | 'end' | 'center',
+    showTierPrices?: boolean,
+    showTax?: boolean,
 }
 
 const props = withDefaults(defineProps<ProductPriceProps>(), {
     size: 'medium',
-    showReferencePrice: true
+    showReferencePrice: true,
+    alignment: 'center',
+    showTierPrices: false,
+    showTax: false
 })
 
 const { t } = useI18n()
@@ -111,7 +155,10 @@ const {
     regulationPrice,
     displayCheapestPrice,
     cheapestPrice,
+    tierPrices
 } = useProductPriceCustom(productRef)
+
+const { taxState } = useSessionContext()
 
 // Computed classes for responsive sizing
 const sizeClasses = computed(() => {

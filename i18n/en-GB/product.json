@@ -8,7 +8,13 @@
       "referencePrice": "per {unit} {unitName}",
       "boxUnitLabel": "Content:",
       "cheapestPriceLabel": "from",
-      "listingTextFrom": "from"
+      "listingTextFrom": "from",
+      "inclTax": "incl. Mwst.",
+      "exclTax": "excl. Mwst.",
+      "until": "until",
+      "pcs": "pcs",
+      "pieces": "Pieces",
+      "unitPrice": "Unit Price"
     },
     "badges": {
       "topseller": "Topseller"
