@@ -3,6 +3,7 @@
     "viewDetails": "Details anzeigen",
     "viewDetailsFor": "Details für {product} anzeigen",
     "unavailable": "Derzeit nicht verfügbar",
+    "deliveryTime": "Lieferzeit",
     "price": {
       "regulationPrice": "30-Tage-Bestpreis**: {price}",
       "referencePrice": "pro {unit} {unitName}",
