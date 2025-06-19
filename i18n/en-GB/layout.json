@@ -8,5 +8,11 @@
         "footerLight": {
             "copyright": "©{year} SHOPNAME. All rights reserved"
         }
+    },
+    "topBar": {
+        "headline": "Our advantages",
+        "benefit1": "Free shipping from €75",
+        "benefit2": "Free returns",
+        "benefit3": "100-day return policy"
     }
 }

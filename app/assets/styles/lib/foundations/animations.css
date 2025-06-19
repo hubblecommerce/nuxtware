@@ -1,0 +1,32 @@
+
+@layer utilities {
+    /* adjust duration to extend/shorten non-blinking period between two blinks */
+    .animate-blink {
+        animation: blink 20s linear infinite;
+    }
+
+    .animate-flow {
+        animation: scroll-left 20s linear 0s infinite;
+    }
+}
+
+@keyframes blink {
+    /* First blink - quick fade out and in */
+    0% { opacity: 1; }
+    2% { opacity: 0; }
+    4% { opacity: 1; }
+
+    /* Second blink - quick fade out and in */
+    6% { opacity: 1; }
+    8% { opacity: 0; }
+    10% { opacity: 1; }
+
+    /* Long pause (remaining 90% of the animation) */
+    10.01% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+@keyframes scroll-left {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}

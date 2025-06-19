@@ -6,7 +6,14 @@
         "language": "Sprache",
         "currency": "Währung",
         "footerLight": {
-            "copyright": "©{year} SHOPNAME. Alle Rechte vorbehalten"
+        "copyright": "©{year} SHOPNAME. Alle Rechte vorbehalten"
         }
+    },
+    "topBar": {
+        "headline": "Unsere Vorteile",
+        "benefit1": "Versand ab 75€ gratis",
+        "benefit2": "Kostenloser Rücksendung",
+        "benefit3": "100 Tage Rückgaberecht",
+        "currency": "Währung"
     }
 }
