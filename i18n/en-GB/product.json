@@ -23,7 +23,8 @@
       "tabs": {
         "description": "Description",
         "reviews": "Reviews"
-      }
+      },
+      "variants": "Product Variants"
     }
   }
 }

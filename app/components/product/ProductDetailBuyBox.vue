@@ -4,6 +4,7 @@ import type { Schemas } from "#shopware"
 
 const props = defineProps<{
     product: Schemas["Product"],
+    configurator: Schemas["PropertyGroup"][] | null
 }>()
 </script>
 <template>
@@ -46,7 +47,7 @@ const props = defineProps<{
 
         <!-- ProductSoldOut.vue  incl. restock time and light version -->
 
-        <!-- ProductDetailVariants.vue  -->
+        <ProductDetailVariants :configurator="props.configurator" />
 
         <!-- ProductQtySelector.vue  -->
 
