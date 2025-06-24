@@ -1,23 +1,55 @@
 <script setup lang="ts">
 import { useWindowSize } from "@vueuse/core"
 
+type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
+
+type BreakpointMap = {
+    base?: TooltipPosition
+    '640'?: TooltipPosition
+    '768'?: TooltipPosition
+    '1024'?: TooltipPosition
+    '1280'?: TooltipPosition
+    '1536'?: TooltipPosition
+    [key: string]: TooltipPosition | undefined
+}
 interface ComponentToolTipProps {
     label: string
-    positionDesktop?: 'top' | 'right' | 'bottom' | 'left'
-    positionMobile?: 'top' | 'right' | 'bottom' | 'left'
+    breakpoints?: BreakpointMap
     disabled?: boolean
 }
 
 const props = withDefaults(defineProps<ComponentToolTipProps>(), {
-    positionDesktop: 'top',
-    positionMobile: 'top',
+    breakpoints: () => ({
+        base: 'right',
+        '640': 'right',
+        '768': 'top',
+        '1024': 'top',
+        '1280': 'top',
+        '1536': 'top',
+    }),
     disabled: false,
 })
 
+
 const { width: windowWidth } = useWindowSize()
-const positionBasedOnWindowSize = computed<'top' | 'right' | 'bottom' | 'left'>(() =>
-    windowWidth.value >= 640 ? props.positionDesktop : props.positionMobile
-)
+const positionBasedOnWindowSize = computed<'top' | 'right' | 'bottom' | 'left'>(() => {
+    const width = windowWidth.value
+    const breakpoints = props.breakpoints
+
+    if (width < 640) {
+        return breakpoints.base
+    } else if (width < 768) {
+        return breakpoints['640']
+    } else if (width < 1024) {
+        return breakpoints['768']
+    } else if (width < 1280) {
+        return breakpoints['1024']
+    } else if (width < 1536) {
+        return breakpoints['1280']
+    } else {
+        return breakpoints['1536']
+    }
+})
 
 const positionClasses = {
   top: 'bottom-full left-1/2 -translate-x-1/2 mb-1',

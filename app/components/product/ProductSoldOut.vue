@@ -19,7 +19,17 @@ const isStockFewerMinPurchase = computed (() => {
         <!-- min-height for accessible hover target -->
         <div v-if="props.product.isCloseout" class="flex items-center gap-1 text-sm min-w-[24px] min-h-[24px]">
             <template v-if="props.version === 'minimal'">
-                <ComponentToolTip :label="$t('productSoldOut.soldOut')" position-desktop="top" position-mobile="right" >
+                <ComponentToolTip
+                    :label="$t('productSoldOut.soldOut')"
+                    :breakpoints="{
+                        base: 'right',
+                        '640': 'right',
+                        '768': 'top',
+                        '1024': 'top',
+                        '1280': 'top',
+                        '1536': 'top',
+                    }"
+                >
                     <FoundationIcon name="package-x" size="md" class="block text-error" aria-hidden="true" />
                 </ComponentToolTip>
             </template>
@@ -31,7 +41,17 @@ const isStockFewerMinPurchase = computed (() => {
 
         <div v-else-if="props.product.deliveryTime && props.product.restockTime" class="flex items-center gap-1 text-sm min-w-[24px] min-h-[24px]">
             <template v-if="props.version === 'minimal'">
-                <ComponentToolTip :label="$t('productSoldOut.restock', { days: props.product.restockTime })" position-desktop="top" position-mobile="right" >
+                <ComponentToolTip
+                    :label="$t('productSoldOut.restock', { days: props.product.restockTime })"
+                    :breakpoints="{
+                        base: 'right',
+                        '640': 'right',
+                        '768': 'top',
+                        '1024': 'top',
+                        '1280': 'top',
+                        '1536': 'top',
+                    }"
+                >
                     <FoundationIcon name="calendar-sync" size="md" class="block text-warning" aria-hidden="true" />
                 </ComponentToolTip>
             </template>

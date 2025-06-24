@@ -161,18 +161,17 @@ function onTransitionEnd () {
                 class="absolute top-5 -left-1"
             />
 
+            <ProductSoldOut
+                :product="product"
+                version="minimal"
+                class="absolute top-2 left-2 z-10"
+            />
+
             <ProductWishlistToggle 
                 v-if="showWishlist"
                 :product="product"
                 variant="icon"
                 class="absolute top-2 right-2 z-10"
-            />
-
-            <!-- Show info if product is out of stock or sold out -->
-            <ProductSoldOut
-                :product="product"
-                version="minimal"
-                class="absolute top-2 left-2 z-10"
             />
 
             <div 
