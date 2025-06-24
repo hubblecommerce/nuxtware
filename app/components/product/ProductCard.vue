@@ -186,7 +186,7 @@ function onTransitionEnd () {
                 <ProductPrice
                     :product="product"
                     size="small"
-                    class="min-h-[50px] justify-center items-center"
+                    class="min-h-[50px]"
                 />
 
                 <div 

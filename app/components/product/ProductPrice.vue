@@ -1,7 +1,11 @@
 <template>
     <div
         class="product-price-info flex"
-        :class="{ 'flex-col' : props.showTierPrices }"
+        :class="{
+            'justify-center items-center' : props.alignment === 'center',
+            'justify-start items-start' : props.alignment === 'start',
+            'flex-col items-start' : props.showTierPrices
+        }"
     >
         <!-- Reference/Unit Price Information -->
         <div 
