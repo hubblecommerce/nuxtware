@@ -155,12 +155,15 @@ const skeletonSlides = computed((): SkeletonSlideData[] =>
 const itemStyle = computed(() => {
     // Always use currentItemsPerSlide.value for consistent hydration
     const itemsCount = currentItemsPerSlide.value
-    const gapTotal = (itemsCount - 1) * props.gap
-    const itemWidth = `calc((100% - ${gapTotal}px) / ${itemsCount})`
+    const itemWidth = `calc(100% / ${itemsCount})`
+    const itemPadding = props.gap / 2 // Half of configured gap
     
     return {
         flex: `0 0 ${itemWidth}`,
-        width: itemWidth
+        width: itemWidth,
+        paddingLeft: `${itemPadding}px`,
+        paddingRight: `${itemPadding}px`,
+        boxSizing: 'border-box'
     } as const
 })
 
@@ -272,7 +275,6 @@ const handleKeyDown = (event: KeyboardEvent): void => {
                     :key="`skeleton-slide-${slideIndex}`"
                     :ref="(el) => setSlideRef(el as HTMLElement, slideIndex)"
                     class="carousel-slide flex-shrink-0 w-full flex"
-                    :style="{ gap: `${props.gap}px` }"
                 >
                     <div 
                         v-for="item in slide.items"
@@ -301,7 +303,6 @@ const handleKeyDown = (event: KeyboardEvent): void => {
                     :key="`slide-${slide.index}`"
                     :ref="(el) => setSlideRef(el as HTMLElement, slide.index)"
                     class="carousel-slide flex-shrink-0 w-full flex"
-                    :style="{ gap: `${gap}px` }"
                     role="tabpanel"
                     :aria-label="$t('carousel.slide', { index: slide.index + 1 })"
                 >
