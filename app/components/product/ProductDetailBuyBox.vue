@@ -26,6 +26,7 @@ const props = defineProps<{
                 alignment="start"
                 :show-tier-prices="true"
                 :show-tax="true"
+                class="justify-start items-start"
             />
         </section>
 

@@ -1,11 +1,7 @@
 <template>
     <div
-        class="product-price-info flex min-h-[50px]"
-        :class="{
-            'justify-center items-center' : props.alignment === 'center',
-            'justify-start items-start' : props.alignment === 'start',
-            'flex-col items-start' : props.showTierPrices
-        }"
+        class="product-price-info flex"
+        :class="{ 'flex-col' : props.showTierPrices }"
     >
         <!-- Reference/Unit Price Information -->
         <div 
@@ -41,15 +37,15 @@
             }"
         >
             <!-- Cheapest Price Display -->
-            <div 
-                v-if="displayCheapestPrice && !showTierPrices"
+            <div
+                v-if="displayCheapestPrice"
                 :class="[sizeClasses.cheapestPrice, 'font-semibold']"
                 data-testid="product-cheapest-price"
             >
                 {{ t('product.price.cheapestPriceLabel') }} {{ getFormattedPrice(cheapestPrice) }}*
             </div>
 
-            <div v-if="tierPrices.length <= 0" class="flex justify-center items-baseline gap-1">
+            <div v-if="!showTierPrices || tierPrices.length <= 0" class="flex items-baseline gap-1">
                 <!-- "From" Price Indicator -->
                 <span 
                     v-if="displayFrom"
