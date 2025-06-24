@@ -42,14 +42,14 @@
         >
             <!-- Cheapest Price Display -->
             <div 
-                v-if="displayCheapestPrice"
+                v-if="displayCheapestPrice && !showTierPrices"
                 :class="[sizeClasses.cheapestPrice, 'font-semibold']"
                 data-testid="product-cheapest-price"
             >
                 {{ t('product.price.cheapestPriceLabel') }} {{ getFormattedPrice(cheapestPrice) }}*
             </div>
 
-            <div class="flex justify-center items-baseline gap-1">
+            <div v-if="tierPrices.length <= 0" class="flex justify-center items-baseline gap-1">
                 <!-- "From" Price Indicator -->
                 <span 
                     v-if="displayFrom"
