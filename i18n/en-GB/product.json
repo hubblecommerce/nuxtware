@@ -3,6 +3,7 @@
     "viewDetails": "View details",
     "viewDetailsFor": "View details for {product}",
     "unavailable": "Currently unavailable",
+    "noProductsFound": "No products found",
     "price": {
       "regulationPrice": "30-Days-Bestprice**: {price}",
       "referencePrice": "per {unit} {unitName}",
