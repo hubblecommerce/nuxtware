@@ -67,29 +67,72 @@ function optionState (group: Schemas["PropertyGroup"], option: Schemas["Property
     return null
 }
 
-function optionStyles ( state: OptionStates, media: boolean) : string {
-    let styles = ''
-        switch (state) {
-        case 'selected':
-            styles = 'border-2 text-neutral cursor-pointer'
-            if (media) {
-                styles += 'shadow-[inset_0_0_0_3px_rgba(7,122,80,1)]'
-            } else {
-                styles += 'hover:bg-neutral/15'
-            }
-            break
-        case 'combinable':
-            styles = 'bg-secondary-content text-neutral border-neutral bg-opacity-[0.08] hover:bg-neutral/15 cursor-pointer'
-            break
-        case 'uncombinable':
-            styles = 'bg-secondary-content text-neutral border-neutral hover:bg-neutral/15 cursor-pointer before:max-w-[100px]'
-            break
-        case 'disabled':
-            styles = 'bg-secondary-content text-neutral/30 border-neutral/30 cursor-not-allowed before:max-w-[100px]'
-            break
+function optionStyles(state: OptionStates, media: boolean, colorCode?: string): string {
+    // add all possible variant option color hex codes from the shop
+    const colorClassMap: Record<string, string> = {
+        '#0000ff': 'bg-[#0000ff]',
+        '#ff0000': 'bg-[#ff0000]',
+        '#ffffff': 'bg-[#ffffff]',
     }
-    return styles
+
+    const hasColor = !!colorCode && colorClassMap[colorCode]
+    const colorClass = hasColor ? colorClassMap[colorCode] : ''
+    const isWhite = colorCode === '#ffffff'
+    const textColorClass = isWhite ? ' text-neutral' : ' text-tertiary-content'
+    const hoverColorClass = isWhite
+        ? ' hover:bg-neutral/15'
+        : hasColor
+            ? ` hover:${colorClass}/15`
+            : ''
+
+    const focusClass = ' focus-style'
+    const borderClass = ' border border-border'
+
+    switch (state) {
+        case 'selected':
+            return [
+                'border-2 border-neutral cursor-pointer',
+                focusClass,
+                media ? 'shadow-[inset_0_0_0_3px_rgba(7,122,80,1)]' : '',
+                colorClass,
+                hasColor ? textColorClass : ' text-neutral'
+            ].join(' ').trim()
+
+        case 'combinable':
+            if (!hasColor) {
+                return [
+                    borderClass,
+                    'bg-opacity-[0.08] cursor-pointer',
+                    focusClass,
+                    'hover:bg-neutral/15'
+                ].join(' ').trim()
+            }
+            return [
+                colorClass,
+                hoverColorClass,
+                textColorClass,
+                'cursor-pointer',
+                focusClass
+            ].join(' ').trim()
+
+        case 'uncombinable':
+            return [
+                borderClass,
+                'cursor-pointer',
+                focusClass,
+                colorClass,
+                hoverColorClass || ' hover:bg-neutral/15',
+                hasColor ? `${textColorClass} hover:text-neutral` : ''
+            ].join(' ').trim()
+
+        case 'disabled':
+            return 'bg-secondary-content text-neutral/30 border border-border/30 cursor-not-allowed focus-style'
+
+        default:
+            return ''
+    }
 }
+
 </script>
 <template>
     <section v-if="props.configurator != null && props.configurator.length > 0" class="mb-6" :aria-label="$t('product.detail.variants')">
@@ -100,12 +143,12 @@ function optionStyles ( state: OptionStates, media: boolean) : string {
                     v-for="variantOption in variantGroup.options" :key="variantOption.id"
                     tabindex="0"
                     aria-label=""
-                    class="relative flex-shrink-0 border text-sm flex justify-center items-center"
+                    class="relative flex-shrink-0 text-sm flex justify-center items-center"
                     :class="[
-                            { 'min-h-[45px] px-4': !variantOption.media },
-                            { 'min-h-[105px] px-1': variantOption.media },
-                            optionStyles(optionState(variantGroup, variantOption), !!variantOption.media)
-                        ]"
+                        { 'min-h-[45px] px-4': !variantOption.media },
+                        { 'min-h-[105px] px-1': variantOption.media },
+                        optionStyles(optionState(variantGroup, variantOption), !!variantOption.media, variantOption.colorHexCode),
+                    ]"
                     @keydown.enter.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                 >
                     <img
