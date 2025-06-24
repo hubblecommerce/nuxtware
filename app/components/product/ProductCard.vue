@@ -168,6 +168,13 @@ function onTransitionEnd () {
                 class="absolute top-2 right-2 z-10"
             />
 
+            <!-- Show info if product is out of stock or sold out -->
+            <ProductSoldOut
+                :product="product"
+                version="minimal"
+                class="absolute top-2 left-2 z-10"
+            />
+
             <div 
                 ref="productCardContent"
                 class="w-full relative cursor-auto transition-all duration-500 p-2 bg-white"
@@ -188,9 +195,6 @@ function onTransitionEnd () {
                     size="small"
                     class="min-h-[50px]"
                 />
-
-                <!-- Show info if product is out of stock or sold out -->
-                <ProductSoldOut :product="product" version="minimal" />
 
                 <div 
                     ref="productCardInteractive"
