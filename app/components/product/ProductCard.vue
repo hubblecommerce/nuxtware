@@ -186,6 +186,7 @@ function onTransitionEnd () {
                 <ProductPrice :product="product" size="small" />
 
                 <div 
+                    v-if="layoutType !== 'minimal'"
                     ref="productCardInteractive"
                     class="transition-all duration-300 ease-in-out overflow-visible lg:overflow-hidden mt-2"
                     :style="`height: ${cardActive ? productCardInteractiveHeight : 0 }px;`"
