@@ -96,28 +96,56 @@
             </div>
 
             <!-- Tier Prices -->
-            <template v-if="tierPrices.length > 0 && props.showTierPrices">
+
+            <template v-if="tierPrices.length > 0 && calculatedPrices.length > 0 && props.showTierPrices">
                 <div class="grid grid-cols-2 gap-2 text-sm border border-border">
                     <div class="font-semibold p-2">{{ $t('product.price.pieces') }}</div>
                     <div class="font-semibold p-2">{{ $t('product.price.unitPrice') }}</div>
 
-                    <template v-for="(tierPrice, index) in tierPrices" :key="index">
+                    <template v-for="(calcPrice, index) in calculatedPrices" :key="index">
                         <template v-if="index === 0">
-                            <span class="p-2">{{ $t('product.price.until') }} {{ tierPrice.quantity }} {{ $t('product.price.pcs') }}</span>
-                            <span class="p-2">{{ getFormattedPrice(tierPrice.unitPrice) }}</span>
+                            <span class="p-2">{{ $t('product.price.until') }} {{ calcPrice.quantity }} {{ $t('product.price.pcs') }}</span>
                         </template>
                         <template v-else>
                             <span class="p-2">{{ $t('product.price.listingTextFrom') }} {{ tierPrices[index - 1]?.quantity + 1 }}</span>
-                            <span class="p-2">{{ $t('product.price.pcs') }} {{ getFormattedPrice(tierPrice.unitPrice) }}</span>
                         </template>
+                        <div class="flex flex-col gap-1 p-2">
+                            <span
+                                :class="[
+                                    sizeClasses.mainPrice,
+                                    'font-semibold',
+                                    {
+                                        'text-error': calcPrice.listPrice?.price,
+                                        'text-neutral': !calcPrice.listPrice?.price
+                                    }
+                                ]"
+                            >
+                                {{ getFormattedPrice(calcPrice.unitPrice) }}*
+                            </span>
+                            <!-- List Price with Discount -->
+                            <div v-if="calcPrice.listPrice?.percentage && calcPrice.listPrice?.price" class="flex gap-2">
+                                <div
+                                    v-if="calcPrice.listPrice?.price"
+                                >
+                                    <span :class="[sizeClasses.cheapestPrice, 'line-through']">
+                                        {{ getFormattedPrice(calcPrice.listPrice?.price) }}*
+                                    </span>
+                                </div>
+                                <span
+                                    v-if="calcPrice.listPrice?.price && calcPrice.listPrice?.percentage"
+                                >
+                                -{{ Math.round(calcPrice.listPrice?.percentage) }}%
+                            </span>
+                            </div>
+                        </div>
                     </template>
                 </div>
             </template>
 
             <template v-if="props.showTax">
                 <span class="flex flex-col text-xs text-neutral gap-2">
-              {{ $t(taxState === 'gross' ? 'product.price.inclTax' : 'product.price.exclTax') }}
-            </span>
+                    {{ $t(taxState === 'gross' ? 'product.price.inclTax' : 'product.price.exclTax') }}
+                </span>
             </template>
         </div>
     </div>
@@ -155,9 +183,10 @@ const {
     regulationPrice,
     displayCheapestPrice,
     cheapestPrice,
-    tierPrices
+    tierPrices,
 } = useProductPriceCustom(productRef)
 
+const calculatedPrices = props.product.calculatedPrices
 const { taxState } = useSessionContext()
 
 // Computed classes for responsive sizing
