@@ -18,6 +18,7 @@ import carousel from './carousel.json'
 import tabs from './tabs.json'
 import review from './review.json'
 import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
+import productDeliveryInformation from './productDeliveryInformation.json'
 
 export default {
     ...layout,
@@ -35,6 +36,7 @@ export default {
     ...sorter,
     ...listing,
     ...product,
+    ...productDeliveryInformation,
     ...productPurchaseUnitAndInfos,
     ...wishlist,
     ...carousel,

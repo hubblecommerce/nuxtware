@@ -2,8 +2,6 @@
   "product": {
     "viewDetails": "View details",
     "viewDetailsFor": "View details for {product}",
-    "unavailable": "Currently unavailable",
-    "deliveryTime": "Delivery Time",
     "price": {
       "regulationPrice": "30-Days-Bestprice**: {price}",
       "referencePrice": "per {unit} {unitName}",

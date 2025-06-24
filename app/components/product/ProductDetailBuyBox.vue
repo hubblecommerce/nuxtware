@@ -22,14 +22,13 @@ const props = defineProps<{
 
         <!-- Delivery snippet by sales channel logic  -->
 
+        <!--
+        TODO: rm code for product not available in integration branch,
+            it has been placed inside the new component <ProductDeliveryInformation />
+        -->
         <!-- Product is not available `!product.active`  -->
 
-        <template v-if="product.stock >= (product.minPurchase || 1) && product.deliveryTime">
-            <div class="flex items-center gap-1">
-                <div class="w-2 h-2 bg-info rounded-full" />
-                <span>{{ $t('product.deliveryTime') }}: {{ product.deliveryTime?.translated?.name }}</span>
-            </div>
-        </template>
+        <LazyProductDeliveryInformation :product />
 
         <!-- ProductSoldOut.vue  incl. restock time and light version -->
 
