@@ -15,7 +15,8 @@ type BreakpointMap = {
 interface ComponentToolTipProps {
     label: string
     breakpoints?: BreakpointMap
-    disabled?: boolean
+    disabled?: boolean,
+    variant?: 'bright' | 'dark'
 }
 
 const props = withDefaults(defineProps<ComponentToolTipProps>(), {
@@ -28,6 +29,7 @@ const props = withDefaults(defineProps<ComponentToolTipProps>(), {
         '1536': 'top',
     }),
     disabled: false,
+    variant: 'dark'
 })
 
 
@@ -64,6 +66,16 @@ const arrowPositionClasses = {
   bottom: 'bottom-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent',
   left: 'left-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent'
 }
+
+const variantClasses = {
+    bright: 'text-neutral bg-primary-content shadow-xs',
+    dark: 'text-primary-content bg-neutral shadow-xs'
+}
+
+const variantArrowClasses = {
+    bright: 'text-primary-content',
+    dark: 'text-neutral'
+}
 </script>
 
 <template>
@@ -73,15 +85,15 @@ const arrowPositionClasses = {
     <!-- Tooltip -->
     <div
       v-if="!disabled && label"
-      class="absolute hidden group-hover:block group-focus-within:block z-10 px-2 py-1 text-xs text-white bg-label pointer-events-none whitespace-nowrap"
-      :class="positionClasses[positionBasedOnWindowSize]"
+      class="absolute hidden group-hover:block group-focus-within:block z-10 px-2 py-1 text-xs pointer-events-none whitespace-nowrap"
+      :class="[positionClasses[positionBasedOnWindowSize], variantClasses[props.variant]]"
       role="tooltip"
     >
       {{ label }}
       <!-- Arrow pointing to the element -->
       <div
-        class="absolute w-0 h-0 border-4 text-label"
-        :class="arrowPositionClasses[positionBasedOnWindowSize]"
+        class="absolute w-0 h-0 border-4 "
+        :class="[arrowPositionClasses[positionBasedOnWindowSize], variantArrowClasses[props.variant]]"
       />
     </div>
   </div>
