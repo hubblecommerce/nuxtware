@@ -119,7 +119,7 @@ Nuxtware:
     - [x] X-Selling (Product Carousel)
 - [x] Cart
 - [x] Checkout
-- [ ] Wishlist
+- [x] Wishlist
 - [ ] Account
     - [x] Login
     - [x] Register

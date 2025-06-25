@@ -7,6 +7,9 @@
             "open": "Warenkorb Schnellansicht öffnen",
             "itemCount": "{count} Artikel im Warenkorb"
         },
+        "wishlist": {
+            "itemCount": "{count} Artikel in Wunschliste"
+        },
         "homeLink": "Zur Startseite",
         "customerLink": "Zum Kundenkonto",
         "wishlistLink": "Zur Wunschliste"

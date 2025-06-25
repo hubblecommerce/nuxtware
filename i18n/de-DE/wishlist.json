@@ -1,7 +1,13 @@
 {
+    "wishlist.title": "Meine Wunschliste",
     "wishlist.addToWishlist": "Zur Wunschliste hinzufügen",
     "wishlist.removeFromWishlist": "Von Wunschliste entfernen",
+    "wishlist.clearWishlist": "Wunschliste leeren",
+    "wishlist.emptyWishlistLabel": "Ihre Wunschliste ist leer",
+    "wishlist.emptyWishlistDescription": "Speichern Sie Ihre Lieblingsprodukte, indem Sie das Herz-Symbol bei jedem Produkt anklicken.",
+    "wishlist.continueShopping": "Weiter einkaufen",
     "wishlist.messages.addedToWishlist": "{product} wurde zu Ihrer Wunschliste hinzugefügt",
     "wishlist.messages.removedFromWishlist": "{product} wurde von Ihrer Wunschliste entfernt",
+    "wishlist.messages.clearedWishlist": "Ihre Wunschliste wurde geleert",
     "wishlist.messages.wishlistError": "Wunschliste konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut."
 }

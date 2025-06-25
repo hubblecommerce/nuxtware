@@ -8,6 +8,8 @@ provide('mainNavigation', data)
 const { cart } = useCart()
 const cartItemCount = computed(() => cart.value?.lineItems?.length ?? 0)
 const showCartSidenav = ref(false)
+
+const { count: wishlistCount } = useWishlist()
 </script>
 
 <template>
@@ -28,8 +30,17 @@ const showCartSidenav = ref(false)
                 <FoundationLink href="/customer" class="btn btn-ghost btn-medium btn-square">
                     <span class="sr-only">{{ $t('header.customerLink') }}</span><FoundationIcon name="user" />
                 </FoundationLink>
-                <FoundationLink href="/wishlist" class="btn btn-ghost btn-medium btn-square">
+                <FoundationLink href="/wishlist" class="btn btn-ghost btn-medium btn-square relative">
                     <span class="sr-only">{{ $t('header.wishlistLink') }}</span><FoundationIcon name="heart" />
+                    <client-only>
+                        <span 
+                            v-if="wishlistCount > 0"
+                            class="absolute -top-1 -right-1 bg-primary text-primary-content text-xs font-medium rounded-full min-w-5 h-5 flex items-center justify-center px-1"
+                            :aria-label="$t('header.wishlist.itemCount', { count: wishlistCount })"
+                        >
+                            {{ wishlistCount > 99 ? '99+' : wishlistCount }}
+                        </span>
+                    </client-only>
                 </FoundationLink>
                 <FoundationButton 
                     size="medium" 

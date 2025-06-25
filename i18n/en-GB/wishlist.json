@@ -1,7 +1,13 @@
 {
+    "wishlist.title": "My Wishlist",
     "wishlist.addToWishlist": "Add to wishlist",
     "wishlist.removeFromWishlist": "Remove from wishlist",
+    "wishlist.clearWishlist": "Clear Wishlist",
+    "wishlist.emptyWishlistLabel": "Your wishlist is empty",
+    "wishlist.emptyWishlistDescription": "Save your favourite products by clicking the heart icon on any product.",
+    "wishlist.continueShopping": "Continue Shopping",
     "wishlist.messages.addedToWishlist": "{product} has been added to your wishlist",
     "wishlist.messages.removedFromWishlist": "{product} has been removed from your wishlist",
+    "wishlist.messages.clearedWishlist": "Your wishlist has been cleared",
     "wishlist.messages.wishlistError": "Unable to update wishlist. Please try again."
 }

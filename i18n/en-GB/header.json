@@ -7,6 +7,9 @@
             "open": "Open cart quickview",
             "itemCount": "{count} items in cart"
         },
+        "wishlist": {
+            "itemCount": "{count} items in wishlist"
+        },
         "homeLink": "Go to homepage",
         "customerLink": "Go to customer",
         "wishlistLink": "Go to wishlist"
