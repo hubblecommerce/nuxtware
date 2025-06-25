@@ -2,6 +2,7 @@
   "productDeliveryInformation": {
     "unavailable": "Currently unavailable",
     "deliveryTime": "Delivery Time",
-    "deliveryShippingFree": "Free Shipping"
+    "deliveryShippingFree": "Free Shipping",
+    "releaseDate": "This product will be released on {date}"
   }
 }

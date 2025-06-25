@@ -2,6 +2,7 @@
   "productDeliveryInformation": {
     "unavailable": "Derzeit nicht verfügbar",
     "deliveryTime": "Lieferzeit",
-    "deliveryShippingFree": "Versandkostenfrei"
+    "deliveryShippingFree": "Versandkostenfrei",
+    "releaseDate": "Dieses Produkt erscheint am {date}"
   }
 }
