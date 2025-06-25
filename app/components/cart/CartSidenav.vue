@@ -33,6 +33,10 @@ const handleCheckout = () => {
     isOpen.value = false
 }
 
+const handleCart = () => {
+    isOpen.value = false
+}
+
 const onChangeQuantity = async (data: { id: string, quantity: number }) => {
     try {
         await changeProductQuantity({ id: data.id, quantity: data.quantity })
@@ -139,6 +143,8 @@ onMounted(() => {
             <div v-if="cart?.lineItems?.length" class="p-4 border-t border-border">
                 <CartSummary 
                     :cart="cart" 
+                    class="p-2 rounded-lg"
+                    @cart="handleCart"
                     @checkout="handleCheckout"
                 />
             </div>

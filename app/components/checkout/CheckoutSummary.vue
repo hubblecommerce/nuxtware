@@ -30,6 +30,8 @@
             <CartSummary
                 :cart="cart"
                 :show-checkout-button="false"
+                :show-cart-button="false"
+                class="p-2 rounded-lg"
             />
         </div>
 

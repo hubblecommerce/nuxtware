@@ -116,8 +116,8 @@ Nuxtware:
     - [x] Tabs: Description / Reviews
         - [x] Description
         - [x] Reviews
-    - [ ] X-Selling (Product Carousel)
-- [ ] Cart
+    - [x] X-Selling (Product Carousel)
+- [x] Cart
 - [x] Checkout
 - [ ] Wishlist
 - [ ] Account

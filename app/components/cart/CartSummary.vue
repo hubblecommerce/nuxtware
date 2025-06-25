@@ -4,14 +4,17 @@ import type { Schemas } from '#shopware'
 interface CartSummaryProps {
     cart: Schemas['Cart']
     showCheckoutButton?: boolean
+    showCartButton?: boolean
 }
 
 withDefaults(defineProps<CartSummaryProps>(), {
-    showCheckoutButton: true
+    showCheckoutButton: true,
+    showCartButton: true
 })
 
 const emit = defineEmits<{
     'checkout': []
+    'cart': []
 }>()
 
 const { getFormattedPrice } = usePrice()
@@ -19,10 +22,14 @@ const { getFormattedPrice } = usePrice()
 const handleCheckout = () => {
     emit('checkout')
 }
+
+const handleCart = () => {
+    emit('cart')
+}
 </script>
 
 <template>
-    <div class="p-2 rounded-lg">
+    <div>
         <h3 class="text-base font-medium  mb-3">
             {{ $t('cart.orderSummary') }}
         </h3>
@@ -48,6 +55,17 @@ const handleCheckout = () => {
                 <span class="font-medium ">{{ $t('cart.orderTotal') }}</span>
                 <span class="font-bold ">{{ getFormattedPrice(cart.price?.totalPrice) }}</span>
             </div>
+        </div>
+
+         <!-- Cart button -->
+        <div v-if="showCartButton" class="mt-4">
+            <FoundationLink 
+                to="/cart"
+                class="w-full btn btn-primary btn-outline"
+                @click="handleCart"
+            >
+                {{ $t('cart.title') }}
+            </FoundationLink>
         </div>
         
         <!-- Checkout button -->
