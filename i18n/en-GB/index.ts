@@ -19,6 +19,7 @@ import tabs from './tabs.json'
 import review from './review.json'
 import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
 import productSoldOut from './productSoldOut.json'
+import productQtySelector from './productQtySelector.json'
 
 export default {
     ...layout,
@@ -38,6 +39,7 @@ export default {
     ...product,
     ...productPurchaseUnitAndInfos,
     ...productSoldOut,
+    ...productQtySelector,
     ...wishlist,
     ...carousel,
     ...tabs,

@@ -1,0 +1,8 @@
+{
+  "productQtySelector" : {
+    "label": "Anzahl",
+    "labelInput": "Anzahl Auswahl",
+    "increase": "Anzahl erhöhen",
+    "decrease": "Anzahl verringern"
+  }
+}
