@@ -4,7 +4,8 @@
             "open": "Open the main navigation"
         },
         "cart": {
-            "open": "Open cart quickview"
+            "open": "Open cart quickview",
+            "itemCount": "{count} items in cart"
         },
         "homeLink": "Go to homepage",
         "customerLink": "Go to customer",

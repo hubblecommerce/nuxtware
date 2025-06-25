@@ -5,20 +5,15 @@ const { data } = useAsyncData("navigation", () => {
 })
 provide('mainNavigation', data)
 
-// const { getFormattedPrice } = usePrice()
-// const { cart } = useCart()
-
+const { cart } = useCart()
+const cartItemCount = computed(() => cart.value?.lineItems?.length ?? 0)
 const showCartSidenav = ref(false)
 </script>
 
 <template>
     <header>
-<!--        <div>-->
-<!--            {{ $t('cart.title') }} {{ $t('cart.totals') }}: <span><client-only>{{ getFormattedPrice(cart?.price?.totalPrice) }}<template #fallback>...</template></client-only></span>-->
-<!--        </div>-->
-
-<!--        <ContextLanguageSwitch />-->
-<!--        <ContextCurrencySwitch />-->
+        <!-- TODO: <ContextLanguageSwitch />-->
+        <!-- TODO: <ContextCurrencySwitch />-->
 
         <div class="m-auto w-full flex flex-wrap justify-between items-center p-2 lg:container">
             <SidenavMenu />
@@ -40,10 +35,20 @@ const showCartSidenav = ref(false)
                     size="medium" 
                     variant="ghost" 
                     square
+                    class="relative"
                     :aria-label="$t('header.cart.open')"
                     @click="showCartSidenav = true"
                 >
                     <span class="sr-only">{{ $t('header.cart.open') }}</span><FoundationIcon name="cart" />
+                    <client-only>
+                        <span 
+                            v-if="cartItemCount > 0"
+                            class="absolute -top-1 -right-1 bg-primary text-primary-content text-xs font-medium rounded-full min-w-5 h-5 flex items-center justify-center px-1"
+                            :aria-label="$t('header.cart.itemCount', { count: cartItemCount })"
+                        >
+                            {{ cartItemCount > 99 ? '99+' : cartItemCount }}
+                        </span>
+                    </client-only>
                 </FoundationButton>
             </div>
         </div>
@@ -56,7 +61,7 @@ const showCartSidenav = ref(false)
     </header>
 
     <LayoutTopBar />
-<!--    <aside />-->
+
     <main>
         <slot />
     </main>
@@ -67,6 +72,5 @@ const showCartSidenav = ref(false)
     <!-- Global Notifications -->
     <NotificationContainer />
 
-    <!--    <footer />-->
     <LayoutFooter :depth-footer-navigation="1" :depth-service-navigation="1" />
 </template>

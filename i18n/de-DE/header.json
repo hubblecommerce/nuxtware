@@ -4,7 +4,8 @@
             "open": "Hauptnavigation öffnen"
         },
         "cart": {
-            "open": "Warenkorb Schnellansicht öffnen"
+            "open": "Warenkorb Schnellansicht öffnen",
+            "itemCount": "{count} Artikel im Warenkorb"
         },
         "homeLink": "Zur Startseite",
         "customerLink": "Zum Kundenkonto",
