@@ -183,7 +183,11 @@ function onTransitionEnd () {
                 </h2>
 
                 <!-- Price section -->
-                <ProductPrice :product="product" size="small" />
+                <ProductPrice
+                    :product="product"
+                    size="small"
+                    class="min-h-[50px]"
+                />
 
                 <div 
                     ref="productCardInteractive"

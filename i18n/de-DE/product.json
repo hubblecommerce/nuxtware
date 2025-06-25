@@ -8,7 +8,13 @@
       "referencePrice": "pro {unit} {unitName}",
       "boxUnitLabel": "Inhalt:",
       "cheapestPriceLabel": "ab",
-      "listingTextFrom": "ab"
+      "listingTextFrom": "ab",
+      "inclTax": "inkl. Mwst.",
+      "exclTax": "exkl. Mwst.",
+      "until": "Bis",
+      "pcs": "Stk",
+      "pieces": "Anzahl",
+      "unitPrice": "Stückpreis"
     },
     "badges": {
       "topseller": "Tipp"
