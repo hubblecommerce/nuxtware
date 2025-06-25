@@ -1,56 +1,147 @@
 <script setup lang="ts">
-const { cartItems, subtotal, totalPrice, shippingTotal } = useCart();
-const hasItems = computed(() => cartItems.value.length > 0);
-const { getFormattedPrice } = usePrice()
+import type { Schemas } from '#shopware'
+import { ApiClientError } from '@shopware/api-client'
+
+const { cart, refreshCart, changeProductQuantity, removeItem } = useCart()
+const { resolveApiErrors } = useApiErrorsResolver()
+const errors = ref<string[]>([])
+const isInitialLoad = ref(true)
+const loadingItems = ref<Set<string>>(new Set())
+
+const hasItems = computed(() => (cart.value?.lineItems?.length ?? 0) > 0)
+const isCartEmpty = computed(() => !isInitialLoad.value && !hasItems.value)
+
+const localePath = useLocalePath()
+const { formatLink } = useInternationalization(localePath)
+
+const handleCheckout = () => {
+    navigateTo(formatLink('/checkout'))
+}
+
+const onChangeQuantity = async (data: { id: string, quantity: number }) => {
+    try {
+        loadingItems.value.add(data.id)
+        await changeProductQuantity({ id: data.id, quantity: data.quantity })
+    } catch (e) {
+        handleError(e)
+    } finally {
+        loadingItems.value.delete(data.id)
+    }
+}
+
+const onRemoveItem = async (item: Schemas["LineItem"]) => {
+    try {
+        loadingItems.value.add(item.id)
+        await removeItem(item)
+    } catch (e) {
+        handleError(e)
+    } finally {
+        loadingItems.value.delete(item.id)
+    }
+}
+
+const handleError = (e: unknown) => {
+    if (e instanceof ApiClientError) {
+        const _errors = resolveApiErrors(e.details.errors)
+        for (const error of _errors) {
+            errors?.value?.push(error)
+        }
+    }
+}
+
+onMounted(async () => {
+    try {
+        await refreshCart()
+    } finally {
+        isInitialLoad.value = false
+    }
+})
 </script>
 
 <template>
-    <div v-if="hasItems" class="m-10">
-        <h1 class="mb-3 text-2xl font-medium text-secondary-900">
+    <div class="lg:container mx-auto px-2 py-8">
+        <!-- Error state -->
+        <div v-if="errors?.length > 0" class="mb-6 p-4 bg-error border border-error-content rounded">
+            <h2 class="text-error-content font-medium mb-2">{{ $t('common.error') }}</h2>
+            <ul class="text-error-content text-sm">
+                <li v-for="(error, errorIndex) in errors" :key="errorIndex">
+                    {{ error }}
+                </li>
+            </ul>
+        </div>
+
+        <!-- Page title (always show) -->
+        <h1 class="mb-3 text-2xl font-medium">
             {{ $t("cart.title") }}
         </h1>
 
-        <div class="my-10 md:grid md:grid-cols-3 md:gap-8">
-            <ul role="list" class="divide-y pl-0 divide-secondary-200 md:col-span-2 border-t">
-                <li v-for="cartItem in cartItems" :key="cartItem.id" class="flex justify-between gap-4 py-6">
-                    <div>{{ cartItem.label }}</div>
-                    <div>{{ cartItem.quantity }} x {{ getFormattedPrice(cartItem?.price?.unitPrice) }}</div>
-                </li>
-            </ul>
+        <!-- Empty cart state -->
+        <div v-if="isCartEmpty" class="flex flex-col items-center justify-center py-16">
+            <FoundationIcon name="cart" class="w-12 h-12 mb-4" />
+            <h2 class="text-center text-xl font-medium">
+                {{ $t("cart.emptyCartLabel") }}
+            </h2>
+        </div>
 
-            <aside class="md:col-span-1 pb-4 px-4 bg-secondary-50 rounded-sm dark:bg-secondary-800">
-                <h2 class="text-xl font-medium text-secondary-900">
-                    {{ $t("cart.orderSummary") }}
-                </h2>
+        <!-- Cart content (with items or loading) -->
+        <div v-else class="md:grid md:grid-cols-3 md:gap-8">
+            <!-- Cart items section -->
+            <div class="md:col-span-2 border-t border-border">
+                <!-- Show skeleton items during initial load -->
+                <div v-if="isInitialLoad" class="flex flex-col gap-4">
+                    <ComponentSkeleton 
+                        v-for="i in 3" 
+                        :key="`skeleton-${i}`"
+                        preset="card" 
+                        height="120px" 
+                        class="p-4 border-b border-border"
+                    />
+                </div>
+                
+                <!-- Show actual cart items -->
+                <template v-else>
+                    <template v-for="item in cart?.lineItems" :key="item.id">
+                        <!-- Show skeleton if this item is being modified -->
+                        <ComponentSkeleton 
+                            v-if="loadingItems.has(item.id)"
+                            preset="card" 
+                            height="120px" 
+                            class="p-4 my-4 border-b border-border"
+                        />
+                        <!-- Show actual cart item -->
+                        <CartItem
+                            v-else
+                            :item="item"
+                            @update:quantity="(quantity) => onChangeQuantity({ id: item.id, quantity })"
+                            @remove="onRemoveItem(item)"
+                        />
+                    </template>
+                </template>
+            </div>
 
-                <div class="flex py-4 border-b justify-between text-sm text-secondary-500">
-                    <p>{{ $t("cart.subtotal") }}</p>
-                    <div class="text-secondary-900 font-medium">
-                        {{ getFormattedPrice(subtotal) }}
+            <!-- Cart summary section -->
+            <aside class="md:col-span-1 bg-secondary-50 rounded-sm">
+                <!-- Show skeleton summary during initial load -->
+                <div v-if="isInitialLoad" class="p-4">
+                    <div class="mb-4">
+                        <ComponentSkeleton preset="heading" width="150px" height="24px" />
+                    </div>
+                    <div class="space-y-3">
+                        <ComponentSkeleton preset="line" height="20px" />
+                        <ComponentSkeleton preset="line" height="20px" />
+                        <ComponentSkeleton preset="line" height="20px" />
+                        <ComponentSkeleton preset="button" height="48px" class="mt-6" />
                     </div>
                 </div>
-
-                <div class="flex py-4 border-b justify-between text-sm text-secondary-500">
-                    <p>{{ $t("cart.shippingEstimate") }}</p>
-                    <div class="text-secondary-900 font-medium">
-                        {{ getFormattedPrice(shippingTotal) }}
-                    </div>
-                </div>
-
-                <div class="flex py-4 mb-8 justify-between text-secondary-900 font-medium">
-                    <p>{{ $t("cart.orderTotal") }}</p>
-                    <div class="text-secondary-900 font-medium">
-                        {{ getFormattedPrice(totalPrice) }}
-                    </div>
-                </div>
-
-                <NuxtLinkLocale to="/checkout">
-                    {{ $t("cart.checkout") }}
-                </NuxtLinkLocale>
+                
+                <!-- Show actual cart summary -->
+                <CartSummary 
+                    v-else-if="cart"
+                    :cart="cart" 
+                    :show-cart-button="false"
+                    @checkout="handleCheckout"
+                />
             </aside>
         </div>
     </div>
-    <h1 v-else class="m-10 text-center text-2xl font-medium text-secondary-900">
-        {{ $t("cart.emptyCartLabel") }}
-    </h1>
 </template>

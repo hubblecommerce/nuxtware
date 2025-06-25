@@ -86,7 +86,7 @@ All components MUST be:
 
 ## Design System Integration
 
-- Use theme tokens: `border-border`, `text-primary`, `bg-surface`
+- Use theme tokens from app/assets/styles/main.css: `border-border`, `text-primary`
 - Consistent icon sizing: `w-4 h-4` for standard icons
 - Responsive patterns: `w-[90%] md:w-[400px]`
 - Foundation component props over custom classes
@@ -102,10 +102,20 @@ All components MUST be:
 ## Testing & Quality
 
 - Run `npm lint` before committing
+- **TypeScript Validation**: Always run `npx nuxt typecheck` after implementations to catch type errors
 - Follow accessibility guidelines (WCAG compliance)
 - Ensure responsive design across breakpoints
 - Test with screen readers and keyboard navigation
 - Verify i18n translations work correctly
+
+### TypeScript Error Resolution Process
+1. Run `npx nuxt typecheck` to identify type errors
+2. Filter errors for specific files using `npx nuxt typecheck 2>&1 | grep "filename.vue"`
+3. Common fixes:
+   - Use nullish coalescing `?? 0` for potentially undefined values
+   - Add optional chaining `?.` for safe property access
+   - Add conditional rendering `v-if` to ensure objects exist before use
+   - Handle union types with proper type guards
 
 ## Documentation
 
