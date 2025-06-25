@@ -22,8 +22,8 @@ const isStockFewerMinPurchase = computed (() => {
                 <ComponentToolTip
                     :label="$t('productSoldOut.soldOut')"
                     :breakpoints="{
-                        base: 'right',
-                        '640': 'right',
+                        base: 'left',
+                        '640': 'left',
                         '768': 'top',
                         '1024': 'top',
                         '1280': 'top',
@@ -44,8 +44,8 @@ const isStockFewerMinPurchase = computed (() => {
                 <ComponentToolTip
                     :label="$t('productSoldOut.restock', { days: props.product.restockTime })"
                     :breakpoints="{
-                        base: 'right',
-                        '640': 'right',
+                        base: 'left',
+                        '640': 'left',
                         '768': 'top',
                         '1024': 'top',
                         '1280': 'top',

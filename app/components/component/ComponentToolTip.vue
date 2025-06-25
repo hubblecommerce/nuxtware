@@ -85,7 +85,7 @@ const variantArrowClasses = {
     <!-- Tooltip -->
     <div
       v-if="!disabled && label"
-      class="absolute hidden group-hover:block group-focus-within:block z-10 px-2 py-1 text-xs pointer-events-none whitespace-nowrap"
+      class="absolute hidden group-hover:block group-focus-within:block z-20 px-2 py-1 text-xs pointer-events-none whitespace-nowrap"
       :class="[positionClasses[positionBasedOnWindowSize], variantClasses[props.variant]]"
       role="tooltip"
     >
