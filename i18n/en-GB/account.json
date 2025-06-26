@@ -4,7 +4,8 @@
             "title": "Account",
             "description": "Sign in to your account or create a new one",
             "metaTitle": "Account - Sign In or Register",
-            "metaDescription": "Sign in to your account to manage your orders, address book, and preferences. New customers can create an account in just a few steps."
+            "metaDescription": "Sign in to your account to manage your orders, address book, and preferences. New customers can create an account in just a few steps.",
+            "comingSoon": "This page is coming soon. Content will be available here shortly."
         },
         "personalInformationLabel": "Personal Information",
         "notCreateAccount": "Do not create an account",

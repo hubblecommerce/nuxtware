@@ -4,7 +4,8 @@
             "title": "Konto",
             "description": "Melden Sie sich in Ihrem Konto an oder erstellen Sie ein neues",
             "metaTitle": "Konto - Anmelden oder Registrieren",
-            "metaDescription": "Melden Sie sich in Ihrem Konto an, um Ihre Bestellungen, Adressbuch und Einstellungen zu verwalten. Neue Kunden können in wenigen Schritten ein Konto erstellen."
+            "metaDescription": "Melden Sie sich in Ihrem Konto an, um Ihre Bestellungen, Adressbuch und Einstellungen zu verwalten. Neue Kunden können in wenigen Schritten ein Konto erstellen.",
+            "comingSoon": "Diese Seite ist in Kürze verfügbar. Inhalte werden hier bald zu finden sein."
         },
         "personalInformationLabel": "Persönliche Informationen",
         "notCreateAccount": "Kein Konto erstellen",
