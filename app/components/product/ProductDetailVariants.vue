@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {Schemas} from "#shopware"
-import { buildUrlPrefix, getProductRoute } from "@shopware/helpers";
+import {buildUrlPrefix, getProductRoute} from "@shopware/helpers"
 
 const props = defineProps<{
     configurator: Schemas["PropertyGroup"][] | null
@@ -11,6 +11,7 @@ const {
     getSelectedOptions,
     findVariantForSelectedOptions,
 } = useProductConfigurator()
+const { search } = useProductSearch()
 
 type OptionStates = 'selected' | 'combinable' | 'uncombinable' | 'disabled' | null
 const selectableOptions = ref<Record<string, string[]>>({})
@@ -41,6 +42,43 @@ const onHandleChange = async () => {
         emit("change", variantFound)
     }
     isLoading.value = false
+}
+
+const colorOptions = computed(() =>
+    props.configurator?.find(g => g.displayType === "color")?.options ?? []
+)
+
+const getColorVariantIdMap = async (): Promise<Map<string, string>> => {
+    const pairs = await Promise.all(
+        colorOptions.value.map(async (option) => {
+            const variant = await findVariantForSelectedOptions({ color: option.id })
+            return variant ? [option.id, variant.id] as const : null
+        })
+    )
+
+    return new Map(pairs.filter(Boolean) as [string, string][])
+}
+
+const colourToVariantId = await getColorVariantIdMap()
+const variantIds  = [...new Set(colourToVariantId.values())]
+
+async function loadColorVariantProducts() {
+    if (!variantIds.length) return
+    return await Promise.all(
+        variantIds.map(id => search(id))
+    )
+}
+
+const productsPerVariantColor = await loadColorVariantProducts()
+const colorToProduct = new Map<string, Schemas["Product"]>()
+
+if (productsPerVariantColor) {
+    for (const product of productsPerVariantColor) {
+        const colourId = [...colourToVariantId.entries()]
+            .find(([, vId]) => vId === product.product?.id)?.[0]
+
+        if (colourId) colorToProduct.set(colourId, product.product)
+    }
 }
 
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
@@ -93,8 +131,7 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
             return [
                 'border-2 border-neutral cursor-pointer',
                 focusClass,
-                media ? 'shadow-[inset_0_0_0_3px_rgba(7,122,80,1)]' : '',
-                colorClass,
+                media ? '' : colorClass,
                 hasColor ? textColorClass : ' text-neutral'
             ].join(' ').trim()
 
@@ -108,7 +145,7 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                 ].join(' ').trim()
             }
             return [
-                colorClass,
+                media ? '' : colorClass,
                 hoverColorClass,
                 textColorClass,
                 'cursor-pointer',
@@ -120,8 +157,8 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                 borderClass,
                 'cursor-pointer',
                 focusClass,
-                colorClass,
-                hoverColorClass || ' hover:bg-neutral/15',
+                media ? '' : colorClass,
+                media ? ' hover:bg-neutral/15' : (hoverColorClass ? hoverColorClass : ' hover:bg-neutral/15'),
                 hasColor ? `${textColorClass} hover:text-neutral` : ''
             ].join(' ').trim()
 
@@ -145,16 +182,16 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                     aria-label=""
                     class="relative flex-shrink-0 text-sm flex justify-center items-center"
                     :class="[
-                        { 'min-h-[45px] px-4': !variantOption.media },
-                        { 'min-h-[105px] px-1': variantOption.media },
-                        optionStyles(optionState(variantGroup, variantOption), !!variantOption.media, variantOption.colorHexCode),
+                        { 'min-h-[45px] px-4': !colorToProduct.get(variantOption.id)?.cover?.media },
+                        { 'min-h-[105px] px-1': colorToProduct.get(variantOption.id)?.cover?.media },
+                        optionStyles(optionState(variantGroup, variantOption), !!colorToProduct.get(variantOption.id)?.cover?.media.url, variantOption.colorHexCode),
                     ]"
                     @keydown.enter.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                 >
                     <img
-                        v-if="variantOption.media"
-                        :src="variantOption.media.url"
-                        :alt="variantOption.media.alt || ''"
+                        v-if="variantGroup.displayType === 'color'"
+                        :src="colorToProduct.get(variantOption.id)?.cover?.media.url"
+                        :alt="colorToProduct.get(variantOption.id)?.cover?.media.translated.alt || ''"
                         class="mix-blend-multiply"
                         width="60"
                     />
