@@ -34,9 +34,13 @@
         "nav": {
             "title": "Mein Konto",
             "close": "Kontomenü schließen",
-            "dashboard": "Dashboard",
-            "orders": "Bestellungen",
-            "settings": "Einstellungen"
-        }
+            "overview": "Übersicht",
+            "profile": "Profil",
+            "address": "Adressen",
+            "orders": "Bestellungen"
+        },
+        "greetings": "Hallo",
+        "logout": "Abmelden",
+        "guestAbort": "Gastsitzung beenden"
     }
 }
