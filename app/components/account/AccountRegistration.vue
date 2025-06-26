@@ -1,11 +1,135 @@
+<script setup lang="ts">
+import type { RequestParameters } from '#shopware'
+import { ApiClientError } from '@shopware/api-client'
+
+interface AccountRegistrationProps {
+    disabled?: boolean
+    allowGuest?: boolean
+}
+
+interface AccountRegistrationEmits {
+    (e: 'registration-success' | 'switch-to-login'): void
+}
+
+const props = withDefaults(defineProps<AccountRegistrationProps>(), {
+    disabled: false,
+    allowGuest: false
+})
+
+const emit = defineEmits<AccountRegistrationEmits>()
+
+// Composables
+const { register } = useUser()
+const { getSalutations } = useSalutations()
+const { resolveApiErrors } = useApiErrorsResolver()
+const { error } = useGlobalNotifications()
+const { t } = useI18n()
+
+// State
+const isLoading = ref(false)
+const isAddressValid = ref(false) // Address is always required
+
+const formData = reactive<RequestParameters<'register'>>({
+    salutationId: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    guest: false,
+    billingAddress: {
+        street: '',
+        zipcode: '',
+        city: '',
+        countryId: '',
+        countryStateId: '',
+    },
+    acceptedDataProtection: false,
+    storefrontUrl: '',
+})
+
+// Separate billing address for the component
+const billingAddress = ref({
+    street: '',
+    zipcode: '',
+    city: '',
+    countryId: '',
+    countryStateId: '',
+})
+
+// Computed
+const salutationOptions = computed(() => 
+    getSalutations.value.map(salutation => ({
+        value: salutation.id,
+        label: salutation.displayName
+    }))
+)
+
+const isFormValid = computed(() => {
+    const requiredPersonalFields = [
+        formData.salutationId,
+        formData.firstName,
+        formData.lastName,
+        formData.email,
+    ]
+
+    const allPersonalFieldsFilled = requiredPersonalFields.every(field => field.trim().length > 0)
+    const passwordValid = (formData.guest && props.allowGuest) || formData.password.length > 0
+    const dataProtectionAccepted = formData.acceptedDataProtection
+
+    return allPersonalFieldsFilled && 
+           passwordValid && 
+           dataProtectionAccepted && 
+           isAddressValid.value && 
+           !isLoading.value
+})
+
+// Watch billing address changes and sync to form data
+watch(billingAddress, (newAddress) => {
+    Object.assign(formData.billingAddress, newAddress)
+}, { deep: true })
+
+// Methods
+const onAddressValidationChange = (valid: boolean) => {
+    isAddressValid.value = valid
+}
+
+const handleSubmit = async () => {
+    if (!isFormValid.value || props.disabled) return
+
+    isLoading.value = true
+
+    try {
+        // Ensure storefrontUrl is set for the registration
+        formData.storefrontUrl = window.location.origin
+
+        const response = await register(formData)
+        
+        // For guest checkout, we should proceed regardless of account activation
+        // For regular registration, we should also proceed as the user is now registered
+        if (response) {
+            emit('registration-success')
+        }
+    } catch (apiError) {
+        if (apiError instanceof ApiClientError) {
+            const errorMessages = resolveApiErrors(apiError.details.errors)
+            error(errorMessages.join(', ') || t('account.registration.unknownError'))
+        } else {
+            error(apiError instanceof Error ? apiError.message : t('account.registration.unknownError'))
+        }
+    } finally {
+        isLoading.value = false
+    }
+}
+</script>
+
 <template>
     <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
             <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
-                {{ $t('checkout.registration.title') }}
+                {{ $t('account.registration.title') }}
             </FoundationHeadline>
             <p class="text-sm">
-                {{ $t('checkout.registration.description') }}
+                {{ $t('account.registration.description') }}
             </p>
         </legend>
 
@@ -14,13 +138,13 @@
                 <!-- Personal Information Section -->
                 <div>
                     <FoundationHeadline level="h4" class="text-base font-medium text-primary mb-3">
-                        {{ $t('checkout.personalInformationLabel') }}
+                        {{ $t('account.personalInformationLabel') }}
                     </FoundationHeadline>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Salutation -->
                         <div class="md:col-span-2">
-                            <FoundationLabel for="registration-salutation" required>
+                            <FoundationLabel for="registration-salutation" class="block" required>
                                 {{ $t('form.salutation') }}
                             </FoundationLabel>
                             <FoundationSelect
@@ -31,6 +155,7 @@
                                 :disabled="isLoading"
                                 required
                                 name="salutation"
+                                class="w-full"
                             />
                         </div>
 
@@ -77,15 +202,15 @@
                             v-model="formData.password"
                             :label="$t('form.password')"
                             type="password"
-                            :placeholder="$t('checkout.registration.passwordPlaceholder')"
+                            :placeholder="$t('account.registration.passwordPlaceholder')"
                             :disabled="isLoading"
                             size="md"
                             bordered
                         />
                     </div>
 
-                    <!-- Guest Checkout Option -->
-                    <div class="mt-4">
+                    <!-- Guest Checkout Option (only show if allowGuest prop is true) -->
+                    <div v-if="allowGuest" class="mt-4">
                         <div class="flex items-center">
                             <FoundationCheckbox
                                 id="registration-guest"
@@ -93,16 +218,16 @@
                                 :disabled="isLoading"
                             />
                             <FoundationLabel for="registration-guest" class="ml-2 text-sm">
-                                {{ $t('checkout.notCreateAccount') }}
+                                {{ $t('account.notCreateAccount') }}
                             </FoundationLabel>
                         </div>
                     </div>
                 </div>
 
                 <!-- Billing Address Section -->
-                <CheckoutAddress
+                <AccountAddress
                     v-model="billingAddress"
-                    :title="$t('checkout.registration.billingAddress')"
+                    :title="$t('account.registration.billingAddress')"
                     field-prefix="billing"
                     mode="embedded"
                     :disabled="isLoading"
@@ -118,7 +243,7 @@
                         required
                     />
                     <FoundationLabel for="registration-data-protection" class="ml-2 text-sm" required>
-                        {{ $t('checkout.registration.dataProtection') }}
+                        {{ $t('account.registration.dataProtection') }}
                     </FoundationLabel>
                 </div>
 
@@ -132,7 +257,7 @@
                         :disabled="!isFormValid"
                         @click="handleSubmit"
                     >
-                        {{ formData.guest ? $t('checkout.registration.continueAsGuest') : $t('checkout.registration.createAccount') }}
+                        {{ formData.guest && allowGuest ? $t('account.registration.continueAsGuest') : $t('account.registration.createAccount') }}
                     </FoundationButton>
                     
                     <FoundationButton
@@ -141,132 +266,10 @@
                         class="flex-1"
                         @click="$emit('switch-to-login')"
                     >
-                        {{ $t('checkout.registration.alreadyHaveAccount') }}
+                        {{ $t('account.registration.alreadyHaveAccount') }}
                     </FoundationButton>
                 </div>
             </div>
         </form>
     </fieldset>
 </template>
-
-<script setup lang="ts">
-import type { RequestParameters } from '#shopware'
-import { ApiClientError } from '@shopware/api-client'
-
-interface ComponentCheckoutRegistrationProps {
-    disabled?: boolean
-}
-
-interface ComponentCheckoutRegistrationEmits {
-    (e: 'registration-success' | 'switch-to-login'): void
-}
-
-const props = withDefaults(defineProps<ComponentCheckoutRegistrationProps>(), {
-    disabled: false
-})
-
-const emit = defineEmits<ComponentCheckoutRegistrationEmits>()
-
-// Composables
-const { register } = useUser()
-const { getSalutations } = useSalutations()
-const { resolveApiErrors } = useApiErrorsResolver()
-const { error } = useGlobalNotifications()
-const { t } = useI18n()
-
-// State
-const isLoading = ref(false)
-const isAddressValid = ref(false)
-
-const formData = reactive<RequestParameters<'register'>>({
-    salutationId: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    guest: false,
-    billingAddress: {
-        street: '',
-        zipcode: '',
-        city: '',
-        countryId: '',
-        countryStateId: '',
-    },
-    acceptedDataProtection: false,
-    storefrontUrl: '',
-})
-
-// Separate billing address for the component
-const billingAddress = ref({
-    street: '',
-    zipcode: '',
-    city: '',
-    countryId: '',
-    countryStateId: '',
-})
-
-// Computed
-const salutationOptions = computed(() => 
-    getSalutations.value.map(salutation => ({
-        value: salutation.id,
-        label: salutation.displayName
-    }))
-)
-
-const isFormValid = computed(() => {
-    const requiredPersonalFields = [
-        formData.salutationId,
-        formData.firstName,
-        formData.lastName,
-        formData.email,
-    ]
-
-    const allPersonalFieldsFilled = requiredPersonalFields.every(field => field.trim().length > 0)
-    const passwordValid = formData.guest || formData.password.length > 0
-    const dataProtectionAccepted = formData.acceptedDataProtection
-
-    return allPersonalFieldsFilled && 
-           passwordValid && 
-           dataProtectionAccepted && 
-           isAddressValid.value && 
-           !isLoading.value
-})
-
-// Watch billing address changes and sync to form data
-watch(billingAddress, (newAddress) => {
-    Object.assign(formData.billingAddress, newAddress)
-}, { deep: true })
-
-// Methods
-const onAddressValidationChange = (valid: boolean) => {
-    isAddressValid.value = valid
-}
-
-const handleSubmit = async () => {
-    if (!isFormValid.value || props.disabled) return
-
-    isLoading.value = true
-
-    try {
-        // Ensure storefrontUrl is set for the registration
-        formData.storefrontUrl = window.location.origin
-
-        const response = await register(formData)
-        
-        // For guest checkout, we should proceed regardless of account activation
-        // For regular registration, we should also proceed as the user is now registered
-        if (response) {
-            emit('registration-success')
-        }
-    } catch (apiError) {
-        if (apiError instanceof ApiClientError) {
-            const errorMessages = resolveApiErrors(apiError.details.errors)
-            error(errorMessages.join(', ') || t('checkout.registration.unknownError'))
-        } else {
-            error(apiError instanceof Error ? apiError.message : t('checkout.registration.unknownError'))
-        }
-    } finally {
-        isLoading.value = false
-    }
-}
-</script>

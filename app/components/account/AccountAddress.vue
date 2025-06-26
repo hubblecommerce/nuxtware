@@ -51,7 +51,7 @@
 
             <!-- Country -->
             <div class="md:col-span-2">
-                <FoundationLabel :for="`${fieldPrefix}-country`" required>
+                <FoundationLabel :for="`${fieldPrefix}-country`" class="block" required>
                     {{ $t('form.country') }}
                 </FoundationLabel>
                 <FoundationSelect
@@ -62,12 +62,13 @@
                     :disabled="disabled"
                     required
                     name="country"
+                    class="w-full"
                 />
             </div>
 
             <!-- State/Province (if country has states) -->
             <div v-if="countryStatesOptions.length > 0" class="md:col-span-2">
-                <FoundationLabel :for="`${fieldPrefix}-state`">
+                <FoundationLabel :for="`${fieldPrefix}-state`" class="block">
                     {{ $t('form.state') }}
                 </FoundationLabel>
                 <FoundationSelect
@@ -77,6 +78,7 @@
                     :options="countryStatesOptions"
                     :disabled="disabled"
                     name="state"
+                    class="w-full"
                 />
             </div>
 
@@ -141,7 +143,7 @@
                 :disabled="!isValid || disabled"
                 @click="handleSave"
             >
-                {{ $t('checkout.address.add') }}
+                {{ $t('account.address.add') }}
             </FoundationButton>
             <FoundationButton
                 v-if="showCancel"
@@ -167,7 +169,7 @@ interface AddressData {
     phoneNumber?: string
 }
 
-interface ComponentCheckoutAddressProps {
+interface AccountAddressProps {
     modelValue?: AddressData
     title?: string
     fieldPrefix?: string
@@ -179,13 +181,13 @@ interface ComponentCheckoutAddressProps {
     showCancel?: boolean
 }
 
-interface ComponentCheckoutAddressEmits {
+interface AccountAddressEmits {
     (e: 'update:modelValue' | 'save', value: AddressData): void
     (e: 'cancel'): void
     (e: 'validation-change', isValid: boolean): void
 }
 
-const props = withDefaults(defineProps<ComponentCheckoutAddressProps>(), {
+const props = withDefaults(defineProps<AccountAddressProps>(), {
     modelValue: undefined,
     title: undefined,
     fieldPrefix: 'address',
@@ -197,7 +199,7 @@ const props = withDefaults(defineProps<ComponentCheckoutAddressProps>(), {
     showCancel: false
 })
 
-const emit = defineEmits<ComponentCheckoutAddressEmits>()
+const emit = defineEmits<AccountAddressEmits>()
 
 // Composables
 const { getCountries } = useCountries()

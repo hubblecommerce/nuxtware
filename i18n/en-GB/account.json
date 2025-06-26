@@ -1,0 +1,35 @@
+{
+    "account": {
+        "page": {
+            "title": "Account",
+            "description": "Sign in to your account or create a new one",
+            "metaTitle": "Account - Sign In or Register",
+            "metaDescription": "Sign in to your account to manage your orders, address book, and preferences. New customers can create an account in just a few steps."
+        },
+        "personalInformationLabel": "Personal Information",
+        "notCreateAccount": "Do not create an account",
+        "login": {
+            "title": "Sign In",
+            "description": "Sign in to your account",
+            "error": "Login failed",
+            "passwordPlaceholder": "Enter your password",
+            "rememberMe": "Remember me",
+            "forgotPassword": "Forgot password?",
+            "signIn": "Sign In",
+            "createAccount": "Create Account",
+            "successMessage": "Successfully signed in!"
+        },
+        "registration": {
+            "title": "Create Account",
+            "description": "Create a new account",
+            "billingAddress": "Billing Address",
+            "passwordPlaceholder": "Enter a secure password",
+            "dataProtection": "I accept the privacy policy and terms of service",
+            "continueAsGuest": "Continue as Guest",
+            "createAccount": "Create Account",
+            "alreadyHaveAccount": "Already have an account?",
+            "unknownError": "An unexpected error occurred",
+            "successMessage": "Account created successfully!"
+        }
+    }
+}

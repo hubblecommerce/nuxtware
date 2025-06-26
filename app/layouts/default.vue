@@ -27,7 +27,7 @@ const { count: wishlistCount } = useWishlist()
             <SearchQuick class="w-full mt-2 order-40 lg:order-25 lg:w-[300px] lg:mt-0" />
 
             <div class="shrink-0 flex justify-between items-center gap-2 order-30">
-                <FoundationLink href="/customer" class="btn btn-ghost btn-medium btn-square">
+                <FoundationLink href="/account/login" class="btn btn-ghost btn-medium btn-square">
                     <span class="sr-only">{{ $t('header.customerLink') }}</span><FoundationIcon name="user" />
                 </FoundationLink>
                 <FoundationLink href="/wishlist" class="btn btn-ghost btn-medium btn-square relative">

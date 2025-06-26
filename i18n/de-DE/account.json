@@ -1,0 +1,35 @@
+{
+    "account": {
+        "page": {
+            "title": "Konto",
+            "description": "Melden Sie sich in Ihrem Konto an oder erstellen Sie ein neues",
+            "metaTitle": "Konto - Anmelden oder Registrieren",
+            "metaDescription": "Melden Sie sich in Ihrem Konto an, um Ihre Bestellungen, Adressbuch und Einstellungen zu verwalten. Neue Kunden können in wenigen Schritten ein Konto erstellen."
+        },
+        "personalInformationLabel": "Persönliche Informationen",
+        "notCreateAccount": "Kein Konto erstellen",
+        "login": {
+            "title": "Anmelden",
+            "description": "Melden Sie sich in Ihrem Konto an",
+            "error": "Anmeldung fehlgeschlagen",
+            "passwordPlaceholder": "Passwort eingeben",
+            "rememberMe": "Angemeldet bleiben",
+            "forgotPassword": "Passwort vergessen?",
+            "signIn": "Anmelden",
+            "createAccount": "Konto erstellen",
+            "successMessage": "Erfolgreich angemeldet!"
+        },
+        "registration": {
+            "title": "Konto erstellen",
+            "description": "Erstellen Sie ein neues Konto",
+            "billingAddress": "Rechnungsadresse",
+            "passwordPlaceholder": "Sicheres Passwort eingeben",
+            "dataProtection": "Ich akzeptiere die Datenschutzerklärung und Nutzungsbedingungen",
+            "continueAsGuest": "Als Gast fortfahren",
+            "createAccount": "Konto erstellen",
+            "alreadyHaveAccount": "Bereits ein Konto?",
+            "unknownError": "Ein unerwarteter Fehler ist aufgetreten",
+            "successMessage": "Konto erfolgreich erstellt!"
+        }
+    }
+}

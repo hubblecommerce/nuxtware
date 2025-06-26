@@ -55,7 +55,7 @@ const removeItem = () => {
         <!-- Product details -->
         <div class="flex-1 min-w-0">
             <div class="flex justify-between">
-                <h3 class="text-sm font-medium truncate" :title="item.label">
+                <h3 class="text-sm font-medium" :title="item.label">
                     {{ item.label }}
                 </h3>
                 <p class="text-sm font-medium  ml-4">
