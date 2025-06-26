@@ -24,6 +24,8 @@
             "title": "Create Account",
             "description": "Create a new account",
             "billingAddress": "Billing Address",
+            "shippingAddress": "Shipping Address",
+            "differentShippingAddress": "Ship to a different address",
             "passwordPlaceholder": "Enter a secure password",
             "dataProtection": "I accept the privacy policy and terms of service",
             "continueAsGuest": "Continue as Guest",

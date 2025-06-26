@@ -1,3 +1,137 @@
+
+<script setup lang="ts">
+
+interface AddressData {
+    firstName: string
+    lastName: string
+    street: string
+    zipcode: string
+    city: string
+    countryId: string
+    countryStateId?: string
+    additionalAddressLine1?: string
+    company?: string
+    phoneNumber?: string
+}
+
+interface AccountAddressProps {
+    modelValue?: AddressData
+    title?: string
+    fieldPrefix?: string
+    mode?: 'create' | 'edit' | 'embedded'
+    disabled?: boolean
+    loading?: boolean
+    showAdditionalFields?: boolean
+    showActions?: boolean
+    showCancel?: boolean
+    hideNameFields?: boolean
+}
+
+interface AccountAddressEmits {
+    (e: 'update:modelValue' | 'save', value: AddressData): void
+    (e: 'cancel'): void
+    (e: 'validation-change', isValid: boolean): void
+}
+
+const props = withDefaults(defineProps<AccountAddressProps>(), {
+    modelValue: undefined,
+    title: undefined,
+    fieldPrefix: 'address',
+    mode: 'embedded',
+    disabled: false,
+    loading: false,
+    showAdditionalFields: false,
+    showActions: false,
+    showCancel: false,
+    hideNameFields: false
+})
+
+const emit = defineEmits<AccountAddressEmits>()
+
+// Composables
+const { getCountries } = useCountries()
+
+// Initialize address data
+const addressData = reactive<AddressData>({
+    firstName: '',
+    lastName: '',
+    street: '',
+    zipcode: '',
+    city: '',
+    countryId: '',
+    countryStateId: '',
+    additionalAddressLine1: '',
+    company: '',
+    phoneNumber: '',
+    ...props.modelValue
+})
+
+// Computed
+const countryOptions = computed(() => 
+    getCountries.value.map(country => ({
+        value: country.id,
+        label: country.name
+    }))
+)
+
+const selectedCountry = computed(() => 
+    getCountries.value.find(country => country.id === addressData.countryId)
+)
+
+const countryStatesOptions = computed(() => {
+    if (!selectedCountry.value?.states) return []
+    
+    return selectedCountry.value.states.map(state => ({
+        value: state.id,
+        label: state.name
+    }))
+})
+
+const isValid = computed(() => {
+    const requiredFields = [
+        addressData.street,
+        addressData.zipcode,
+        addressData.city,
+        addressData.countryId
+    ]
+    
+    // Only include firstName/lastName in validation if name fields are visible
+    if (!props.hideNameFields) {
+        requiredFields.push(addressData.firstName, addressData.lastName)
+    }
+    
+    return requiredFields.every(field => field?.trim().length > 0)
+})
+
+// Watch for changes and emit
+watch(addressData, (newValue) => {
+    emit('update:modelValue', { ...newValue })
+}, { deep: true })
+
+watch(isValid, (newValue) => {
+    emit('validation-change', newValue)
+})
+
+// Clear state when country changes
+watch(() => addressData.countryId, () => {
+    addressData.countryStateId = ''
+})
+
+// Methods
+const handleSave = () => {
+    if (isValid.value && !props.disabled) {
+        emit('save', { ...addressData })
+    }
+}
+
+// Initialize with prop value
+watch(() => props.modelValue, (newValue) => {
+    if (newValue) {
+        Object.assign(addressData, newValue)
+    }
+}, { immediate: true })
+</script>
+
 <template>
     <div class="space-y-4">
         <div v-if="title">
@@ -7,6 +141,34 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- First Name -->
+            <div v-show="!hideNameFields">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-first-name`"
+                    v-model="addressData.firstName"
+                    :label="$t('form.firstName')"
+                    type="text"
+                    :placeholder="$t('form.firstNamePlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- Last Name -->
+            <div v-show="!hideNameFields">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-last-name`"
+                    v-model="addressData.lastName"
+                    :label="$t('form.lastName')"
+                    type="text"
+                    :placeholder="$t('form.lastNamePlaceholder')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
             <!-- Street Address -->
             <div class="md:col-span-2">
                 <ComponentTextInput
@@ -111,7 +273,7 @@
             </div>
 
             <!-- Phone Number (optional) -->
-            <div v-if="showAdditionalFields">
+            <div v-if="showAdditionalFields" class="md:col-span-2">
                 <ComponentTextInput
                     :id="`${fieldPrefix}-phone`"
                     v-model="addressData.phoneNumber"
@@ -155,125 +317,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-
-interface AddressData {
-    street: string
-    zipcode: string
-    city: string
-    countryId: string
-    countryStateId?: string
-    additionalAddressLine1?: string
-    company?: string
-    phoneNumber?: string
-}
-
-interface AccountAddressProps {
-    modelValue?: AddressData
-    title?: string
-    fieldPrefix?: string
-    mode?: 'create' | 'edit' | 'embedded'
-    disabled?: boolean
-    loading?: boolean
-    showAdditionalFields?: boolean
-    showActions?: boolean
-    showCancel?: boolean
-}
-
-interface AccountAddressEmits {
-    (e: 'update:modelValue' | 'save', value: AddressData): void
-    (e: 'cancel'): void
-    (e: 'validation-change', isValid: boolean): void
-}
-
-const props = withDefaults(defineProps<AccountAddressProps>(), {
-    modelValue: undefined,
-    title: undefined,
-    fieldPrefix: 'address',
-    mode: 'embedded',
-    disabled: false,
-    loading: false,
-    showAdditionalFields: false,
-    showActions: false,
-    showCancel: false
-})
-
-const emit = defineEmits<AccountAddressEmits>()
-
-// Composables
-const { getCountries } = useCountries()
-
-// Initialize address data
-const addressData = reactive<AddressData>({
-    street: '',
-    zipcode: '',
-    city: '',
-    countryId: '',
-    countryStateId: '',
-    additionalAddressLine1: '',
-    company: '',
-    phoneNumber: '',
-    ...props.modelValue
-})
-
-// Computed
-const countryOptions = computed(() => 
-    getCountries.value.map(country => ({
-        value: country.id,
-        label: country.name
-    }))
-)
-
-const selectedCountry = computed(() => 
-    getCountries.value.find(country => country.id === addressData.countryId)
-)
-
-const countryStatesOptions = computed(() => {
-    if (!selectedCountry.value?.states) return []
-    
-    return selectedCountry.value.states.map(state => ({
-        value: state.id,
-        label: state.name
-    }))
-})
-
-const isValid = computed(() => {
-    const requiredFields = [
-        addressData.street,
-        addressData.zipcode,
-        addressData.city,
-        addressData.countryId
-    ]
-    
-    return requiredFields.every(field => field?.trim().length > 0)
-})
-
-// Watch for changes and emit
-watch(addressData, (newValue) => {
-    emit('update:modelValue', { ...newValue })
-}, { deep: true })
-
-watch(isValid, (newValue) => {
-    emit('validation-change', newValue)
-})
-
-// Clear state when country changes
-watch(() => addressData.countryId, () => {
-    addressData.countryStateId = ''
-})
-
-// Methods
-const handleSave = () => {
-    if (isValid.value && !props.disabled) {
-        emit('save', { ...addressData })
-    }
-}
-
-// Initialize with prop value
-watch(() => props.modelValue, (newValue) => {
-    if (newValue) {
-        Object.assign(addressData, newValue)
-    }
-}, { immediate: true })
-</script>

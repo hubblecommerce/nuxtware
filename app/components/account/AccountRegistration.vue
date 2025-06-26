@@ -28,6 +28,8 @@ const { t } = useI18n()
 // State
 const isLoading = ref(false)
 const isAddressValid = ref(false) // Address is always required
+const isDifferentShipping = ref(false)
+const isShippingAddressValid = ref(false)
 
 const formData = reactive<RequestParameters<'register'>>({
     salutationId: '',
@@ -37,6 +39,8 @@ const formData = reactive<RequestParameters<'register'>>({
     password: '',
     guest: false,
     billingAddress: {
+        firstName: '',
+        lastName: '',
         street: '',
         zipcode: '',
         city: '',
@@ -45,15 +49,6 @@ const formData = reactive<RequestParameters<'register'>>({
     },
     acceptedDataProtection: false,
     storefrontUrl: '',
-})
-
-// Separate billing address for the component
-const billingAddress = ref({
-    street: '',
-    zipcode: '',
-    city: '',
-    countryId: '',
-    countryStateId: '',
 })
 
 // Computed
@@ -75,22 +70,54 @@ const isFormValid = computed(() => {
     const allPersonalFieldsFilled = requiredPersonalFields.every(field => field.trim().length > 0)
     const passwordValid = (formData.guest && props.allowGuest) || formData.password.length > 0
     const dataProtectionAccepted = formData.acceptedDataProtection
+    const shippingValid = !isDifferentShipping.value || isShippingAddressValid.value
 
     return allPersonalFieldsFilled && 
            passwordValid && 
            dataProtectionAccepted && 
            isAddressValid.value && 
+           shippingValid && 
            !isLoading.value
 })
 
-// Watch billing address changes and sync to form data
-watch(billingAddress, (newAddress) => {
-    Object.assign(formData.billingAddress, newAddress)
-}, { deep: true })
+// Watch personal info changes and auto-populate address names
+watch([() => formData.firstName, () => formData.lastName], ([firstName, lastName]) => {
+    // Auto-populate billing address names
+    formData.billingAddress.firstName = firstName || ''
+    formData.billingAddress.lastName = lastName || ''
+    
+    // Auto-populate shipping address names if different shipping is enabled
+    if (isDifferentShipping.value && formData.shippingAddress) {
+        formData.shippingAddress.firstName = firstName || ''
+        formData.shippingAddress.lastName = lastName || ''
+    }
+}, { immediate: true })
+
+// Watch different shipping toggle
+watch(isDifferentShipping, (isDifferent) => {
+    if (isDifferent) {
+        // Initialize shipping address with personal info names
+        formData.shippingAddress = {
+            firstName: formData.firstName || '',
+            lastName: formData.lastName || '',
+            street: '',
+            zipcode: '',
+            city: '',
+            countryId: '',
+            countryStateId: '',
+        }
+    } else {
+        delete formData.shippingAddress
+    }
+})
 
 // Methods
 const onAddressValidationChange = (valid: boolean) => {
     isAddressValid.value = valid
+}
+
+const onShippingAddressValidationChange = (valid: boolean) => {
+    isShippingAddressValid.value = valid
 }
 
 const handleSubmit = async () => {
@@ -226,12 +253,36 @@ const handleSubmit = async () => {
 
                 <!-- Billing Address Section -->
                 <AccountAddress
-                    v-model="billingAddress"
+                    v-model="formData.billingAddress"
                     :title="$t('account.registration.billingAddress')"
                     field-prefix="billing"
                     mode="embedded"
                     :disabled="isLoading"
+                    hide-name-fields
                     @validation-change="onAddressValidationChange"
+                />
+
+                <!-- Different Shipping Address Checkbox -->
+                <div class="flex items-center">
+                    <FoundationCheckbox
+                        id="registration-different-shipping"
+                        v-model="isDifferentShipping"
+                        :disabled="isLoading"
+                    />
+                    <FoundationLabel for="registration-different-shipping" class="ml-2 text-sm">
+                        {{ $t('account.registration.differentShippingAddress') }}
+                    </FoundationLabel>
+                </div>
+
+                <!-- Shipping Address Section (conditional) -->
+                <AccountAddress
+                    v-if="isDifferentShipping && formData.shippingAddress"
+                    v-model="formData.shippingAddress"
+                    :title="$t('account.registration.shippingAddress')"
+                    field-prefix="shipping"
+                    mode="embedded"
+                    :disabled="isLoading"
+                    @validation-change="onShippingAddressValidationChange"
                 />
 
                 <!-- Data Protection Checkbox -->

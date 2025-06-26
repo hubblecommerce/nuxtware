@@ -24,6 +24,8 @@
             "title": "Konto erstellen",
             "description": "Erstellen Sie ein neues Konto",
             "billingAddress": "Rechnungsadresse",
+            "shippingAddress": "Lieferadresse",
+            "differentShippingAddress": "An eine andere Adresse liefern",
             "passwordPlaceholder": "Sicheres Passwort eingeben",
             "dataProtection": "Ich akzeptiere die Datenschutzerklärung und Nutzungsbedingungen",
             "continueAsGuest": "Als Gast fortfahren",
