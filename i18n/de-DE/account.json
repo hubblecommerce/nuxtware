@@ -30,6 +30,13 @@
             "alreadyHaveAccount": "Bereits ein Konto?",
             "unknownError": "Ein unerwarteter Fehler ist aufgetreten",
             "successMessage": "Konto erfolgreich erstellt!"
+        },
+        "nav": {
+            "title": "Mein Konto",
+            "close": "Kontomenü schließen",
+            "dashboard": "Dashboard",
+            "orders": "Bestellungen",
+            "settings": "Einstellungen"
         }
     }
 }

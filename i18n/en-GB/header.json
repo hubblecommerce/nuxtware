@@ -12,6 +12,7 @@
         },
         "homeLink": "Go to homepage",
         "customerLink": "Go to customer",
+        "accountLink": "Open account menu",
         "wishlistLink": "Go to wishlist"
     }
 }

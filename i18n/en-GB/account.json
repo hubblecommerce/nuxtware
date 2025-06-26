@@ -30,6 +30,13 @@
             "alreadyHaveAccount": "Already have an account?",
             "unknownError": "An unexpected error occurred",
             "successMessage": "Account created successfully!"
+        },
+        "nav": {
+            "title": "My Account",
+            "close": "Close account menu",
+            "dashboard": "Dashboard",
+            "orders": "Orders",
+            "settings": "Settings"
         }
     }
 }

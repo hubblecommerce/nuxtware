@@ -46,12 +46,16 @@
     /* Notification colors */
     --color-error: oklch(0.488 0.257 29.27);
     --color-error-light: oklch(0.93 0.07 29.27);
+    --color-error-content: oklch(1 0 1);
     --color-success: oklch(0.495 0.165 141.8);
     --color-success-light: oklch(0.92 0.05 141.8);
+    --color-success-content: oklch(1 0 1);
     --color-warning: oklch(0.716 0.189 75.65);
     --color-warning-light: oklch(0.94 0.06 75.65);
+    --color-warning-content: oklch(0 0 1);
     --color-info: oklch(0.539 0.149 231.6);
     --color-info-light: oklch(0.93 0.05 231.6);
+    --color-info-content: oklch(0 0 1);
 
     /* Components colors */
     --color-input: var(--color-input, --color-border);
