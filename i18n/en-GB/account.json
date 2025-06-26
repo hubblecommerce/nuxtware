@@ -8,6 +8,12 @@
             "comingSoon": "This page is coming soon. Content will be available here shortly."
         },
         "personalInformationLabel": "Personal Information",
+        "accountType": "Account Type",
+        "private": "Private",
+        "business": "Business",
+        "company": "Company",
+        "department": "Department",
+        "vatIds": "VAT IDs",
         "notCreateAccount": "Do not create an account",
         "login": {
             "title": "Sign In",
@@ -26,6 +32,7 @@
             "billingAddress": "Billing Address",
             "shippingAddress": "Shipping Address",
             "differentShippingAddress": "Ship to a different address",
+            "businessInformation": "Business Information",
             "passwordPlaceholder": "Enter a secure password",
             "dataProtection": "I accept the privacy policy and terms of service",
             "continueAsGuest": "Continue as Guest",

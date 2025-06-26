@@ -8,6 +8,12 @@
             "comingSoon": "Diese Seite ist in Kürze verfügbar. Inhalte werden hier bald zu finden sein."
         },
         "personalInformationLabel": "Persönliche Informationen",
+        "accountType": "Kontotyp",
+        "private": "Privat",
+        "business": "Geschäftlich",
+        "company": "Unternehmen",
+        "department": "Abteilung",
+        "vatIds": "USt-IdNr.",
         "notCreateAccount": "Kein Konto erstellen",
         "login": {
             "title": "Anmelden",
@@ -26,6 +32,7 @@
             "billingAddress": "Rechnungsadresse",
             "shippingAddress": "Lieferadresse",
             "differentShippingAddress": "An eine andere Adresse liefern",
+            "businessInformation": "Geschäftsinformationen",
             "passwordPlaceholder": "Sicheres Passwort eingeben",
             "dataProtection": "Ich akzeptiere die Datenschutzerklärung und Nutzungsbedingungen",
             "continueAsGuest": "Als Gast fortfahren",

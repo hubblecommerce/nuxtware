@@ -11,6 +11,7 @@ interface AddressData {
     countryStateId?: string
     additionalAddressLine1?: string
     company?: string
+    department?: string
     phoneNumber?: string
 }
 
@@ -25,6 +26,8 @@ interface AccountAddressProps {
     showActions?: boolean
     showCancel?: boolean
     hideNameFields?: boolean
+    hideCompanyFields?: boolean
+    showAccountTypeToggle?: boolean
 }
 
 interface AccountAddressEmits {
@@ -43,13 +46,19 @@ const props = withDefaults(defineProps<AccountAddressProps>(), {
     showAdditionalFields: false,
     showActions: false,
     showCancel: false,
-    hideNameFields: false
+    hideNameFields: false,
+    hideCompanyFields: false,
+    showAccountTypeToggle: false
 })
 
 const emit = defineEmits<AccountAddressEmits>()
 
 // Composables
 const { getCountries } = useCountries()
+const { t } = useI18n()
+
+// Local state for account type (only for addresses with showAccountTypeToggle)
+const localAccountType = ref('private')
 
 // Initialize address data
 const addressData = reactive<AddressData>({
@@ -62,6 +71,7 @@ const addressData = reactive<AddressData>({
     countryStateId: '',
     additionalAddressLine1: '',
     company: '',
+    department: '',
     phoneNumber: '',
     ...props.modelValue
 })
@@ -87,6 +97,13 @@ const countryStatesOptions = computed(() => {
     }))
 })
 
+const accountTypeOptions = computed(() => [
+    { value: 'private', label: t('account.private') },
+    { value: 'business', label: t('account.business') }
+])
+
+const isBusinessAccount = computed(() => localAccountType.value === 'business')
+
 const isValid = computed(() => {
     const requiredFields = [
         addressData.street,
@@ -98,6 +115,11 @@ const isValid = computed(() => {
     // Only include firstName/lastName in validation if name fields are visible
     if (!props.hideNameFields) {
         requiredFields.push(addressData.firstName, addressData.lastName)
+    }
+    
+    // Include company in validation if it's a business account and company fields are visible
+    if (props.showAccountTypeToggle && isBusinessAccount.value && !props.hideCompanyFields) {
+        requiredFields.push(addressData.company || '')
     }
     
     return requiredFields.every(field => field?.trim().length > 0)
@@ -166,6 +188,23 @@ watch(() => props.modelValue, (newValue) => {
                     :disabled="disabled"
                     size="md"
                     bordered
+                />
+            </div>
+
+            <!-- Account Type (only for addresses with toggle) -->
+            <div v-if="showAccountTypeToggle" class="md:col-span-2">
+                <FoundationLabel :for="`${fieldPrefix}-account-type`" class="block" required>
+                    {{ $t('account.accountType') }}
+                </FoundationLabel>
+                <FoundationSelect
+                    :id="`${fieldPrefix}-account-type`"
+                    v-model="localAccountType"
+                    :placeholder="$t('account.accountType')"
+                    :options="accountTypeOptions"
+                    :disabled="disabled"
+                    required
+                    name="accountType"
+                    class="w-full"
                 />
             </div>
 
@@ -258,14 +297,28 @@ watch(() => props.modelValue, (newValue) => {
                 />
             </div>
 
-            <!-- Company (optional) -->
-            <div v-if="showAdditionalFields" class="md:col-span-2">
+            <!-- Company (business accounts only) -->
+            <div v-if="(showAccountTypeToggle && isBusinessAccount) || (!showAccountTypeToggle && showAdditionalFields && !hideCompanyFields)" class="md:col-span-2">
                 <ComponentTextInput
                     :id="`${fieldPrefix}-company`"
                     v-model="addressData.company"
-                    :label="$t('form.company')"
+                    :label="$t('account.company')"
                     type="text"
-                    :placeholder="$t('form.companyPlaceholder')"
+                    :placeholder="$t('account.company')"
+                    :disabled="disabled"
+                    size="md"
+                    bordered
+                />
+            </div>
+
+            <!-- Department (business accounts only) -->
+            <div v-if="(showAccountTypeToggle && isBusinessAccount) || (!showAccountTypeToggle && showAdditionalFields)" class="md:col-span-2">
+                <ComponentTextInput
+                    :id="`${fieldPrefix}-department`"
+                    v-model="addressData.department"
+                    :label="$t('account.department')"
+                    type="text"
+                    :placeholder="$t('account.department')"
                     :disabled="disabled"
                     size="md"
                     bordered

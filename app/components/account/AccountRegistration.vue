@@ -38,6 +38,9 @@ const formData = reactive<RequestParameters<'register'>>({
     email: '',
     password: '',
     guest: false,
+    accountType: 'private',
+    company: '',
+    vatIds: '',
     billingAddress: {
         firstName: '',
         lastName: '',
@@ -46,6 +49,8 @@ const formData = reactive<RequestParameters<'register'>>({
         city: '',
         countryId: '',
         countryStateId: '',
+        company: '',
+        department: '',
     },
     acceptedDataProtection: false,
     storefrontUrl: '',
@@ -59,6 +64,13 @@ const salutationOptions = computed(() =>
     }))
 )
 
+const accountTypeOptions = computed(() => [
+    { value: 'private', label: t('account.private') },
+    { value: 'business', label: t('account.business') }
+])
+
+const isBusinessAccount = computed(() => formData.accountType === 'business')
+
 const isFormValid = computed(() => {
     const requiredPersonalFields = [
         formData.salutationId,
@@ -66,6 +78,11 @@ const isFormValid = computed(() => {
         formData.lastName,
         formData.email,
     ]
+
+    // Add business fields validation when account type is business
+    if (isBusinessAccount.value) {
+        requiredPersonalFields.push(formData.company, formData.vatIds)
+    }
 
     const allPersonalFieldsFilled = requiredPersonalFields.every(field => field.trim().length > 0)
     const passwordValid = (formData.guest && props.allowGuest) || formData.password.length > 0
@@ -93,10 +110,20 @@ watch([() => formData.firstName, () => formData.lastName], ([firstName, lastName
     }
 }, { immediate: true })
 
+// Watch company changes and auto-populate billing address company
+watch(() => formData.company, (company) => {
+    formData.billingAddress.company = company || ''
+    
+    // Auto-populate shipping address company if different shipping is enabled
+    if (isDifferentShipping.value && formData.shippingAddress) {
+        formData.shippingAddress.company = company || ''
+    }
+}, { immediate: true })
+
 // Watch different shipping toggle
 watch(isDifferentShipping, (isDifferent) => {
     if (isDifferent) {
-        // Initialize shipping address with personal info names
+        // Initialize shipping address with personal info
         formData.shippingAddress = {
             firstName: formData.firstName || '',
             lastName: formData.lastName || '',
@@ -105,6 +132,8 @@ watch(isDifferentShipping, (isDifferent) => {
             city: '',
             countryId: '',
             countryStateId: '',
+            company: formData.company || '',
+            department: '',
         }
     } else {
         delete formData.shippingAddress
@@ -129,7 +158,13 @@ const handleSubmit = async () => {
         // Ensure storefrontUrl is set for the registration
         formData.storefrontUrl = window.location.origin
 
-        const response = await register(formData)
+        // Convert vatIds string to array for API
+        const registrationData = { ...formData }
+        if (isBusinessAccount.value && formData.vatIds) {
+            registrationData.vatIds = [formData.vatIds]
+        }
+
+        const response = await register(registrationData)
         
         // For guest checkout, we should proceed regardless of account activation
         // For regular registration, we should also proceed as the user is now registered
@@ -251,6 +286,83 @@ const handleSubmit = async () => {
                     </div>
                 </div>
 
+                <!-- Account Type & Business Information Section -->
+                <div>
+                    <FoundationHeadline level="h4" class="text-base font-medium text-primary mb-3">
+                        {{ $t('account.accountType') }}
+                    </FoundationHeadline>
+                    
+                    <div class="space-y-4">
+                        <!-- Account Type Selection -->
+                        <div>
+                            <FoundationLabel for="registration-account-type" class="block" required>
+                                {{ $t('account.accountType') }}
+                            </FoundationLabel>
+                            <FoundationSelect
+                                id="registration-account-type"
+                                v-model="formData.accountType"
+                                :placeholder="$t('account.accountType')"
+                                :options="accountTypeOptions"
+                                :disabled="isLoading"
+                                required
+                                name="accountType"
+                                class="w-full"
+                            />
+                        </div>
+
+                        <!-- Business Information (only if business account) -->
+                        <div v-if="isBusinessAccount" class="space-y-4">
+                            <FoundationHeadline level="h5" class="text-sm font-medium text-primary">
+                                {{ $t('account.registration.businessInformation') }}
+                            </FoundationHeadline>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Company -->
+                                <div class="md:col-span-2">
+                                    <ComponentTextInput
+                                        id="registration-company"
+                                        v-model="formData.company"
+                                        :label="$t('account.company')"
+                                        type="text"
+                                        :placeholder="$t('account.company')"
+                                        :disabled="isLoading"
+                                        size="md"
+                                        bordered
+                                    />
+                                </div>
+
+                                <!-- Department -->
+                                <div class="md:col-span-2">
+                                    <ComponentTextInput
+                                        id="registration-department"
+                                        v-model="formData.billingAddress.department"
+                                        :label="$t('account.department')"
+                                        type="text"
+                                        :placeholder="$t('account.department')"
+                                        :disabled="isLoading"
+                                        size="md"
+                                        bordered
+                                    />
+                                </div>
+
+                                <!-- VAT IDs -->
+                                <div class="md:col-span-2">
+                                    <ComponentTextInput
+                                        id="registration-vat-ids"
+                                        v-model="formData.vatIds"
+                                        :label="$t('account.vatIds')"
+                                        type="text"
+                                        :placeholder="$t('account.vatIds')"
+                                        :disabled="isLoading"
+                                        size="md"
+                                        bordered
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Billing Address Section -->
                 <AccountAddress
                     v-model="formData.billingAddress"
@@ -259,6 +371,7 @@ const handleSubmit = async () => {
                     mode="embedded"
                     :disabled="isLoading"
                     hide-name-fields
+                    hide-company-fields
                     @validation-change="onAddressValidationChange"
                 />
 
@@ -282,6 +395,7 @@ const handleSubmit = async () => {
                     field-prefix="shipping"
                     mode="embedded"
                     :disabled="isLoading"
+                    show-account-type-toggle
                     @validation-change="onShippingAddressValidationChange"
                 />
 
