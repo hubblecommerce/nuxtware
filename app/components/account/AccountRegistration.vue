@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RequestParameters } from '#shopware'
+import type { RequestParameters, Schemas } from '#shopware'
 import { ApiClientError } from '@shopware/api-client'
 
 interface AccountRegistrationProps {
@@ -8,7 +8,8 @@ interface AccountRegistrationProps {
 }
 
 interface AccountRegistrationEmits {
-    (e: 'registration-success' | 'switch-to-login'): void
+    (e: 'registration-success', response?: Schemas['Customer']): void
+    (e: 'switch-to-login'): void
 }
 
 const props = withDefaults(defineProps<AccountRegistrationProps>(), {
@@ -169,7 +170,7 @@ const handleSubmit = async () => {
         // For guest checkout, we should proceed regardless of account activation
         // For regular registration, we should also proceed as the user is now registered
         if (response) {
-            emit('registration-success')
+            emit('registration-success', response)
         }
     } catch (apiError) {
         if (apiError instanceof ApiClientError) {

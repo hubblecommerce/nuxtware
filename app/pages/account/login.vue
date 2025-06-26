@@ -36,8 +36,23 @@ const handleLoginSuccess = () => {
     navigateTo(localePath('/account'))
 }
 
-const handleRegistrationSuccess = () => {
+const handleRegistrationSuccess = async (response?: { email: string; doubleOptInRegistration?: boolean }) => {
+    // Check if double opt-in is required
+    if (response?.doubleOptInRegistration) {
+        // Show permanent notification about email confirmation with personal email
+        const emailMessage = t('account.registration.doubleOptInMessage', { email: response.email })
+        success(emailMessage, { keepAlive: true })
+        // Do not redirect - keep user on registration/login page
+        activeForm.value = 'login'
+        return
+    }
+    
     success(t('account.registration.successMessage'))
+    
+    // Small delay to allow auth state to update from registration
+    await new Promise(resolve => setTimeout(resolve, 200))
+    
+    // Navigate to account page - auth guard will handle checking login state
     navigateTo(localePath('/account'))
 }
 

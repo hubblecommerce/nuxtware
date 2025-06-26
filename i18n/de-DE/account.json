@@ -39,7 +39,12 @@
             "createAccount": "Konto erstellen",
             "alreadyHaveAccount": "Bereits ein Konto?",
             "unknownError": "Ein unerwarteter Fehler ist aufgetreten",
-            "successMessage": "Konto erfolgreich erstellt!"
+            "successMessage": "Konto erfolgreich erstellt!",
+            "doubleOptInMessage": "Bitte überprüfen Sie Ihre E-Mail-Adresse {email} und klicken Sie auf den Bestätigungslink, um Ihr Konto zu aktivieren.",
+            "confirmTitle": "Registrierung bestätigen",
+            "confirmDescription": "Bitte warten Sie, während wir Ihre Kontoregistrierung bestätigen.",
+            "confirmSuccess": "Ihr Konto wurde erfolgreich bestätigt! Sie können sich jetzt anmelden.",
+            "confirmError": "Registrierungsbestätigung fehlgeschlagen. Der Link ist möglicherweise ungültig oder abgelaufen."
         },
         "nav": {
             "title": "Mein Konto",

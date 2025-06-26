@@ -13,17 +13,31 @@ export function useAuthGuard(redirectTo: string = '/') {
     
     // Client-side auth check and redirect
     if (import.meta.client) {
+        // Give a brief moment for auth state to potentially update after navigation
+        const checkAuthWithDelay = async () => {
+            // Small delay to allow for auth state updates after registration/login
+            await new Promise(resolve => setTimeout(resolve, 150))
+            
+            if (!isLoggedIn.value) {
+                // Use hard navigation to ensure page actually changes
+                window.location.href = localePath(redirectTo)
+            } else {
+                // User is authenticated, allow content to show
+                isAuthorized.value = true
+            }
+            isChecking.value = false
+        }
+        
         watch(
             isLoggedIn,
             async (loggedIn) => {
-                isChecking.value = false
-                
                 if (!loggedIn) {
-                    // Use hard navigation to ensure page actually changes
-                    window.location.href = localePath(redirectTo)
+                    // Check with a small delay to handle post-registration timing
+                    await checkAuthWithDelay()
                 } else {
-                    // User is authenticated, allow content to show
+                    // User is authenticated, allow content to show immediately
                     isAuthorized.value = true
+                    isChecking.value = false
                 }
             },
             { immediate: true }
