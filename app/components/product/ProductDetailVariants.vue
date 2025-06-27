@@ -12,9 +12,12 @@ const {
     findVariantForSelectedOptions,
 } = useProductConfigurator()
 const { search } = useProductSearch()
+const { apiClient } = useShopwareContext();
 
 type OptionStates = 'selected' | 'combinable' | 'uncombinable' | 'disabled' | null
-const selectableOptions = ref<Record<string, string[]>>({})
+interface OptionInfo { id: string; groupId: string }
+type CompatIndex = Record<string, Set<string>>
+
 const deactivatedGroups = ref<string[]>([])
 const emit =
     defineEmits<
@@ -25,6 +28,9 @@ const prefix = getUrlPrefix()
 const isLoading = ref<boolean>()
 const router = useRouter()
 
+/* -------------------------------------------------
+ * Handle variant change
+ * ------------------------------------------------- */
 const onHandleChange = async () => {
     isLoading.value = true
     const variantFound = await findVariantForSelectedOptions()
@@ -44,6 +50,9 @@ const onHandleChange = async () => {
     isLoading.value = false
 }
 
+/* -------------------------------------------------
+ * Logic for display of variant color using product media
+ * ------------------------------------------------- */
 const colorOptions = computed(() =>
     props.configurator?.find(g => g.displayType === "color")?.options ?? []
 )
@@ -55,7 +64,6 @@ const getColorVariantIdMap = async (): Promise<Map<string, string>> => {
             return variant ? [option.id, variant.id] as const : null
         })
     )
-
     return new Map(pairs.filter(Boolean) as [string, string][])
 }
 
@@ -81,9 +89,89 @@ if (productsPerVariantColor) {
     }
 }
 
+/* -------------------------------------------------
+ * Logic for selectable options
+ * ------------------------------------------------- */
+const loadBuyableVariants = async (): Promise<Schemas["Product"][]> => {
+    const parentId =
+        productsPerVariantColor?.[0]?.product?.parentId
+        ?? null
+    const response = await apiClient.invoke(
+        "readProduct post /product",
+        {
+            pathParams: {
+                productId: parentId },
+            body: {
+                filter: [
+                    { type: "equals", field: "parentId", value: parentId },
+                    { type: "equals", field: "active",   value: true },
+                    { type: "range",  field: "stock", parameters: { gte: 1 } }
+                ],
+                associations: { options: { associations: { group: {} } } },
+                includes: { product: ["id", "optionIds", "options"] },
+                limit: 100
+            }
+
+        }
+    );
+    return response.data.elements as Schemas["Product"][];
+}
+
+function indexVariants (variants: Schemas['Product'][]) {
+    const compat: CompatIndex               = {}
+    const info:   Record<string, OptionInfo> = {}
+
+    for (const variant of variants) {
+        if (variant.options) {
+            const ids = variant.options?.map(o => o.id)
+
+            for (const opt of variant.options) {
+                info[opt.id] = { id: opt.id, groupId: opt.groupId }
+
+                const bucket = (compat[opt.id] ??= new Set<string>())
+                ids.forEach(id => id !== opt.id && bucket.add(id))
+            }
+        }
+    }
+    return { compat, info }
+}
+
+function buildGroupCompat (
+    selectedOptionIds: string[],
+    compat: CompatIndex,
+    info: Record<string, OptionInfo>
+) {
+    const result: Record<string, string[]> = {}
+    const seen: Record<string, Set<string>> = {}
+
+    for (const selectedId of selectedOptionIds) {
+        compat[selectedId]?.forEach(otherId => {
+            const groupId = info[otherId]?.groupId
+            if (groupId) {
+                (seen[groupId] ??= new Set()).add(otherId)
+            }
+        })
+    }
+
+    Object.entries(seen).forEach(([groupId, set]) => {
+        result[groupId] = [...set]
+    })
+    return result
+}
+
+const compatibilityMap = ref<Record<string, string[]>>({})  // { groupId: [available optionIds] }
+
+onMounted(async () => {
+    const variants = await loadBuyableVariants()
+    const { compat, info } = indexVariants(variants)
+    const defaultVariantOptionIds = Object.values(getSelectedOptions.value) as string[]
+    compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)
+})
+
+
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
     const selected = getSelectedOptions.value[group.name] === option.id
-    const combinable = selectableOptions.value[group.id]?.includes(option.id)
+    const combinable = compatibilityMap.value[group.id]?.includes(option.id)
     const disabled = deactivatedGroups.value.includes(group.id)
 
     if (disabled) {
@@ -106,7 +194,7 @@ function optionState (group: Schemas["PropertyGroup"], option: Schemas["Property
 }
 
 function optionStyles(state: OptionStates, media: boolean, colorCode?: string): string {
-    // add all possible variant option color hex codes from the shop
+    // add all possible variant option color hex codes from the shop to display the color
     const colorClassMap: Record<string, string> = {
         '#0000ff': 'bg-[#0000ff]',
         '#ff0000': 'bg-[#ff0000]',
@@ -117,6 +205,7 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
     const colorClass = hasColor ? colorClassMap[colorCode] : ''
     const isWhite = colorCode === '#ffffff'
     const textColorClass = isWhite ? ' text-neutral' : ' text-tertiary-content'
+    const mutedTextColorClass = ' text-neutral/50'
     const hoverColorClass = isWhite
         ? ' hover:bg-neutral/15'
         : hasColor
@@ -125,40 +214,49 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
 
     const focusClass = ' focus-style'
     const borderClass = ' border border-border'
+    const mutedBorderClass = ' border border-border/50'
 
     switch (state) {
         case 'selected':
             return [
-                'border-2 border-neutral cursor-pointer',
+                'border-2 border-neutral bg-neutral/15 cursor-pointer',
                 focusClass,
                 media ? '' : colorClass,
                 hasColor ? textColorClass : ' text-neutral'
             ].join(' ').trim()
 
         case 'combinable':
-            if (!hasColor) {
+            if (media) {
                 return [
                     borderClass,
-                    'bg-opacity-[0.08] cursor-pointer',
-                    focusClass,
-                    'hover:bg-neutral/15'
+                    'hover:bg-neutral/15',
+                    'cursor-pointer',
+                    focusClass
+                ].join(' ').trim()
+            } else if (hasColor) {
+                return [
+                    textColorClass,
+                    hoverColorClass,
+                    'cursor-pointer',
+                    focusClass
                 ].join(' ').trim()
             }
-            return [
-                media ? '' : colorClass,
-                hoverColorClass,
-                textColorClass,
-                'cursor-pointer',
-                focusClass
-            ].join(' ').trim()
+            else {
+                return [
+                    borderClass,
+                    'hover:bg-neutral/15',
+                    'cursor-pointer',
+                    focusClass
+                ].join(' ').trim()
+            }
 
         case 'uncombinable':
             return [
-                borderClass,
+                mutedBorderClass,
+                mutedTextColorClass,
                 'cursor-pointer',
                 focusClass,
                 media ? '' : colorClass,
-                media ? ' hover:bg-neutral/15' : (hoverColorClass ? hoverColorClass : ' hover:bg-neutral/15'),
                 hasColor ? `${textColorClass} hover:text-neutral` : ''
             ].join(' ').trim()
 
