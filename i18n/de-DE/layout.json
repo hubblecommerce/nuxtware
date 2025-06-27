@@ -9,6 +9,9 @@
         "copyright": "©{year} SHOPNAME. Alle Rechte vorbehalten"
         }
     },
+    "common": {
+        "cancel": "Abbrechen"
+    },
     "topBar": {
         "headline": "Unsere Vorteile",
         "benefit1": "Versand ab 75€ gratis",

@@ -9,6 +9,9 @@
             "copyright": "©{year} SHOPNAME. All rights reserved"
         }
     },
+    "common": {
+        "cancel": "Cancel"
+    },
     "topBar": {
         "headline": "Our advantages",
         "benefit1": "Free shipping from €75",

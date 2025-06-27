@@ -22,9 +22,26 @@
             "passwordPlaceholder": "Enter your password",
             "rememberMe": "Remember me",
             "forgotPassword": "Forgot password?",
+            "backToLogin": "Back to login",
             "signIn": "Sign In",
             "createAccount": "Create Account",
             "successMessage": "Successfully signed in!"
+        },
+        "passwordRecovery": {
+            "title": "Recover Password",
+            "description": "Enter your email address and we'll send you a link to reset your password",
+            "submit": "Request New Password",
+            "success": {
+                "title": "Password Recovery Requested",
+                "message": "If the email exists in our system, we'll send instructions to reset your password"
+            },
+            "resetTitle": "Reset Your Password",
+            "resetDescription": "Enter your new password below",
+            "resetSubmit": "Set New Password",
+            "resetSuccess": "Your password has been successfully reset! You can now sign in with your new password.",
+            "resetError": "Failed to reset password. The link may be invalid or expired.",
+            "error": "Password recovery failed",
+            "invalidLink": "Invalid or expired recovery link"
         },
         "registration": {
             "title": "Create Account",

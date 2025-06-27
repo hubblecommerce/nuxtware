@@ -17,20 +17,26 @@ const emit = defineEmits<AccountLoginEmits>()
 
 // Composables
 const { login, isLoggedIn } = useUser()
+const { resetPassword } = useCustomerPassword()
 const { resolveApiErrors } = useApiErrorsResolver('account_login')
+const { success } = useGlobalNotifications()
+const { t } = useI18n()
 
 // State
 const isLoading = ref(false)
+const isPasswordRecoveryMode = ref(false)
 const errors = ref<string[]>([])
 
 const formData = reactive({
     email: '',
-    password: '',
-    rememberMe: false
+    password: ''
 })
 
 // Computed
 const isFormValid = computed(() => {
+    if (isPasswordRecoveryMode.value) {
+        return formData.email.length > 0 && !isLoading.value
+    }
     return formData.email.length > 0 && 
            formData.password.length > 0 && 
            !isLoading.value
@@ -67,6 +73,53 @@ const handleLogin = async () => {
     }
 }
 
+// Password recovery handler
+const handlePasswordRecovery = async () => {
+    if (!isFormValid.value || props.disabled) return
+
+    errors.value = []
+    isLoading.value = true
+
+    try {
+        const runtimeConfig = useRuntimeConfig()
+        const storefrontUrl = runtimeConfig.public.shopwareDevStorefrontUrl || window.location.origin
+
+        await resetPassword({
+            email: formData.email,
+            storefrontUrl
+        })
+
+        success(t('account.passwordRecovery.success.message'))
+
+        // Reset form and switch back to login mode
+        formData.email = ''
+        formData.password = ''
+        isPasswordRecoveryMode.value = false
+    } catch (error) {
+        if (error instanceof ApiClientError) {
+            errors.value = resolveApiErrors(error.details.errors)
+        } else {
+            errors.value = [error instanceof Error ? error.message : 'An unknown error occurred']
+        }
+    } finally {
+        isLoading.value = false
+    }
+}
+
+const togglePasswordRecoveryMode = () => {
+    isPasswordRecoveryMode.value = !isPasswordRecoveryMode.value
+    errors.value = []
+    formData.password = ''
+}
+
+const handleFormSubmit = () => {
+    if (isPasswordRecoveryMode.value) {
+        handlePasswordRecovery()
+    } else {
+        handleLogin()
+    }
+}
+
 // Clear errors when form data changes
 watch(formData, () => {
     if (errors.value.length > 0) {
@@ -79,14 +132,14 @@ watch(formData, () => {
     <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
             <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
-                {{ $t('account.login.title') }}
+                {{ isPasswordRecoveryMode ? $t('account.passwordRecovery.title') : $t('account.login.title') }}
             </FoundationHeadline>
             <p class="text-sm">
-                {{ $t('account.login.description') }}
+                {{ isPasswordRecoveryMode ? $t('account.passwordRecovery.description') : $t('account.login.description') }}
             </p>
         </legend>
 
-        <form @submit.prevent="handleLogin">
+        <form @submit.prevent="handleFormSubmit">
             <div class="space-y-4">
                 <div v-if="errors.length > 0" class="p-4 border-l-4 border-error bg-error/10 text-error" role="alert">
                     <p class="font-medium">{{ $t('account.login.error') }}</p>
@@ -107,6 +160,7 @@ watch(formData, () => {
                 />
 
                 <ComponentTextInput
+                    v-if="!isPasswordRecoveryMode"
                     id="login-password"
                     v-model="formData.password"
                     :label="$t('form.password')"
@@ -117,26 +171,22 @@ watch(formData, () => {
                     bordered
                 />
 
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center justify-between">
-                        <FoundationCheckbox
-                            id="remember-me"
-                            v-model="formData.rememberMe"
-                            :disabled="isLoading"
-                        />
-                        <FoundationLabel for="remember-me" class="ml-2 text-sm">
-                            {{ $t('account.login.rememberMe') }}
-                        </FoundationLabel>
-                    </div>
-                    
-                    <FoundationLink
-                        href="#"
-                        class="text-sm text-primary hover:text-primary/80"
-                        @click.prevent="$emit('forgot-password')"
-                    >
-                        {{ $t('account.login.forgotPassword') }}
-                    </FoundationLink>
-                </div>
+                <FoundationLink
+                    v-if="!isPasswordRecoveryMode"
+                    href="#"
+                    class="block text-sm text-primary hover:text-primary/80 cursor-pointer"
+                    @click.prevent="togglePasswordRecoveryMode"
+                >
+                    {{ $t('account.login.forgotPassword') }}
+                </FoundationLink>
+                <FoundationLink
+                    v-if="isPasswordRecoveryMode"
+                    href="#"
+                    class="block text-sm text-primary hover:text-primary/80 cursor-pointer"
+                    @click.prevent="togglePasswordRecoveryMode"
+                >
+                    {{ $t('account.login.backToLogin') }}
+                </FoundationLink>
 
                 <div class="flex flex-col sm:flex-row gap-3">
                     <FoundationButton
@@ -145,12 +195,13 @@ watch(formData, () => {
                         class="flex-1"
                         :loading="isLoading"
                         :disabled="!isFormValid"
-                        @click="handleLogin"
+                        @click="handleFormSubmit"
                     >
-                        {{ $t('account.login.signIn') }}
+                        {{ isPasswordRecoveryMode ? $t('account.passwordRecovery.submit') : $t('account.login.signIn') }}
                     </FoundationButton>
                     
                     <FoundationButton
+                        v-if="!isPasswordRecoveryMode"
                         type="button"
                         variant="outline"
                         class="flex-1"

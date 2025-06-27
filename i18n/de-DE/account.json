@@ -22,9 +22,26 @@
             "passwordPlaceholder": "Passwort eingeben",
             "rememberMe": "Angemeldet bleiben",
             "forgotPassword": "Passwort vergessen?",
+            "backToLogin": "Zurück zur Anmeldung",
             "signIn": "Anmelden",
             "createAccount": "Konto erstellen",
             "successMessage": "Erfolgreich angemeldet!"
+        },
+        "passwordRecovery": {
+            "title": "Passwort wiederherstellen",
+            "description": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts",
+            "submit": "Neues Passwort anfordern",
+            "success": {
+                "title": "Passwort-Wiederherstellung angefordert",
+                "message": "Falls die E-Mail-Adresse in unserem System existiert, senden wir Ihnen Anweisungen zum Zurücksetzen Ihres Passworts"
+            },
+            "resetTitle": "Passwort zurücksetzen",
+            "resetDescription": "Geben Sie unten Ihr neues Passwort ein",
+            "resetSubmit": "Neues Passwort festlegen",
+            "resetSuccess": "Ihr Passwort wurde erfolgreich zurückgesetzt! Sie können sich jetzt mit Ihrem neuen Passwort anmelden.",
+            "resetError": "Passwort konnte nicht zurückgesetzt werden. Der Link ist möglicherweise ungültig oder abgelaufen.",
+            "error": "Passwort-Wiederherstellung fehlgeschlagen",
+            "invalidLink": "Ungültiger oder abgelaufener Wiederherstellungslink"
         },
         "registration": {
             "title": "Konto erstellen",
