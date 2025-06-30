@@ -8,18 +8,25 @@ interface ProductQtySelectorProps {
 const props = defineProps<ProductQtySelectorProps>()
 const qty = defineModel<number>('qty', { required: true })
 
+const emit = defineEmits<{
+    increase: []
+    decrease: []
+}>()
+
 const uniqueInputId = computed(() => {
     return `quantity-selector-${(Math.random() * 10000).toString()}`
 })
 function decrement() {
     if (qty.value > props.min) {
         qty.value--
+        emit('decrease')
     }
 }
 
 function increment() {
     if (qty.value < props.max) {
         qty.value++
+        emit('increase')
     }
 }
 </script>
@@ -52,7 +59,7 @@ function increment() {
                 :min="min"
                 :max="max"
                 :disabled="inputDisabled"
-                class="input text-center number-no-spinner p-0"
+                class="input text-center input-no-spinner p-0"
             />
         </div>
 
