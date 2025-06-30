@@ -3,7 +3,8 @@ import type {Schemas} from "#shopware"
 import {buildUrlPrefix, getProductRoute} from "@shopware/helpers"
 
 const props = defineProps<{
-    configurator: Schemas["PropertyGroup"][] | null
+    configurator: Schemas["PropertyGroup"][] | null,
+    parentId: string | undefined
 }>()
 
 const {
@@ -53,21 +54,21 @@ const onHandleChange = async () => {
 /* -------------------------------------------------
  * Logic for display of variant color using product media
  * ------------------------------------------------- */
-const colorOptions = computed(() =>
-    props.configurator?.find(g => g.displayType === "color")?.options ?? []
-)
-const getColorVariantIdMap = async (): Promise<Map<string, string>> => {
-    const pairs = await Promise.all(
-        colorOptions.value.map(async (option) => {
-            const variant = await findVariantForSelectedOptions({ color: option.id })
-            return variant ? [option.id, variant.id] as const : null
-        })
-    )
-    return new Map(pairs.filter(Boolean) as [string, string][])
-}
+const getColorVariantIdMap = (variants?: Schemas['Product'][]) => {
+    const map = new Map<string, string>()
 
-const colourToVariantId = await getColorVariantIdMap()
-const variantIds  = [...new Set(colourToVariantId.values())]
+    ;(variants ?? []).forEach(variant => {
+        const colourOpt = variant.options?.find(
+            o => o.group?.displayType === 'color'
+        )
+
+        if (colourOpt && !map.has(colourOpt.id)) {
+            map.set(colourOpt.id, variant.id)
+        }
+    })
+
+    return map
+}
 
 async function loadColorVariantProducts() {
     if (!variantIds.length) return
@@ -76,24 +77,12 @@ async function loadColorVariantProducts() {
     )
 }
 
-const productsPerVariantColor = await loadColorVariantProducts()
-const colorToProduct = new Map<string, Schemas["Product"]>()
-
-if (productsPerVariantColor) {
-    for (const product of productsPerVariantColor) {
-        const colourId = [...colourToVariantId.entries()]
-            .find(([, vId]) => vId === product.product?.id)?.[0]
-
-        if (colourId) colorToProduct.set(colourId, product.product)
-    }
-}
-
 /* -------------------------------------------------
  * Logic for selectable options
  * ------------------------------------------------- */
 const loadBuyableVariants = async (): Promise<Schemas["Product"][]> => {
     const parentId =
-        productsPerVariantColor?.[0]?.product?.parentId
+        props.parentId
         ?? null
     const response = await apiClient.invoke(
         "readProduct post /product",
@@ -117,8 +106,8 @@ const loadBuyableVariants = async (): Promise<Schemas["Product"][]> => {
 }
 
 function indexVariants (variants: Schemas['Product'][]) {
-    const compat: CompatIndex               = {}
-    const info:   Record<string, OptionInfo> = {}
+    const compat: CompatIndex = {}
+    const info: Record<string, OptionInfo> = {}
 
     for (const variant of variants) {
         if (variant.options) {
@@ -158,10 +147,27 @@ function buildGroupCompat (
     return result
 }
 
+const variants = await loadBuyableVariants()
+const colourToVariantIds = getColorVariantIdMap(variants) // get one product it per variant swatch option
+const variantIds = [...new Set(colourToVariantIds.values())] // product ids per variant color option
+const colorToProduct = new Map<string, Schemas["Product"]>() // product object per variant color option
 const compatibilityMap = ref<Record<string, string[]>>({})  // { groupId: [available optionIds] }
 
 onMounted(async () => {
     const variants = await loadBuyableVariants()
+    const colourToVariantIds = getColorVariantIdMap(variants)
+
+    const productsPerVariantColor = await loadColorVariantProducts()
+
+    if (productsPerVariantColor) {
+        for (const product of productsPerVariantColor) {
+            const colourId = [...colourToVariantIds.entries()]
+                .find(([, vId]) => vId === product.product?.id)?.[0]
+
+            if (colourId) colorToProduct.set(colourId, product.product)
+        }
+    }
+
     const { compat, info } = indexVariants(variants)
     const defaultVariantOptionIds = Object.values(getSelectedOptions.value) as string[]
     compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)

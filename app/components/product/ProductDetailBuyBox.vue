@@ -47,7 +47,7 @@ const props = defineProps<{
 
         <!-- ProductSoldOut.vue  incl. restock time and light version -->
 
-        <ProductDetailVariants :configurator="props.configurator" />
+        <ProductDetailVariants :configurator="props.configurator" :parent-id="product.parentId" />
 
         <!-- ProductQtySelector.vue  -->
 
