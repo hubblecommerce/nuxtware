@@ -30,7 +30,7 @@ const description = computed(() =>
         </template>
         
         <template #reviews>
-            <div id="reviews" class="py-6">
+            <div class="py-6">
                 <ReviewContainer 
                     v-if="product"
                     :product-id="product.id"

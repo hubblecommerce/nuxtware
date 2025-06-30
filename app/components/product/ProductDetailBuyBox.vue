@@ -11,9 +11,10 @@ const { totalReviews } = useProductReviews({
     productId: props.product.id,
 })
 
-function scrollToAnchor (anchor: string) {
+function scrollToAndOpenReviewsTab (anchor: string) {
     const el = document.getElementById(anchor)
     if (el) {
+        el.click()
         el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 }
@@ -53,8 +54,8 @@ function scrollToAnchor (anchor: string) {
                 role="link"
                 tabindex="0"
                 :aria-label="$t('product.reviews.link', { rating: product.ratingAverage })"
-                @click.prevent="scrollToAnchor('reviews')"
-                @keydown.enter.prevent="scrollToAnchor('reviews')"
+                @click.prevent="scrollToAndOpenReviewsTab('tab-reviews')"
+                @keydown.enter.prevent="scrollToAndOpenReviewsTab('tab-reviews')"
             >
                 <ComponentReviewStars
                     v-if="product.ratingAverage"

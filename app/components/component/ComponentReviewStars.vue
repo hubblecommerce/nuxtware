@@ -108,8 +108,8 @@ const onFocus = async (i: number) => setTimeout(() => props.interactive && hover
                 />
                 <FoundationIcon
                     name="star-filled"
-                    class="[clip-path:inset(0 47% 0 0)] text-yellow-400 absolute top-0"
-                    size="md"
+                    class="[clip-path:inset(0 47% 0 0)] text-yellow-400 absolute top-0 left-0"
+                    :class="getSizeClass(props.size)"
                     style="clip-path: inset(0 50% 0 0)"
                 />
             </div>
