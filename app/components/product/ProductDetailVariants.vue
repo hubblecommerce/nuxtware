@@ -12,10 +12,10 @@ const {
     findVariantForSelectedOptions,
 } = useProductConfigurator()
 const { search } = useProductSearch()
-const { apiClient } = useShopwareContext();
+const { apiClient } = useShopwareContext()
 
 type OptionStates = 'selected' | 'combinable' | 'uncombinable' | 'disabled' | null
-interface OptionInfo { id: string; groupId: string }
+interface OptionInfo { id: string, groupId: string }
 type CompatIndex = Record<string, Set<string>>
 
 const deactivatedGroups = ref<string[]>([])
@@ -56,7 +56,6 @@ const onHandleChange = async () => {
 const colorOptions = computed(() =>
     props.configurator?.find(g => g.displayType === "color")?.options ?? []
 )
-
 const getColorVariantIdMap = async (): Promise<Map<string, string>> => {
     const pairs = await Promise.all(
         colorOptions.value.map(async (option) => {
@@ -113,8 +112,8 @@ const loadBuyableVariants = async (): Promise<Schemas["Product"][]> => {
             }
 
         }
-    );
-    return response.data.elements as Schemas["Product"][];
+    )
+    return response.data.elements as Schemas["Product"][]
 }
 
 function indexVariants (variants: Schemas['Product'][]) {
@@ -170,9 +169,7 @@ onMounted(async () => {
 
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
     const selected = getSelectedOptions.value[group.name] === option.id
-    const combinable =
-        compatibilityMap.value[group.id]?.includes(option.id)
-        || compatibilityMap.value.length === undefined // only one variant group present
+    const combinable = compatibilityMap.value[group.id]?.includes(option.id)
     const disabled = deactivatedGroups.value.includes(group.id)
 
     if (disabled) {
@@ -188,6 +185,10 @@ function optionState (group: Schemas["PropertyGroup"], option: Schemas["Property
     }
 
     if (!combinable && !selected) {
+        // if product has only 1 variant option group the compatibility map is empty
+        if (Object.keys(compatibilityMap.value).length <= 0) {
+            return 'combinable'
+        } else
         return 'uncombinable'
     }
 
