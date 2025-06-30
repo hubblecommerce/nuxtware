@@ -20,6 +20,7 @@ import review from './review.json'
 import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
 import productDeliveryInformation from './productDeliveryInformation.json'
 import productSoldOut from './productSoldOut.json'
+import productQtySelector from './productQtySelector.json'
 
 export default {
     ...layout,
@@ -40,6 +41,7 @@ export default {
     ...productDeliveryInformation,
     ...productPurchaseUnitAndInfos,
     ...productSoldOut,
+    ...productQtySelector,
     ...wishlist,
     ...carousel,
     ...tabs,

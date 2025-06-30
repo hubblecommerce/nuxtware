@@ -2,6 +2,8 @@
   "product": {
     "viewDetails": "Details anzeigen",
     "viewDetailsFor": "Details für {product} anzeigen",
+    "unavailable": "Derzeit nicht verfügbar",
+    "addToCart": "In den Warenkorb",
     "price": {
       "regulationPrice": "30-Tage-Bestpreis**: {price}",
       "referencePrice": "pro {unit} {unitName}",
