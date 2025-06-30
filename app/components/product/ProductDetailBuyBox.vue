@@ -35,16 +35,7 @@ const props = defineProps<{
 
         <!-- Delivery snippet by sales channel logic  -->
 
-        <template v-if="!product.active || !product.available">
-            <div class="flex items-center gap-1 text-sm">
-                <div class="w-2 h-2 bg-error rounded-full" />
-                <span>{{ $t('product.unavailable') }}</span>
-            </div>
-        </template>
-
-        <!-- Product delivery time if product is in stock  -->
-
-        <ProductSoldOut :product="product" />
+        <LazyProductDeliveryInformation :product />
 
         <!-- ProductDetailVariants.vue  -->
 
