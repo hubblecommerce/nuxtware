@@ -100,9 +100,24 @@ const onFocus = async (i: number) => setTimeout(() => props.interactive && hover
             @keydown.space.prevent="onKeyDown()"
             @focus="onFocus(i)"
         >
-            <FoundationIcon 
-                :name="displayedScore >= i ? 'star-filled' : 'star'" 
-                :class="props.color || 'text-yellow-400'" 
+            <div v-if="displayedScore < i && displayedScore < 5" class="relative">
+                <FoundationIcon
+                    :name="displayedScore >= i ? 'star-filled' : 'star'"
+                    :class="props.color || 'text-yellow-400'"
+                    :size="props.size || 'md'"
+                />
+                <FoundationIcon
+                    name="star-filled"
+                    class="[clip-path:inset(0 47% 0 0)] text-yellow-400 absolute top-0"
+                    size="md"
+                    style="clip-path: inset(0 50% 0 0)"
+                />
+            </div>
+
+            <FoundationIcon
+                v-else
+                :name="displayedScore >= i ? 'star-filled' : 'star'"
+                :class="props.color || 'text-yellow-400'"
                 :size="props.size || 'md'"
             />
         </div>

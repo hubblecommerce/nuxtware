@@ -1,10 +1,22 @@
 <script setup lang="ts">
 import { getTranslatedProperty } from "@shopware/helpers"
 import type { Schemas } from "#shopware"
+import { useProductReviews } from "#hubble/composables/useProductReviews";
 
 const props = defineProps<{
     product: Schemas["Product"],
 }>()
+
+const { totalReviews } = useProductReviews({
+    productId: props.product.id,
+})
+
+function scrollToAnchor (anchor: string) {
+    const el = document.getElementById(anchor)
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+}
 </script>
 <template>
     <div class="h-full flex flex-col justify-start gap-4">
@@ -31,6 +43,28 @@ const props = defineProps<{
 
         <section>
             <LazyProductPurchaseUnitAndInfos v-if="props.product.purchaseUnit" :product="props.product" :show-product-info="true" />
+        </section>
+
+        <section
+            v-if="product.ratingAverage && product.ratingAverage > 0 && totalReviews > 0"
+            class="flex flex-col gap-1 justify-start items-start"
+        >
+            <div
+                role="link"
+                tabindex="0"
+                :aria-label="$t('product.reviews.link', { rating: product.ratingAverage })"
+                @click.prevent="scrollToAnchor('reviews')"
+                @keydown.enter.prevent="scrollToAnchor('reviews')"
+            >
+                <ComponentReviewStars
+                    v-if="product.ratingAverage"
+                    v-model="product.ratingAverage"
+                    :interactive="false"
+                    size="sm"
+                    class="cursor-pointer"
+                />
+            </div>
+            <div class="text-sm">{{ $t('review.title', { count: totalReviews }) }}</div>
         </section>
 
         <!-- Delivery snippet by sales channel logic  -->
