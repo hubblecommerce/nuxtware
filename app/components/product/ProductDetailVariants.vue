@@ -168,10 +168,11 @@ onMounted(async () => {
     compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)
 })
 
-
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
     const selected = getSelectedOptions.value[group.name] === option.id
-    const combinable = compatibilityMap.value[group.id]?.includes(option.id)
+    const combinable =
+        compatibilityMap.value[group.id]?.includes(option.id)
+        || compatibilityMap.value.length === undefined // only one variant group present
     const disabled = deactivatedGroups.value.includes(group.id)
 
     if (disabled) {
