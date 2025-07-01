@@ -4,13 +4,13 @@ import type { Schemas } from "#shopware";
 const props = defineProps<{
     variants: Schemas['Product'][],
     variantOptionId: string,
-    colorMap: Map<string, Schemas['Product']>
+    swatchMap: Map<string, Schemas['Product']>
 }>()
 
 </script>
 <template>
     <img
-        :src="colorMap.get(props.variantOptionId)?.cover?.media.url"
-        :alt="colorMap.get(props.variantOptionId)?.cover?.media.translated.alt || ''"
+        :src="swatchMap.get(props.variantOptionId)?.cover?.media.url"
+        :alt="swatchMap.get(props.variantOptionId)?.cover?.media.translated.alt || ''"
     />
 </template>

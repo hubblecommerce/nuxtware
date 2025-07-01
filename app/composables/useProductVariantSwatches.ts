@@ -1,17 +1,17 @@
 import type { Schemas } from "#shopware";
 /* -------------------------------------------------
- * Logic for display of variant color using product media
+ * Logic for display of variant swatch using product media
  * ------------------------------------------------- */
-const getColorVariantIdMap = (variants?: Schemas['Product'][]) => {
+const getSwatchVariantIdMap = (variants?: Schemas['Product'][]) => {
     const map = new Map<string, string>()
 
     ;(variants ?? []).forEach(variant => {
-        const colourOpt = variant.options?.find(
+        const swatchOption = variant.options?.find(
             o => o.group?.displayType === 'color'
         )
 
-        if (colourOpt && !map.has(colourOpt.id)) {
-            map.set(colourOpt.id, variant.id)
+        if (swatchOption && !map.has(swatchOption.id)) {
+            map.set(swatchOption.id, variant.id)
         }
     })
 
@@ -21,27 +21,27 @@ const getColorVariantIdMap = (variants?: Schemas['Product'][]) => {
 export async function useProductVariantSwatches(variants: Schemas["Product"][]) {
     const { search } = useProductSearch()
 
-    async function loadColorVariantProducts() {
+    async function loadSwatchVariantProducts() {
         if (!variantIds.length) return
         return await Promise.all(
             variantIds.map(id => search(id))
         )
     }
 
-    const colourToVariantIds = getColorVariantIdMap(variants) // get one product it per variant swatch option
-    const variantIds = [...new Set(colourToVariantIds.values())] // product ids per variant color option
-    const colorToProduct = new Map<string, Schemas["Product"]>() // product object per variant color option
+    const swatchToVariantIds = getSwatchVariantIdMap(variants) // get one product it per variant swatch option
+    const variantIds = [...new Set(swatchToVariantIds.values())] // product ids per variant swatch option
+    const swatchToProduct = new Map<string, Schemas["Product"]>() // product object per variant swatch option
 
-    const productsPerVariantColor = await loadColorVariantProducts()
+    const productsPerVariantSwatch = await loadSwatchVariantProducts()
 
-    if (productsPerVariantColor) {
-        for (const product of productsPerVariantColor) {
-            const colourId = [...colourToVariantIds.entries()]
+    if (productsPerVariantSwatch) {
+        for (const product of productsPerVariantSwatch) {
+            const swatchId = [...swatchToVariantIds.entries()]
                 .find(([, vId]) => vId === product.product?.id)?.[0]
 
-            if (colourId) colorToProduct.set(colourId, product.product)
+            if (swatchId) swatchToProduct.set(swatchId, product.product)
         }
     }
 
-    return { colorToProduct }
+    return { swatchToProduct }
 }

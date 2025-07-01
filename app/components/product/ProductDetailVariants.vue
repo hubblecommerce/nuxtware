@@ -127,7 +127,7 @@ const hasSwatchOptionGroup = computed(() => {
 })
 
 const compatibilityMap = ref<Record<string, string[]>>({})  // { groupId: [available optionIds] }
-const colorToProduct = ref<Map<string, Schemas['Product']>>(new Map())
+const swatchToProduct = ref<Map<string, Schemas['Product']>>(new Map())
 const { compat, info } = indexVariants(variants)
 const defaultVariantOptionIds = Object.values(getSelectedOptions.value) as string[]
 compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)
@@ -138,7 +138,7 @@ onMounted(() => {
 
 async function loadVariantSwatches() {
     const result = await useProductVariantSwatches(variants)
-    colorToProduct.value = result.colorToProduct
+    swatchToProduct.value = result.swatchToProduct
 }
 
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
@@ -169,23 +169,23 @@ function optionState (group: Schemas["PropertyGroup"], option: Schemas["Property
     return null
 }
 
-function optionStyles(state: OptionStates, media: boolean, colorCode?: string): string {
-    // add all possible variant option color hex codes from the shop to display the color
-    const colorClassMap: Record<string, string> = {
+function optionStyles(state: OptionStates, media: boolean, swatchCode?: string): string {
+    // add all possible variant option swatch hex codes from the shop to display the swatch
+    const swatchClassMap: Record<string, string> = {
         '#0000ff': 'bg-[#0000ff]',
         '#ff0000': 'bg-[#ff0000]',
         '#ffffff': 'bg-[#ffffff]',
     }
 
-    const hasColor = !!colorCode && colorClassMap[colorCode]
-    const colorClass = hasColor ? colorClassMap[colorCode] : ''
-    const isWhite = colorCode === '#ffffff'
-    const textColorClass = isWhite ? ' text-neutral' : ' text-tertiary-content'
-    const mutedTextColorClass = ' text-neutral/50'
-    const hoverColorClass = isWhite
+    const hasSwatch = !!swatchCode && swatchClassMap[swatchCode]
+    const swatchClass = hasSwatch ? swatchClassMap[swatchCode] : ''
+    const isWhite = swatchCode === '#ffffff'
+    const textSwatchClass = isWhite ? ' text-neutral' : ' text-tertiary-content'
+    const mutedTextSwatchClass = ' text-neutral/50'
+    const hoverSwatchClass = isWhite
         ? ' hover:bg-neutral/15'
-        : hasColor
-            ? ` hover:${colorClass}/15`
+        : hasSwatch
+            ? ` hover:${swatchClass}/15`
             : ''
 
     const focusClass = ' focus-style'
@@ -197,8 +197,8 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
             return [
                 'border-2 border-neutral bg-neutral/15 cursor-pointer',
                 focusClass,
-                media ? '' : colorClass,
-                hasColor ? textColorClass : ' text-neutral'
+                media ? '' : swatchClass,
+                hasSwatch ? textSwatchClass : ' text-neutral'
             ].join(' ').trim()
 
         case 'combinable':
@@ -209,10 +209,10 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                     'cursor-pointer',
                     focusClass
                 ].join(' ').trim()
-            } else if (hasColor) {
+            } else if (hasSwatch) {
                 return [
-                    textColorClass,
-                    hoverColorClass,
+                    textSwatchClass,
+                    hoverSwatchClass,
                     'cursor-pointer',
                     focusClass
                 ].join(' ').trim()
@@ -229,11 +229,11 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
         case 'uncombinable':
             return [
                 mutedBorderClass,
-                mutedTextColorClass,
+                mutedTextSwatchClass,
                 'cursor-pointer',
                 focusClass,
-                media ? '' : colorClass,
-                hasColor ? `${textColorClass} hover:text-neutral` : ''
+                media ? '' : swatchClass,
+                hasSwatch ? `${textSwatchClass} hover:text-neutral` : ''
             ].join(' ').trim()
 
         case 'disabled':
@@ -255,9 +255,9 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                     aria-label=""
                     class="relative flex-shrink-0 text-sm flex justify-center items-center"
                     :class="[
-                        { 'min-h-[45px] px-4': !colorToProduct.get(variantOption.id)?.cover?.media },
-                        { 'min-h-[105px] px-1': colorToProduct.get(variantOption.id)?.cover?.media },
-                        optionStyles(optionState(variantGroup, variantOption), !!colorToProduct.get(variantOption.id)?.cover?.media.url, variantOption.colorHexCode),
+                        { 'min-h-[45px] px-4': !swatchToProduct.get(variantOption.id)?.cover?.media },
+                        { 'min-h-[105px] px-1': swatchToProduct.get(variantOption.id)?.cover?.media },
+                        optionStyles(optionState(variantGroup, variantOption), !!swatchToProduct.get(variantOption.id)?.cover?.media.url, variantOption.colorHexCode),
                     ]"
                     @keydown.enter.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                 >
@@ -265,7 +265,7 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                         v-if="variantGroup.displayType === 'color'"
                         :variants="variants"
                         :variant-option-id="variantOption.id"
-                        :color-map="colorToProduct"
+                        :swatch-map="swatchToProduct"
                         class="mix-blend-multiply"
                         width="60"
                     />
