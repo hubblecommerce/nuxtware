@@ -100,9 +100,10 @@ const onFocus = async (i: number) => setTimeout(() => props.interactive && hover
             @keydown.space.prevent="onKeyDown()"
             @focus="onFocus(i)"
         >
-            <div v-if="displayedScore < i && displayedScore < 5" class="relative">
+        <!-- show half filled star if score is float -->
+            <div v-if="displayedScore >= i && displayedScore < i+1 && displayedScore % 1 != 0" class="relative">
                 <FoundationIcon
-                    :name="displayedScore >= i ? 'star-filled' : 'star'"
+                    name="star"
                     :class="props.color || 'text-yellow-400'"
                     :size="props.size || 'md'"
                 />
