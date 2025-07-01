@@ -2,6 +2,7 @@
 import type { Schemas } from "#shopware"
 import { buildUrlPrefix, getProductRoute } from "@shopware/helpers"
 import { useProductVariantSwatches } from "#hubble/composables/useProductVariantSwatches";
+const { $config } = useNuxtApp()
 
 const props = defineProps<{
     configurator: Schemas["PropertyGroup"][] | null,
@@ -14,6 +15,7 @@ const {
     findVariantForSelectedOptions,
 } = useProductConfigurator()
 const { apiClient } = useShopwareContext()
+const selectedOptions = ref(getSelectedOptions.value)
 
 type OptionStates = 'selected' | 'combinable' | 'uncombinable' | 'disabled' | null
 interface OptionInfo { id: string, groupId: string }
@@ -22,33 +24,41 @@ type CompatIndex = Record<string, Set<string>>
 const deactivatedGroups = ref<string[]>([])
 const emit =
     defineEmits<
-        (e: "change", selected: Partial<Schemas["Product"]> | undefined) => void
+        (e: "productVariantChanged", selected: Partial<Schemas["Product"]> | undefined) => void
     >()
 const { getUrlPrefix } = useUrlResolver()
 const prefix = getUrlPrefix()
 const isLoading = ref<boolean>()
-const router = useRouter()
 
 /* -------------------------------------------------
  * Handle variant change
  * ------------------------------------------------- */
+
+watch(
+    getSelectedOptions,
+    async () => {
+        onHandleChange()
+    }, { deep: true }
+)
+
 const onHandleChange = async () => {
-    isLoading.value = true
+    selectedOptions.value = getSelectedOptions.value
     const variantFound = await findVariantForSelectedOptions()
-    const selectedOptionsVariantPath = buildUrlPrefix(
-        getProductRoute(variantFound),
-        prefix,
-    )
-    if (selectedOptionsVariantPath) {
-        try {
-            router.push(selectedOptionsVariantPath)
-        } catch {
-            console.error("incorrect URL", selectedOptionsVariantPath)
-        }
-    } else {
-        emit("change", variantFound)
+
+    if (variantFound && variantFound?.seoUrls?.length > 0) {
+        emit('productVariantChanged', { data: variantFound })
+        // Replace current url path with variant without losing optional GET params or language path
+        const variantSeoUrl = variantFound.seoUrls[0].seoPathInfo
+        const variantUrl = variantSeoUrl != null && variantSeoUrl !== '/undefined' ? variantSeoUrl : `${variantFound.id}`
+        const newUrl = window.location.href.replace(
+            window.location.pathname,
+            `${$config?.app?.baseURL}${$config?.app?.baseURL === '/' ? '' : '/'}${variantUrl}`
+        )
+        window.history.replaceState({}, variantFound.name, newUrl)
+
+        defaultVariantOptionIds.value = Object.values(getSelectedOptions.value) as string[]
+        compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds.value, compat, info)
     }
-    isLoading.value = false
 }
 
 /* -------------------------------------------------
@@ -129,8 +139,8 @@ const hasSwatchOptionGroup = computed(() => {
 const compatibilityMap = ref<Record<string, string[]>>({})  // { groupId: [available optionIds] }
 const swatchToProduct = ref<Map<string, Schemas['Product']>>(new Map())
 const { compat, info } = indexVariants(variants)
-const defaultVariantOptionIds = Object.values(getSelectedOptions.value) as string[]
-compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)
+const defaultVariantOptionIds = ref(Object.values(getSelectedOptions.value) as string[])
+compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds.value, compat, info)
 
 onMounted(() => {
     if (hasSwatchOptionGroup.value) loadVariantSwatches()
@@ -144,6 +154,7 @@ async function loadVariantSwatches() {
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
     const selected = getSelectedOptions.value[group.name] === option.id
     const combinable = compatibilityMap.value[group.id]?.includes(option.id)
+    // TODO: check logic for disabled variants
     const disabled = deactivatedGroups.value.includes(group.id)
 
     if (disabled) {
@@ -252,7 +263,7 @@ function optionStyles(state: OptionStates, media: boolean, swatchCode?: string):
                 <label
                     v-for="variantOption in variantGroup.options" :key="variantOption.id"
                     tabindex="0"
-                    aria-label=""
+                    :aria-label="variantOption.translated.name"
                     class="relative flex-shrink-0 text-sm flex justify-center items-center"
                     :class="[
                         { 'min-h-[45px] px-4': !swatchToProduct.get(variantOption.id)?.cover?.media },
