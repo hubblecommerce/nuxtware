@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type {Schemas} from "#shopware"
-import {buildUrlPrefix, getProductRoute} from "@shopware/helpers"
+import type { Schemas } from "#shopware"
+import { buildUrlPrefix, getProductRoute } from "@shopware/helpers"
+import { useProductVariantSwatches } from "#hubble/composables/useProductVariantSwatches";
 
 const props = defineProps<{
     configurator: Schemas["PropertyGroup"][] | null,
@@ -12,7 +13,6 @@ const {
     getSelectedOptions,
     findVariantForSelectedOptions,
 } = useProductConfigurator()
-const { search } = useProductSearch()
 const { apiClient } = useShopwareContext()
 
 type OptionStates = 'selected' | 'combinable' | 'uncombinable' | 'disabled' | null
@@ -49,32 +49,6 @@ const onHandleChange = async () => {
         emit("change", variantFound)
     }
     isLoading.value = false
-}
-
-/* -------------------------------------------------
- * Logic for display of variant color using product media
- * ------------------------------------------------- */
-const getColorVariantIdMap = (variants?: Schemas['Product'][]) => {
-    const map = new Map<string, string>()
-
-    ;(variants ?? []).forEach(variant => {
-        const colourOpt = variant.options?.find(
-            o => o.group?.displayType === 'color'
-        )
-
-        if (colourOpt && !map.has(colourOpt.id)) {
-            map.set(colourOpt.id, variant.id)
-        }
-    })
-
-    return map
-}
-
-async function loadColorVariantProducts() {
-    if (!variantIds.length) return
-    return await Promise.all(
-        variantIds.map(id => search(id))
-    )
 }
 
 /* -------------------------------------------------
@@ -148,30 +122,24 @@ function buildGroupCompat (
 }
 
 const variants = await loadBuyableVariants()
-const colourToVariantIds = getColorVariantIdMap(variants) // get one product it per variant swatch option
-const variantIds = [...new Set(colourToVariantIds.values())] // product ids per variant color option
-const colorToProduct = new Map<string, Schemas["Product"]>() // product object per variant color option
-const compatibilityMap = ref<Record<string, string[]>>({})  // { groupId: [available optionIds] }
-
-onMounted(async () => {
-    const variants = await loadBuyableVariants()
-    const colourToVariantIds = getColorVariantIdMap(variants)
-
-    const productsPerVariantColor = await loadColorVariantProducts()
-
-    if (productsPerVariantColor) {
-        for (const product of productsPerVariantColor) {
-            const colourId = [...colourToVariantIds.entries()]
-                .find(([, vId]) => vId === product.product?.id)?.[0]
-
-            if (colourId) colorToProduct.set(colourId, product.product)
-        }
-    }
-
-    const { compat, info } = indexVariants(variants)
-    const defaultVariantOptionIds = Object.values(getSelectedOptions.value) as string[]
-    compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)
+const hasSwatchOptionGroup = computed(() => {
+    return variants.some((variant) => variant.options?.some((option) => option.group.displayType === 'color'))
 })
+
+const compatibilityMap = ref<Record<string, string[]>>({})  // { groupId: [available optionIds] }
+const colorToProduct = ref<Map<string, Schemas['Product']>>(new Map())
+const { compat, info } = indexVariants(variants)
+const defaultVariantOptionIds = Object.values(getSelectedOptions.value) as string[]
+compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds, compat, info)
+
+onMounted(() => {
+    if (hasSwatchOptionGroup.value) loadVariantSwatches()
+})
+
+async function loadVariantSwatches() {
+    const result = await useProductVariantSwatches(variants)
+    colorToProduct.value = result.colorToProduct
+}
 
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
     const selected = getSelectedOptions.value[group.name] === option.id
@@ -275,7 +243,6 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
             return ''
     }
 }
-
 </script>
 <template>
     <section v-if="props.configurator != null && props.configurator.length > 0" class="mb-6" :aria-label="$t('product.detail.variants')">
@@ -294,10 +261,11 @@ function optionStyles(state: OptionStates, media: boolean, colorCode?: string): 
                     ]"
                     @keydown.enter.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                 >
-                    <img
+                    <ProductDetailVariantSwatch
                         v-if="variantGroup.displayType === 'color'"
-                        :src="colorToProduct.get(variantOption.id)?.cover?.media.url"
-                        :alt="colorToProduct.get(variantOption.id)?.cover?.media.translated.alt || ''"
+                        :variants="variants"
+                        :variant-option-id="variantOption.id"
+                        :color-map="colorToProduct"
                         class="mix-blend-multiply"
                         width="60"
                     />
