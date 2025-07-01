@@ -56,7 +56,7 @@ const handleAddToCart = async () => {
 
         <!-- Delivery snippet by sales channel logic  -->
 
-        <LazyProductDeliveryInformation :product />
+        <ProductDeliveryInformation :product />
 
         <!-- ProductDetailVariants.vue  -->
 
