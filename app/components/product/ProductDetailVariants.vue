@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
-import { buildUrlPrefix, getProductRoute } from "@shopware/helpers"
 import { useProductVariantSwatches } from "#hubble/composables/useProductVariantSwatches";
 const { $config } = useNuxtApp()
 
@@ -14,6 +13,7 @@ const {
     getSelectedOptions,
     findVariantForSelectedOptions,
 } = useProductConfigurator()
+const { search } = useProductSearch()
 const { apiClient } = useShopwareContext()
 const selectedOptions = ref(getSelectedOptions.value)
 
@@ -23,12 +23,9 @@ type CompatIndex = Record<string, Set<string>>
 
 const deactivatedGroups = ref<string[]>([])
 const emit =
-    defineEmits<
-        (e: "productVariantChanged", selected: Partial<Schemas["Product"]> | undefined) => void
-    >()
-const { getUrlPrefix } = useUrlResolver()
-const prefix = getUrlPrefix()
-const isLoading = ref<boolean>()
+    defineEmits<{
+        "productVariantChanged": [product: Schemas["Product"]]
+    }>()
 
 /* -------------------------------------------------
  * Handle variant change
@@ -38,15 +35,16 @@ watch(
     getSelectedOptions,
     async () => {
         onHandleChange()
-    }, { deep: true }
+    }
 )
 
 const onHandleChange = async () => {
     selectedOptions.value = getSelectedOptions.value
     const variantFound = await findVariantForSelectedOptions()
+    const newProductVariant = await search(variantFound.id)
 
-    if (variantFound && variantFound?.seoUrls?.length > 0) {
-        emit('productVariantChanged', { data: variantFound })
+    if (variantFound && newProductVariant && variantFound?.seoUrls?.length > 0) {
+        emit('productVariantChanged', newProductVariant.product)
         // Replace current url path with variant without losing optional GET params or language path
         const variantSeoUrl = variantFound.seoUrls[0].seoPathInfo
         const variantUrl = variantSeoUrl != null && variantSeoUrl !== '/undefined' ? variantSeoUrl : `${variantFound.id}`
@@ -282,7 +280,6 @@ function optionStyles(state: OptionStates, media: boolean, swatchCode?: string):
                     />
                     <span v-else>{{variantOption.translated.name}}</span>
                     <input
-                        v-model="getSelectedOptions[variantGroup.id]"
                         type="radio"
                         :name="variantGroup.id"
                         :value="variantOption.id"
