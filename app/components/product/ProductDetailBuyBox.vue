@@ -60,7 +60,7 @@ const handleAddToCart = async () => {
 
         <!-- ProductDetailVariants.vue  -->
 
-        <div v-if="isBuyable" class="flex flex-row gap-2 items-center mb-6">
+        <div v-if="isBuyable" class="flex flex-row gap-2 items-center">
             <LazyProductQtySelector
                 v-if="showQtySelect"
                 v-model:qty="quantity"
@@ -88,7 +88,11 @@ const handleAddToCart = async () => {
             </FoundationButton>
         </div>
 
-        <!--  ProductWishlistToggle.vue  -->
+        <ProductWishlistToggle
+            :product="product"
+            variant="button"
+            class="w-auto mr-auto"
+        />
 
         <!--  Product number / sku  -->
 
