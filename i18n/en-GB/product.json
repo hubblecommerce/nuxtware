@@ -4,6 +4,7 @@
     "viewDetailsFor": "View details for {product}",
     "unavailable": "Currently unavailable",
     "addToCart": "Add To Cart",
+    "productNumber": "Article Number",
     "price": {
       "regulationPrice": "30-Days-Bestprice**: {price}",
       "referencePrice": "per {unit} {unitName}",

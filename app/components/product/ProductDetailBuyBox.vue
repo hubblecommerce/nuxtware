@@ -90,7 +90,9 @@ const handleAddToCart = async () => {
 
         <!--  ProductWishlistToggle.vue  -->
 
-        <!--  Product number / sku  -->
+        <span v-if="product.productNumber" class="text-sm">
+            <strong>{{ $t('product.productNumber') }}:&nbsp;</strong>{{ product.productNumber }}
+        </span>
 
         <CartSidenav v-model="showCartSidenav" />
 
