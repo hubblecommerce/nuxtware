@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
 import { useProductVariantSwatches } from "#hubble/composables/useProductVariantSwatches";
-const { $config } = useNuxtApp()
 
+const { $config } = useNuxtApp()
 const props = defineProps<{
     configurator: Schemas["PropertyGroup"][] | null,
     parentId: string | undefined
@@ -15,38 +15,33 @@ const {
 } = useProductConfigurator()
 const { search } = useProductSearch()
 const { apiClient } = useShopwareContext()
-const selectedOptions = ref(getSelectedOptions.value)
 
 type OptionStates = 'selected' | 'combinable' | 'uncombinable' | 'disabled' | null
 interface OptionInfo { id: string, groupId: string }
 type CompatIndex = Record<string, Set<string>>
 
-const deactivatedGroups = ref<string[]>([])
-const emit =
-    defineEmits<{
-        "productVariantChanged": [product: Schemas["Product"]]
-    }>()
+const emit = defineEmits<{
+    "productVariantChanged": [product: Schemas["Product"]]
+}>()
+const loading = ref(true)
 
 /* -------------------------------------------------
  * Handle variant change
  * ------------------------------------------------- */
-
 watch(
     getSelectedOptions,
-    async () => {
-        onHandleChange()
-    }
+    async () => await onHandleChange()
 )
 
 const onHandleChange = async () => {
-    selectedOptions.value = getSelectedOptions.value
     const variantFound = await findVariantForSelectedOptions()
-    const newProductVariant = await search(variantFound.id)
 
-    if (variantFound && newProductVariant && variantFound?.seoUrls?.length > 0) {
+    if (variantFound &&  variantFound?.seoUrls && variantFound?.seoUrls?.length > 0) {
+        const newProductVariant = await search(variantFound.id)
+
         emit('productVariantChanged', newProductVariant.product)
         // Replace current url path with variant without losing optional GET params or language path
-        const variantSeoUrl = variantFound.seoUrls[0].seoPathInfo
+        const variantSeoUrl = variantFound.seoUrls[0] ?  variantFound.seoUrls[0].seoPathInfo : null
         const variantUrl = variantSeoUrl != null && variantSeoUrl !== '/undefined' ? variantSeoUrl : `${variantFound.id}`
         const newUrl = window.location.href.replace(
             window.location.pathname,
@@ -141,23 +136,22 @@ const defaultVariantOptionIds = ref(Object.values(getSelectedOptions.value) as s
 compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds.value, compat, info)
 
 onMounted(() => {
+    loading.value = true
     if (hasSwatchOptionGroup.value) loadVariantSwatches()
 })
 
 async function loadVariantSwatches() {
     const result = await useProductVariantSwatches(variants)
     swatchToProduct.value = result.swatchToProduct
+    loading.value = false
 }
 
+/* -------------------------------------------------
+ * Logic for styling of variant group options
+ * ------------------------------------------------- */
 function optionState (group: Schemas["PropertyGroup"], option: Schemas["PropertyGroupOption"]): OptionStates {
     const selected = getSelectedOptions.value[group.name] === option.id
     const combinable = compatibilityMap.value[group.id]?.includes(option.id)
-    // TODO: check logic for disabled variants
-    const disabled = deactivatedGroups.value.includes(group.id)
-
-    if (disabled) {
-        return 'disabled'
-    }
 
     if (selected) {
         return 'selected'
@@ -179,7 +173,8 @@ function optionState (group: Schemas["PropertyGroup"], option: Schemas["Property
 }
 
 function optionStyles(state: OptionStates, media: boolean, swatchCode?: string): string {
-    // add all possible variant option swatch hex codes from the shop to display the swatch
+    // add all possible variant option swatch hex codes from the shop
+    // to display the swatch hex color if no media is present
     const swatchClassMap: Record<string, string> = {
         '#0000ff': 'bg-[#0000ff]',
         '#ff0000': 'bg-[#ff0000]',
@@ -245,9 +240,6 @@ function optionStyles(state: OptionStates, media: boolean, swatchCode?: string):
                 hasSwatch ? `${textSwatchClass} hover:text-neutral` : ''
             ].join(' ').trim()
 
-        case 'disabled':
-            return 'bg-secondary-content text-neutral/30 border border-border/30 cursor-not-allowed focus-style'
-
         default:
             return ''
     }
@@ -270,21 +262,29 @@ function optionStyles(state: OptionStates, media: boolean, swatchCode?: string):
                     ]"
                     @keydown.enter.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                 >
-                    <ProductDetailVariantSwatch
-                        v-if="variantGroup.displayType === 'color'"
-                        :variants="variants"
-                        :variant-option-id="variantOption.id"
-                        :swatch-map="swatchToProduct"
-                        class="mix-blend-multiply"
-                        width="60"
-                    />
-                    <span v-else>{{variantOption.translated.name}}</span>
+                    <template v-if="loading">
+                        <div class="flex items-center justify-center flex-grow p-1">
+                            <div class="animate-spin rounded-full h-2 w-2 border-b-2 border-border" />
+                        </div>
+                    </template>
+
+                    <template v-else>
+                        <ProductDetailVariantSwatch
+                            v-if="variantGroup.displayType === 'color'"
+                            :variants="variants"
+                            :variant-option-id="variantOption.id"
+                            :swatch-map="swatchToProduct"
+                            class="mix-blend-multiply"
+                            width="60"
+                        />
+                        <span v-else>{{variantOption.translated.name}}</span>
+                    </template>
+
                     <input
                         type="radio"
                         :name="variantGroup.id"
                         :value="variantOption.id"
                         class="hidden radio"
-                        :disabled="deactivatedGroups.includes(variantGroup.id)"
                         @click="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                     >
                 </label>
