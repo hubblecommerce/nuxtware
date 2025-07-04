@@ -17,6 +17,7 @@ import wishlist from './wishlist.json'
 import carousel from './carousel.json'
 import tabs from './tabs.json'
 import review from './review.json'
+import misc from './misc.json'
 
 export default {
     ...layout,
@@ -38,4 +39,5 @@ export default {
     ...carousel,
     ...tabs,
     ...review,
+    ...misc
 }

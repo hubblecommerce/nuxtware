@@ -126,7 +126,7 @@ Nuxtware:
     - [ ] Dashboard
 - [ ] CMS
 - [ ] Skiplinks
-- [ ] Scroll To Top
+- [x] Scroll To Top
 - [ ] Newsletter Form
 - [ ] Popups (Modals)
 - [x] Footer
