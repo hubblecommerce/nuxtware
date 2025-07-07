@@ -4,6 +4,7 @@
     "viewDetailsFor": "Details für {product} anzeigen",
     "unavailable": "Derzeit nicht verfügbar",
     "addToCart": "In den Warenkorb",
+    "productNumber": "Artikelnummer",
     "price": {
       "regulationPrice": "30-Tage-Bestpreis**: {price}",
       "referencePrice": "pro {unit} {unitName}",
