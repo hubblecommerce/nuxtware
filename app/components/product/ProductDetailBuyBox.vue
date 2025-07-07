@@ -11,11 +11,10 @@ const { totalReviews } = useProductReviews({
     productId: props.product.id,
 })
 
-function scrollToAndOpenReviewsTab (anchor: string) {
+function openProductTab (anchor: string) {
     const el = document.getElementById(anchor)
     if (el) {
         el.click()
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 }
 </script>
@@ -50,12 +49,12 @@ function scrollToAndOpenReviewsTab (anchor: string) {
             v-if="product.ratingAverage && product.ratingAverage > 0 && totalReviews > 0"
             class="flex flex-col gap-1 justify-start items-start"
         >
-            <div
-                role="link"
-                tabindex="0"
+            <FoundationLink
+                href="#tab-reviews"
+                type="external"
                 :aria-label="$t('product.reviews.link', { rating: product.ratingAverage })"
-                @click.prevent="scrollToAndOpenReviewsTab('tab-reviews')"
-                @keydown.enter.prevent="scrollToAndOpenReviewsTab('tab-reviews')"
+                @click="openProductTab('tab-reviews')"
+                @keydown="openProductTab('tab-reviews')"
             >
                 <ComponentReviewStars
                     v-if="product.ratingAverage"
@@ -64,7 +63,7 @@ function scrollToAndOpenReviewsTab (anchor: string) {
                     size="sm"
                     class="cursor-pointer"
                 />
-            </div>
+            </FoundationLink>
             <div class="text-sm">{{ $t('review.title', { count: totalReviews }) }}</div>
         </section>
 
