@@ -19,11 +19,11 @@ function closeModal () {
     close()
     modalRef?.value?.close()
 }
-</script>
 
+// TODO: add backdrop click handling to close the modal
+</script>
 <template>
     <dialog
-        v-if="controller.isOpen"
         :id="id"
         ref="modalRef"
         class="modal bg-white rounded-lg text-left overflow-hidden shadow-xl p-8 m-auto"
@@ -38,9 +38,12 @@ function closeModal () {
                         {{ modalHeadline }}
                     </FoundationHeadline>
                     <form method="dialog">
-                        <FoundationButton class="btn btn-sm btn-circle btn-ghost" @click="closeModal">
+                        <FoundationButton
+                            class="btn btn-sm btn-circle btn-ghost"
+                            :aria-label="$t('modal.close')"
+                            @click="closeModal"
+                        >
                             <FoundationIcon name="x" />
-                            <span class="sr-only">{{ $t('modal.close') }}</span>
                         </FoundationButton>
                     </form>
                 </div>
