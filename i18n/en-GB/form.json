@@ -36,17 +36,7 @@
         "errorOccurred": "An error occurred",
         "charactersMinimum": "characters minimum",
         "requiredFieldsInfo": "The fields marked with * are mandatory fields",
-        "required": "*",
-        "newsletter": {
-            "headline": "Newsletter Form",
-            "labelActionSelect": "Action",
-            "subscribeOption": "Subscribe",
-            "unsubscribeOption": "Unsubscribe",
-            "unknownError": "An unexpected error occurred",
-            "dataProtection": "I accept the privacy policy and terms of service",
-            "successSubscribed": "You have just subscribed to our newsletter. To finalise your registration, look for our confirmation email in your email box and click on the link it contains.",
-            "successUnsubscribed": "Newsletter erfolgreich abbestellt"
-        }
+        "required": "*"
     },
     "button": {
         "loading": "Loading..."

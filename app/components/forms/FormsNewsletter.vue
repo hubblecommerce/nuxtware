@@ -2,6 +2,7 @@
 import type { Schemas, RequestParameters } from "#shopware";
 import { ApiClientError } from "@shopware/api-client";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     content: Schemas["CmsSlot"]
 }>()
@@ -30,8 +31,8 @@ const formData = reactive<RequestParameters<'newsletterSubscribe'>>({
 
 // Computed
 const newsletterActionOptions = computed(() => [
-    { value: 'subscribe', label: t('form.newsletter.subscribeOption') },
-    { value: 'unsubscribe', label: t('form.newsletter.unsubscribeOption') }
+    { value: 'subscribe', label: t('newsletter.subscribeOption') },
+    { value: 'unsubscribe', label: t('newsletter.unsubscribeOption') }
 ])
 
 const salutationOptions = computed(() =>
@@ -88,12 +89,12 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div v-if="success === 'unsubscribed'" class="p-4 text-center font-semibold">
-        {{ $t('form.newsletter.successUnsubscribed') }}
+        {{ $t('newsletter.successUnsubscribed') }}
     </div>
     <fieldset v-else class="space-y-6 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
             <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
-                {{ content.translated?.config?.title?.value ? content.translated?.config?.title?.value : $t('form.newsletter.headline')  }}
+                {{ content.translated?.config?.title?.value ? content.translated?.config?.title?.value : $t('newsletter.headline')  }}
             </FoundationHeadline>
         </legend>
 
@@ -103,13 +104,13 @@ const handleSubmit = async () => {
                     <!-- Newsletter Form Action -->
                     <div class="col-span-12">
                         <FoundationLabel for="newsletter-form-action" class="block" required>
-                            {{ $t('form.newsletter.labelActionSelect') }}
+                            {{ $t('newsletter.labelActionSelect') }}
                             <span aria-hidden>{{ $t('form.required') }}</span>
                         </FoundationLabel>
                         <FoundationSelect
                             id="newsletter-form-action"
                             v-model="formData.option"
-                            :placeholder="$t('form.newsletter.labelActionSelect')"
+                            :placeholder="$t('newsletter.labelActionSelect')"
                             :options="newsletterActionOptions"
                             required
                             :disabled="isLoading"
@@ -185,7 +186,7 @@ const handleSubmit = async () => {
                             required
                         />
                         <FoundationLabel for="registration-data-protection" class="ml-2 text-sm" required>
-                            {{ $t('form.newsletter.dataProtection') }}
+                            {{ $t('newsletter.dataProtection') }}
                             <span aria-hidden="true">{{ $t('form.required') }}</span>
                         </FoundationLabel>
                     </div>
@@ -202,14 +203,14 @@ const handleSubmit = async () => {
                             :disabled="!isFormValid"
                             @click="handleSubmit"
                         >
-                            {{ formData.option === 'subscribe' ? $t('form.newsletter.subscribeOption') : $t('form.newsletter.unsubscribeOption') }}
+                            {{ formData.option === 'subscribe' ? $t('newsletter.subscribeOption') : $t('newsletter.unsubscribeOption') }}
                         </FoundationButton>
                     </div>
                 </div>
             </div>
         </form>
         <div v-if="success === 'subscribed'">
-            {{ $t('form.newsletter.successSubscribed') }}
+            {{ $t('newsletter.successSubscribed') }}
         </div>
     </fieldset>
 </template>

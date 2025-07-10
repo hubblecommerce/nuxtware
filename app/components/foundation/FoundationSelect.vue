@@ -3,7 +3,7 @@
         <select
             ref="foundationSelect"
             v-model="model"
-            class="w-full"
+            v-bind="$attrs"
             :class="[
                 'select cursor-pointer',
                 selectSizes[size],
