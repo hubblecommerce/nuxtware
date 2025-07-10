@@ -10,7 +10,8 @@
         }
     },
     "common": {
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "startShopping": "Jetzt Einkaufen"
     },
     "topBar": {
         "headline": "Unsere Vorteile",
@@ -21,7 +22,9 @@
     },
     "breadcrumbs": {
         "home": "Startseite",
-        "accountOverview": "Kontoübersicht"
+        "accountOverview": "Kontoübersicht",
+        "profile": "Profil",
+        "orders": "Bestellhistorie"
     },
     "newsletter": {
         "subscriptionCheckbox": "Ja, ich möchte den kostenlosen Demostore Newsletter abonnieren. (Ich kann mich jederzeit abmelden.)",
