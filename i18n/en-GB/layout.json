@@ -11,6 +11,7 @@
     },
     "common": {
         "cancel": "Cancel",
+        "close": "Close",
         "startShopping": "Start Shopping"
     },
     "topBar": {

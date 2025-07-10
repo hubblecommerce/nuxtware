@@ -30,6 +30,79 @@
         "cancelOrder": "Cancel Order",
         "returnOrder": "Return Order",
         "reorderSuccess": "{count} items added to cart from your previous order",
-        "reorderError": "Unable to add items to cart. Some products may no longer be available."
+        "reorderError": "Unable to add items to cart. Some products may no longer be available.",
+        "status": {
+            "open": "Open",
+            "inProgress": "In Progress",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "unknown": "Unknown",
+            "paymentNeeded": "Payment Required"
+        },
+        "actions": {
+            "completePayment": "Complete Payment",
+            "changePayment": "Change Payment",
+            "viewDetails": "View Details",
+            "reorder": "Reorder",
+            "cancelOrder": "Cancel Order"
+        },
+        "details": {
+            "show": "Show Details",
+            "hide": "Hide Details",
+            "documents": "Documents",
+            "items": "Order Items",
+            "summary": "Order Summary",
+            "information": "Order Information",
+            "customerComment": "Customer Comment",
+            "orderDate": "Order Date",
+            "orderNumber": "Order Number",
+            "paymentMethod": "Payment Method",
+            "shippingMethod": "Shipping Method"
+        },
+        "documents": {
+            "fileName": "Document",
+            "date": "Created",
+            "actions": "Actions",
+            "download": "Download",
+            "downloadSuccess": "Document downloaded successfully",
+            "downloadError": "Failed to download document",
+            "empty": "No documents available",
+            "noDate": "No date"
+        },
+        "lineItems": {
+            "product": "Product",
+            "quantity": "Qty",
+            "price": "Price",
+            "total": "Total",
+            "productNumber": "Product No.",
+            "empty": "No items found"
+        },
+        "summary": {
+            "orderInformation": "Order Information",
+            "orderTotals": "Order Totals",
+            "addresses": "Addresses",
+            "orderDate": "Order Date",
+            "orderNumber": "Order Number",
+            "paymentMethod": "Payment Method",
+            "shippingMethod": "Shipping Method",
+            "tracking": "Tracking",
+            "trackingNotAvailable": "Not available",
+            "shippingCosts": "Shipping",
+            "tax": "VAT ({rate}%)",
+            "netTotal": "Net Total",
+            "total": "Total",
+            "billingAddress": "Billing Address",
+            "shippingAddress": "Shipping Address"
+        },
+        "cancel": {
+            "modalTitle": "Cancel Order",
+            "orderNumber": "Order Number",
+            "confirmationText": "Are you sure you want to cancel this order?",
+            "warningText": "This action cannot be undone. The order will be permanently cancelled.",
+            "keepOrder": "Keep Order",
+            "confirmCancel": "Cancel Order",
+            "success": "Order cancelled successfully",
+            "error": "Failed to cancel order"
+        }
     }
 }

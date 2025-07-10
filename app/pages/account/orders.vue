@@ -66,7 +66,23 @@ const loadOrdersData = async () => {
             checkPromotion: true,
             associations: {
                 stateMachineState: {},
-                lineItems: {}
+                lineItems: {
+                    associations: {
+                        cover: {}
+                    }
+                },
+                transactions: {
+                    associations: {
+                        paymentMethod: {}
+                    }
+                },
+                deliveries: {
+                    associations: {
+                        shippingMethod: {},
+                        shippingOrderAddress: {}
+                    }
+                },
+                
             },
             sort: [
                 {
@@ -150,6 +166,25 @@ const handleReorder = async (orderId: string) => {
         errorNotification(t('orders.reorderError'))
     }
 }
+
+// Handle order cancellation
+const handleCancelOrder = async () => {
+    try {
+        // The actual cancellation is handled by the OrderCancelModal component
+        // This handler is called after successful cancellation to reload the orders
+        await loadOrdersData()
+        success(t('orders.cancel.success'))
+    } catch (error) {
+        console.error('Error reloading orders after cancellation:', error)
+        errorNotification(t('orders.reloadError', 'Failed to reload order list'))
+    }
+}
+
+// Handle change payment
+const handleChangePayment = async (orderId: string) => {
+    // TODO: Implement change payment functionality
+    console.log('Change payment for order:', orderId)
+}
 </script>
 
 <template>
@@ -214,6 +249,8 @@ const handleReorder = async (orderId: string) => {
                         :key="order.id"
                         :order="order"
                         @reorder="handleReorder"
+                        @cancel-order="handleCancelOrder"
+                        @change-payment="handleChangePayment"
                     />
                 </div>
                 
