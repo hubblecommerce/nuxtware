@@ -2,7 +2,7 @@
 import type {
     CmsElementImage,
     CmsElementManufacturerLogo,
-} from "@shopware-pwa/composables-next";
+} from "@shopware/composables";
 import { useElementSize } from "@vueuse/core";
 import { useCmsElementImage } from "#imports";
 

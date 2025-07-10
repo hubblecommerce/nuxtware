@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, shallowRef, defineAsyncComponent, resolveComponent, onMounted } from 'vue'
-import type { CmsBlock } from "@shopware-pwa/types";
+import type { Schemas } from "#shopware";
 
 const props = defineProps<{
-    content: CmsBlock;
+    content: Schemas["CmsBlock"];
     count?: number;
 }>()
 
