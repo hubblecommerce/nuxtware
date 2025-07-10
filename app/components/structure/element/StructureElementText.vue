@@ -60,20 +60,27 @@ const parseHtmlToNodes = (htmlString: string) => {
     return Array.from(tempDiv.childNodes).map(processNode).filter(Boolean)
 }
 
+const isClient = ref(false)
+
 const renderedContent = computed(() => {
-    if (!textContent.value) return []
+    if (!textContent.value) return h('div')
     
-    // Only parse on client side to avoid SSR issues
-    if (import.meta.server) {
-        return [h('div', { innerHTML: textContent.value })]
+    // Only enhance on client after hydration to avoid mismatches
+    if (!isClient.value) {
+        return h('div', { innerHTML: textContent.value })
     }
     
-    return parseHtmlToNodes(textContent.value).filter(Boolean) as (VNode | string)[]
+    const nodes = parseHtmlToNodes(textContent.value).filter(Boolean) as (VNode | string)[]
+    return h('div', {}, nodes)
+})
+
+onMounted(() => {
+    isClient.value = true
 })
 </script>
 
 <template>
     <div v-if="textContent" class="cms-element-text">
-        <component v-for="(node, index) in renderedContent" :is="node" :key="index" />
+        <component :is="renderedContent" />
     </div>
 </template>
