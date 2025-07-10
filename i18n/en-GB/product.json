@@ -25,7 +25,8 @@
       "tabs": {
         "description": "Description",
         "reviews": "Reviews"
-      }
+      },
+      "variants": "Product Variants"
     },
     "reviews": {
       "link": "{rating} out of 5 Stars, see all Reviews"

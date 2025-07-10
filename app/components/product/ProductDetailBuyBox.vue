@@ -5,6 +5,7 @@ import { useProductReviews } from "#hubble/composables/useProductReviews";
 
 const props = defineProps<{
     product: Schemas["Product"],
+    configurator: Schemas["PropertyGroup"][] | null
 }>()
 
 const { addToCart, quantity, isInCart, count } = useAddToCart(ref(props.product))
@@ -38,24 +39,28 @@ function openProductTab (anchor: string) {
         el.click()
     }
 }
+
+function updateProduct (newProduct: Schemas["Product"]) {
+    Object.assign(props.product, newProduct)
+}
 </script>
 <template>
     <div class="h-full flex flex-col justify-start gap-4">
         <!-- TODO: schema.org content, preferably as it's own component -->
 
         <h1 class="sr-only font-semibold text-xl" itemprop="name">
-            {{ getTranslatedProperty(product, 'name') }}
+            {{ getTranslatedProperty(props.product, 'name') }}
         </h1>
 
         <section class="flex flex-col gap-3">
             <ProductBadges
-                :product="product"
+                :product="props.product"
                 variant="default"
                 class="!relative !left-auto"
             />
 
             <ProductPrice
-                :product="product"
+                :product="props.product"
                 alignment="start"
                 :show-tier-prices="true"
                 :show-tax="true"
@@ -90,9 +95,13 @@ function openProductTab (anchor: string) {
 
         <!-- Delivery snippet by sales channel logic  -->
 
-        <ProductDeliveryInformation :product />
+        <ProductDeliveryInformation :product="props.product" />
 
-        <!-- ProductDetailVariants.vue  -->
+        <ProductDetailVariants
+            :configurator="props.configurator"
+            :parent-id="props.product.parentId"
+            @product-variant-changed="(product) => updateProduct(product)"
+        />
 
         <div v-if="isBuyable" class="flex flex-row gap-2 items-center">
             <LazyProductQtySelector

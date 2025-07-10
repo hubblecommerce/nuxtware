@@ -153,7 +153,6 @@
 
 <script setup lang="ts">
 import type { Schemas } from '#shopware'
-
 interface ProductPriceProps {
     product: Schemas['Product']
     size?: 'small' | 'medium' | 'large'
@@ -186,7 +185,7 @@ const {
     tierPrices,
 } = useProductPriceCustom(productRef)
 
-const calculatedPrices = props.product.calculatedPrices
+const calculatedPrices = productRef.value.calculatedPrices
 const { taxState } = useSessionContext()
 
 // Computed classes for responsive sizing
