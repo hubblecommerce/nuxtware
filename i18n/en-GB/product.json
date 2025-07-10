@@ -11,8 +11,8 @@
       "boxUnitLabel": "Content:",
       "cheapestPriceLabel": "from",
       "listingTextFrom": "from",
-      "inclTax": "incl. Mwst.",
-      "exclTax": "excl. Mwst.",
+      "inclTax": "incl. VAT",
+      "exclTax": "excl. VAT",
       "until": "until",
       "pcs": "pcs",
       "pieces": "Pieces",
@@ -26,6 +26,9 @@
         "description": "Description",
         "reviews": "Reviews"
       }
+    },
+    "reviews": {
+      "link": "{rating} out of 5 Stars, see all Reviews"
     }
   }
 }

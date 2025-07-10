@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getTranslatedProperty } from "@shopware/helpers"
 import type { Schemas } from "#shopware"
+import { useProductReviews } from "#hubble/composables/useProductReviews";
 
 const props = defineProps<{
     product: Schemas["Product"],
@@ -25,6 +26,17 @@ const showCartSidenav = ref(false)
 const handleAddToCart = async () => {
     await addToCart()
     showCartSidenav.value = true
+}
+
+const { totalReviews } = useProductReviews({
+    productId: props.product.id,
+})
+
+function openProductTab (anchor: string) {
+    const el = document.getElementById(anchor)
+    if (el) {
+        el.click()
+    }
 }
 </script>
 <template>
@@ -54,6 +66,28 @@ const handleAddToCart = async () => {
             <LazyProductPurchaseUnitAndInfos v-if="props.product.purchaseUnit" :product="props.product" :show-product-info="true" />
         </section>
 
+        <section
+            v-if="product.ratingAverage && product.ratingAverage > 0 && totalReviews > 0"
+            class="flex flex-col gap-1 justify-start items-start"
+        >
+            <FoundationLink
+                href="#tab-reviews"
+                type="external"
+                :aria-label="$t('product.reviews.link', { rating: product.ratingAverage })"
+                @click="openProductTab('tab-reviews')"
+                @keydown="openProductTab('tab-reviews')"
+            >
+                <ComponentReviewStars
+                    v-if="product.ratingAverage"
+                    v-model="product.ratingAverage"
+                    :interactive="false"
+                    size="sm"
+                    class="cursor-pointer"
+                />
+            </FoundationLink>
+            <div class="text-sm">{{ $t('review.title', { count: totalReviews }) }}</div>
+        </section>
+
         <!-- Delivery snippet by sales channel logic  -->
 
         <ProductDeliveryInformation :product />
@@ -78,10 +112,10 @@ const handleAddToCart = async () => {
             >
                 <span>{{ $t("product.addToCart") }}</span>
                 <template v-if="isInCart">
-                    <FoundationIcon 
-                        name="cart" 
-                        class="w-4 h-4" 
-                        aria-hidden="true" 
+                    <FoundationIcon
+                        name="cart"
+                        class="w-4 h-4"
+                        aria-hidden="true"
                     />
                     <span class="font-semibold">{{ cartItemCount }}</span>
                 </template>
@@ -99,6 +133,5 @@ const handleAddToCart = async () => {
         </span>
 
         <CartSidenav v-model="showCartSidenav" />
-
     </div>
 </template>
