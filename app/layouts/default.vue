@@ -75,6 +75,7 @@ const { count: wishlistCount } = useWishlist()
 
     <main>
         <slot />
+        <MiscScrollToTopButton />
     </main>
     
     <!-- Cart Sidenav -->
