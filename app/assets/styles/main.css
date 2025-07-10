@@ -17,6 +17,7 @@
 @import '#hubble/assets/styles/lib/components/toggle.css';
 @import '#hubble/assets/styles/lib/components/skeleton.css';
 @import '#hubble/assets/styles/lib/components/wishlist.css';
+@import '#hubble/assets/styles/lib/components/cms-blocks.css';
 
 @theme {
     --color-red-200: oklch(0.915 0.044 17.978);

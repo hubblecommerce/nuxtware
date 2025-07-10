@@ -1,0 +1,22 @@
+/* CMS Block Layout Utilities */
+
+/* Bubble Row - circular images only */
+.cms-block-bubble-row .cms-element-image img {
+    @apply object-cover max-w-xs overflow-hidden rounded-full aspect-square;
+}
+
+/* Highlight Row - bordered images only */
+.cms-block-highlight-row .cms-element-image img {
+    @apply border-[12px] border-white;
+}
+
+/* Cover blocks - no gaps between columns */
+.cms-block-cover {
+    @apply gap-0;
+}
+
+/* Center alignment for bubble and highlight rows */
+.cms-block-bubble-row > *,
+.cms-block-highlight-row > * {
+    @apply flex items-center justify-center;
+}

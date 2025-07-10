@@ -34,12 +34,13 @@ const srcPath = computed(() => {
 </script>
 
 <template>
-    <img
-        v-if="srcPath"
-        ref="imageElement"
-        loading="lazy"
-        :alt="imageAttrs.alt"
-        :src="srcPath"
-        :srcset="imageAttrs.srcset"
-    >
+    <div v-if="srcPath" class="cms-element-image">
+        <img
+            ref="imageElement"
+            loading="lazy"
+            :alt="imageAttrs.alt"
+            :src="srcPath"
+            :srcset="imageAttrs.srcset"
+        >
+    </div>
 </template>
