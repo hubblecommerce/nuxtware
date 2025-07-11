@@ -120,10 +120,14 @@ Nuxtware:
 - [x] Cart
 - [x] Checkout
 - [x] Wishlist
-- [ ] Account
+- [x] Account
     - [x] Login
     - [x] Register
-    - [ ] Dashboard
+    - [x] Password forgot
+    - [x] Overview
+    - [x] Orders
+    - [x] Profile
+    - [ ] Addresses
 - [ ] CMS
     - [ ] Blocks and elements from "community edition"
         - [ ] Blocks

@@ -89,6 +89,24 @@
         "orderDate": "Order Date",
         "orderTotal": "Total",
         "orderStatus": "Status",
+        "profile": {
+            "title": "Profile Settings",
+            "description": "Update your personal information, password, and account preferences.",
+            "personalData": "Personal Information",
+            "changePassword": "Change Password",
+            "changeEmail": "Change Email Address",
+            "personalDataInfo": "Update your personal information below. Changes will be saved to your account.",
+            "changePasswordInfo": "Change your password to keep your account secure. You'll need to enter your current password.",
+            "changeEmailInfo": "Change your email address. You'll need to confirm your password for security.",
+            "currentEmail": "Current email address:",
+            "messages": {
+                "personalDataUpdated": "Personal information updated successfully!",
+                "passwordChanged": "Password changed successfully!",
+                "passwordChangeFailed": "Failed to change password. Please check your current password.",
+                "emailChangeRequested": "Email change requested! Please check your new email for confirmation.",
+                "emailChangeFailed": "Failed to change email. Please check your password and try again."
+            }
+        },
         "greetings": "Hello",
         "logout": "Logout",
         "guestAbort": "Cancel guest session"

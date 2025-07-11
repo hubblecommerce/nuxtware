@@ -39,7 +39,27 @@
         "chooseCountry": "Please select your country",
         "signIn": "Sign In",
         "errorOccurred": "An error occurred",
-        "charactersMinimum": "characters minimum"
+        "charactersMinimum": "characters minimum",
+        "accountType": "Account Type",
+        "accountTypePrivate": "Private Customer",
+        "accountTypeBusiness": "Business Customer",
+        "title": "Title",
+        "salutationPlaceholder": "Please select a salutation",
+        "currentPassword": "Current Password",
+        "changePassword": "Change Password",
+        "changeEmail": "Change Email",
+        "confirmEmail": "Confirm Email Address",
+        "vatId": "VAT ID",
+        "saving": "Saving...",
+        "passwordRequired": "Please enter your current password to confirm this change",
+        "passwordRequirements": "Password must be at least 8 characters",
+        "validation": {
+            "required": "{field} is required",
+            "minLength": "{field} must be at least {length} characters",
+            "invalidEmail": "Please enter a valid email address",
+            "passwordMismatch": "Passwords do not match",
+            "emailMismatch": "Email addresses do not match"
+        }
     },
     "button": {
         "loading": "Loading..."

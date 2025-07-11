@@ -20,6 +20,7 @@ import tabs from './tabs.json'
 import review from './review.json'
 import misc from './misc.json'
 import skipLinks from './skipLinks.json'
+import orders from './orders.json'
 
 export default {
     ...layout,
@@ -43,5 +44,6 @@ export default {
     ...tabs,
     ...review,
     ...misc,
-    ...skipLinks
+    ...skipLinks,
+    ...orders
 }

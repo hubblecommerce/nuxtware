@@ -56,7 +56,7 @@
     --color-warning-content: oklch(0 0 1);
     --color-info: oklch(0.539 0.149 231.6);
     --color-info-light: oklch(0.93 0.05 231.6);
-    --color-info-content: oklch(0 0 1);
+    --color-info-content: oklch(1 0 1);
 
     /* Components colors */
     --color-input: var(--color-input, --color-border);

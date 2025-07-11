@@ -89,6 +89,24 @@
         "orderDate": "Bestelldatum",
         "orderTotal": "Gesamtsumme",
         "orderStatus": "Status",
+        "profile": {
+            "title": "Profil-Einstellungen",
+            "description": "Aktualisieren Sie Ihre persönlichen Informationen, Ihr Passwort und Ihre Kontoeinstellungen.",
+            "personalData": "Persönliche Informationen",
+            "changePassword": "Passwort ändern",
+            "changeEmail": "E-Mail-Adresse ändern",
+            "personalDataInfo": "Aktualisieren Sie unten Ihre persönlichen Informationen. Änderungen werden in Ihrem Konto gespeichert.",
+            "changePasswordInfo": "Ändern Sie Ihr Passwort, um Ihr Konto sicher zu halten. Sie müssen Ihr aktuelles Passwort eingeben.",
+            "changeEmailInfo": "Ändern Sie Ihre E-Mail-Adresse. Sie müssen Ihr Passwort zur Sicherheit bestätigen.",
+            "currentEmail": "Aktuelle E-Mail-Adresse:",
+            "messages": {
+                "personalDataUpdated": "Persönliche Informationen erfolgreich aktualisiert!",
+                "passwordChanged": "Passwort erfolgreich geändert!",
+                "passwordChangeFailed": "Passwort konnte nicht geändert werden. Bitte überprüfen Sie Ihr aktuelles Passwort.",
+                "emailChangeRequested": "E-Mail-Änderung angefordert! Bitte überprüfen Sie Ihre neue E-Mail zur Bestätigung.",
+                "emailChangeFailed": "E-Mail konnte nicht geändert werden. Bitte überprüfen Sie Ihr Passwort und versuchen Sie es erneut."
+            }
+        },
         "greetings": "Hallo",
         "logout": "Abmelden",
         "guestAbort": "Gastsitzung beenden"

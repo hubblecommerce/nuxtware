@@ -1,20 +1,27 @@
 <script setup lang="ts">
 const { isAuthorized, isChecking } = useAuthGuard()
-
-definePageMeta({
-    title: 'account.nav.profile',
-    description: 'account.page.description'
-})
+const { t } = useI18n()
 
 useHead({
-    title: 'Profile Settings',
+    title: t('account.nav.profile'),
     meta: [
         {
             name: 'description',
-            content: 'Update your personal information, password, and account preferences.'
+            content: t('account.page.description')
         }
     ]
 })
+
+useBreadcrumbs([
+    {
+        name: t('breadcrumbs.accountOverview'),
+        path: '/account'
+    },
+    {
+        name: t('breadcrumbs.profile'),
+        path: '/account/profile'
+    }
+])
 </script>
 
 <template>
@@ -29,13 +36,45 @@ useHead({
         
         <!-- Protected content (only shows when authorized) -->
         <div v-else-if="isAuthorized" class="lg:container mx-auto px-2 py-8">
-            <FoundationHeadline level="h1" class="mb-6">
-                {{ $t('account.nav.profile') }}
-            </FoundationHeadline>
+            <LayoutBreadcrumb />
             
-            <!-- Content placeholder -->
-            <div class="text-muted-foreground">
-                {{ $t('account.page.comingSoon') }}
+            <div class="account-profile">
+                <!-- Welcome section -->
+                <div class="mb-8">
+                    <FoundationHeadline tag="h1" class="text-2xl md:text-3xl font-bold text-primary mb-4">
+                        {{ $t('account.profile.title') }}
+                    </FoundationHeadline>
+                    <p class="text-muted-foreground text-lg">
+                        {{ $t('account.profile.description') }}
+                    </p>
+                </div>
+
+                <!-- Profile sections -->
+                <div class="space-y-8">
+                    <!-- Personal Data Section -->
+                    <div class="bg-surface border border-border rounded-lg p-6">
+                        <FoundationHeadline tag="h2" class="text-xl font-semibold mb-6">
+                            {{ $t('account.profile.personalData') }}
+                        </FoundationHeadline>
+                        <AccountPersonalData />
+                    </div>
+
+                    <!-- Change Password Section -->
+                    <div class="bg-surface border border-border rounded-lg p-6">
+                        <FoundationHeadline tag="h2" class="text-xl font-semibold mb-6">
+                            {{ $t('account.profile.changePassword') }}
+                        </FoundationHeadline>
+                        <AccountChangePassword />
+                    </div>
+
+                    <!-- Change Email Section -->
+                    <div class="bg-surface border border-border rounded-lg p-6">
+                        <FoundationHeadline tag="h2" class="text-xl font-semibold mb-6">
+                            {{ $t('account.profile.changeEmail') }}
+                        </FoundationHeadline>
+                        <AccountChangeEmail />
+                    </div>
+                </div>
             </div>
         </div>
     </ClientOnly>
