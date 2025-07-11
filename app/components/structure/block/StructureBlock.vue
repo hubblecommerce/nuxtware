@@ -15,7 +15,7 @@ const component = shallowRef()
 const compName = computed(() => {
     let name = getCmsBlockName(props.content.type)
 
-    if (props.content.slots.length === 1) {
+    if (props.content.slots.length === 1 && props.content.slots[0]?.type) {
         name = getCmsElementName(props.content.slots[0].type)
     }
 

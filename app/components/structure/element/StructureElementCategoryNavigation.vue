@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CmsElementCategoryNavigation } from "@shopware/composables"
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     content: CmsElementCategoryNavigation
 }>()

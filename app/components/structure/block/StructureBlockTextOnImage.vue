@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { resolveComponent } from 'vue'
-import type { CmsBlock } from '@shopware/composables'
+import type { CmsBlockTextOnImage } from '@shopware/composables'
 
 const props = defineProps<{
-    content: CmsBlock
+    content: CmsBlockTextOnImage
 }>()
 
 const { getCmsSlot, getCmsElementName } = useCms()

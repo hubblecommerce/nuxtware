@@ -19,6 +19,8 @@ const {
     mimeType,
 } = useCmsElementImage(props.content)
 
+const displayModeValue = computed(() => String(displayMode.value))
+
 const DEFAULT_THUMBNAIL_SIZE = 10
 const imageElement = ref(null)
 const { width, height } = useElementSize(imageElement)
@@ -186,7 +188,7 @@ const processedImageLink = computed(() => {
                     :class="videoClasses"
                 >
                     <source :src="imageAttrs.src" :type="mimeType">
-                    Your browser does not support the video tag.
+                    {{ $t('misc.videoNotSupported') }}
                 </video>
                 <img
                     v-else
@@ -197,7 +199,7 @@ const processedImageLink = computed(() => {
                     :title="imageAttrs.title || ''"
                     :src="srcPath || undefined"
                     :srcset="imageAttrs.srcset"
-                    :data-object-fit="(['cover', 'stretch'].includes(displayMode.value as string)) ? displayMode.value : undefined"
+                    :data-object-fit="(['cover', 'stretch'].includes(displayModeValue)) ? displayModeValue : undefined"
                 >
             </component>
         </div>
@@ -220,7 +222,7 @@ const processedImageLink = computed(() => {
                 :class="videoClasses"
             >
                 <source :src="imageAttrs.src" :type="mimeType">
-                Your browser does not support the video tag.
+                {{ $t('misc.videoNotSupported') }}
             </video>
             <img
                 v-else
@@ -231,7 +233,7 @@ const processedImageLink = computed(() => {
                 :title="imageAttrs.title || ''"
                 :src="srcPath || undefined"
                 :srcset="imageAttrs.srcset"
-                :data-object-fit="(['cover', 'stretch'].includes(displayMode.value as string)) ? displayMode.value : undefined"
+                :data-object-fit="(['cover', 'stretch'].includes(displayModeValue)) ? displayModeValue : undefined"
             >
         </component>
     </div>

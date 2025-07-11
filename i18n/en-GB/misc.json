@@ -2,6 +2,7 @@
   "misc": {
     "backToTopBtn": "Back to top",
     "close": "Close",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "videoNotSupported": "Your browser does not support the video tag."
   }
 }

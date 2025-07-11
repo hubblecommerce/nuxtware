@@ -1,3 +1,23 @@
+<script setup lang="ts">
+interface Props {
+    videoId: string | null | undefined
+    videoUrl: string
+    needsConfirmation: boolean
+    previewImage?: string | null | undefined
+    allowAttributes: string
+    i18nNamespace: string
+}
+
+defineProps<Props>()
+
+const hasConfirmed = ref(false)
+// TODO: Add privacy policy modal state management
+
+const confirmVideo = () => {
+    hasConfirmed.value = true
+}
+</script>
+
 <template>
     <div 
         v-if="videoId" 
@@ -51,23 +71,3 @@
         <!-- TODO: Add privacy policy modal component -->
     </div>
 </template>
-
-<script setup lang="ts">
-interface Props {
-    videoId: string | null | undefined
-    videoUrl: string
-    needsConfirmation: boolean
-    previewImage?: string | null | undefined
-    allowAttributes: string
-    i18nNamespace: string
-}
-
-defineProps<Props>()
-
-const hasConfirmed = ref(false)
-// TODO: Add privacy policy modal state management
-
-const confirmVideo = () => {
-    hasConfirmed.value = true
-}
-</script>
