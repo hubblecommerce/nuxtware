@@ -13,6 +13,7 @@ const { count: wishlistCount } = useWishlist()
 </script>
 
 <template>
+    <LayoutSkipLinks />
     <header>
         <!-- TODO: <ContextLanguageSwitch />-->
         <!-- TODO: <ContextCurrencySwitch />-->

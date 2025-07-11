@@ -1,0 +1,8 @@
+{
+    "skipLinks": {
+        "label": "Navigation zum Überspringen",
+        "header": "Überspringen zum Seitenheader",
+        "main": "Überspringen zum Hauptinhalt",
+        "footer": "Überspringen zu Seitenfußzeile"
+    }
+}
