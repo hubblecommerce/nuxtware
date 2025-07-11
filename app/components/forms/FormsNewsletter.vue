@@ -2,9 +2,18 @@
 import type { Schemas, RequestParameters } from "#shopware";
 import { ApiClientError } from "@shopware/api-client";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type CmsSlotWithTitle = Schemas["CmsSlot"] & {
+    translated?: {
+        config?: {
+            title?: {
+                value?: string
+            }
+        }
+    }
+}
+
 const props = defineProps<{
-    content?: Schemas["CmsSlot"]
+    content?: CmsSlotWithTitle
 }>()
 
 // Composables
@@ -30,6 +39,10 @@ const formData = reactive<RequestParameters<'newsletterSubscribe'>>({
 })
 
 // Computed
+const title = computed(() => {
+    return props.content?.translated?.config?.title?.value ?? t('newsletter.headline')
+})
+
 const newsletterActionOptions = computed(() => [
     { value: 'subscribe', label: t('newsletter.subscribeOption') },
     { value: 'unsubscribe', label: t('newsletter.unsubscribeOption') }
@@ -92,11 +105,9 @@ const handleSubmit = async () => {
         <div v-if="success === 'unsubscribed'" class="p-4 text-center font-semibold">
             {{ $t('newsletter.successUnsubscribed') }}
         </div>
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
-                {{ content?.translated?.config?.title?.value ? content?.translated?.config?.title?.value : $t('newsletter.headline')  }}
-            </FoundationHeadline>
-        </legend>
+        <FoundationHeadline level="h3" class="px-4 -ml-4 text-lg font-medium text-secondary mb-2">
+            {{ title }}
+        </FoundationHeadline>
 
         <form @submit.prevent="handleSubmit">
             <div class="space-y-6">
@@ -105,7 +116,7 @@ const handleSubmit = async () => {
                     <div class="col-span-12">
                         <FoundationLabel for="newsletter-form-action" class="block" required>
                             {{ $t('newsletter.labelActionSelect') }}
-                            <span aria-hidden>{{ $t('form.required') }}</span>
+                            <span aria-hidden="true">{{ $t('form.required') }}</span>
                         </FoundationLabel>
                         <FoundationSelect
                             id="newsletter-form-action"
@@ -136,7 +147,7 @@ const handleSubmit = async () => {
                         <div class="w-full">
                             <FoundationLabel for="newsletter-salutation" class="block" required>
                                 {{ $t('form.salutation') }}
-                                <span aria-hidden>{{ $t('form.required') }}</span>
+                                <span aria-hidden="true">{{ $t('form.required') }}</span>
                             </FoundationLabel>
                             <FoundationSelect
                                 id="newsletter-salutation"
