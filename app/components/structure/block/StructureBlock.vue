@@ -22,6 +22,7 @@ const compName = computed(() => {
     return name
 })
 
+
 // Render first two section server side (SEO relevant hero elements)
 const staticSections = 2
 if (props.count != null && props.count <= staticSections) {
@@ -40,7 +41,7 @@ onMounted(() => {
 const loadComponent = function () {
     component.value = defineAsyncComponent({
         // the loader function
-        loader: () => import(`./${props.content.slots.length === 1 ? 'element' : 'block'}/${compName.value}.vue`),
+        loader: () => import(`${props.content.slots.length === 1 ? '../element' : '.'}/${compName.value}.vue`),
     })
 }
 </script>
