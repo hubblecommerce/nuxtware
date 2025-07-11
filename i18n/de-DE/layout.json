@@ -9,11 +9,33 @@
         "copyright": "©{year} SHOPNAME. Alle Rechte vorbehalten"
         }
     },
+    "common": {
+        "cancel": "Abbrechen",
+        "close": "Schließen",
+        "startShopping": "Jetzt Einkaufen"
+    },
     "topBar": {
         "headline": "Unsere Vorteile",
         "benefit1": "Versand ab 75€ gratis",
         "benefit2": "Kostenloser Rücksendung",
         "benefit3": "100 Tage Rückgaberecht",
         "currency": "Währung"
+    },
+    "breadcrumbs": {
+        "home": "Startseite",
+        "accountOverview": "Kontoübersicht",
+        "profile": "Profil",
+        "orders": "Bestellhistorie"
+    },
+    "newsletter": {
+        "subscriptionCheckbox": "Ja, ich möchte den kostenlosen Demostore Newsletter abonnieren. (Ich kann mich jederzeit abmelden.)",
+        "subscriptionInfo": "Bitte überprüfen Sie Ihre E-Mail, um Ihr Newsletter-Abonnement zu bestätigen.",
+        "messages": {
+            "newsletterSubscribed": "Newsletter erfolgreich abonniert!",
+            "newsletterUnsubscribed": "Newsletter erfolgreich abbestellt!"
+        }
+    },
+    "messages": {
+        "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
     }
 }

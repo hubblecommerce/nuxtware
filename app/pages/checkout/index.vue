@@ -101,14 +101,15 @@ onMounted(async () => {
 
                         <!-- Login/Registration Section -->
                         <div v-else-if="currentStep === 'login'">
-                            <CheckoutLogin
+                            <AccountLogin
                                 @login-success="handleLoginSuccess"
                                 @switch-to-register="handleSwitchToRegistration"
                             />
                         </div>
 
                         <div v-else-if="currentStep === 'registration'">
-                            <CheckoutRegistration
+                            <AccountRegistration
+                                allow-guest
                                 @registration-success="handleRegistrationSuccess"
                                 @switch-to-login="handleSwitchToLogin"
                             />

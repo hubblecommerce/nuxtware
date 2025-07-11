@@ -140,3 +140,16 @@ When encountering TypeScript errors with union types (common in CMS components):
 - All components must support SSR (server-side rendering)
 - Layer can be published to NPM and extended by other projects
 - Always check existing documentation in `/docs/` before implementing new patterns
+
+## Rendering Patterns
+
+- Always use `<ClientOnly>` with a fallback when conditionally rendering based on user authentication state or any other client-side reactive data that's not available during SSR.
+
+## Specific Guidelines for Client-Side Rendering
+
+- **Client-Side Conditional Rendering**: 
+  - Always use `<ClientOnly>` with a fallback when conditionally rendering based on user authentication state or any other client-side reactive data that's not available during SSR.
+
+## TypeScript & Linting Exceptions
+
+- When linter shows error for unused const "prop", it's okay to use `// eslint-disable-next-line @typescript-eslint/no-unused-vars`

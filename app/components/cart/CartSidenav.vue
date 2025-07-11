@@ -86,7 +86,7 @@ onMounted(() => {
     >
         <div class="flex flex-col h-full bg-white">
             <!-- Header -->
-            <header class="flex items-center justify-between p-2 pr-0 border-b border-border">
+            <header class="flex items-center justify-between p-2 pl-4 pr-0 border-b border-border">
                 <FoundationHeadline 
                     level="h2" 
                     class="text-lg font-medium"

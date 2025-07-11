@@ -17,6 +17,7 @@
             :aria-disabled="disabled"
             :aria-invalid="error"
             :name="name"
+            v-bind="$attrs"
         >
             <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
             <option
@@ -40,6 +41,7 @@
 <script setup lang="ts">
 import type { FoundationSelectProps, SelectSize, SelectColor } from '../../types/foundation-select'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(defineProps<FoundationSelectProps>(), {
     disabled: false,
     required: false,
