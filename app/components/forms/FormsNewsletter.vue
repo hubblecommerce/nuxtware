@@ -24,11 +24,10 @@ const {
     newsletterUnsubscribe,
 } = useNewsletter()
 const { resolveApiErrors } = useApiErrorsResolver()
-const { error } = useGlobalNotifications()
+const { error, success } = useGlobalNotifications()
 
 // State
 const isLoading = ref(false)
-const success = ref('')
 const formData = reactive<RequestParameters<'newsletterSubscribe'>>({
     option: 'subscribe',
     salutationId: '',
@@ -83,10 +82,10 @@ const handleSubmit = async () => {
             await newsletterSubscribe({
                 ...subscriptionData,
             })
-            success.value = 'subscribed'
+            success(t('newsletter.successSubscribed'))
         } else if (subscriptionData.option === 'unsubscribe') {
             await newsletterUnsubscribe(subscriptionData.email)
-            success.value = 'unsubscribed'
+            success(t('newsletter.successUnsubscribed'))
         }
     } catch (apiError) {
         if (apiError instanceof ApiClientError) {
@@ -102,9 +101,6 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div>
-        <div v-if="success === 'unsubscribed'" class="p-4 text-center font-semibold">
-            {{ $t('newsletter.successUnsubscribed') }}
-        </div>
         <FoundationHeadline level="h3" class="px-4 -ml-4 text-lg font-medium text-secondary mb-2">
             {{ title }}
         </FoundationHeadline>
@@ -220,8 +216,5 @@ const handleSubmit = async () => {
                 </div>
             </div>
         </form>
-        <div v-if="success === 'subscribed'">
-            {{ $t('newsletter.successSubscribed') }}
-        </div>
     </div>
 </template>
