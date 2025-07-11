@@ -107,6 +107,33 @@
                 "emailChangeFailed": "Failed to change email. Please check your password and try again."
             }
         },
+        "address": {
+            "add": "Add Address",
+            "edit": "Edit Address",
+            "delete": "Delete Address",
+            "setDefaultBilling": "Set as Default Billing",
+            "setDefaultShipping": "Set as Default Shipping",
+            "confirmDelete": "Are you sure you want to delete this address?",
+            "noAddresses": "No addresses found",
+            "noAddressesDescription": "Add your first address to make checkout faster and easier.",
+            "addFirst": "Add Your First Address",
+            "defaultAddresses": "Default Addresses",
+            "otherAddresses": "Other Addresses",
+            "defaultBilling": "Default Billing",
+            "defaultShipping": "Default Shipping",
+            "shippingNotAvailable": "Shipping not available to this country",
+            "loadError": "Failed to load addresses",
+            "createSuccess": "Address created successfully",
+            "createError": "Failed to create address",
+            "updateSuccess": "Address updated successfully",
+            "updateError": "Failed to update address",
+            "deleteSuccess": "Address deleted successfully",
+            "deleteError": "Failed to delete address",
+            "setDefaultBillingSuccess": "Default billing address updated",
+            "setDefaultBillingError": "Failed to set default billing address",
+            "setDefaultShippingSuccess": "Default shipping address updated",
+            "setDefaultShippingError": "Failed to set default shipping address"
+        },
         "greetings": "Hello",
         "logout": "Logout",
         "guestAbort": "Cancel guest session"

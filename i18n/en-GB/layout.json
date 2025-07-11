@@ -24,7 +24,8 @@
         "home": "Home",
         "accountOverview": "Account Overview",
         "profile": "Profile",
-        "orders": "Order History"
+        "orders": "Order History",
+        "addresses": "Addresses"
     },
     "newsletter": {
         "subscriptionCheckbox": "Yes, I would like to subscribe to the free Demostore newsletter. (I may unsubscribe at any time.)",

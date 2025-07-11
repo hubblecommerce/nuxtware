@@ -1,19 +1,10 @@
 
 <script setup lang="ts">
+import  { getTranslatedProperty } from '@shopware/helpers'
 
-interface AddressData {
-    firstName: string
-    lastName: string
-    street: string
-    zipcode: string
-    city: string
-    countryId: string
-    countryStateId?: string
-    additionalAddressLine1?: string
-    company?: string
-    department?: string
-    phoneNumber?: string
-}
+import type { Schemas } from '#shopware'
+
+type AddressData = Partial<Schemas['CustomerAddress']>
 
 interface AccountAddressProps {
     modelValue?: AddressData
@@ -55,6 +46,7 @@ const emit = defineEmits<AccountAddressEmits>()
 
 // Composables
 const { getCountries } = useCountries()
+const { getSalutations } = useSalutations()
 const { t } = useI18n()
 
 // Local state for account type (only for addresses with showAccountTypeToggle)
@@ -62,6 +54,8 @@ const localAccountType = ref('private')
 
 // Initialize address data
 const addressData = reactive<AddressData>({
+    id: '',
+    salutationId: '',
     firstName: '',
     lastName: '',
     street: '',
@@ -97,6 +91,13 @@ const countryStatesOptions = computed(() => {
     }))
 })
 
+const salutationOptions = computed(() => 
+    getSalutations.value.map(salutation => ({
+        value: salutation.id,
+        label: getTranslatedProperty(salutation, 'displayName')
+    }))
+)
+
 const accountTypeOptions = computed(() => [
     { value: 'private', label: t('account.private') },
     { value: 'business', label: t('account.business') }
@@ -121,8 +122,9 @@ const isValid = computed(() => {
     if (props.showAccountTypeToggle && isBusinessAccount.value && !props.hideCompanyFields) {
         requiredFields.push(addressData.company || '')
     }
+
     
-    return requiredFields.every(field => field?.trim().length > 0)
+    return requiredFields.every(field => field && field.trim().length > 0)
 })
 
 // Watch for changes and emit
@@ -132,7 +134,7 @@ watch(addressData, (newValue) => {
 
 watch(isValid, (newValue) => {
     emit('validation-change', newValue)
-})
+}, { immediate: true })
 
 // Clear state when country changes
 watch(() => addressData.countryId, () => {
@@ -163,6 +165,22 @@ watch(() => props.modelValue, (newValue) => {
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Salutation -->
+            <div v-show="!hideNameFields" class="md:col-span-2">
+                <FoundationLabel :for="`${fieldPrefix}-salutation`" class="block mb-1">
+                    {{ $t('form.salutation') }}
+                </FoundationLabel>
+                <FoundationSelect
+                    :id="`${fieldPrefix}-salutation`"
+                    v-model="addressData.salutationId"
+                    :placeholder="$t('form.chooseSalutation')"
+                    :options="salutationOptions"
+                    :disabled="disabled"
+                    name="salutation"
+                    class="w-full"
+                />
+            </div>
+
             <!-- First Name -->
             <div v-show="!hideNameFields">
                 <ComponentTextInput
@@ -341,7 +359,15 @@ watch(() => props.modelValue, (newValue) => {
         </div>
 
         <!-- Actions (if not embedded) -->
-        <div v-if="showActions" class="flex gap-3 pt-4">
+        <div v-if="showActions" class="flex justify-between gap-3 pt-4">
+            <FoundationButton
+                v-if="showCancel"
+                variant="outline"
+                @click="$emit('cancel')"
+            >
+                {{ $t('form.cancel') }}
+            </FoundationButton>
+
             <FoundationButton
                 v-if="mode === 'edit'"
                 color="primary"
@@ -359,13 +385,6 @@ watch(() => props.modelValue, (newValue) => {
                 @click="handleSave"
             >
                 {{ $t('account.address.add') }}
-            </FoundationButton>
-            <FoundationButton
-                v-if="showCancel"
-                variant="outline"
-                @click="$emit('cancel')"
-            >
-                {{ $t('form.cancel') }}
             </FoundationButton>
         </div>
     </div>

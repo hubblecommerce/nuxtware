@@ -127,7 +127,7 @@ Nuxtware:
     - [x] Overview
     - [x] Orders
     - [x] Profile
-    - [ ] Addresses
+    - [x] Addresses
 - [ ] CMS
     - [ ] Blocks and elements from "community edition"
         - [ ] Blocks

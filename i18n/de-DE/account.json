@@ -107,6 +107,33 @@
                 "emailChangeFailed": "E-Mail konnte nicht geändert werden. Bitte überprüfen Sie Ihr Passwort und versuchen Sie es erneut."
             }
         },
+        "address": {
+            "add": "Adresse hinzufügen",
+            "edit": "Adresse bearbeiten",
+            "delete": "Adresse löschen",
+            "setDefaultBilling": "Als Standard-Rechnungsadresse",
+            "setDefaultShipping": "Als Standard-Lieferadresse",
+            "confirmDelete": "Sind Sie sicher, dass Sie diese Adresse löschen möchten?",
+            "noAddresses": "Keine Adressen gefunden",
+            "noAddressesDescription": "Fügen Sie Ihre erste Adresse hinzu, um den Checkout zu beschleunigen.",
+            "addFirst": "Erste Adresse hinzufügen",
+            "defaultAddresses": "Standard-Adressen",
+            "otherAddresses": "Weitere Adressen",
+            "defaultBilling": "Standard-Rechnung",
+            "defaultShipping": "Standard-Versand",
+            "shippingNotAvailable": "Versand in dieses Land nicht verfügbar",
+            "loadError": "Fehler beim Laden der Adressen",
+            "createSuccess": "Adresse erfolgreich erstellt",
+            "createError": "Fehler beim Erstellen der Adresse",
+            "updateSuccess": "Adresse erfolgreich aktualisiert",
+            "updateError": "Fehler beim Aktualisieren der Adresse",
+            "deleteSuccess": "Adresse erfolgreich gelöscht",
+            "deleteError": "Fehler beim Löschen der Adresse",
+            "setDefaultBillingSuccess": "Standard-Rechnungsadresse aktualisiert",
+            "setDefaultBillingError": "Fehler beim Setzen der Standard-Rechnungsadresse",
+            "setDefaultShippingSuccess": "Standard-Lieferadresse aktualisiert",
+            "setDefaultShippingError": "Fehler beim Setzen der Standard-Lieferadresse"
+        },
         "greetings": "Hallo",
         "logout": "Abmelden",
         "guestAbort": "Gastsitzung beenden"
