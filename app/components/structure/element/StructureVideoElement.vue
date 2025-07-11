@@ -31,17 +31,12 @@
                     class="w-16 h-16 text-gray-400"
                 />
             </div>
-            <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <div class="text-center text-white">
-                    <i18n-t :keypath="`${i18nNamespace}.confirmationText`" tag="p" class="mb-4">
-                        <FoundationButton
-                            variant="ghost"
-                            class="underline text-white hover:text-gray-200 p-0"
-                            @click.prevent.stop="showPrivacyModal = true"
-                        >
-                            {{ $t(`${i18nNamespace}.privacyPolicyLink`) }}
-                        </FoundationButton>
-                    </i18n-t>
+            <div class="absolute inset-0 bg-black/25 flex items-center justify-center">
+                <div class="text-center p-6 bg-white/75">
+                    <!-- TODO: Implement privacy policy modal/link functionality -->
+                    <p class="mb-4">
+                        {{ $t(`${i18nNamespace}.confirmationText`) }}
+                    </p>
                     <FoundationButton
                         variant="default"
                         color="primary"
@@ -53,13 +48,7 @@
             </div>
         </div>
         
-        <!-- Privacy Policy Modal -->
-        <FoundationModal
-            v-model="showPrivacyModal"
-            :title="$t(`${i18nNamespace}.privacyPolicyTitle`)"
-        >
-            <p>{{ $t(`${i18nNamespace}.privacyPolicyContent`) }}</p>
-        </FoundationModal>
+        <!-- TODO: Add privacy policy modal component -->
     </div>
 </template>
 
@@ -73,10 +62,10 @@ interface Props {
     i18nNamespace: string
 }
 
-const _props = defineProps<Props>()
+defineProps<Props>()
 
 const hasConfirmed = ref(false)
-const showPrivacyModal = ref(false)
+// TODO: Add privacy policy modal state management
 
 const confirmVideo = () => {
     hasConfirmed.value = true
