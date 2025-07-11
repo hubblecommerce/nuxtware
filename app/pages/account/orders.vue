@@ -10,14 +10,15 @@ const { formatLink } = useInternationalization(localePath)
 
 const { addProducts } = useCart()
 const { success, error: errorNotification } = useGlobalNotifications()
+const { apiClient } = useShopwareContext()
 
 const {
     orders,
-    loadOrders,
-    totalPages,
-    currentPage,
     limit,
 } = useCustomerOrders()
+
+// Store paymentChangeable data from order response
+const paymentChangeable = ref<Record<string, boolean>>({})
 
 useHead({
     title:  t('orders.title'),
@@ -43,6 +44,10 @@ useBreadcrumbs([
 // Pagination settings
 const defaultLimit = 15
 const defaultPage = 1
+
+// Manual pagination state since we're using direct API calls
+const totalPages = ref(0)
+const currentPage = ref(route.query.p ? Number(route.query.p) : defaultPage)
 const isLoadingOrders = ref(false)
 
 // Initialize limit from query params
@@ -60,37 +65,53 @@ const limitOptions = computed(() => [
 const loadOrdersData = async () => {
     isLoadingOrders.value = true
     try {
-        await loadOrders({
-            limit: limit.value,
-            page: route.query.p ? Number(route.query.p) : defaultPage,
-            checkPromotion: true,
-            associations: {
-                stateMachineState: {},
-                lineItems: {
-                    associations: {
-                        cover: {}
-                    }
+        // Make direct API call to get both orders and paymentChangeable data
+        const response = await apiClient.invoke("readOrder post /order", {
+            body: {
+                limit: limit.value,
+                page: route.query.p ? Number(route.query.p) : defaultPage,
+                checkPromotion: true,
+                'total-count-mode': 'exact', // Important for getting correct total count
+                associations: {
+                    stateMachineState: {},
+                    lineItems: {
+                        associations: {
+                            cover: {}
+                        }
+                    },
+                    transactions: {
+                        associations: {
+                            paymentMethod: {},
+                            stateMachineState: {}
+                        }
+                    },
+                    deliveries: {
+                        associations: {
+                            shippingMethod: {},
+                            shippingOrderAddress: {},
+                            stateMachineState: {}
+                        }
+                    },
                 },
-                transactions: {
-                    associations: {
-                        paymentMethod: {}
-                    }
-                },
-                deliveries: {
-                    associations: {
-                        shippingMethod: {},
-                        shippingOrderAddress: {}
-                    }
-                },
-                
-            },
-            sort: [
-                {
-                    field: 'createdAt',
-                    order: 'DESC',
-                },
-            ],
+                sort: [
+                    {
+                        field: 'createdAt',
+                        order: 'DESC',
+                    },
+                ],
+            }
         })
+        
+        // Update orders data manually since we're not using loadOrders
+        orders.value = response.data.orders?.elements || []
+        totalPages.value = Math.ceil((response.data.orders?.total || 0) / limit.value)
+        currentPage.value = response.data.orders?.page || 1
+        
+        // Extract paymentChangeable data from response
+        paymentChangeable.value = response.data.paymentChangeable || {}
+    } catch (error) {
+        console.error('Error loading orders:', error)
+        errorNotification(t('orders.reloadError'))
     } finally {
         isLoadingOrders.value = false
     }
@@ -180,10 +201,60 @@ const handleCancelOrder = async () => {
     }
 }
 
+// State for payment change modal
+const showPaymentChangeModal = ref(false)
+const selectedOrderForPaymentChange = ref<string | null>(null)
+
 // Handle change payment
 const handleChangePayment = async (orderId: string) => {
-    // TODO: Implement change payment functionality
-    console.log('Change payment for order:', orderId)
+    // Check if payment can be changed for this order
+    if (!paymentChangeable.value[orderId]) {
+        errorNotification(t('orders.paymentChange.notChangeable'))
+        return
+    }
+    
+    selectedOrderForPaymentChange.value = orderId
+    showPaymentChangeModal.value = true
+}
+
+// Handle payment change completion
+const handlePaymentChanged = async () => {
+    try {
+        // Reload orders to get updated payment method
+        await loadOrdersData()
+        success(t('orders.paymentChange.success'))
+        showPaymentChangeModal.value = false
+        selectedOrderForPaymentChange.value = null
+    } catch (error) {
+        console.error('Error reloading orders after payment change:', error)
+        errorNotification(t('orders.paymentChange.reloadError'))
+    }
+}
+
+// Handle payment completion
+const handlePaymentCompleted = async () => {
+    try {
+        // Reload orders to get updated payment status
+        await loadOrdersData()
+        success(t('orders.paymentChange.paymentCompleted'))
+        showPaymentChangeModal.value = false
+        selectedOrderForPaymentChange.value = null
+    } catch (error) {
+        console.error('Error reloading orders after payment completion:', error)
+        errorNotification(t('orders.paymentChange.reloadError'))
+    }
+}
+
+// Close payment change modal
+const closePaymentChangeModal = () => {
+    showPaymentChangeModal.value = false
+    selectedOrderForPaymentChange.value = null
+}
+
+// Get current payment method ID for an order
+const getCurrentPaymentMethodId = (orderId: string) => {
+    const order = orders.value?.find(o => o.id === orderId)
+    return order?.transactions?.at(-1)?.paymentMethod?.id || undefined
 }
 </script>
 
@@ -248,6 +319,7 @@ const handleChangePayment = async (orderId: string) => {
                         v-for="order in orders"
                         :key="order.id"
                         :order="order"
+                        :show-change-payment="paymentChangeable[order.id] === true"
                         @reorder="handleReorder"
                         @cancel-order="handleCancelOrder"
                         @change-payment="handleChangePayment"
@@ -296,6 +368,25 @@ const handleChangePayment = async (orderId: string) => {
                 <FoundationLink :href="formatLink('/')" class="btn btn-default">
                     {{ $t('common.startShopping') }}
                 </FoundationLink>
+            </div>
+            
+            <!-- Payment Change Modal -->
+            <div 
+                v-if="showPaymentChangeModal && selectedOrderForPaymentChange"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+                @click.self="closePaymentChangeModal"
+            >
+                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                    <div class="p-6">
+                        <OrderPaymentChange
+                            :order-id="selectedOrderForPaymentChange"
+                            :current-payment-method-id="getCurrentPaymentMethodId(selectedOrderForPaymentChange)"
+                            @payment-changed="handlePaymentChanged"
+                            @payment-completed="handlePaymentCompleted"
+                            @close="closePaymentChangeModal"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     </ClientOnly>

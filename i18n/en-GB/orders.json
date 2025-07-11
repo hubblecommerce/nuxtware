@@ -31,6 +31,7 @@
         "returnOrder": "Return Order",
         "reorderSuccess": "{count} items added to cart from your previous order",
         "reorderError": "Unable to add items to cart. Some products may no longer be available.",
+        "reloadError": "Failed to load orders. Please try again.",
         "status": {
             "open": "Open",
             "inProgress": "In Progress",
@@ -84,7 +85,9 @@
             "orderDate": "Order Date",
             "orderNumber": "Order Number",
             "paymentMethod": "Payment Method",
+            "paymentStatus": "Payment Status",
             "shippingMethod": "Shipping Method",
+            "shippingStatus": "Shipping Status",
             "tracking": "Tracking",
             "trackingNotAvailable": "Not available",
             "shippingCosts": "Shipping",
@@ -93,6 +96,22 @@
             "total": "Total",
             "billingAddress": "Billing Address",
             "shippingAddress": "Shipping Address"
+        },
+        "paymentStatus": {
+            "paid": "Paid",
+            "open": "Open",
+            "failed": "Failed",
+            "cancelled": "Cancelled",
+            "reminded": "Reminded",
+            "unconfirmed": "Unconfirmed",
+            "unknown": "Unknown"
+        },
+        "shippingStatus": {
+            "shipped": "Shipped",
+            "open": "Open",
+            "cancelled": "Cancelled",
+            "returned": "Returned",
+            "unknown": "Unknown"
         },
         "cancel": {
             "modalTitle": "Cancel Order",
@@ -103,6 +122,20 @@
             "confirmCancel": "Cancel Order",
             "success": "Order cancelled successfully",
             "error": "Failed to cancel order"
+        },
+        "paymentChange": {
+            "title": "Change Payment Method",
+            "description": "Select a new payment method for this order.",
+            "selectMethod": "Select payment method",
+            "noMethodsAvailable": "No payment methods available",
+            "notChangeable": "Payment method cannot be changed for this order",
+            "confirm": "Change Payment Method",
+            "success": "Payment method changed successfully",
+            "paymentCompleted": "Payment completed successfully",
+            "error": "Error changing payment method",
+            "loadError": "Failed to load payment methods",
+            "updateError": "Failed to update payment method",
+            "reloadError": "Failed to reload order information"
         }
     }
 }

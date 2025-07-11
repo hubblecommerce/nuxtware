@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { t } = useI18n()
 const { success, error: errorNotification } = useGlobalNotifications()
-const { apiClient } = useShopwareContext()
+const orderDetails = useOrderDetails(props.orderId)
 
 const sortedDocuments = computed(() => {
     return [...props.documents].sort((a, b) => {
@@ -24,20 +24,22 @@ const sortedDocuments = computed(() => {
 })
 
 const getDocumentDisplayName = (document: Schemas['Document']) => {
-    const config = document.config as any
-    if (!config) return document.id
+    const config = document.config
+    if (!config || typeof config !== 'object') return document.id
 
-    const prefix = config.filenamePrefix || ''
-    const number = config.documentNumber || ''
-    const suffix = config.filenameSuffix ? `_${config.filenameSuffix}` : ''
+    const configObj = config as Record<string, string | number | boolean>
+    const prefix = String(configObj.filenamePrefix || '')
+    const number = String(configObj.documentNumber || '')
+    const suffix = configObj.filenameSuffix ? `_${String(configObj.filenameSuffix)}` : ''
     const date = document.createdAt ? `_${new Date(document.createdAt).toISOString().split('T')[0]}` : ''
     
     return `${prefix}${number}${suffix}${date}`
 }
 
 const getDocumentTypeIcon = (document: Schemas['Document']) => {
-    const config = document.config as any
-    const type = config?.documentType || 'invoice'
+    const config = document.config
+    const configObj = config && typeof config === 'object' ? config as Record<string, string | number | boolean> : {}
+    const type = String(configObj.documentType || 'invoice')
     
     switch (type.toLowerCase()) {
         case 'invoice':
@@ -55,10 +57,8 @@ const getDocumentTypeIcon = (document: Schemas['Document']) => {
 
 const downloadDocument = async (document: Schemas['Document']) => {
     try {
-        // Use Shopware API client for document download
-        const response = await apiClient.invoke(
-            `download post /document/download/${document.id}/${document.deepLinkCode}`
-        )
+        // Use the useOrderDetails composable method for document download
+        const response = await orderDetails.getDocumentFile(document.id, document.deepLinkCode || '')
         
         // Handle the blob response
         if (response && response instanceof Blob) {
@@ -127,8 +127,8 @@ const formatDocumentDate = (createdAt: string | undefined) => {
                                 <div class="text-sm font-medium text-foreground truncate">
                                     {{ getDocumentDisplayName(document) }}
                                 </div>
-                                <div v-if="document.config" class="text-xs text-muted-foreground">
-                                    {{ (document.config as any).documentType || 'Document' }}
+                                <div v-if="document.config && typeof document.config === 'object'" class="text-xs text-muted-foreground">
+                                    {{ String((document.config as Record<string, string | number | boolean>).documentType || 'Document') }}
                                 </div>
                             </div>
                         </div>
@@ -141,10 +141,10 @@ const formatDocumentDate = (createdAt: string | undefined) => {
                         </div>
 
                         <!-- Actions -->
-                        <div class="col-span-1 flex justify-end">
+                        <div class="col-span-1 flex justify-start">
                             <FoundationButton
-                                variant="ghost"
-                                size="sm"
+                                color="secondary"
+                                size="small"
                                 class="p-2"
                                 :title="t('orders.documents.download')"
                                 @click="downloadDocument(document)"

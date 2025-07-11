@@ -2,10 +2,10 @@
     <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
             <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
-                {{ $t('checkout.paymentMethodLabel') }}
+                {{ mode === 'order' ? $t('orders.paymentChange.selectMethod') : $t('checkout.paymentMethodLabel') }}
             </FoundationHeadline>
             <p class="text-sm">
-                {{ $t('checkout.selectPaymentMethod') }}
+                {{ mode === 'order' ? $t('orders.paymentChange.description') : $t('checkout.selectPaymentMethod') }}
             </p>
         </legend>
 
@@ -105,25 +105,74 @@
 </template>
 
 <script setup lang="ts">
+import type { Schemas } from '#shopware'
+
 interface ComponentCheckoutPaymentProps {
     disabled?: boolean
+    mode?: 'checkout' | 'order'
+    orderId?: string
 }
 
 const props = withDefaults(defineProps<ComponentCheckoutPaymentProps>(), {
-    disabled: false
+    disabled: false,
+    mode: 'checkout',
+    orderId: ''
 })
 
+const emit = defineEmits<{
+    (e: 'paymentChanged', paymentMethodId: string): void
+}>()
+
 // Composables
-const {
-    paymentMethods,
-    getPaymentMethods,
-} = useCheckout()
-const {
-    selectedPaymentMethod: contextPaymentMethod,
-    setPaymentMethod,
-} = useSessionContext()
 const { error: notifyError } = useGlobalNotifications()
 const { t } = useI18n()
+
+// Initialize composables at top level to avoid conditional initialization
+const checkoutComposables = useCheckout()
+const sessionContext = useSessionContext()
+const orderDetails = props.orderId ? useOrderDetails(props.orderId) : null
+
+// Unified interface for both modes
+const paymentMethods = computed(() => {
+    if (props.mode === 'checkout') {
+        return checkoutComposables.paymentMethods.value || []
+    } else {
+        return orderPaymentMethods.value
+    }
+})
+
+const selectedPaymentMethod = computed(() => {
+    if (props.mode === 'checkout') {
+        return sessionContext.selectedPaymentMethod.value
+    } else {
+        return orderDetails?.paymentMethod.value
+    }
+})
+
+// Order-specific payment methods state
+const orderPaymentMethods = ref<Schemas['PaymentMethod'][]>([])
+
+const getPaymentMethods = async () => {
+    if (props.mode === 'checkout') {
+        return await checkoutComposables.getPaymentMethods()
+    } else {
+        const methods = await orderDetails?.getPaymentMethods()
+        orderPaymentMethods.value = methods || []
+        return methods
+    }
+}
+
+const setPaymentMethod = async (methodData: { id: string }) => {
+    if (props.mode === 'checkout') {
+        return await sessionContext.setPaymentMethod(methodData)
+    } else {
+        // Ensure we're passing a plain string, not a reactive object
+        const paymentMethodId = typeof methodData.id === 'string' ? methodData.id : String(methodData.id)
+        const result = await orderDetails?.changePaymentMethod(paymentMethodId)
+        emit('paymentChanged', paymentMethodId)
+        return result
+    }
+}
 
 // State
 const isLoading = ref(false)
@@ -133,7 +182,7 @@ const error = ref('')
 // Computed
 const selectedMethodId = computed({
     get(): string {
-        return contextPaymentMethod.value?.id || ''
+        return selectedPaymentMethod.value?.id || ''
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     set(methodId: string) {

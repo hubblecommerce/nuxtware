@@ -23,9 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-    (e: 'reorder', orderId: string): void
-    (e: 'changePayment', orderId: string): void
-    (e: 'cancelOrder', orderId: string): void
+    (e: 'reorder' | 'changePayment' | 'cancelOrder', orderId: string): void
     (e: 'toggleDetails'): void
 }>()
 
@@ -39,32 +37,33 @@ const ORDER_TRANSACTION_STATE_REMINDED = 'reminded'
 const ORDER_TRANSACTION_STATE_UNCONFIRMED = 'unconfirmed'
 const ORDER_TRANSACTION_STATE_CANCELLED = 'cancelled'
 
-const ALLOWED_TRANSACTION_STATES = [
+const ALLOWED_TRANSACTION_STATES: readonly string[] = [
     ORDER_TRANSACTION_STATE_OPEN,
     ORDER_TRANSACTION_STATE_FAILED,
     ORDER_TRANSACTION_STATE_REMINDED,
     ORDER_TRANSACTION_STATE_UNCONFIRMED
-]
+] as const
 
-const PAYMENT_NEEDED_STATES = [
+const PAYMENT_NEEDED_STATES: readonly string[] = [
     ORDER_TRANSACTION_STATE_FAILED,
     ORDER_TRANSACTION_STATE_REMINDED,
     ORDER_TRANSACTION_STATE_UNCONFIRMED,
     ORDER_TRANSACTION_STATE_CANCELLED
-]
+] as const
 
 const orderState = computed(() => props.order.stateMachineState?.technicalName || 'unknown')
 const orderPaymentState = computed(() => props.order.transactions?.at(-1)?.stateMachineState?.technicalName || 'unknown')
 
 const isPaymentNeeded = computed(() => {
-    return PAYMENT_NEEDED_STATES.includes(orderPaymentState.value) && 
+    return (PAYMENT_NEEDED_STATES as readonly string[]).includes(orderPaymentState.value) && 
            orderState.value !== ORDER_STATE_CANCELLED
 })
 
 const canChangePayment = computed(() => {
     return props.showChangePayment &&
            orderState.value !== ORDER_STATE_CANCELLED &&
-           ALLOWED_TRANSACTION_STATES.includes(orderPaymentState.value)
+           (ALLOWED_TRANSACTION_STATES as readonly string[]).includes(orderPaymentState.value)
+    // Note: paymentChangeable validation will be handled at the page level
 })
 
 const canCancelOrder = computed(() => {
@@ -126,8 +125,8 @@ const viewDetailsButtonText = computed(() => {
             @click="handleChangePayment"
         >
             <FoundationIcon 
-                :name="isPaymentNeeded ? 'credit-card' : 'edit-3'" 
-                class="w-4 h-4" 
+                name="credit-card" 
+                class="w-4 h-4 mr-1" 
             />
             {{ isPaymentNeeded ? t('orders.actions.completePayment') : t('orders.actions.changePayment') }}
         </FoundationButton>

@@ -88,7 +88,7 @@ const formatItemDescription = (description: string | undefined) => {
                             >
                                 <img
                                     v-if="getItemImage(lineItem)"
-                                    :src="getItemImage(lineItem)"
+                                    :src="getItemImage(lineItem) as string"
                                     :alt="lineItem.label"
                                     class="w-full h-full object-cover rounded border border-border"
                                 >

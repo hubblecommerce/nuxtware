@@ -31,6 +31,7 @@
         "returnOrder": "Bestellung zurücksenden",
         "reorderSuccess": "{count} Artikel aus Ihrer vorherigen Bestellung wurden zum Warenkorb hinzugefügt",
         "reorderError": "Artikel konnten nicht zum Warenkorb hinzugefügt werden. Einige Produkte sind möglicherweise nicht mehr verfügbar.",
+        "reloadError": "Fehler beim Laden der Bestellungen. Bitte versuchen Sie es erneut.",
         "status": {
             "open": "Offen",
             "inProgress": "In Bearbeitung",
@@ -84,7 +85,9 @@
             "orderDate": "Bestelldatum",
             "orderNumber": "Bestellnummer",
             "paymentMethod": "Zahlungsart",
+            "paymentStatus": "Zahlungsstatus",
             "shippingMethod": "Versandart",
+            "shippingStatus": "Versandstatus",
             "tracking": "Sendungsverfolgung",
             "trackingNotAvailable": "Nicht verfügbar",
             "shippingCosts": "Versandkosten",
@@ -93,6 +96,22 @@
             "total": "Gesamtsumme",
             "billingAddress": "Rechnungsadresse",
             "shippingAddress": "Lieferadresse"
+        },
+        "paymentStatus": {
+            "paid": "Bezahlt",
+            "open": "Offen",
+            "failed": "Fehlgeschlagen",
+            "cancelled": "Storniert",
+            "reminded": "Gemahnt",
+            "unconfirmed": "Unbestätigt",
+            "unknown": "Unbekannt"
+        },
+        "shippingStatus": {
+            "shipped": "Versendet",
+            "open": "Offen",
+            "cancelled": "Storniert",
+            "returned": "Zurückgesendet",
+            "unknown": "Unbekannt"
         },
         "cancel": {
             "modalTitle": "Bestellung stornieren",
@@ -103,6 +122,20 @@
             "confirmCancel": "Bestellung stornieren",
             "success": "Bestellung erfolgreich storniert",
             "error": "Fehler beim Stornieren der Bestellung"
+        },
+        "paymentChange": {
+            "title": "Zahlungsart ändern",
+            "description": "Wählen Sie eine neue Zahlungsart für diese Bestellung.",
+            "selectMethod": "Zahlungsart auswählen",
+            "noMethodsAvailable": "Keine Zahlungsarten verfügbar",
+            "notChangeable": "Die Zahlungsart kann für diese Bestellung nicht geändert werden",
+            "confirm": "Zahlungsart ändern",
+            "success": "Zahlungsart erfolgreich geändert",
+            "paymentCompleted": "Zahlung erfolgreich abgeschlossen",
+            "error": "Fehler beim Ändern der Zahlungsart",
+            "loadError": "Fehler beim Laden der Zahlungsarten",
+            "updateError": "Fehler beim Aktualisieren der Zahlungsart",
+            "reloadError": "Fehler beim Aktualisieren der Bestellinformationen"
         }
     }
 }

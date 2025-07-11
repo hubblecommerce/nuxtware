@@ -38,6 +38,16 @@ const shippingMethod = computed(() => {
     return delivery?.shippingMethod?.translated?.name || delivery?.shippingMethod?.name
 })
 
+const paymentStatus = computed(() => {
+    const transaction = props.order.transactions?.at(-1)
+    return transaction?.stateMachineState?.technicalName || 'unknown'
+})
+
+const shippingStatus = computed(() => {
+    const delivery = props.order.deliveries?.[0]
+    return delivery?.stateMachineState?.technicalName || 'unknown'
+})
+
 const trackingCodes = computed(() => {
     if (!props.showTracking) return []
     
@@ -62,17 +72,17 @@ const calculatedTaxes = computed(() => {
 })
 
 const shippingCosts = computed(() => {
-    return getFormattedPrice(props.order.shippingTotal || 0, props.order.currency?.symbol)
+    return getFormattedPrice(props.order.shippingTotal || 0)
 })
 
 const orderTotal = computed(() => {
     const total = props.order.amountTotal ?? props.order.price?.totalPrice ?? 0
-    return getFormattedPrice(total, props.order.currency?.symbol)
+    return getFormattedPrice(total)
 })
 
 const netTotal = computed(() => {
     const net = props.order.amountNet ?? props.order.price?.netPrice ?? 0
-    return getFormattedPrice(net, props.order.currency?.symbol)
+    return getFormattedPrice(net)
 })
 
 const isTaxFree = computed(() => {
@@ -88,7 +98,7 @@ const shippingAddress = computed(() => {
     return props.order.deliveries?.[0]?.shippingOrderAddress
 })
 
-const formatAddress = (address: any) => {
+const formatAddress = (address: Schemas['OrderAddress']) => {
     if (!address) return ''
     
     const parts = [
@@ -131,10 +141,22 @@ const formatAddress = (address: any) => {
                         <dd class="font-medium">{{ paymentMethod }}</dd>
                     </div>
 
+                    <!-- Payment Status -->
+                    <div class="flex justify-between">
+                        <dt class="text-muted-foreground">{{ t('orders.summary.paymentStatus') }}</dt>
+                        <dd class="text-sm">{{ t(`orders.paymentStatus.${paymentStatus}`) }}</dd>
+                    </div>
+
                     <!-- Shipping Method -->
                     <div v-if="shippingMethod" class="flex justify-between">
                         <dt class="text-muted-foreground">{{ t('orders.summary.shippingMethod') }}</dt>
                         <dd class="font-medium">{{ shippingMethod }}</dd>
+                    </div>
+
+                    <!-- Shipping Status -->
+                    <div class="flex justify-between">
+                        <dt class="text-muted-foreground">{{ t('orders.summary.shippingStatus') }}</dt>
+                        <dd class="text-sm">{{ t(`orders.shippingStatus.${shippingStatus}`) }}</dd>
                     </div>
 
                     <!-- Tracking Information -->
@@ -144,7 +166,7 @@ const formatAddress = (address: any) => {
                             <div v-for="code in trackingCodes" :key="code" class="font-medium">
                                 <a 
                                     v-if="hasTrackingUrl && getTrackingUrl(code)"
-                                    :href="getTrackingUrl(code)"
+                                    :href="getTrackingUrl(code) as string"
                                     target="_blank"
                                     rel="noopener"
                                     class="text-primary hover:underline"
@@ -189,7 +211,7 @@ const formatAddress = (address: any) => {
                                 {{ t('orders.summary.tax', { rate: tax.taxRate }) }}
                             </dt>
                             <dd class="font-medium">
-                                {{ getFormattedPrice(tax.tax, order.currency?.symbol) }}
+                                {{ getFormattedPrice(tax.tax) }}
                             </dd>
                         </div>
                     </template>
