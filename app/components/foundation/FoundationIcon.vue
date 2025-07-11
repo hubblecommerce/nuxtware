@@ -31,28 +31,13 @@ const sizeClass = computed(() => {
     return sizes[props.size]
 })
 
+const { sanitizeHtml } = useSanitization()
+
 const sanitizedIcon = computed(() => {
-    if (!import.meta.client) {
-        return icon.value ?? ''
-    }
-
-    const div = document.createElement('div')
-    div.innerHTML = icon.value.trim();
-    const svg = div.querySelector('svg')
-    if (svg) {
-        // Remove potentially harmful attributes
-        const removeAttrs = ['onload', 'onclick', 'onmouseover', 'onmouseout', 'onmousemove', 'onmouseenter', 'onmouseleave']
-        removeAttrs.forEach(attr => svg.removeAttribute(attr))
-
-        // Remove potentially harmful elements
-        const removeElements = ['script', 'use']
-        removeElements.forEach(el => {
-            svg.querySelectorAll(el).forEach(node => node.remove())
-        })
-
-        return svg.outerHTML
-    }
-    return ''
+    return sanitizeHtml(icon.value, {
+        allowedTags: ['svg', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'g', 'defs', 'clipPath', 'mask'],
+        removeElements: ['script', 'use']
+    })
 })
 
 async function loadIcon() {

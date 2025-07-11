@@ -22,6 +22,7 @@ const contextErrors: ContextErrors = {
 export function useApiErrorsResolver(context?: string): UseApiErrorsResolver {
     const {$i18n} = useNuxtApp();
     const {t, te} = $i18n;
+    const { sanitizeString } = useSanitization();
 
     const resolveApiErrors = (errors: ApiError[]) => {
         return errors.map(({detail, code, meta}) => {
@@ -40,7 +41,7 @@ export function useApiErrorsResolver(context?: string): UseApiErrorsResolver {
             if (meta?.parameters) {
                 const pureMeta: { [key: string]: string } = {};
                 for (const [key, value] of Object.entries(meta?.parameters)) {
-                    pureMeta[key.replace(/[^a-zA-Z0-9 ]/g, "")] = value;
+                    pureMeta[sanitizeString(key)] = value;
                 }
                 meta.parameters = pureMeta;
             }
