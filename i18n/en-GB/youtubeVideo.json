@@ -1,0 +1,11 @@
+{
+  "youtubeVideo": {
+    "title": "YouTube Video",
+    "previewAlt": "YouTube video preview",
+    "confirmationText": "By accessing the video, you agree that your data will be transmitted to YouTube and that you have read the {0}.",
+    "confirmButton": "Accept",
+    "privacyPolicyLink": "privacy policy",
+    "privacyPolicyTitle": "Privacy Policy",
+    "privacyPolicyContent": "When you access videos from YouTube, your data may be transmitted to Google LLC. This may include your IP address, device information, and viewing behavior. YouTube processes this data according to their privacy policy. By continuing, you consent to this data transmission."
+  }
+}

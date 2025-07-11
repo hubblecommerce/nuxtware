@@ -1,0 +1,11 @@
+{
+  "vimeoVideo": {
+    "title": "Vimeo Video",
+    "previewAlt": "Vimeo video preview",
+    "confirmationText": "By accessing the video, you agree that your data will be transmitted to Vimeo and that you have read the {0}.",
+    "confirmButton": "Accept",
+    "privacyPolicyLink": "privacy policy",
+    "privacyPolicyTitle": "Privacy Policy",
+    "privacyPolicyContent": "When you access videos from Vimeo, your data may be transmitted to Vimeo Inc. This may include your IP address, device information, and viewing behavior. Vimeo processes this data according to their privacy policy. By continuing, you consent to this data transmission."
+  }
+}

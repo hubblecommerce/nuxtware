@@ -1,0 +1,11 @@
+{
+  "youtubeVideo": {
+    "title": "YouTube Video",
+    "previewAlt": "YouTube Video Vorschau",
+    "confirmationText": "Mit dem Aufruf des Videos erklären Sie sich einverstanden, dass Ihre Daten an YouTube übermittelt werden und das Sie die {0} gelesen haben.",
+    "confirmButton": "Akzeptieren",
+    "privacyPolicyLink": "Datenschutzbestimmungen",
+    "privacyPolicyTitle": "Datenschutzbestimmungen",
+    "privacyPolicyContent": "Beim Zugriff auf Videos von YouTube können Ihre Daten an Google LLC übermittelt werden. Dies kann Ihre IP-Adresse, Geräteinformationen und Ihr Betrachtungsverhalten umfassen. YouTube verarbeitet diese Daten gemäß ihrer Datenschutzrichtlinie. Durch Fortfahren stimmen Sie dieser Datenübertragung zu."
+  }
+}
