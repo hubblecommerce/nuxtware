@@ -125,10 +125,28 @@ Nuxtware:
     - [x] Register
     - [ ] Dashboard
 - [ ] CMS
+    - [ ] Blocks and elements from "community edition"
+        - [ ] Blocks
+            - [ ] Text Variations
+            - [ ] Image Variations
+            - [ ] Video Variations
+            - [ ] Text & Image Variations
+        - [ ] Elements
+            - [ ] Image
+            - [ ] Text
+            - [ ] Video
+            - [ ] Formular
+            - [ ] HTML
+    - [ ] Blocks and elements from "licensed edition"
+        - [ ] Elements
+            - [ ] 3D
 - [ ] Skiplinks
 - [x] Scroll To Top
 - [ ] Newsletter Form
 - [ ] Popups (Modals)
 - [x] Footer
-- [x] Topbar / Banderole 
+- [x] Topbar / Banderole
 - [ ] Brands Page
+- [ ] Refactor \<img\> to use nuxt-image component instead
+- [ ] Add Consent Modal to Video CMS Element
+- [ ] Add Cookie Consent
