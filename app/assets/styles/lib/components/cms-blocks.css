@@ -14,9 +14,3 @@
 .cms-block-cover {
     @apply gap-0;
 }
-
-/* Center alignment for bubble and highlight rows */
-.cms-block-bubble-row > *,
-.cms-block-highlight-row > * {
-    @apply flex items-center justify-center;
-}
