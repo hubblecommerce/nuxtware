@@ -4,7 +4,7 @@ import { ApiClientError } from "@shopware/api-client";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
-    content: Schemas["CmsSlot"]
+    content?: Schemas["CmsSlot"]
 }>()
 
 // Composables
@@ -88,13 +88,13 @@ const handleSubmit = async () => {
 }
 </script>
 <template>
-    <div v-if="success === 'unsubscribed'" class="p-4 text-center font-semibold">
-        {{ $t('newsletter.successUnsubscribed') }}
-    </div>
-    <fieldset v-else class="space-y-6 p-6 border border-border rounded-lg bg-surface">
+    <div>
+        <div v-if="success === 'unsubscribed'" class="p-4 text-center font-semibold">
+            {{ $t('newsletter.successUnsubscribed') }}
+        </div>
         <legend class="px-4 mb-0 -ml-4">
             <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
-                {{ content.translated?.config?.title?.value ? content.translated?.config?.title?.value : $t('newsletter.headline')  }}
+                {{ content?.translated?.config?.title?.value ? content?.translated?.config?.title?.value : $t('newsletter.headline')  }}
             </FoundationHeadline>
         </legend>
 
@@ -212,5 +212,5 @@ const handleSubmit = async () => {
         <div v-if="success === 'subscribed'">
             {{ $t('newsletter.successSubscribed') }}
         </div>
-    </fieldset>
+    </div>
 </template>
