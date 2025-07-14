@@ -168,7 +168,7 @@ function onTransitionEnd () {
                 class="absolute top-2 right-2 z-10"
             />
 
-            <ProductSoldOut
+            <ProductCardSoldOut
                 :product="product"
                 version="minimal"
                 class="absolute top-13 right-4.5 z-20"
