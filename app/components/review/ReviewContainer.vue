@@ -152,6 +152,7 @@ const hasActiveFilters = computed(() => {
         <ComponentModal
             :controller="reviewsModal"
             modal-headline="Reviews Modal"
+            :close-on-click-outside="true"
         >
             <ReviewWidget
                 :product-id="productId"

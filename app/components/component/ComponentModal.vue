@@ -2,8 +2,10 @@
 const props = withDefaults(defineProps<{
     controller: ReturnType<typeof useModal>,
     modalHeadline?: string | null,
+    closeOnClickOutside?: boolean
 }>(), {
     modalHeadline: null,
+    closeOnClickOutside: false
 })
 const { close } = props.controller
 const modalRef = ref<HTMLDialogElement | null>()
@@ -11,6 +13,9 @@ const modalRef = ref<HTMLDialogElement | null>()
 watch(props.controller.isOpen, (newX) => {
     if (newX) {
         modalRef.value?.showModal()
+        if (props.closeOnClickOutside) {
+            modalRef.value?.addEventListener("click", closeModalOnClickOutside)
+        }
     }
 })
 function closeModal () {
@@ -18,7 +23,12 @@ function closeModal () {
     modalRef?.value?.close()
 }
 
-// TODO: add backdrop click handling to close the modal
+// handle click outside of modal to close it if related prop is true
+function closeModalOnClickOutside(event: MouseEvent) {
+    if (event.target === modalRef.value) {
+        closeModal()
+    }
+}
 </script>
 <template>
     <dialog
