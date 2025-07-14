@@ -18,7 +18,7 @@ const serviceNavigation = await serviceNavigationComposable.loadNavigationElemen
 </script>
 <template>
     <footer>
-        <fieldset class="bg-border/15">
+        <fieldset class="bg-gray-100">
             <FormsNewsletter class="w-2/3 mx-auto p-8" />
         </fieldset>
         <div class="border-primary border-t">
