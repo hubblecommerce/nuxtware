@@ -19,3 +19,9 @@
 .cms-block-cover {
     @apply gap-0;
 }
+
+/* Simple Grid - right image stretches to full height */
+.cms-block-image-simple-grid .flex-1:last-child .cms-image-container {
+    height: 100%;
+    min-height: 100%;
+}
