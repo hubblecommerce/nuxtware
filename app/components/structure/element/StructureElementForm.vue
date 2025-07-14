@@ -10,7 +10,7 @@ const formType = computed(() => {
 })
 </script>
 <template>
-    <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
+    <fieldset class="space-y-6 p-6 border border-border rounded-lg">
         <LazyFormsNewsletter
             v-if="formType === 'newsletter'"
             :content="props.content"
