@@ -134,16 +134,16 @@ Nuxtware:
     - [x] Addresses
 - [ ] CMS
     - [ ] Blocks and elements from "community edition"
-        - [ ] Blocks
-            - [ ] Text Variations
-            - [ ] Image Variations
-            - [ ] Video Variations
-            - [ ] Text & Image Variations
-        - [ ] Elements
-            - [ ] Image
-            - [ ] Text
-            - [ ] Video
-            - [ ] Formular
+        - [x] Blocks
+            - [x] Text Variations
+            - [x] Image Variations
+            - [x] Video Variations
+            - [x] Text & Image Variations
+        - [x] Elements
+            - [x] Image
+            - [x] Text
+            - [x] Video
+            - [x] Formular
             - [ ] HTML
     - [ ] Blocks and elements from "licensed edition"
         - [ ] Elements
