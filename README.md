@@ -111,8 +111,9 @@ Nuxtware:
     - [x] Card
 - [ ] Detail:
     - [x] Gallery
-    - [ ] Buybox
-    - [ ] Variant Selection
+    - [x] Buybox
+      - Prices, Availability, Delivery Time, Reviews Link, Qty Selector, Add-To-Cart Button, Wishlist-Toggle, Sku
+    - [x] Variant Selection
     - [x] Tabs: Description / Reviews
         - [x] Description
         - [x] Reviews

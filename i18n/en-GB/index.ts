@@ -18,6 +18,10 @@ import wishlist from './wishlist.json'
 import carousel from './carousel.json'
 import tabs from './tabs.json'
 import review from './review.json'
+import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
+import productDeliveryInformation from './productDeliveryInformation.json'
+import productSoldOut from './productSoldOut.json'
+import productQtySelector from './productQtySelector.json'
 import misc from './misc.json'
 import skipLinks from './skipLinks.json'
 import orders from './orders.json'
@@ -40,6 +44,10 @@ export default {
     ...sorter,
     ...listing,
     ...product,
+    ...productDeliveryInformation,
+    ...productPurchaseUnitAndInfos,
+    ...productSoldOut,
+    ...productQtySelector,
     ...wishlist,
     ...carousel,
     ...tabs,

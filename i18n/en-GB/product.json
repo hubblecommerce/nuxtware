@@ -3,13 +3,21 @@
     "viewDetails": "View details",
     "viewDetailsFor": "View details for {product}",
     "unavailable": "Currently unavailable",
+    "addToCart": "Add To Cart",
+    "productNumber": "Article Number",
     "noProductsFound": "No products found",
     "price": {
       "regulationPrice": "30-Days-Bestprice**: {price}",
       "referencePrice": "per {unit} {unitName}",
       "boxUnitLabel": "Content:",
       "cheapestPriceLabel": "from",
-      "listingTextFrom": "from"
+      "listingTextFrom": "from",
+      "inclTax": "incl. VAT",
+      "exclTax": "excl. VAT",
+      "until": "until",
+      "pcs": "pcs",
+      "pieces": "Pieces",
+      "unitPrice": "Unit Price"
     },
     "badges": {
       "topseller": "Topseller"
@@ -18,7 +26,11 @@
       "tabs": {
         "description": "Description",
         "reviews": "Reviews"
-      }
+      },
+      "variants": "Product Variants"
+    },
+    "reviews": {
+      "link": "{rating} out of 5 Stars, see all Reviews"
     }
   }
 }

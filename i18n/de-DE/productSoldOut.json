@@ -1,0 +1,6 @@
+{
+  "productSoldOut": {
+    "soldOut": "Ausverkauft",
+    "restock": "Wieder verfügbar in {days} Tagen"
+  }
+}

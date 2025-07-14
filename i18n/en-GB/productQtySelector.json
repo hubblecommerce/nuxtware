@@ -1,0 +1,8 @@
+{
+  "productQtySelector" : {
+    "label": "Quantity",
+    "labelInput": "Select Quantity",
+    "increase": "Increase Quantity",
+    "decrease": "Decrease Quantity"
+  }
+}

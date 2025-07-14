@@ -3,13 +3,21 @@
     "viewDetails": "Details anzeigen",
     "viewDetailsFor": "Details für {product} anzeigen",
     "unavailable": "Derzeit nicht verfügbar",
+    "addToCart": "In den Warenkorb",
+    "productNumber": "Artikelnummer",
     "noProductsFound": "Keine Produkte gefunden",
     "price": {
       "regulationPrice": "30-Tage-Bestpreis**: {price}",
       "referencePrice": "pro {unit} {unitName}",
       "boxUnitLabel": "Inhalt:",
       "cheapestPriceLabel": "ab",
-      "listingTextFrom": "ab"
+      "listingTextFrom": "ab",
+      "inclTax": "inkl. Mwst.",
+      "exclTax": "exkl. Mwst.",
+      "until": "Bis",
+      "pcs": "Stk",
+      "pieces": "Anzahl",
+      "unitPrice": "Stückpreis"
     },
     "badges": {
       "topseller": "Tipp"
@@ -18,7 +26,11 @@
       "tabs": {
         "description": "Beschreibung",
         "reviews": "Bewertungen"
-      }
+      },
+      "variants": "Produktvarianten"
+    },
+    "reviews": {
+      "link": "{rating} von 5 Sternen, zu den Bewertungen"
     }
   }
 }

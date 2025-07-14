@@ -16,7 +16,7 @@ withDefaults(defineProps<FoundationInputTextProps>(), {
     disabled: false
 })
 
-const model = defineModel<string>()
+const model = defineModel<string | number>()
 const foundationInput = ref<HTMLInputElement>()
 
 defineExpose({ foundationInput })

@@ -168,6 +168,12 @@ function onTransitionEnd () {
                 class="absolute top-2 right-2 z-10"
             />
 
+            <ProductCardSoldOut
+                :product="product"
+                version="minimal"
+                class="absolute top-13 right-4.5 z-20"
+            />
+
             <div 
                 ref="productCardContent"
                 class="w-full relative cursor-auto transition-all duration-500 p-2 bg-white"
@@ -183,7 +189,11 @@ function onTransitionEnd () {
                 </h2>
 
                 <!-- Price section -->
-                <ProductPrice :product="product" size="small" />
+                <ProductPrice
+                    :product="product"
+                    size="small"
+                    class="min-h-[50px]"
+                />
 
                 <div 
                     v-if="layoutType !== 'minimal'"

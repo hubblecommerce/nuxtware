@@ -1,0 +1,8 @@
+{
+  "productDeliveryInformation": {
+    "unavailable": "Derzeit nicht verfügbar",
+    "deliveryTime": "Lieferzeit",
+    "deliveryShippingFree": "Versandkostenfrei",
+    "releaseDate": "Dieses Produkt erscheint am {date}"
+  }
+}
