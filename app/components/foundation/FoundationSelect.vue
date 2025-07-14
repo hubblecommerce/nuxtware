@@ -18,7 +18,6 @@
             :aria-disabled="disabled"
             :aria-invalid="error"
             :name="name"
-            v-bind="$attrs"
         >
             <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
             <option
