@@ -16,6 +16,7 @@ const showAccountSidenav = ref(false)
 </script>
 
 <template>
+    <LayoutSkipLinks />
     <header>
         <!-- TODO: <ContextLanguageSwitch />-->
         <!-- TODO: <ContextCurrencySwitch />-->

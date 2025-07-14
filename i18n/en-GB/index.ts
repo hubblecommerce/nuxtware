@@ -19,6 +19,7 @@ import carousel from './carousel.json'
 import tabs from './tabs.json'
 import review from './review.json'
 import misc from './misc.json'
+import skipLinks from './skipLinks.json'
 
 export default {
     ...layout,
@@ -41,5 +42,6 @@ export default {
     ...carousel,
     ...tabs,
     ...review,
-    ...misc
+    ...misc,
+    ...skipLinks
 }

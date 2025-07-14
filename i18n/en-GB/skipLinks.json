@@ -1,0 +1,8 @@
+{
+    "skipLink": {
+        "label": "Skip-links navigation",
+        "header": "Skip to page header",
+        "main": "Skip to main content",
+        "footer": "Skip to page footer"
+    }
+}
