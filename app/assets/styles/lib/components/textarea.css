@@ -1,0 +1,46 @@
+@layer components {
+    .textarea {
+        @apply textarea-default;
+        @apply block rounded-lg w-full;
+        @apply disabled:textarea-disabled;
+        @apply focus-style appearance-none forced-colors:appearance-auto;
+        @apply resize-y px-4 py-3 leading-6;
+
+        &[aria-disabled="true"] {
+            @apply textarea-disabled;
+        }
+    }
+}
+
+@utility textarea-default {
+    --color-textarea: transparent;
+
+    @apply border border-input text-input-content;
+}
+
+@utility textarea-disabled {
+    @apply opacity-60 cursor-not-allowed;
+}
+
+@utility textarea-primary {
+    --color-textarea: var(--color-primary);
+    --color-textarea-content: var(--color-primary);
+}
+
+@utility textarea-secondary {
+    --color-textarea: var(--color-secondary);
+    --color-textarea-content: var(--color-secondary);
+}
+
+@utility textarea-tertiary {
+    --color-textarea: var(--color-tertiary);
+    --color-textarea-content: var(--color-tertiary);
+}
+
+@utility textarea-bordered {
+    --color-textarea: --color-border;
+}
+
+@utility textarea-error {
+    --color-textarea: var(--color-error);
+}

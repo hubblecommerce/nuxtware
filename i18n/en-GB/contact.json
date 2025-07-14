@@ -1,0 +1,15 @@
+{
+    "contact": {
+        "headline": "Contact Us",
+        "phone": "Phone Number",
+        "phonePlaceholder": "Enter your phone number",
+        "subject": "Subject",
+        "subjectPlaceholder": "Enter the subject of your message",
+        "message": "Message",
+        "messagePlaceholder": "Enter your message (minimum 10 characters)",
+        "dataProtection": "I have read and agree to the data protection policy",
+        "submit": "Send Message",
+        "successMessage": "We have received your contact request and will process it as soon as possible.",
+        "unknownError": "An unknown error occurred. Please try again."
+    }
+}

@@ -29,6 +29,7 @@ import misc from './misc.json'
 import skipLinks from './skipLinks.json'
 import orders from './orders.json'
 import newsletter from './newsletter.json'
+import contact from './contact.json'
 
 export default {
     ...layout,
@@ -60,6 +61,7 @@ export default {
     ...youtubeVideo,
     ...misc,
     ...newsletter,
+    ...contact,
     ...skipLinks,
     ...orders
 }

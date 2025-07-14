@@ -1,0 +1,15 @@
+{
+    "contact": {
+        "headline": "Kontakt",
+        "phone": "Telefonnummer",
+        "phonePlaceholder": "Geben Sie Ihre Telefonnummer ein",
+        "subject": "Betreff",
+        "subjectPlaceholder": "Geben Sie den Betreff Ihrer Nachricht ein",
+        "message": "Nachricht",
+        "messagePlaceholder": "Geben Sie Ihre Nachricht ein (mindestens 10 Zeichen)",
+        "dataProtection": "Ich habe die Datenschutzerklärung gelesen und stimme ihr zu",
+        "submit": "Nachricht senden",
+        "successMessage": "Wir haben Ihre Kontaktanfrage erhalten und werden sie so schnell wie möglich bearbeiten.",
+        "unknownError": "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    }
+}
