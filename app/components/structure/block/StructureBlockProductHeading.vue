@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { CmsBlockProductHeading } from '@shopware-pwa/composables-next'
+import type { CmsBlockProductHeading } from '@shopware/composables'
+import { resolveComponent } from 'vue'
 
 const props = defineProps<{
     content: CmsBlockProductHeading

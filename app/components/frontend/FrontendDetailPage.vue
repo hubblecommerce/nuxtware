@@ -10,6 +10,13 @@ const { data: productResponse } = await useAsyncData(
     async () => {
         return await search(props.navigationId, {
             withCmsAssociations: true,
+            associations: {
+                manufacturer: {
+                    associations: {
+                        media: {}
+                    }
+                }
+            }
         })
     },
 )
