@@ -155,3 +155,5 @@ Nuxtware:
 - [ ] Refactor \<img\> to use nuxt-image component instead
 - [ ] Add Consent Modal to Video CMS Element
 - [ ] Add Cookie Consent
+- [ ] Language Switch
+- [ ] Currency Switch

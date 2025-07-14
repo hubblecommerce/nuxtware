@@ -30,7 +30,7 @@ In our project, we've adapted this approach to fit our specific needs:
 ### Feature Components (Organisms)
 - Located in specific feature directories like `app/components/product/`, `app/components/cart/`
 - Composed of multiple component and foundation elements to create a complete interface section
-- Examples: `ProductListingCard.vue`, `CartSidenav.vue`, `SearchQuick.vue`
+- Examples: `ProductListingCard.vue`, `SidenavCart.vue`, `SearchQuick.vue`
 
 ### Structure Components (Templates)
 - Located in `app/components/structure/`

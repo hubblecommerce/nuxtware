@@ -7,12 +7,12 @@ provide('mainNavigation', data)
 
 const { cart } = useCart()
 const cartItemCount = computed(() => cart.value?.lineItems?.length ?? 0)
-const showCartSidenav = ref(false)
 
 const { count: wishlistCount } = useWishlist()
 
 const { isLoggedIn } = useUser()
-const showAccountSidenav = ref(false)
+
+const { open } = useSidenav()
 </script>
 
 <template>
@@ -40,7 +40,7 @@ const showAccountSidenav = ref(false)
                         square
                         class="relative"
                         :aria-label="$t('header.accountLink')"
-                        @click="showAccountSidenav = true"
+                        @click="open('account')"
                     >
                         <span class="sr-only">{{ $t('header.accountLink') }}</span><FoundationIcon name="user" />
                         <span class="absolute -top-1 -right-1 bg-success text-success-content rounded-full w-4 h-4 flex items-center justify-center">
@@ -85,7 +85,7 @@ const showAccountSidenav = ref(false)
                     square
                     class="relative"
                     :aria-label="$t('header.cart.open')"
-                    @click="showCartSidenav = true"
+                    @click="open('cart')"
                 >
                     <span class="sr-only">{{ $t('header.cart.open') }}</span><FoundationIcon name="cart" />
                     <client-only>
@@ -116,10 +116,10 @@ const showAccountSidenav = ref(false)
     </main>
     
     <!-- Cart Sidenav -->
-    <CartSidenav v-model="showCartSidenav" />
+    <SidenavCart />
     
     <!-- Account Sidenav -->
-    <AccountSidenav v-model="showAccountSidenav" />
+    <SidenavAccount />
     
     <!-- Global Notifications -->
     <NotificationContainer />

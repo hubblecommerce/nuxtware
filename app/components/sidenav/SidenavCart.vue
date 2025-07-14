@@ -2,20 +2,21 @@
 import type { Schemas } from '#shopware'
 import { ApiClientError } from '@shopware/api-client'
 
-interface CartSidenavProps {
+interface SidenavCartProps {
     showCloseButton?: boolean
     maxHeight?: string // Used as 'max-height' style property
     emptyCartMessage?: string
 }
 
-const props = withDefaults(defineProps<CartSidenavProps>(), {
+const props = withDefaults(defineProps<SidenavCartProps>(), {
     showCloseButton: true,
     maxHeight: 'calc(100vh - 200px)',
     emptyCartMessage: ''
 })
 
-// Two-way binding for controlling visibility
-const isOpen = defineModel<boolean>()
+// Global sidenav state management
+const { isOpen } = useSidenav()
+const cartOpen = isOpen('cart')
 
 // i18n
 const localePath = useLocalePath()
@@ -30,11 +31,11 @@ const isLoading = ref(false)
 // Handle checkout button click
 const handleCheckout = () => {
     navigateTo(formatLink('/checkout'))
-    isOpen.value = false
+    cartOpen.value = false
 }
 
 const handleCart = () => {
-    isOpen.value = false
+    cartOpen.value = false
 }
 
 const onChangeQuantity = async (data: { id: string, quantity: number }) => {
@@ -64,7 +65,7 @@ const handleError = (e: unknown) => {
 }
 
 // Watch for open/close to fetch data
-watch(isOpen, (newValue) => {
+watch(cartOpen, (newValue) => {
     if (newValue) {
         refreshCart()
     }
@@ -72,7 +73,7 @@ watch(isOpen, (newValue) => {
 
 // Automatically fetch on component mount if opened
 onMounted(() => {
-    if (isOpen.value) {
+    if (cartOpen.value) {
         refreshCart()
     }
 })
@@ -80,7 +81,7 @@ onMounted(() => {
 
 <template>
     <SidenavOverlay
-        v-model="isOpen"
+        v-model="cartOpen"
         direction="right"
         width-class="w-[90%] md:w-[400px]"
     >
@@ -99,7 +100,7 @@ onMounted(() => {
                     v-if="showCloseButton"
                     aria-label="Close cart"
                     square
-                    @click="isOpen = false"
+                    @click="cartOpen = false"
                 >
                     <FoundationIcon name="x" />
                 </FoundationButton>
