@@ -39,6 +39,8 @@
         "chooseCountry": "Bitte wählen Sie Ihr Land aus",
         "signIn": "Anmelden",
         "errorOccurred": "Ein Fehler ist aufgetreten",
+        "requiredFieldsInfo": "Die mit * gekennzeichneten Felder sind Pflichtfelder",
+        "required": "*",
         "charactersMinimum": "Zeichen mindestens",
         "accountType": "Kontotyp",
         "accountTypePrivate": "Privatkunde",

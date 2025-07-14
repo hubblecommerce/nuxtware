@@ -146,7 +146,7 @@ Nuxtware:
             - [ ] 3D
 - [ ] Skiplinks
 - [x] Scroll To Top
-- [ ] Newsletter Form
+- [x] Newsletter Form
 - [ ] Popups (Modals)
 - [x] Footer
 - [x] Topbar / Banderole

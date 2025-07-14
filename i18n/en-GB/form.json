@@ -39,6 +39,8 @@
         "chooseCountry": "Please select your country",
         "signIn": "Sign In",
         "errorOccurred": "An error occurred",
+        "requiredFieldsInfo": "The fields marked with * are mandatory fields",
+        "required": "*",
         "charactersMinimum": "characters minimum",
         "accountType": "Account Type",
         "accountTypePrivate": "Private Customer",
