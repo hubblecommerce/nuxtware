@@ -2,7 +2,6 @@
 const props = withDefaults(defineProps<{
     controller: ReturnType<typeof useModal>,
     modalHeadline?: string | null,
-    id: string
 }>(), {
     modalHeadline: null,
 })
@@ -14,7 +13,6 @@ watch(props.controller.isOpen, (newX) => {
         modalRef.value?.showModal()
     }
 })
-
 function closeModal () {
     close()
     modalRef?.value?.close()
@@ -24,7 +22,7 @@ function closeModal () {
 </script>
 <template>
     <dialog
-        :id="id"
+        :id="controller.id"
         ref="modalRef"
         class="modal bg-white rounded-lg text-left overflow-hidden shadow-xl p-8 m-auto"
         aria-modal="true"

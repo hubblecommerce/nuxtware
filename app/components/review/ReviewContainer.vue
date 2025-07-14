@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useProductReviews } from '../../composables/useProductReviews'
 import { useModal } from '../../composables/useModal'
-import ComponentModal from "#hubble/components/component/ComponentModal.vue";
+
 interface ReviewContainerProps {
     productId: string
     initialReviews?: unknown[]
@@ -51,7 +51,7 @@ const {
 const showForm = ref(false)
 const showList = ref(true)
 const formMode = ref<'create'>('create')
-const reviewsModal = useModal()
+const reviewsModal = useModal('reviews-modal')
 
 // Computed
 const sortOptions = computed(() => [
@@ -141,6 +141,7 @@ const hasActiveFilters = computed(() => {
 
 <template>
     <div id="reviews-container" class="review-container">
+        <!-- examplary modal implementation-->
         <FoundationButton
             type="button"
             class="btn btn-secondary mb-6"
@@ -149,7 +150,6 @@ const hasActiveFilters = computed(() => {
             Open Modal
         </FoundationButton>
         <ComponentModal
-            id="reviewsModal"
             :controller="reviewsModal"
             modal-headline="Reviews Modal"
         >
