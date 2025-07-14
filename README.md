@@ -109,7 +109,7 @@ Nuxtware:
     - [x] Filter
     - [x] Category Sidebar Navigation
     - [x] Card
-- [ ] Detail:
+- [x] Detail:
     - [x] Gallery
     - [x] Buybox
       - Prices, Availability, Delivery Time, Reviews Link, Qty Selector, Add-To-Cart Button, Wishlist-Toggle, Sku
@@ -145,7 +145,7 @@ Nuxtware:
     - [ ] Blocks and elements from "licensed edition"
         - [ ] Elements
             - [ ] 3D
-- [ ] Skiplinks
+- [x] Skiplinks
 - [x] Scroll To Top
 - [x] Newsletter Form
 - [ ] Popups (Modals)
@@ -155,5 +155,5 @@ Nuxtware:
 - [ ] Refactor \<img\> to use nuxt-image component instead
 - [ ] Add Consent Modal to Video CMS Element
 - [ ] Add Cookie Consent
-- [ ] Language Switch
-- [ ] Currency Switch
+- [x] Language Switch
+- [x] Currency Switch
