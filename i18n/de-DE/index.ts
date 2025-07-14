@@ -23,6 +23,8 @@ import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
 import productDeliveryInformation from './productDeliveryInformation.json'
 import productSoldOut from './productSoldOut.json'
 import productQtySelector from './productQtySelector.json'
+import vimeoVideo from './vimeoVideo.json'
+import youtubeVideo from './youtubeVideo.json'
 import misc from './misc.json'
 import skipLinks from './skipLinks.json'
 import orders from './orders.json'
@@ -54,6 +56,8 @@ export default {
     ...tabs,
     ...review,
     ...modal,
+    ...vimeoVideo,
+    ...youtubeVideo,
     ...misc,
     ...newsletter,
     ...skipLinks,
