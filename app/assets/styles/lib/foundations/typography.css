@@ -1,0 +1,239 @@
+/* Typography Foundation */
+
+/* Custom heading utility classes with responsive sizing */
+@utility h1 {
+    @apply text-2xl font-extrabold leading-tight;
+    @apply md:text-3xl lg:text-4xl xl:text-5xl;
+}
+
+@utility h2 {
+    @apply text-xl font-bold leading-snug;
+    @apply md:text-2xl lg:text-3xl xl:text-4xl;
+}
+
+@utility h3 {
+    @apply text-lg font-semibold leading-normal;
+    @apply md:text-xl lg:text-2xl xl:text-3xl;
+}
+
+@utility h4 {
+    @apply text-base font-semibold leading-normal;
+    @apply md:text-lg lg:text-xl xl:text-2xl;
+}
+
+@utility h5 {
+    @apply text-sm font-medium leading-normal;
+    @apply md:text-base lg:text-lg xl:text-xl;
+}
+
+@utility h6 {
+    @apply text-xs font-medium leading-normal;
+    @apply md:text-sm lg:text-base xl:text-lg;
+}
+
+/* Prose styles for CMS content */
+.prose {
+    @apply text-base leading-relaxed max-w-none;
+    
+    /* Headings in prose use utility classes + prose-specific spacing */
+    h1 {
+        @apply h1 mt-0 mb-3;
+    }
+    
+    h2 {
+        @apply h2 mt-8 mb-4;
+    }
+    
+    h3 {
+        @apply h3 mt-6 mb-2;
+    }
+    
+    h4 {
+        @apply h4 mt-6 mb-2;
+    }
+    
+    h5 {
+        @apply h5 mt-7 mb-2;
+    }
+    
+    h6 {
+        @apply h6 mt-7 mb-2;
+    }
+    
+    /* Paragraphs */
+    p {
+        @apply mt-5 mb-5;
+    }
+    
+    /* Lead paragraph */
+    .lead {
+        @apply text-xl leading-relaxed mt-5 mb-5;
+    }
+    
+    /* Links - exclude button classes */
+    a:not([class*="btn"]) {
+        @apply underline font-medium;
+        color: var(--color-link);
+        
+        &:hover {
+            @apply no-underline;
+            color: var(--color-link-hover);
+        }
+        
+        &:visited {
+            color: var(--color-link-visited);
+        }
+        
+        &:active {
+            color: var(--color-link-active);
+        }
+    }
+    
+    /* Text formatting */
+    strong {
+        @apply font-semibold;
+    }
+    
+    em {
+        @apply italic;
+    }
+    
+    /* Lists */
+    ul, ol {
+        @apply mt-5 mb-5 pl-7;
+    }
+    
+    ul > li {
+        @apply relative pl-1.5 list-none;
+        
+        &::before {
+            @apply absolute bg-gray-300 rounded-full;
+            content: "";
+            width: 0.375em;
+            height: 0.375em;
+            top: calc(0.875em - 0.1875em);
+            left: -1.625em;
+        }
+    }
+    
+    ol > li {
+        @apply relative pl-1.5;
+        
+        &::before {
+            @apply absolute font-normal text-gray-500;
+            content: counter(list-item, decimal) ".";
+            left: -1.625em;
+        }
+    }
+    
+    li {
+        @apply mt-2 mb-2;
+    }
+    
+    /* Blockquotes */
+    blockquote {
+        @apply font-medium italic border-l-4 border-gray-200 pl-4 mt-6 mb-6;
+        quotes: "\201C""\201D""\2018""\2019";
+        
+        p:first-of-type::before {
+            content: open-quote;
+        }
+        
+        p:last-of-type::after {
+            content: close-quote;
+        }
+    }
+    
+    /* Code */
+    code {
+        @apply text-sm font-semibold bg-gray-100 px-2 py-1 rounded;
+        
+        &::before,
+        &::after {
+            content: "`";
+        }
+    }
+    
+    /* Pre-formatted code */
+    pre {
+        @apply text-sm leading-relaxed bg-gray-800 text-gray-200 rounded-lg overflow-x-auto mt-7 mb-7 p-4;
+        
+        code {
+            @apply bg-transparent border-0 rounded-none p-0 text-inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+            
+            &::before,
+            &::after {
+                content: none;
+            }
+        }
+    }
+    
+    /* Horizontal rule */
+    hr {
+        @apply border-gray-200 border-t mt-12 mb-12;
+    }
+    
+    /* Tables */
+    table {
+        @apply w-full text-left text-sm border-collapse mt-8 mb-8 leading-relaxed;
+    }
+    
+    thead {
+        @apply border-b border-gray-300;
+    }
+    
+    thead th {
+        @apply font-semibold align-bottom p-2;
+    }
+    
+    tbody tr {
+        @apply border-b border-gray-200;
+    }
+    
+    tbody tr:last-child {
+        @apply border-b-0;
+    }
+    
+    tbody td {
+        @apply align-baseline p-2;
+    }
+    
+    /* Images and media */
+    img {
+        @apply max-w-full h-auto mt-8 mb-8;
+    }
+    
+    video {
+        @apply mt-8 mb-8;
+    }
+    
+    figure {
+        @apply mt-8 mb-8;
+    }
+    
+    figcaption {
+        @apply text-sm text-center leading-snug mt-3;
+    }
+    
+    /* First and last child margin removal */
+    > :first-child {
+        @apply mt-0;
+    }
+    
+    > :last-child {
+        @apply mb-0;
+    }
+}
+
+/* Escape hatch for elements that shouldn't be styled */
+.not-prose {
+    @apply text-inherit text-base font-normal leading-normal m-0 p-0 no-underline;
+    list-style: inherit;
+    
+    * {
+        all: revert;
+    }
+}
