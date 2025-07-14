@@ -144,7 +144,7 @@ Nuxtware:
             - [x] Text
             - [x] Video
             - [x] Formular
-            - [ ] HTML
+            - [x] HTML
     - [ ] Blocks and elements from "licensed edition"
         - [ ] Elements
             - [ ] 3D
