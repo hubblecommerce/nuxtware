@@ -6,7 +6,7 @@ This document provides guidance on implementing e-commerce specific components i
 
 The cart functionality consists of three main components:
 
-### 1. CartSidenav
+### 1. SidenavCart
 
 The main container component that displays the cart in a side overlay.
 
@@ -22,7 +22,7 @@ The main container component that displays the cart in a side overlay.
 
 **Example Usage:**
 ```vue
-<CartSidenav v-model="showCartSidenav" />
+<SidenavCart v-model="showSidenavCart" />
 ```
 
 ### 2. CartItem

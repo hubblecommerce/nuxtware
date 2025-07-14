@@ -1,15 +1,16 @@
 <script setup lang="ts">
-interface AccountSidenavProps {
+interface SidenavAccountProps {
     showCloseButton?: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = withDefaults(defineProps<AccountSidenavProps>(), {
+const props = withDefaults(defineProps<SidenavAccountProps>(), {
     showCloseButton: true
 })
 
-// Two-way binding for controlling visibility
-const isOpen = defineModel<boolean>()
+// Global sidenav state management
+const { isOpen, close } = useSidenav()
+const accountOpen = isOpen('account')
 
 // User data and authentication
 const { user, isGuestSession, logout } = useUser()
@@ -45,14 +46,14 @@ const accountLinks = [
 // Handle navigation
 const handleNavigation = (href: string) => {
     navigateTo(formatLink(href))
-    isOpen.value = false
+    accountOpen.value = false
 }
 
 // Handle logout
 const handleLogout = async () => {
     try {
         await logout()
-        isOpen.value = false
+        accountOpen.value = false
         navigateTo(formatLink('/'))
     } catch (error) {
         console.error('Logout failed:', error)
@@ -62,7 +63,7 @@ const handleLogout = async () => {
 
 <template>
     <SidenavOverlay
-        v-model="isOpen"
+        v-model="accountOpen"
         direction="right"
         width-class="w-[90%] md:w-[400px]"
     >
@@ -89,7 +90,7 @@ const handleLogout = async () => {
                     :aria-label="$t('account.nav.close')"
                     variant="ghost"
                     square
-                    @click="isOpen = false"
+                    @click="close('account')"
                 >
                     <FoundationIcon name="x" />
                 </FoundationButton>

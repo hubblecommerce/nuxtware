@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Schemas } from '#shopware'
 
-const mobileMenuOpen = ref(false)
+const { isOpen, open, close } = useSidenav()
+const mobileMenuOpen = isOpen('menu')
 const sidenavMenuCloseButton = shallowRef()
 const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"]
 </script>
@@ -13,7 +14,7 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
         class="shrink-0 w-12 order-10 lg:hidden"
         square
         :aria-expanded="mobileMenuOpen ? 'true' : 'false'"
-        @click="mobileMenuOpen = true"
+        @click="open('menu')"
     >
         <span class="sr-only">{{ $t('sidenav.menu.mobile.open') }}</span><FoundationIcon name="menu" />
     </FoundationButton>
@@ -28,7 +29,7 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
                     size="medium"
                     variant="ghost"
                     square
-                    @click="mobileMenuOpen = false"
+                    @click="close('menu')"
                 >
                     <span class="sr-only">{{ $t('sidenav.menu.mobile.close') }}</span>
                     <FoundationIcon name="x" />
@@ -36,7 +37,7 @@ const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResp
             </div>
 
             <div class="relative h-[calc(100vh-64px)] w-full">
-                <LazySidenavMenuRecursive v-if="mobileMenuOpen" :items="navigationItems" @navigate="mobileMenuOpen = false" />
+                <LazySidenavMenuRecursive v-if="mobileMenuOpen" :items="navigationItems" @navigate="close('menu')" />
             </div>
         </nav>
     </SidenavOverlay>

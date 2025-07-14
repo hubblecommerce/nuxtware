@@ -22,11 +22,11 @@ const isBuyable = computed(() => {
     } else return false
 })
 
-const showCartSidenav = ref(false)
+const { open } = useSidenav()
 
 const handleAddToCart = async () => {
     await addToCart()
-    showCartSidenav.value = true
+    open('cart')
 }
 
 const { totalReviews } = useProductReviews({
@@ -140,7 +140,5 @@ function updateProduct (newProduct: Schemas["Product"]) {
         <span v-if="product.productNumber" class="text-sm">
             <strong>{{ $t('product.productNumber') }}:&nbsp;</strong>{{ product.productNumber }}
         </span>
-
-        <CartSidenav v-model="showCartSidenav" />
     </div>
 </template>

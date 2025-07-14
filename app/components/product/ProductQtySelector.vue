@@ -13,9 +13,11 @@ const emit = defineEmits<{
     decrease: []
 }>()
 
+const uuid = useId()
 const uniqueInputId = computed(() => {
-    return `quantity-selector-${(Math.random() * 10000).toString()}`
+    return `quantity-selector-${uuid}`
 })
+
 function decrement() {
     if (qty.value > props.min) {
         qty.value--
