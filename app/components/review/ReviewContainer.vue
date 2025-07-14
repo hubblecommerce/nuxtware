@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { useProductReviews } from '../../composables/useProductReviews'
 import { useModal } from '../../composables/useModal'
-import ComponentAppModal from "#hubble/components/component/ComponentAppModal.vue";
-
+import ComponentModal from "#hubble/components/component/ComponentModal.vue";
 interface ReviewContainerProps {
     productId: string
     initialReviews?: unknown[]
     showInModal?: boolean
 }
-
 interface ReviewData {
     id?: string
     title: string
@@ -54,7 +52,6 @@ const showForm = ref(false)
 const showList = ref(true)
 const formMode = ref<'create'>('create')
 const reviewsModal = useModal()
-const reviewsModal2 = useModal()
 
 // Computed
 const sortOptions = computed(() => [
@@ -151,8 +148,8 @@ const hasActiveFilters = computed(() => {
         >
             Open Modal
         </FoundationButton>
-        <ComponentAppModal
-            id="reviewsModal1"
+        <ComponentModal
+            id="reviewsModal"
             :controller="reviewsModal"
             modal-headline="Reviews Modal"
         >
@@ -165,7 +162,7 @@ const hasActiveFilters = computed(() => {
                 @toggle-language="handleToggleLanguage"
                 @toggle-form="handleToggleForm"
             />
-        </ComponentAppModal>
+        </ComponentModal>
 
         <!-- Mobile-first responsive layout -->
         <div class="flex flex-col lg:flex-row gap-6">
