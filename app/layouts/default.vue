@@ -18,8 +18,10 @@ const { open } = useSidenav()
 <template>
     <LayoutSkipLinks />
     <header>
-        <!-- TODO: <ContextLanguageSwitch />-->
-        <!-- TODO: <ContextCurrencySwitch />-->
+        <div class="hidden m-auto w-full flex-wrap justify-end items-center gap-2 p-2 lg:flex lg:container">
+            <ContextLanguageSwitch size="small" />
+            <ContextCurrencySwitch size="small" />
+        </div>
 
         <div class="m-auto w-full flex flex-wrap justify-between items-center p-2 lg:container">
             <SidenavMenu />

@@ -1,43 +1,59 @@
 <script setup lang="ts">
-import { getLanguageName } from "@shopware/helpers";
+import { getLanguageName } from '@shopware/helpers'
+import type { SelectOption } from '../../types/foundation-select'
 
-const { languages, changeLanguage, replaceToDevStorefront } =
-    useInternationalization();
-const { languageIdChain } = useSessionContext();
+interface ContextLanguageSwitchProps {
+    size?: 'small' | 'medium' | 'large'
+    color?: 'primary' | 'secondary' | 'tertiary' | ''
+}
 
-const onChangeHandler = async (option: Event) => {
-    const data = await changeLanguage((option.target as HTMLSelectElement).value);
+const props = withDefaults(defineProps<ContextLanguageSwitchProps>(), {
+    size: 'medium',
+    color: ''
+})
+
+const { languages, changeLanguage, replaceToDevStorefront } = useInternationalization()
+const { languageIdChain } = useSessionContext()
+
+const selectedLanguageId = ref(languageIdChain.value || '')
+
+const languageOptions = computed<SelectOption[]>(() => {
+    return languages.value.map((language) => ({
+        value: language.id,
+        label: getLanguageName(language) || language.name || '',
+        disabled: false
+    }))
+})
+
+const onChangeHandler = async (value: string | number) => {
+    const data = await changeLanguage(value as string)
 
     if (data.redirectUrl) {
-        window.location.replace(replaceToDevStorefront(data.redirectUrl));
+        window.location.replace(replaceToDevStorefront(data.redirectUrl))
     } else {
-        window.location.reload();
+        window.location.reload()
     }
-};
+}
+
+watch(selectedLanguageId, onChangeHandler)
 
 const languageSwitchId = useId()
 </script>
 
 <template>
     <div class="flex justify-between items-center gap-3">
-        <label :for="languageSwitchId">
+        <FoundationLabel :for="languageSwitchId">
             {{ $t('layout.language') }}:
-        </label>
-        <select
+        </FoundationLabel>
+        <FoundationSelect
             :id="languageSwitchId"
+            v-model="selectedLanguageId"
+            :options="languageOptions"
+            :size="props.size"
+            :color="props.color"
             :aria-label="$t('form.aria.selectLanguage')"
-            class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-xs focus:ring-brand-light focus:border-light"
-            @change="onChangeHandler"
-        >
-            <option
-                v-for="language in languages"
-                :key="language.id"
-                :value="language.id"
-                :selected="languageIdChain === language.id"
-                :label="getLanguageName(language)"
-            >
-                {{ getLanguageName(language) }}
-            </option>
-        </select>
+            :placeholder="$t('layout.selectLanguage')"
+            class="w-full flex-1"
+        />
     </div>
 </template>

@@ -116,10 +116,13 @@ const localeFromHeader = headers?.["accept-language"]
     )
     .find(Boolean);
 
-usePrice({
-    currencyCode: sessionContext.value?.currency?.isoCode || "",
-    localeCode: localeFromHeader,
-});
+const { update } = usePrice();
+if (localeFromHeader) {
+    update({
+        currencyCode: sessionContext.value?.currency?.isoCode || "",
+        localeCode: localeFromHeader,
+    });
+}
 
 /**
  * Init several contexts

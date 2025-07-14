@@ -5,6 +5,8 @@
     "layout": {
         "language": "Language",
         "currency": "Currency",
+        "selectLanguage": "Select language",
+        "selectCurrency": "Select currency",
         "footerLight": {
             "copyright": "©{year} SHOPNAME. All rights reserved"
         }

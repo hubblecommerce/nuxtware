@@ -1,47 +1,61 @@
 <script setup lang="ts">
+import type { SelectOption } from '../../types/foundation-select'
+
+interface ContextCurrencySwitchProps {
+    size?: 'small' | 'medium' | 'large'
+    color?: 'primary' | 'secondary' | 'tertiary' | ''
+}
+
+const props = withDefaults(defineProps<ContextCurrencySwitchProps>(), {
+    size: 'medium',
+    color: ''
+})
+
 const { currencies, currencyCookie } = useCurrency()
 const { currency: sessionCurrency, setCurrency } = useSessionContext()
 
-async function onChangeHandler (option: Event) {
-    const selectedCurrencyId = (option.target as HTMLSelectElement).value
-    const selectedCurrency = currencies.value.find((currency) => currency.id === selectedCurrencyId)
+const selectedCurrencyId = ref(sessionCurrency.value?.id || '')
+
+const currencyOptions = computed<SelectOption[]>(() => {
+    return currencies.value.map((currency) => ({
+        value: currency.id,
+        label: currency.translated?.name || currency.name || '',
+        disabled: false
+    }))
+})
+
+const onChangeHandler = async (value: string | number) => {
+    const selectedCurrency = currencies.value.find((currency) => currency.id === value)
 
     if (selectedCurrency == null) {
         return
     }
 
-    // change currency of session / context
-    await setCurrency(selectedCurrency);
-    // store as cookie, cookie to be used ssr on app launch
-    currencyCookie.value = selectedCurrencyId;
+    await setCurrency(selectedCurrency)
+    currencyCookie.value = value as string
 
-    // Reload page to update catalog prices
-    window.location.reload();
+    window.location.reload()
 }
+
+watch(selectedCurrencyId, onChangeHandler)
 
 const currencySwitchId = useId()
 </script>
 
 <template>
     <div class="flex justify-between items-center gap-3">
-        <label :for="currencySwitchId">
+        <FoundationLabel :for="currencySwitchId">
             {{ $t('layout.currency') }}:
-        </label>
-        <select
+        </FoundationLabel>
+        <FoundationSelect
             :id="currencySwitchId"
+            v-model="selectedCurrencyId"
+            :options="currencyOptions"
+            :size="props.size"
+            :color="props.color"
             :aria-label="$t('form.aria.selectCurrency')"
-            class="mt-1 block w-full p-2.5 border border-secondary-300 text-secondary-900 text-sm rounded-md shadow-xs focus:ring-brand-light focus:border-light"
-            @change="onChangeHandler"
-        >
-            <option
-                v-for="currency in currencies"
-                :key="currency.id"
-                :value="currency.id"
-                :selected="sessionCurrency?.id === currency.id"
-                :label="currency.translated?.name"
-            >
-                {{ currency.translated?.name }}
-            </option>
-        </select>
+            :placeholder="$t('layout.selectCurrency')"
+            class="w-full flex-1"
+        />
     </div>
 </template>
