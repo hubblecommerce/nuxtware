@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
+import { buildUrlPrefix, getProductRoute } from "@shopware/helpers"
 
-const { $config } = useNuxtApp()
-const props = defineProps<{
-    configurator: Schemas["PropertyGroup"][] | null,
-    parentId: string | undefined
-}>()
+const router = useRouter()
+const { getUrlPrefix } = useUrlResolver()
+
+const prefix = getUrlPrefix()
+const props = withDefaults(
+    defineProps<{
+        configurator: Schemas["PropertyGroup"][] | null,
+        parentId: string | undefined,
+        allowRedirect?: boolean
+    }>(),
+    {
+        allowRedirect: true
+    }
+)
 
 const {
     handleChange,
@@ -20,37 +30,50 @@ interface OptionInfo { id: string, groupId: string }
 type CompatIndex = Record<string, Set<string>>
 
 const emit = defineEmits<{
-    "productVariantChanged": [product: Schemas["Product"]]
+    "productVariantChanged": [product: Schemas["Product"]],
+    "variantNotFound": []
 }>()
 const loading = ref(true)
+const isLoading = ref(false)
 
-/* -------------------------------------------------
- * Handle variant change
- * ------------------------------------------------- */
 watch(
     getSelectedOptions,
     async () => await onHandleChange()
 )
 
 const onHandleChange = async () => {
-    const variantFound = await findVariantForSelectedOptions()
+    isLoading.value = true
+    
+    try {
+        const variantFound = await findVariantForSelectedOptions()
 
-    if (variantFound &&  variantFound?.seoUrls && variantFound?.seoUrls?.length > 0) {
-        const newProductVariant = await search(variantFound.id)
+        if (variantFound) {
+            const newProductVariant = await search(variantFound.id)
+            emit('productVariantChanged', newProductVariant.product)
+            
+            if (props.allowRedirect) {
+                const selectedOptionsVariantPath = buildUrlPrefix(
+                    getProductRoute(variantFound),
+                    prefix,
+                )
+                
+                if (selectedOptionsVariantPath) {
+                    try {
+                        await router.push(selectedOptionsVariantPath)
+                    } catch (error) {
+                        console.error('Navigation failed for path:', selectedOptionsVariantPath, error)
+                    }
+                }
+            }
 
-        emit('productVariantChanged', newProductVariant.product)
-        // TODO: update product detail media gallery
-        // Replace current url path with variant without losing optional GET params or language path
-        const variantSeoUrl = variantFound.seoUrls[0] ?  variantFound.seoUrls[0].seoPathInfo : null
-        const variantUrl = variantSeoUrl != null && variantSeoUrl !== '/undefined' ? variantSeoUrl : `${variantFound.id}`
-        const newUrl = window.location.href.replace(
-            window.location.pathname,
-            `${$config?.app?.baseURL}${$config?.app?.baseURL === '/' ? '' : '/'}${variantUrl}`
-        )
-        window.history.replaceState({}, variantFound.name, newUrl)
-
-        defaultVariantOptionIds.value = Object.values(getSelectedOptions.value) as string[]
-        compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds.value, compat, info)
+            defaultVariantOptionIds.value = Object.values(getSelectedOptions.value) as string[]
+            compatibilityMap.value = buildGroupCompat(defaultVariantOptionIds.value, compat, info)
+        } else {
+            // No variant found for the selected options combination
+            emit('variantNotFound')
+        }
+    } finally {
+        isLoading.value = false
     }
 }
 
@@ -172,7 +195,7 @@ function optionStyles(state: OptionStates): string {
     switch (state) {
         case 'selected':
             return [
-                'border-2 border-neutral bg-neutral/15 cursor-pointer text-neutral',
+                'border-2 border-primary bg-primary/15 cursor-pointer text-neutral',
                 focusClass
             ].join(' ').trim()
 
@@ -188,7 +211,7 @@ function optionStyles(state: OptionStates): string {
             return [
                 mutedBorderClass,
                 'text-neutral/50',
-                'cursor-pointer',
+                'cursor-not-allowed',
                 focusClass
             ].join(' ').trim()
 
@@ -198,7 +221,14 @@ function optionStyles(state: OptionStates): string {
 }
 </script>
 <template>
-    <section v-if="props.configurator != null && props.configurator.length > 0" :aria-label="$t('product.detail.variants')">
+    <section v-if="props.configurator != null && props.configurator.length > 0" :aria-label="$t('product.detail.variants')" class="relative flex flex-col gap-6">
+        <div
+            v-if="isLoading"
+            class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white/75 z-10"
+        >
+            <div class="w-4 h-4 border-2 border-gray-300 border-t-primary rounded-full animate-spin" />
+        </div>
+        
         <div v-for="variantGroup in props.configurator" :key="variantGroup.id">
             <LazyProductDetailVariantSwatchGroup
                 v-if="hasColorVariantGroups"
@@ -210,26 +240,38 @@ function optionStyles(state: OptionStates): string {
             />
             <div v-else>
                 <div class="text-sm font-semibold mb-2">{{ variantGroup.translated.name }}</div>
-                <div class="flex justify-start gap-2">
-                    <label
+                <fieldset class="flex justify-start gap-2">
+                    <legend class="sr-only">
+                        {{ $t('product.detail.chooseOption') }} {{ variantGroup.translated.name }}
+                    </legend>
+                    <FoundationLabel
                         v-for="variantOption in variantGroup.options"
                         :key="variantOption.id"
                         tabindex="0"
-                        :aria-label="variantOption.translated.name"
-                        class="relative flex-shrink-0 text-sm flex justify-center items-center min-h-[45px] px-4"
+                        :aria-label="`${variantGroup.translated.name}: ${variantOption.translated.name}`"
+                        class="relative flex-shrink-0 text-sm flex justify-center items-center min-h-[45px] px-4 focus-style"
                         :class="optionStyles(optionState(variantGroup, variantOption))"
                         @keydown.enter.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
+                        @keydown.space.prevent="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                     >
                         <span>{{ variantOption.translated.name }}</span>
                         <input
                             type="radio"
                             :name="variantGroup.id"
                             :value="variantOption.id"
-                            class="hidden radio"
+                            :checked="getSelectedOptions[variantGroup.translated.name] === variantOption.id"
+                            :aria-describedby="`${variantOption.id}-description`"
+                            class="sr-only"
                             @click="handleChange(variantGroup.translated.name, variantOption.id, onHandleChange)"
                         >
-                    </label>
-                </div>
+                        <span
+                            :id="`${variantOption.id}-description`"
+                            class="sr-only"
+                        >
+                            {{ optionState(variantGroup, variantOption) === 'selected' ? $t('product.detail.selected') : '' }}
+                        </span>
+                    </FoundationLabel>
+                </fieldset>
             </div>
         </div>
     </section>
