@@ -5,7 +5,6 @@
         @apply focus-style appearance-none forced-colors:appearance-auto;
         @apply block rounded-lg;
         @apply transition-all duration-100;
-        @apply placeholder:text-select-placeholder;
     }
 }
 
