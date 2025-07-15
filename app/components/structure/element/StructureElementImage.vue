@@ -43,7 +43,13 @@ const srcPath = computed(() => {
 
 // Get configuration values with proper typing
 const config = computed(() => {
-    const configData = props.content.translated?.config || {}
+    const configData = props.content?.config || {}
+    return configData as Record<string, { value?: string | boolean, source?: string }>
+})
+
+// Get translated config for links (links need translated config)
+const translatedConfig = computed(() => {
+    const configData = props.content?.translated?.config || {}
     return configData as Record<string, { value?: string | boolean, source?: string }>
 })
 
@@ -104,33 +110,33 @@ const imageContainerStyle = computed(() => {
     return styles
 })
 
-// Image classes based on display mode (matching Shopware admin schema)
+// Image classes based on display mode (matching Shopware reference)
 const imageClasses = computed(() => {
-    const classes = ['cms-image']
+    const classes = []
     const mode = displayMode.value as string
     
     if (mode === 'cover') {
-        classes.push('w-full', 'h-full', 'object-cover')
+        classes.push('w-full', 'h-full', 'absolute', 'inset-0', 'object-cover')
     } else if (mode === 'stretch') {
-        classes.push('w-full', 'h-full', 'object-fill')
-    } else if (mode === 'standard') {
-        classes.push('max-w-full', 'h-auto')
+        classes.push('w-full', 'h-full', 'absolute', 'inset-0', 'object-fill')
+    } else {
+        classes.push('w-full', 'h-full')
     }
     
     return classes
 })
 
-// Video classes (matching Shopware admin schema)
+// Video classes (matching Shopware reference)
 const videoClasses = computed(() => {
-    const classes = ['w-full', 'h-full']
+    const classes = []
     const mode = displayMode.value as string
     
     if (mode === 'cover') {
-        classes.push('object-cover')
+        classes.push('h-full', 'w-full', 'absolute', 'inset-0', 'object-cover')
     } else if (mode === 'stretch') {
-        classes.push('object-fill')
-    } else if (mode === 'standard') {
-        classes.push('object-contain')
+        classes.push('h-full', 'w-full', 'absolute', 'inset-0', 'object-fill')
+    } else {
+        classes.push('h-full', 'w-full')
     }
     
     return classes
@@ -138,16 +144,18 @@ const videoClasses = computed(() => {
 
 const { formatLink } = useInternationalization(useLocalePath())
 
-// Process link URL for internal/external links
+// Process link URL for internal/external links using translated config
 const processedImageLink = computed(() => {
-    if (!imageLink.value?.url) return null
+    // Check for URL in translated config first, then regular config
+    const urlValue = translatedConfig.value.url?.value || config.value.url?.value
+    if (!urlValue) return null
     
-    const url = formatLink(imageLink.value.url)
+    const url = formatLink(urlValue as string)
     
     return {
-        ...imageLink.value,
         url: url as string,
-        isExternal: typeof url === 'string' && url.startsWith('http')
+        isExternal: typeof url === 'string' && url.startsWith('http'),
+        newTab: config.value.newTab?.value === true
     }
 })
 </script>
@@ -168,17 +176,23 @@ const processedImageLink = computed(() => {
                 'self-end': config.verticalAlign.value === 'flex-end',
                 'self-start': config.verticalAlign.value === 'flex-start'
             }"
-            class="cms-element-alignment"
+            class="cms-element-alignment w-full"
         >
             <component
                 :is="processedImageLink ? 'FoundationLink' : 'div'"
                 v-bind="processedImageLink ? {
                     to: processedImageLink.url,
                     external: processedImageLink.isExternal,
-                    target: config.newTab?.value ? '_blank' : undefined,
-                    rel: processedImageLink.isExternal && config.newTab?.value ? 'noopener noreferrer' : undefined
+                    target: processedImageLink.newTab ? '_blank' : undefined,
+                    rel: processedImageLink.isExternal && processedImageLink.newTab ? 'noopener noreferrer' : undefined
                 } : {}"
-                :class="processedImageLink ? 'cms-image-link' : 'cms-image-container'"
+                :class="[
+                    processedImageLink ? 'cms-image-link' : 'cms-image-container',
+                    { 
+                        'relative': ['cover', 'stretch'].includes(displayModeValue),
+                        'flex-shrink-0': displayModeValue === 'stretch'
+                    }
+                ]"
                 class="w-full"
                 :style="imageContainerStyle"
             >
@@ -209,10 +223,16 @@ const processedImageLink = computed(() => {
             v-bind="processedImageLink ? {
                 to: processedImageLink.url,
                 external: processedImageLink.isExternal,
-                target: config.newTab?.value ? '_blank' : undefined,
-                rel: processedImageLink.isExternal && config.newTab?.value ? 'noopener noreferrer' : undefined
+                target: processedImageLink.newTab ? '_blank' : undefined,
+                rel: processedImageLink.isExternal && processedImageLink.newTab ? 'noopener noreferrer' : undefined
             } : {}"
-            :class="processedImageLink ? 'cms-image-link' : 'cms-image-container'"
+            :class="[
+                processedImageLink ? 'cms-image-link' : 'cms-image-container',
+                { 
+                    'relative': ['cover', 'stretch'].includes(displayModeValue),
+                    'flex-shrink-0': displayModeValue === 'stretch'
+                }
+            ]"
             class="w-full"
             :style="imageContainerStyle"
         >

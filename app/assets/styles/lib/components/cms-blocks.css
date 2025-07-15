@@ -1,13 +1,21 @@
 /* CMS Block Layout Utilities */
 
 /* Bubble Row - circular images only */
+.cms-block-bubble-row .cms-element-image {
+    @apply max-w-xs overflow-hidden rounded-full aspect-square;
+}
+
 .cms-block-bubble-row .cms-element-image img {
-    @apply object-cover max-w-xs overflow-hidden rounded-full aspect-square;
+    @apply object-cover w-full h-full;
 }
 
 /* ImageText Bubble - circular images only */
+.cms-block-image-text-bubble .cms-element-image {
+    @apply max-w-xs overflow-hidden rounded-full aspect-square;
+}
+
 .cms-block-image-text-bubble .cms-element-image img {
-    @apply object-cover max-w-xs overflow-hidden rounded-full aspect-square;
+    @apply object-cover w-full h-full;
 }
 
 /* Highlight Row - bordered images only */
