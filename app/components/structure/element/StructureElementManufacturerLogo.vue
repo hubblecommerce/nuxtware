@@ -3,7 +3,7 @@ import type { CmsElementManufacturerLogo } from '@shopware/composables'
 import { getSmallestThumbnailUrl } from "@shopware/helpers"
 import { useElementSize } from "@vueuse/core"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 const props = defineProps<{
     content: CmsElementManufacturerLogo
 }>()

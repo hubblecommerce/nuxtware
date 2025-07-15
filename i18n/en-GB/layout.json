@@ -29,14 +29,6 @@
         "orders": "Order History",
         "addresses": "Addresses"
     },
-    "newsletter": {
-        "subscriptionCheckbox": "Yes, I would like to subscribe to the free Demostore newsletter. (I may unsubscribe at any time.)",
-        "subscriptionInfo": "Please check your email to confirm your newsletter subscription.",
-        "messages": {
-            "newsletterSubscribed": "Successfully subscribed to newsletter!",
-            "newsletterUnsubscribed": "Successfully unsubscribed from newsletter!"
-        }
-    },
     "messages": {
         "error": "An error occurred. Please try again."
     }

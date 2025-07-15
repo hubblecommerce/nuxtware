@@ -30,14 +30,6 @@
         "orders": "Bestellhistorie",
         "addresses": "Adressen"
     },
-    "newsletter": {
-        "subscriptionCheckbox": "Ja, ich möchte den kostenlosen Demostore Newsletter abonnieren. (Ich kann mich jederzeit abmelden.)",
-        "subscriptionInfo": "Bitte überprüfen Sie Ihre E-Mail, um Ihr Newsletter-Abonnement zu bestätigen.",
-        "messages": {
-            "newsletterSubscribed": "Newsletter erfolgreich abonniert!",
-            "newsletterUnsubscribed": "Newsletter erfolgreich abbestellt!"
-        }
-    },
     "messages": {
         "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
     }

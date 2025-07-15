@@ -2,7 +2,7 @@
 import type { CmsElementImageGallery } from '@shopware/composables'
 import { getBiggestThumbnailUrl } from "@shopware/helpers"
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 const props = defineProps<{
     content: CmsElementImageGallery
 }>()

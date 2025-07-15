@@ -7,6 +7,12 @@
     "unknownError": "Ein unerwarteter Fehler ist aufgetreten",
     "dataProtection": "Ich akzeptiere die Datenschutzerklärung und Nutzungsbedingungen",
     "successSubscribed": "Sie haben gerade unseren Newsletter abonniert. Um die Registrierung abzuschließen, suchen Sie in Ihrer E-Mail-Box nach unserer Bestätigungsmail und klicken Sie auf den darin enthaltenen Link.",
-    "successUnsubscribed": "Newsletter erfolgreich abbestellt"
+    "successUnsubscribed": "Newsletter erfolgreich abbestellt",
+    "subscriptionCheckbox": "Ja, ich möchte den kostenlosen Demostore Newsletter abonnieren. (Ich kann mich jederzeit abmelden.)",
+    "subscriptionInfo": "Bitte überprüfen Sie Ihre E-Mail, um Ihr Newsletter-Abonnement zu bestätigen.",
+    "messages": {
+      "newsletterSubscribed": "Newsletter erfolgreich abonniert!",
+      "newsletterUnsubscribed": "Newsletter erfolgreich abbestellt!"
+    }
   }
 }

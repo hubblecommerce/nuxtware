@@ -2,7 +2,6 @@
 import type { Schemas } from '#shopware'
 
 interface AccountAddressModalProps {
-    isOpen: boolean
     mode: 'create' | 'edit'
     address?: Schemas['CustomerAddress']
     loading?: boolean
@@ -19,6 +18,8 @@ const props = withDefaults(defineProps<AccountAddressModalProps>(), {
 })
 
 const emit = defineEmits<AccountAddressModalEmits>()
+
+const modalController = useModal('account-address-modal')
 
 const { t } = useI18n()
 
@@ -39,8 +40,8 @@ const addressData = ref<Partial<Schemas['CustomerAddress']> & { customerId?: str
 const isFormValid = ref(false)
 
 // Initialize address data when modal opens or address changes
-watch([() => props.isOpen, () => props.address], () => {
-    if (props.isOpen) {
+watch([() => modalController.isOpen.value, () => props.address], () => {
+    if (modalController.isOpen.value) {
         if (props.mode === 'edit' && props.address) {
             // Convert CustomerAddress to form format
             Object.assign(addressData.value, {
@@ -92,6 +93,7 @@ const handleSave = (formData: Partial<Schemas['CustomerAddress']>) => {
 }
 
 const handleCancel = () => {
+    modalController.close()
     emit('close')
 }
 
@@ -99,52 +101,29 @@ const handleValidationChange = (valid: boolean) => {
     isFormValid.value = valid
 }
 
-const handleBackdropClick = (event: MouseEvent) => {
-    if (event.target === event.currentTarget) {
-        handleCancel()
-    }
-}
+defineExpose({
+    modalController
+})
 </script>
 
 <template>
-    <!-- TODO: Replace with ComponentModal when created -->
-    <div
-        v-if="isOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-        @click="handleBackdropClick"
+    <ComponentModal
+        :controller="modalController"
+        :modal-headline="modalTitle"
+        :close-on-click-outside="true"
     >
-        <!-- Modal Content -->
-        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between p-6 border-b border-border">
-                <FoundationHeadline level="h3" class="text-lg font-semibold">
-                    {{ modalTitle }}
-                </FoundationHeadline>
-                <FoundationButton
-                    variant="ghost"
-                    size="small"
-                    @click="handleCancel"
-                >
-                    <FoundationIcon name="x" class="w-4 h-4" />
-                </FoundationButton>
-            </div>
-            
-            <!-- Content -->
-            <div class="overflow-y-auto max-h-[calc(90vh-140px)]">
-                <div class="p-6">
-                    <AccountAddress
-                        v-model="addressData"
-                        :mode="mode"
-                        :loading="loading"
-                        :show-actions="true"
-                        :show-cancel="true"
-                        :show-additional-fields="true"
-                        @save="handleSave"
-                        @cancel="handleCancel"
-                        @validation-change="handleValidationChange"
-                    />
-                </div>
-            </div>
+        <div class="max-w-2xl w-full">
+            <AccountAddress
+                v-model="addressData"
+                :mode="mode"
+                :loading="loading"
+                :show-actions="true"
+                :show-cancel="true"
+                :show-additional-fields="true"
+                @save="handleSave"
+                @cancel="handleCancel"
+                @validation-change="handleValidationChange"
+            />
         </div>
-    </div>
+    </ComponentModal>
 </template>

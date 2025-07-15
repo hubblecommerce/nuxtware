@@ -43,10 +43,10 @@ useBreadcrumbs([
 
 const loading = ref(false)
 const modalState = ref({
-    isOpen: false,
     mode: 'create' as 'create' | 'edit',
     address: undefined as Schemas['CustomerAddress'] | undefined
 })
+const addressModal = ref<{ modalController: ReturnType<typeof useModal> } | null>(null)
 
 const defaultBillingAddress = computed(() => {
     if (!user.value) return null
@@ -82,22 +82,18 @@ const loadAddresses = async () => {
 
 const openCreateModal = () => {
     modalState.value = {
-        isOpen: true,
         mode: 'create',
         address: undefined
     }
+    addressModal.value?.modalController.open()
 }
 
 const openEditModal = (address: Schemas['CustomerAddress']) => {
     modalState.value = {
-        isOpen: true,
         mode: 'edit',
         address
     }
-}
-
-const closeModal = () => {
-    modalState.value.isOpen = false
+    addressModal.value?.modalController.open()
 }
 
 const handleSave = async (formData: Partial<Schemas['CustomerAddress']>) => {
@@ -116,7 +112,6 @@ const handleSave = async (formData: Partial<Schemas['CustomerAddress']>) => {
                 message: t('account.address.updateSuccess')
             })
         }
-        closeModal()
         await loadAddresses()
     } catch (error) {
         console.error('Failed to save address:', error)
@@ -328,11 +323,11 @@ onMounted(() => {
         
         <!-- Address Modal -->
         <AccountAddressModal
-            :is-open="modalState.isOpen"
+            ref="addressModal"
             :mode="modalState.mode"
             :address="modalState.address"
             :loading="loading"
-            @close="closeModal"
+            @close="() => {}"
             @save="handleSave"
         />
     </ClientOnly>

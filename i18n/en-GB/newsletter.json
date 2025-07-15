@@ -7,6 +7,12 @@
     "unknownError": "An unexpected error occurred",
     "dataProtection": "I accept the privacy policy and terms of service",
     "successSubscribed": "You have just subscribed to our newsletter. To finalise your registration, look for our confirmation email in your email box and click on the link it contains.",
-    "successUnsubscribed": "Newsletter erfolgreich abbestellt"
+    "successUnsubscribed": "Successfully unsubscribed from newsletter!",
+    "subscriptionCheckbox": "Yes, I would like to subscribe to the free Demostore newsletter. (I may unsubscribe at any time.)",
+    "subscriptionInfo": "Please check your email to confirm your newsletter subscription.",
+    "messages": {
+      "newsletterSubscribed": "Successfully subscribed to newsletter!",
+      "newsletterUnsubscribed": "Successfully unsubscribed from newsletter!"
+    }
   }
 }

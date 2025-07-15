@@ -17,9 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-    (e: 'reorder', orderId: string): void
-    (e: 'changePayment', orderId: string): void
-    (e: 'cancelOrder', orderId: string): void
+    (e: 'reorder' | 'changePayment' | 'cancelOrder', orderId: string): void
 }>()
 
 const { t } = useI18n()
@@ -32,12 +30,13 @@ const orderDate = computed(() => {
 })
 
 const orderTotal = computed(() => {
-    return getFormattedPrice(props.order.price.totalPrice, props.order.currency?.symbol)
+    return getFormattedPrice(props.order.price.totalPrice)
 })
 
 // Expandable details state
 const isDetailsExpanded = ref(false)
 const showCancelModal = ref(false)
+const cancelModal = ref<{ modalController: ReturnType<typeof useModal> } | null>(null)
 
 // Action handlers
 const handleReorder = (orderId: string) => {
@@ -50,6 +49,10 @@ const handleChangePayment = (orderId: string) => {
 
 const handleCancelOrder = () => {
     showCancelModal.value = true
+    // Wait for next tick to ensure component is mounted before opening modal
+    nextTick(() => {
+        cancelModal.value?.modalController.open()
+    })
 }
 
 const handleToggleDetails = () => {
@@ -58,7 +61,6 @@ const handleToggleDetails = () => {
 
 const handleCancelModalConfirm = async (orderId: string) => {
     try {
-        showCancelModal.value = false
         emit('cancelOrder', orderId)
     } catch (error) {
         console.error('Error cancelling order:', error)
@@ -137,14 +139,13 @@ const handleCancelModalClose = () => {
         </div>
 
         <!-- Cancel Order Modal -->
-        <div v-if="showCancelModal" class="border-t border-border">
-            <OrderCancelModal
-                :order="order"
-                :visible="showCancelModal"
-                @confirm="handleCancelModalConfirm"
-                @close="handleCancelModalClose"
-            />
-        </div>
+        <OrderCancelModal
+            v-if="showCancelModal"
+            ref="cancelModal"
+            :order="order"
+            @confirm="handleCancelModalConfirm"
+            @close="handleCancelModalClose"
+        />
 
         <!-- Expandable Order Details -->
         <OrderDetails

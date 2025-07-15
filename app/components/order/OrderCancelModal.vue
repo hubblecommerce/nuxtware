@@ -3,7 +3,6 @@ import type { Schemas } from '#shopware'
 
 interface Props {
     order: Schemas['Order']
-    visible: boolean
 }
 
 const props = defineProps<Props>()
@@ -17,10 +16,14 @@ const { t } = useI18n()
 const { error: errorNotification } = useGlobalNotifications()
 const { apiClient } = useShopwareContext()
 
+// Modal controller
+const modalController = useModal('order-cancel-modal')
+
 const isLoading = ref(false)
 
 const handleClose = () => {
     if (isLoading.value) return
+    modalController.close()
     emit('close')
 }
 
@@ -41,6 +44,7 @@ const handleConfirm = async () => {
         emit('confirm', props.order.id)
         
         // Close the modal
+        modalController.close()
         emit('close')
     } catch (error) {
         console.error('Error cancelling order:', error)
@@ -49,80 +53,67 @@ const handleConfirm = async () => {
         isLoading.value = false
     }
 }
+
+// Expose modal controller for parent components
+defineExpose({
+    modalController
+})
 </script>
 
 <template>
-    <div
-        v-if="visible"
-        class="bg-error/10 p-4 space-y-4"
+    <ComponentModal
+        :controller="modalController"
+        :modal-headline="t('orders.cancel.modalTitle')"
+        :close-on-click-outside="false"
     >
-        <!-- Header -->
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <FoundationIcon name="circle-alert" class="w-6 h-6 text-error" />
-                <FoundationHeadline level="h4" class="text-lg font-semibold text-error">
-                    {{ t('orders.cancel.modalTitle') }}
-                </FoundationHeadline>
+        <div class="bg-error/10 p-4 space-y-4 rounded-lg">
+            <!-- Order Information -->
+            <div class="bg-error-content rounded border border-red-200 p-4">
+                <div class="space-y-2">
+                    <p class="text-sm text-error">
+                        {{ t('orders.cancel.orderNumber') }}
+                    </p>
+                    <p class="font-semibold font-mono text-error">
+                        {{ order.orderNumber }}
+                    </p>
+                </div>
             </div>
-            
-            <FoundationButton
-                variant="ghost"
-                size="small"
-                class="p-2 text-error"
-                :disabled="isLoading"
-                @click="handleClose"
-            >
-                <FoundationIcon name="x" class="w-4 h-4" />
-                <span class="sr-only">{{ t('common.close') }}</span>
-            </FoundationButton>
-        </div>
 
-        <!-- Order Information -->
-        <div class="bg-error-content rounded border border-red-200 p-4">
-            <div class="space-y-2">
-                <p class="text-sm text-error">
-                    {{ t('orders.cancel.orderNumber') }}
+            <!-- Confirmation Text -->
+            <div class="space-y-3 text-sm">
+                <p class="text-error">
+                    {{ t('orders.cancel.confirmationText') }}
                 </p>
-                <p class="font-semibold font-mono text-error">
-                    {{ order.orderNumber }}
+                <p class="text-error">
+                    {{ t('orders.cancel.warningText') }}
                 </p>
             </div>
-        </div>
 
-        <!-- Confirmation Text -->
-        <div class="space-y-3 text-sm">
-            <p class="text-error">
-                {{ t('orders.cancel.confirmationText') }}
-            </p>
-            <p class="text-error">
-                {{ t('orders.cancel.warningText') }}
-            </p>
+            <!-- Actions -->
+            <div class="flex gap-3 pt-2">
+                <FoundationButton
+                    variant="outline"
+                    class="flex-1"
+                    :disabled="isLoading"
+                    @click="handleClose"
+                >
+                    {{ t('orders.cancel.keepOrder') }}
+                </FoundationButton>
+                
+                <FoundationButton
+                    class="flex-1"
+                    color="primary"
+                    :disabled="isLoading"
+                    @click="handleConfirm"
+                >
+                    <FoundationIcon 
+                        v-if="isLoading" 
+                        name="loading" 
+                        class="w-4 h-4 animate-spin mr-2" 
+                    />
+                    {{ t('orders.cancel.confirmCancel') }}
+                </FoundationButton>
+            </div>
         </div>
-
-        <!-- Actions -->
-        <div class="flex gap-3 pt-2">
-            <FoundationButton
-                variant="outline"
-                class="flex-1"
-                :disabled="isLoading"
-                @click="handleClose"
-            >
-                {{ t('orders.cancel.keepOrder') }}
-            </FoundationButton>
-            
-            <FoundationButton
-                class="flex-1"
-                color="primary"
-                :disabled="isLoading"
-                @click="handleConfirm"
-            >
-                <FoundationIcon 
-                    v-if="isLoading" 
-                    name="loading" 
-                    class="w-4 h-4 animate-spin mr-2" 
-                />
-                {{ t('orders.cancel.confirmCancel') }}
-            </FoundationButton>
-        </div>
-    </div>
+    </ComponentModal>
 </template>
