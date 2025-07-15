@@ -120,6 +120,9 @@ Nuxtware:
     - [x] X-Selling (Product Carousel)
 - [x] Cart
 - [x] Checkout
+    - [x] Index
+    - [x] Success
+    - [ ] Error
 - [x] Wishlist
 - [x] Account
     - [x] Login
@@ -148,6 +151,7 @@ Nuxtware:
 - [x] Skiplinks
 - [x] Scroll To Top
 - [x] Newsletter Form
+    - [ ] Newsletter double opt in retun page (newsletter-subscribe)   
 - [ ] Popups (Modals)
 - [x] Footer
 - [x] Topbar / Banderole
@@ -157,3 +161,13 @@ Nuxtware:
 - [ ] Add Cookie Consent
 - [x] Language Switch
 - [x] Currency Switch
+- [ ] Error pages
+    - [ ] Maintanance Mode
+    - [ ] 404 Page
+- [ ] Sync basic state like session/cart data between tabs
+- [ ] CMS Meta Data (useCmsHead)
+- [ ] Structured Data: Product JSONLD
+- [ ] Customer group registration page (FrontendAccountCustomerGroupRegistrationPage.vue)
+- [ ] Server routes
+    - [ ] Imitate customer
+    - [ ] Sitemap
