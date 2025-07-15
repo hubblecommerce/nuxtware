@@ -68,8 +68,8 @@ function onBlur (e: FocusEvent): void { emit('onBlur', e) }
                     {
                         'input-bordered': bordered,
                         'input-error': error,
-                        'pl-10': $slots.iconBefore && !inputCss,
-                        'pr-10': $slots.iconAfter && !inputCss,
+                        'pl-12': $slots.iconBefore && !inputCss,
+                        'pr-12': $slots.iconAfter && !inputCss,
                     }
                 ]"
                 :placeholder="placeholder"
@@ -79,10 +79,10 @@ function onBlur (e: FocusEvent): void { emit('onBlur', e) }
                 @focus="onFocus"
                 @blur="onBlur"
             />
-            <div v-if="$slots.iconBefore" class="absolute inset-y-0 left-0 flex items-center z-20">
+            <div v-if="$slots.iconBefore" class="absolute inset-y-0 left-1 flex items-center z-20">
                 <slot name="iconBefore" />
             </div>
-            <div v-if="$slots.iconAfter" class="absolute inset-y-0 right-0 flex items-center z-20">
+            <div v-if="$slots.iconAfter" class="absolute inset-y-0 right-1 flex items-center z-20">
                 <slot name="iconAfter" />
             </div>
         </div>
