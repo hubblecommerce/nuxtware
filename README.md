@@ -134,17 +134,17 @@ Nuxtware:
     - [x] Addresses
 - [ ] CMS
     - [ ] Blocks and elements from "community edition"
-        - [ ] Blocks
-            - [ ] Text Variations
-            - [ ] Image Variations
-            - [ ] Video Variations
-            - [ ] Text & Image Variations
-        - [ ] Elements
-            - [ ] Image
-            - [ ] Text
-            - [ ] Video
-            - [ ] Formular
-            - [ ] HTML
+        - [x] Blocks
+            - [x] Text Variations
+            - [x] Image Variations
+            - [x] Video Variations
+            - [x] Text & Image Variations
+        - [x] Elements
+            - [x] Image
+            - [x] Text
+            - [x] Video
+            - [x] Formular
+            - [x] HTML
     - [ ] Blocks and elements from "licensed edition"
         - [ ] Elements
             - [ ] 3D
@@ -171,3 +171,4 @@ Nuxtware:
 - [ ] Server routes
     - [ ] Imitate customer
     - [ ] Sitemap
+- [ ] Properly implement StructureElementImageGallery with Thumbnail Gallery and Full-Screen Gallery on click

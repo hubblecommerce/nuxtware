@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { resolveComponent } from 'vue'
-import type { CmsBlockImageText } from '@shopware/composables'
+import type { CmsBlockImageTextCover } from '@shopware/composables'
 
 const props = defineProps<{
-    content: CmsBlockImageText
+    content: CmsBlockImageTextCover
 }>()
 
 const { getCmsSlot, getCmsElementName } = useCms()
@@ -13,16 +13,18 @@ const rightContent = computed(() => getCmsSlot(props.content, 'right'))
 </script>
 
 <template>
-    <div class="cms-block-image-text grid gap-4 md:grid-cols-2 md:gap-8">
+    <article class="cms-block-image-text-cover grid gap-4 md:grid-cols-2 md:gap-8">
         <component
             :is="resolveComponent(getCmsElementName(leftContent?.type))"
             v-if="leftContent"
             :content="leftContent"
+            class="cms-block-image-text-cover__image"
         />
         <component
             :is="resolveComponent(getCmsElementName(rightContent?.type))"
             v-if="rightContent"
             :content="rightContent"
+            class="cms-block-image-text-cover__text"
         />
-    </div>
+    </article>
 </template>

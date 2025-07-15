@@ -2,7 +2,7 @@
     <textarea
         ref="foundationTextarea"
         v-model="model"
-        class="focus-style"
+        class="textarea"
         :disabled="disabled"
         :aria-disabled="disabled"
         :rows="rows"

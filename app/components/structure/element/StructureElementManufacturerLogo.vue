@@ -3,6 +3,7 @@ import type { CmsElementManufacturerLogo } from '@shopware/composables'
 import { getSmallestThumbnailUrl } from "@shopware/helpers"
 import { useElementSize } from "@vueuse/core"
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     content: CmsElementManufacturerLogo
 }>()
@@ -17,23 +18,28 @@ function roundUp(num: number) {
 }
 
 const srcPath = computed(() => {
-    return `${getSmallestThumbnailUrl(
-        props.content.data.manufacturer?.media
-    )}?&height=${roundUp(height.value)}&fit=cover`
+    const manufacturerMedia = props.content?.data?.manufacturer?.media
+    if (!manufacturerMedia) return ''
+    
+    const thumbnailUrl = getSmallestThumbnailUrl(manufacturerMedia)
+    if (!thumbnailUrl) return ''
+    
+    return `${thumbnailUrl}?&height=${roundUp(height.value)}&fit=cover`
 })
 
 const imageClasses = computed(() => ({
     'h-12 rounded-md overflow-hidden': true,
-    'object-cover': props.content.config.displayMode.value === 'image',
-    'object-contain': props.content.config.displayMode.value === 'standard'
+    'object-cover': props.content?.config?.displayMode?.value === 'image',
+    'object-contain': props.content?.config?.displayMode?.value === 'standard'
 }))
 </script>
 
 <template>
     <img
+        v-if="srcPath"
         ref="manufacturerLogo"
         :src="srcPath"
-        :alt="props.content.manufacturer?.media?.alt || ''"
+        :alt="props.content.data?.manufacturer?.media?.alt || ''"
         :class="imageClasses"
     >
 </template>

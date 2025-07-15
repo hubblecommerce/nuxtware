@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref, shallowRef, defineAsyncComponent, resolveComponent, onMounted } from 'vue'
-import type { CmsBlock } from "@shopware-pwa/types";
+import type { Schemas } from "#shopware";
 
 const props = defineProps<{
-    content: CmsBlock;
+    content: Schemas["CmsBlock"];
     count?: number;
 }>()
 
@@ -15,12 +15,13 @@ const component = shallowRef()
 const compName = computed(() => {
     let name = getCmsBlockName(props.content.type)
 
-    if (props.content.slots.length === 1) {
+    if (props.content.slots.length === 1 && props.content.slots[0]?.type) {
         name = getCmsElementName(props.content.slots[0].type)
     }
 
     return name
 })
+
 
 // Render first two section server side (SEO relevant hero elements)
 const staticSections = 2
@@ -40,7 +41,7 @@ onMounted(() => {
 const loadComponent = function () {
     component.value = defineAsyncComponent({
         // the loader function
-        loader: () => import(`./${props.content.slots.length === 1 ? 'element' : 'block'}/${compName.value}.vue`),
+        loader: () => import(`${props.content.slots.length === 1 ? '../element' : '.'}/${compName.value}.vue`),
     })
 }
 </script>

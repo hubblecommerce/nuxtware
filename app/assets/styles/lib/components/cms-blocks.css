@@ -1,0 +1,27 @@
+/* CMS Block Layout Utilities */
+
+/* Bubble Row - circular images only */
+.cms-block-bubble-row .cms-element-image img {
+    @apply object-cover max-w-xs overflow-hidden rounded-full aspect-square;
+}
+
+/* ImageText Bubble - circular images only */
+.cms-block-image-text-bubble .cms-element-image img {
+    @apply object-cover max-w-xs overflow-hidden rounded-full aspect-square;
+}
+
+/* Highlight Row - bordered images only */
+.cms-block-highlight-row .cms-element-image img {
+    @apply border-[12px] border-white;
+}
+
+/* Cover blocks - no gaps between columns */
+.cms-block-cover {
+    @apply gap-0;
+}
+
+/* Simple Grid - right image stretches to full height */
+.cms-block-image-simple-grid .flex-1:last-child .cms-image-container {
+    height: 100%;
+    min-height: 100%;
+}

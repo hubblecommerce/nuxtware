@@ -15,6 +15,16 @@ const { data: productResponse } = await useAsyncData(
                     associations: {
                         media: {}
                     }
+                },
+                media: {
+                    associations: {
+                        media: {}
+                    }
+                },
+                cover: {
+                    associations: {
+                        media: {}
+                    }
                 }
             }
         })

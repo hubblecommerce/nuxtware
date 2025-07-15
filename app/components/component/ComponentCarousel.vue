@@ -3,8 +3,8 @@ export interface ComponentCarouselProps {
     readonly items?: CarouselItem[]
     readonly itemsPerSlide?: ResponsiveConfig
     readonly gap?: number
-    readonly showNavigation?: boolean
-    readonly showIndicators?: boolean
+    readonly showNavigation?: 'inside' | 'outside' | '' | false
+    readonly showIndicators?: 'inside' | 'outside' | '' | false
     readonly autoPlay?: boolean
     readonly autoPlayInterval?: number
     readonly loop?: boolean
@@ -104,7 +104,64 @@ const {
 
 const { t } = useI18n()
 
-// Computed properties  
+// Computed properties for navigation and indicators
+const navigationConfig = computed(() => {
+    if (props.showNavigation === false || props.showNavigation === '' || !props.showNavigation) return { show: false }
+    if (props.showNavigation === 'inside') return { show: true, position: 'inside' }
+    if (props.showNavigation === 'outside') return { show: true, position: 'outside' }
+    return { show: false }
+})
+
+const indicatorConfig = computed(() => {
+    if (props.showIndicators === false || props.showIndicators === '' || !props.showIndicators) return { show: false }
+    if (props.showIndicators === 'inside') return { show: true, position: 'inside' }
+    if (props.showIndicators === 'outside') return { show: true, position: 'outside' }
+    return { show: false }
+})
+
+// Computed classes for navigation positioning
+const navigationClasses = computed(() => {
+    const isOutside = navigationConfig.value.position === 'outside'
+    return {
+        prev: isOutside 
+            ? 'carousel-nav carousel-nav-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10'
+            : 'carousel-nav carousel-nav-prev absolute left-2 top-1/2 transform -translate-y-1/2 z-10',
+        next: isOutside 
+            ? 'carousel-nav carousel-nav-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10'
+            : 'carousel-nav carousel-nav-next absolute right-2 top-1/2 transform -translate-y-1/2 z-10'
+    }
+})
+
+// Computed classes for indicator positioning
+const indicatorClasses = computed(() => {
+    const isOutside = indicatorConfig.value.position === 'outside'
+    return {
+        container: isOutside 
+            ? 'flex justify-center'
+            : 'carousel-indicators absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10',
+        inner: isOutside 
+            ? 'carousel-indicators flex justify-center mt-4'
+            : '',
+        buttonWrapper: 'flex gap-2' // Always has gap regardless of position
+    }
+})
+
+// Computed classes for container positioning
+const containerClasses = computed(() => {
+    const hasOutsideNav = navigationConfig.value.show && navigationConfig.value.position === 'outside' && props.items && props.items.length > (currentItemsPerSlide.value || 1)
+    const hasOutsideIndicators = indicatorConfig.value.show && indicatorConfig.value.position === 'outside' && visibleSlides.value > 1
+    
+    return [
+        'carousel-container',
+        'relative',
+        'overflow-hidden',
+        {
+            'px-12': hasOutsideNav,
+            'pb-12': hasOutsideIndicators
+        }
+    ]
+})
+
 const carouselStyles = computed(() => ({
     ...containerStyle.value,
     ...(props.height && { 
@@ -233,11 +290,7 @@ const handleKeyDown = (event: KeyboardEvent): void => {
 
 <template>
     <div 
-        :class="[
-            'carousel-container',
-            'relative',
-            'overflow-hidden'
-        ]"
+        :class="containerClasses"
         :style="carouselStyles"
         tabindex="0"
         role="region"
@@ -340,12 +393,12 @@ const handleKeyDown = (event: KeyboardEvent): void => {
             </div>
         </div>
 
-        <!-- Navigation buttons -->
-        <template v-if="showNavigation && items && items.length > currentItemsPerSlide">
+        <!-- Navigation buttons (consolidated) -->
+        <template v-if="navigationConfig.show && items && items.length > currentItemsPerSlide">
             <!-- Previous button -->
             <FoundationButton
                 v-if="canGoPrevious || props.loop"
-                class="carousel-nav carousel-nav-prev absolute left-2 top-1/2 transform -translate-y-1/2 z-10"
+                :class="navigationClasses.prev"
                 size="small"
                 color="secondary"
                 square
@@ -359,7 +412,7 @@ const handleKeyDown = (event: KeyboardEvent): void => {
             <!-- Next button -->
             <FoundationButton
                 v-if="canGoNext || props.loop"
-                class="carousel-nav carousel-nav-next absolute right-2 top-1/2 transform -translate-y-1/2 z-10"
+                :class="navigationClasses.next"
                 size="small"
                 color="secondary"
                 square
@@ -371,26 +424,30 @@ const handleKeyDown = (event: KeyboardEvent): void => {
             </FoundationButton>
         </template>
 
-        <!-- Indicators -->
+        <!-- Indicators (consolidated) -->
         <div 
-            v-if="showIndicators && visibleSlides > 1"
-            class="carousel-indicators absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10"
+            v-if="indicatorConfig.show && visibleSlides > 1"
+            :class="indicatorClasses.container"
             role="tablist"
             :aria-label="$t('carousel.indicatorsLabel')"
         >
-            <button
-                v-for="slideIndex in visibleSlides"
-                :key="slideIndex - 1"
-                class="carousel-indicator w-2 h-2 rounded-full transition-colors duration-200"
-                :class="{
-                    'bg-primary': currentSlide === slideIndex - 1,
-                    'bg-gray-300 hover:bg-gray-400': currentSlide !== slideIndex - 1
-                }"
-                role="tab"
-                :aria-selected="currentSlide === slideIndex - 1"
-                :aria-label="$t('carousel.goToSlide', { slide: slideIndex })"
-                @click="goToSlide(slideIndex - 1)"
-            />
+            <div :class="indicatorClasses.inner">
+                <div :class="indicatorClasses.buttonWrapper">
+                    <button
+                        v-for="slideIndex in visibleSlides"
+                        :key="slideIndex - 1"
+                        class="carousel-indicator w-2 h-2 rounded-full transition-colors duration-200"
+                        :class="{
+                            'bg-primary': currentSlide === slideIndex - 1,
+                            'bg-gray-300 hover:bg-gray-400': currentSlide !== slideIndex - 1
+                        }"
+                        role="tab"
+                        :aria-selected="currentSlide === slideIndex - 1"
+                        :aria-label="$t('carousel.goToSlide', { slide: slideIndex })"
+                        @click="goToSlide(slideIndex - 1)"
+                    />
+                </div>
+            </div>
         </div>
 
         <!-- Screen reader announcements -->
@@ -410,5 +467,7 @@ const handleKeyDown = (event: KeyboardEvent): void => {
             </div>
         </template>
         </ClientOnly>
+        
+        
     </div>
 </template>

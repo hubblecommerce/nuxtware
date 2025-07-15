@@ -1,0 +1,9 @@
+{
+  "youtubeVideo": {
+    "title": "YouTube Video",
+    "previewAlt": "YouTube video preview",
+    "confirmationText": "By accessing the video, you agree that your data will be transmitted to YouTube and that you have read the privacy policy.",
+    "confirmButton": "Accept",
+    "privacyPolicyLink": "privacy policy"
+  }
+}

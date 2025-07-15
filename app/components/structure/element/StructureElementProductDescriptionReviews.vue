@@ -7,9 +7,15 @@ const props = defineProps<{
 }>()
 
 const { product } = useProduct(props.content.data?.product)
+const { sanitizeHtml } = useSanitization()
+
 const description = computed(() =>
     getTranslatedProperty(product.value, 'description'),
 )
+
+const sanitizedDescription = computed(() => {
+    return sanitizeHtml(description.value)
+})
 </script>
 
 <template>
@@ -22,11 +28,7 @@ const description = computed(() =>
         :show-border=false
     >
         <template #description>
-            <div class="p-6">
-                <p class="text-black leading-relaxed">
-                    {{ description }}
-                </p>
-            </div>
+            <div class="p-6 prose" v-html="sanitizedDescription" />
         </template>
         
         <template #reviews>

@@ -1,5 +1,8 @@
 {
   "misc": {
-    "backToTopBtn": "Zurück nach oben"
+    "backToTopBtn": "Zurück nach oben",
+    "close": "Schließen",
+    "loading": "Wird geladen...",
+    "videoNotSupported": "Ihr Browser unterstützt das Video-Tag nicht."
   }
 }
