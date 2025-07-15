@@ -13,6 +13,14 @@ const props = withDefaults(defineProps<ProductCardImageProps>(), {
     layoutType: 'standard',
 })
 
+const emit = defineEmits<{
+    loaded: []
+}>()
+
+const onImageLoad = () => {
+    emit('loaded')
+}
+
 const imageElement = useTemplateRef("imageElement")
 const { height } = useElementSize(imageElement)
 
@@ -49,5 +57,6 @@ const imageClasses = computed(() => ({
         :alt="getProductName({ product }) || ''"
         :class="imageClasses"
         data-testid="product-card-image"
+        @load="onImageLoad"
     >
 </template>

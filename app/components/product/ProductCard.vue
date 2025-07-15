@@ -3,7 +3,7 @@ import { navigateTo } from "#imports"
 import type { Schemas } from "#shopware"
 import type { BoxLayout } from "@shopware/composables"
 import { getProductName, getProductRoute, getProductFromPrice } from "@shopware/helpers"
-import { useFocusWithin, breakpointsTailwind, useBreakpoints, useResizeObserver, useWindowSize } from '@vueuse/core'
+import { useFocusWithin, breakpointsTailwind, useBreakpoints, useResizeObserver, useWindowSize, until } from '@vueuse/core'
 
 interface ProductCardProps {
     product: Schemas["Product"]
@@ -44,6 +44,7 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const lgAndLarger = breakpoints.greaterOrEqual('lg')
 const isTransitioning = ref(false)
 const mounted = ref(false)
+const imageLoaded = ref(false)
 const { width } = useWindowSize()
 
 watch(focused, (focused) => {
@@ -58,12 +59,22 @@ watch(width, () => {
     initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
 })
 
-onMounted(() => {
+const onImageLoaded = () => {
+    imageLoaded.value = true
+}
+
+onMounted(async () => {
     try {
+        // Wait for image to load before calculations
+        if (!imageLoaded.value) {
+            await until(imageLoaded).toBe(true, { timeout: 3000 })
+        }
+        
+        await nextTick()
         initialProductCardHeight.value = productCard.value?.offsetHeight ?? 0
         productCardInteractiveHeight.value = getChildHeightSum(productCardInteractive.value?.children)
     } catch (error) {
-        console.warn('Error calculating card dimensions:', error)
+        console.warn('Error during mount process:', error)
         // Set fallback values
         initialProductCardHeight.value = 300
         productCardInteractiveHeight.value = 60
@@ -143,6 +154,7 @@ function onTransitionEnd () {
                     :product="product"
                     :layout-type="layoutType"
                     class="relative -z-10"
+                    @loaded="onImageLoaded"
                 />
 
                 <ComponentReviewStars 
