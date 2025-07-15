@@ -58,7 +58,7 @@
     --color-gray-900: oklch(0.337 0.002 286.307);
 
     --color-neutral: oklch(0.143 0.048 255.681);
-    --color-border: var(--color-gray-300);
+    --color-border: var(--color-gray-500);
     --color-border-light: var(--color-gray-200);
 
     /* Notification colors */
@@ -80,9 +80,12 @@
     --color-input-content: var(--color-input-content);
     --color-input-placeholder: var(--color-gray-600);
 
+    --color-textarea: var(--color-input);
+    --color-textarea-content: var(--color-input-content);
+    --color-textarea-placeholder: var(--color-input-placeholder);
+
     --color-select: var(--color-select, --color-border);
     --color-select-content: var(--color-select-content);
-    --color-select-placeholder: var(--color-gray-600);
 
     --color-btn: var(--color-btn);
     --color-btn-shade-light: var(--color-btn-shade-light);

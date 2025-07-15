@@ -1,10 +1,11 @@
 @layer components {
     .textarea {
-        @apply textarea-default;
-        @apply block rounded-lg w-full;
+        @apply textarea-md textarea-default;
         @apply disabled:textarea-disabled;
         @apply focus-style appearance-none forced-colors:appearance-auto;
-        @apply resize-y px-4 py-3 leading-6;
+        @apply block rounded-lg w-full;
+        @apply placeholder:text-textarea-placeholder;
+        @apply resize-y;
 
         &[aria-disabled="true"] {
             @apply textarea-disabled;
@@ -15,11 +16,35 @@
 @utility textarea-default {
     --color-textarea: transparent;
 
-    @apply border border-input text-input-content;
+    @apply border border-textarea text-textarea-content;
 }
 
 @utility textarea-disabled {
     @apply opacity-60 cursor-not-allowed;
+}
+
+@utility textarea-xs {
+    @apply min-h-6 px-2 py-1 text-xs leading-relaxed;
+}
+
+@utility textarea-sm {
+    @apply min-h-8 px-3 py-2 text-sm leading-6;
+}
+
+@utility textarea-md {
+    @apply min-h-12 px-4 py-3 leading-6;
+}
+
+@utility textarea-lg {
+    @apply min-h-16 px-6 py-4 text-lg leading-7;
+}
+
+@utility textarea-xl {
+    @apply min-h-20 px-8 py-5 text-xl leading-8;
+}
+
+@utility textarea-2xl {
+    @apply min-h-24 px-10 py-6 text-2xl leading-9;
 }
 
 @utility textarea-primary {
@@ -38,7 +63,7 @@
 }
 
 @utility textarea-bordered {
-    --color-textarea: --color-border;
+    --color-textarea: var(--color-gray-500);
 }
 
 @utility textarea-error {
