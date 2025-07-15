@@ -47,10 +47,8 @@ const updateNewsletterStatus = async () => {
                 email: user.value?.email || '',
                 option: 'subscribe'
             })
-            success(t('newsletter.messages.newsletterSubscribed'))
         } else {
             await newsletterUnsubscribe(user.value?.email || '')
-            success(t('newsletter.messages.newsletterUnsubscribed'))
         }
     } catch (error) {
         console.error('Newsletter update error:', error)
@@ -59,6 +57,18 @@ const updateNewsletterStatus = async () => {
         await getNewsletterStatus()
         newsletter.value = isNewsletterSubscriber.value
         isUpdatingNewsletter.value = false
+        
+        if (isNewsletterSubscriber.value && !confirmationNeeded.value) {
+            success(t('newsletter.messages.newsletterSubscribed'))
+        }
+
+        if (!isNewsletterSubscriber.value) {
+            success(t('newsletter.messages.newsletterUnsubscribed'))
+        }
+
+        if (confirmationNeeded.value) {
+            success(t('newsletter.subscriptionInfo'))
+        }
     }
 }
 
@@ -134,12 +144,6 @@ onMounted(async () => {
                     </FoundationHeadline>
 
                         <div class="space-y-4">
-                            <div v-if="confirmationNeeded" class="p-4 bg-green-50 border border-green-200 rounded-md">
-                                <p class="text-green-800 text-sm">
-                                    {{ $t('newsletter.subscriptionInfo') }}
-                                </p>
-                            </div>
-                            
                             <div class="flex items-center space-x-3">
                                 <div v-if="isUpdatingNewsletter" class="flex items-center">
                                     <div class="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
