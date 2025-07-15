@@ -1,7 +1,7 @@
 <template>
     <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
+            <FoundationHeadline level="h3" class="text-lg font-medium mb-2">
                 {{ mode === 'order' ? $t('orders.paymentChange.selectMethod') : $t('checkout.paymentMethodLabel') }}
             </FoundationHeadline>
             <p class="text-sm">

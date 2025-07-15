@@ -7,7 +7,7 @@ interface ContextCurrencySwitchProps {
 }
 
 const props = withDefaults(defineProps<ContextCurrencySwitchProps>(), {
-    size: 'medium',
+    size: 'small',
     color: ''
 })
 
@@ -44,7 +44,7 @@ const currencySwitchId = useId()
 
 <template>
     <div class="flex justify-between items-center gap-3">
-        <FoundationLabel :for="currencySwitchId">
+        <FoundationLabel :for="currencySwitchId" class="sr-only">
             {{ $t('layout.currency') }}:
         </FoundationLabel>
         <FoundationSelect

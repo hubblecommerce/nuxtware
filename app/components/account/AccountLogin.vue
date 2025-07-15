@@ -131,7 +131,7 @@ watch(formData, () => {
 <template>
     <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
+            <FoundationHeadline level="h3" class="text-lg font-medium mb-2">
                 {{ isPasswordRecoveryMode ? $t('account.passwordRecovery.title') : $t('account.login.title') }}
             </FoundationHeadline>
             <p class="text-sm">
@@ -174,7 +174,7 @@ watch(formData, () => {
                 <FoundationLink
                     v-if="!isPasswordRecoveryMode"
                     href="#"
-                    class="block text-sm text-primary hover:text-primary/80 cursor-pointer"
+                    class="block text-sm cursor-pointer"
                     @click.prevent="togglePasswordRecoveryMode"
                 >
                     {{ $t('account.login.forgotPassword') }}
@@ -182,7 +182,7 @@ watch(formData, () => {
                 <FoundationLink
                     v-if="isPasswordRecoveryMode"
                     href="#"
-                    class="block text-sm text-primary hover:text-primary/80 cursor-pointer"
+                    class="block text-sm cursor-pointer"
                     @click.prevent="togglePasswordRecoveryMode"
                 >
                     {{ $t('account.login.backToLogin') }}

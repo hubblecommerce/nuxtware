@@ -74,7 +74,7 @@ useSeoMeta({
     <div class="lg:container mx-auto px-2 py-8">
         <div class="max-w-2xl mx-auto">
             <div class="text-center mb-8">
-                <FoundationHeadline level="h1" class="text-2xl md:text-3xl font-bold text-primary mb-4">
+                <FoundationHeadline level="h1" class="text-2xl md:text-3xl font-bold mb-4">
                     {{ $t('account.page.title') }}
                 </FoundationHeadline>
                 <p class="text-muted-foreground">

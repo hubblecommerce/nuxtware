@@ -41,7 +41,7 @@ useBreadcrumbs([
             <div class="account-profile">
                 <!-- Welcome section -->
                 <div class="mb-8">
-                    <FoundationHeadline tag="h1" class="text-2xl md:text-3xl font-bold text-primary mb-4">
+                    <FoundationHeadline tag="h1" class="text-2xl md:text-3xl font-bold mb-4">
                         {{ $t('account.profile.title') }}
                     </FoundationHeadline>
                     <p class="text-muted-foreground text-lg">
