@@ -18,9 +18,14 @@ function roundUp(num: number) {
 }
 
 const srcPath = computed(() => {
-    return `${getSmallestThumbnailUrl(
-        props.content.data.manufacturer?.media
-    )}?&height=${roundUp(height.value)}&fit=cover`
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const manufacturerMedia = (props.content.data as any)?.manufacturer?.media
+    if (!manufacturerMedia) return ''
+    
+    const thumbnailUrl = getSmallestThumbnailUrl(manufacturerMedia)
+    if (!thumbnailUrl) return ''
+    
+    return `${thumbnailUrl}?&height=${roundUp(height.value)}&fit=cover`
 })
 
 const imageClasses = computed(() => ({
@@ -32,9 +37,10 @@ const imageClasses = computed(() => ({
 
 <template>
     <img
+        v-if="srcPath"
         ref="manufacturerLogo"
         :src="srcPath"
-        :alt="props.content.manufacturer?.media?.alt || ''"
+        :alt="(props.content.data as any)?.manufacturer?.media?.alt || ''"
         :class="imageClasses"
     >
 </template>
