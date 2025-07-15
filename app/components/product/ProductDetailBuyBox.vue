@@ -34,6 +34,8 @@ const { totalReviews } = useProductReviews({
     productId: props.product.id,
 })
 
+const rating = ref(props.product.ratingAverage)
+
 function openProductTab (anchor: string) {
     const el = document.getElementById(anchor)
     if (el) {
@@ -90,7 +92,7 @@ function handleVariantNotFound () {
             >
                 <ComponentReviewStars
                     v-if="product.ratingAverage"
-                    v-model="product.ratingAverage"
+                    v-model="rating"
                     :interactive="false"
                     size="sm"
                     class="cursor-pointer"
