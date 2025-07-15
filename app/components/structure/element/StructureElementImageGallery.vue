@@ -8,9 +8,9 @@ const props = defineProps<{
 }>()
 
 // Follow Shopware's pattern exactly - use sliderItems directly
-const mediaGallery = computed(() => props.content.data?.sliderItems ?? [])
+const mediaGallery = computed(() => props.content?.data?.sliderItems ?? [])
 
-const srcPath = (item: any) => {
+const srcPath = (item: CmsElementImageGallery['data']['sliderItems'][0]) => {
     // Following Shopware's pattern: item.media.url
     if (item.media?.url) {
         return item.media.url
@@ -31,13 +31,13 @@ const srcPath = (item: any) => {
 
 // Extract navigation and indicator configuration from Shopware config
 const navigationArrows = computed(() => {
-    const config = props.content.config?.navigationArrows?.value
+    const config = props.content?.config?.navigationArrows?.value
     if (config === '' || !config) return false
     return config
 })
 
 const navigationDots = computed(() => {
-    const config = props.content.config?.navigationDots?.value
+    const config = props.content?.config?.navigationDots?.value
     if (config === '' || !config) return false
     return config
 })
@@ -58,7 +58,7 @@ const navigationDots = computed(() => {
         >
             <template #default="{ item }">
                 <img 
-                    :src="srcPath(item)" 
+                    :src="srcPath(item as CmsElementImageGallery['data']['sliderItems'][0])"
                     :alt="item.media?.alt || item.alt || ''"
                     class="w-full h-full object-cover"
                 >

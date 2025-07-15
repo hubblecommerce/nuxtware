@@ -18,8 +18,7 @@ function roundUp(num: number) {
 }
 
 const srcPath = computed(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const manufacturerMedia = (props.content.data as any)?.manufacturer?.media
+    const manufacturerMedia = props.content?.data?.manufacturer?.media
     if (!manufacturerMedia) return ''
     
     const thumbnailUrl = getSmallestThumbnailUrl(manufacturerMedia)
@@ -30,8 +29,8 @@ const srcPath = computed(() => {
 
 const imageClasses = computed(() => ({
     'h-12 rounded-md overflow-hidden': true,
-    'object-cover': props.content.config.displayMode.value === 'image',
-    'object-contain': props.content.config.displayMode.value === 'standard'
+    'object-cover': props.content?.config?.displayMode?.value === 'image',
+    'object-contain': props.content?.config?.displayMode?.value === 'standard'
 }))
 </script>
 
@@ -40,7 +39,7 @@ const imageClasses = computed(() => ({
         v-if="srcPath"
         ref="manufacturerLogo"
         :src="srcPath"
-        :alt="(props.content.data as any)?.manufacturer?.media?.alt || ''"
+        :alt="props.content.data?.manufacturer?.media?.alt || ''"
         :class="imageClasses"
     >
 </template>
