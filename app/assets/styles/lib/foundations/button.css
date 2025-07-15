@@ -1,8 +1,8 @@
 @layer components {
     .btn {
         @apply btn-default btn-medium;
-        @apply relative inline-flex items-center justify-center font-semibold rounded transition-all duration-100 cursor-pointer;
         @apply focus-style;
+        @apply relative inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-100 cursor-pointer;
         @apply disabled:opacity-60 disabled:cursor-not-allowed;
 
         /* Invisible Hit Areas */
@@ -68,7 +68,7 @@
     @apply bg-transparent text-btn active:bg-transparent;
 
     @media (hover: hover) {
-        @apply hover:bg-transparent hover:text-btn;
+        @apply hover:bg-gray-300 hover:text-btn;
     }
 }
 

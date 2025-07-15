@@ -1,5 +1,5 @@
 @utility focus-style {
-    @apply focus-visible:ring-3 focus-visible:ring-offset-2 ring-focus rounded outline-none;
+    @apply focus-visible:ring-3 focus-visible:ring-offset-2 ring-focus outline-none;
 
     @media (forced-colors: active) {
         &:focus-visible {
@@ -9,7 +9,7 @@
 }
 
 @utility focus-within-style {
-    @apply focus-within:ring-3 focus-within:ring-offset-3 focus-within:ring-focus rounded outline-none;
+    @apply focus-within:ring-3 focus-within:ring-offset-3 focus-within:ring-focus outline-none;
 
     @media (forced-colors: active) {
         &:focus-visible {

@@ -26,7 +26,7 @@ const uspsByShippingCountry = ref<UspRecord>({
 })
 </script>
 <template>
-    <div class="bg-border w-full" role="region" aria-labelledby="topbarHeadline">
+    <div class="bg-red-200 w-full" role="region" aria-labelledby="topbarHeadline">
         <span id="topbarHeadline" class="sr-only">{{ $t('topBar.headline') }}</span>
         <section class="relative px-6 h-6">
             <client-only>

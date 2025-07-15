@@ -188,7 +188,7 @@ const handleSubmit = async () => {
 <template>
     <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline level="h3" class="text-lg font-medium text-primary mb-2">
+            <FoundationHeadline level="h3" class="text-lg font-medium mb-2">
                 {{ $t('account.registration.title') }}
             </FoundationHeadline>
             <p class="text-sm">
@@ -200,7 +200,7 @@ const handleSubmit = async () => {
             <div class="space-y-6">
                 <!-- Personal Information Section -->
                 <div>
-                    <FoundationHeadline level="h4" class="text-base font-medium text-primary mb-3">
+                    <FoundationHeadline level="h4" class="text-base font-medium mb-3">
                         {{ $t('account.personalInformationLabel') }}
                     </FoundationHeadline>
                     
@@ -289,7 +289,7 @@ const handleSubmit = async () => {
 
                 <!-- Account Type & Business Information Section -->
                 <div>
-                    <FoundationHeadline level="h4" class="text-base font-medium text-primary mb-3">
+                    <FoundationHeadline level="h4" class="text-base font-medium mb-3">
                         {{ $t('account.accountType') }}
                     </FoundationHeadline>
                     
@@ -313,7 +313,7 @@ const handleSubmit = async () => {
 
                         <!-- Business Information (only if business account) -->
                         <div v-if="isBusinessAccount" class="space-y-4">
-                            <FoundationHeadline level="h5" class="text-sm font-medium text-primary">
+                            <FoundationHeadline level="h5" class="text-sm font-medium">
                                 {{ $t('account.registration.businessInformation') }}
                             </FoundationHeadline>
                             

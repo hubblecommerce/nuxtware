@@ -19,15 +19,20 @@
 @import '#hubble/assets/styles/lib/components/wishlist.css';
 
 @theme {
+    --color-red-200: oklch(0.915 0.044 17.978);
+    --color-red-500: oklch(0.694 0.192 30.074);
+    --color-red-600: oklch(0.616 0.224 33.55);
+    --color-red-700: oklch(0.462 0.18 30.962);
+
     /* Semantic colors */
-    --color-primary: oklch(0.357 0.191 261.39);
-    --color-primary-shade-light: oklch(0.423 0.185 256.42);
-    --color-primary-shade-dark: oklch(0.308 0.156 261.41);
+    --color-primary: var(--color-red-600);
+    --color-primary-shade-light: var(--color-red-500);
+    --color-primary-shade-dark: var(--color-red-700);
     --color-primary-content: oklch(1 0 0);
 
-    --color-secondary: oklch(0.316 0.265 303.89);
-    --color-secondary-shade-light: oklch(0.368 0.286 303.52);
-    --color-secondary-shade-dark: oklch(0.259 0.225 303.85);
+    --color-secondary: oklch(0.422 0.192 262.78);
+    --color-secondary-shade-light: oklch(0.545 0.207 262.828);
+    --color-secondary-shade-dark: oklch(0.278 0.127 261.824);
     --color-secondary-content: oklch(1 0 0);
 
     --color-tertiary: oklch(0.55 0.18 150);
@@ -35,14 +40,24 @@
     --color-tertiary-shade-dark: oklch(0.48 0.16 150);
     --color-tertiary-content: oklch(1 0 0);
 
-    --color-link: oklch(0.431 0.166 263.08);
-    --color-link-visited: oklch(0.419 0.145 327.76);
-    --color-link-hover: oklch(0.493 0.234 27.67);
-    --color-link-active: oklch(0.493 0.234 27.67);
+    --color-link: var(--color-secondary);
+    --color-link-visited: var(--color-secondary-shade-light);
+    --color-link-hover: var(--color-secondary-shade-dark);
+    --color-link-active: var(--color-secondary-shade-dark);
 
-    --color-neutral: oklch(0.269 0 0);
-    --color-border: oklch(0.823 0.007 90.02);
-    --color-border-light: oklch(0.823 0.007 90.02 / 0.25);
+    --color-gray-100: oklch(1 0 89.876);
+    --color-gray-200: oklch(0.993 0.003 39.485);
+    --color-gray-300: oklch(0.952 0.005 48.685);
+    --color-gray-400: oklch(0.907 0.007 53.439);
+    --color-gray-500: oklch(0.865 0.008 48.64);
+    --color-gray-600: oklch(0.741 0.007 53.41);
+    --color-gray-700: oklch(0.616 0.004 39.467);
+    --color-gray-800: oklch(0.48 0.003 17.246);
+    --color-gray-900: oklch(0.337 0.002 286.307);
+
+    --color-neutral: oklch(0.143 0.048 255.681);
+    --color-border: var(--color-gray-300);
+    --color-border-light: var(--color-gray-200);
 
     /* Notification colors */
     --color-error: oklch(0.488 0.257 29.27);
@@ -61,14 +76,16 @@
     /* Components colors */
     --color-input: var(--color-input, --color-border);
     --color-input-content: var(--color-input-content);
+    --color-input-placeholder: var(--color-gray-600);
+
+    --color-select: var(--color-select, --color-border);
+    --color-select-content: var(--color-select-content);
+    --color-select-placeholder: var(--color-gray-600);
 
     --color-btn: var(--color-btn);
     --color-btn-shade-light: var(--color-btn-shade-light);
     --color-btn-shade-dark: var(--color-btn-shade-dark);
     --color-btn-content: var(--color-btn-content);
-
-    --color-select: var(--color-select);
-    --color-select-content: var(--color-select-content);
 
     --color-focus: var(--color-primary-shade-light);
     --color-label: var(--color-neutral);

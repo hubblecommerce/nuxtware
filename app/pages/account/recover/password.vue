@@ -96,7 +96,7 @@ watch(formData, () => {
         <div class="max-w-md mx-auto">
             <div class="space-y-6">
                 <div class="text-center mb-8">
-                    <FoundationHeadline level="h1" class="text-2xl font-bold text-primary mb-4">
+                    <FoundationHeadline level="h1" class="text-2xl font-bold mb-4">
                         {{ $t('account.passwordRecovery.resetTitle') }}
                     </FoundationHeadline>
                     <p class="text-muted">

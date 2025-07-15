@@ -1,16 +1,27 @@
 @layer components {
     .select {
-        @apply relative rounded transition-all duration-100;
-        @apply bg-white border border-border;
-        @apply focus-style;
-        @apply appearance-none;
-        @apply disabled:opacity-60 disabled:cursor-not-allowed;
-        @apply select-default select-medium;
+        @apply select-medium select-default;
+        @apply disabled:select-disabled;
+        @apply focus-style appearance-none forced-colors:appearance-auto;
+        @apply block rounded-lg;
+        @apply transition-all duration-100;
+        @apply placeholder:text-select-placeholder;
     }
 }
 
+@utility select-default {
+    --color-select: var(--color-gray-500);
+
+    @apply border border-select text-select-content;
+}
+
+@utility select-disabled {
+    @apply opacity-60 cursor-not-allowed;
+}
+
+
 @utility select-small {
-    @apply text-sm min-h-10 px-4 pr-8 py-2;
+    @apply h-8 px-3 pr-7 text-sm leading-8;
 
     & ~ .chevron {
         @apply absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none;
@@ -18,7 +29,7 @@
 }
 
 @utility select-medium {
-    @apply text-base min-h-12 px-6 pr-10 py-3;
+    @apply h-12 px-4 pr-10 leading-loose;
 
     & ~ .chevron {
         @apply absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none;
@@ -26,7 +37,7 @@
 }
 
 @utility select-large {
-    @apply text-lg min-h-14 px-8 pr-12 py-4;
+    @apply h-16 px-6 pr-12 text-lg leading-loose;
 
     & ~ .chevron {
         @apply absolute top-1/2 right-4 -translate-y-1/2 pointer-events-none;
@@ -35,21 +46,24 @@
 
 @utility select-primary {
     --color-select: var(--color-primary);
+    --color-select-content: var(--color-primary);
 }
 
 @utility select-secondary {
     --color-select: var(--color-secondary);
+    --color-select-content: var(--color-secondary);
 }
 
 @utility select-tertiary {
     --color-select: var(--color-tertiary);
+    --color-select-content: var(--color-tertiary);
 }
 
-@utility select-default {
-    @apply border-select focus:border-select text-select-content;
+@utility select-bordered {
+    --color-select: var(--color-gray-500);
 }
 
 @utility select-error {
-    @apply border-error;
+    --color-select: var(--color-error);
     @apply focus:ring-error focus:border-error;
 }
