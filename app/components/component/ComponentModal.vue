@@ -9,6 +9,7 @@ const props = withDefaults(defineProps<{
 })
 const { close } = props.controller
 const modalRef = ref<HTMLDialogElement | null>()
+const headlineId = `modal-headline-${props.controller.id}`
 
 watch(props.controller.isOpen, (newX) => {
     if (newX) {
@@ -18,31 +19,37 @@ watch(props.controller.isOpen, (newX) => {
         }
     }
 })
+
+onUnmounted(() => {
+    modalRef.value?.removeEventListener("click", closeModalOnClickOutside)
+})
+
 function closeModal () {
     close()
     modalRef?.value?.close()
 }
 
 // handle click outside of modal to close it if related prop is true
-function closeModalOnClickOutside(event: MouseEvent) {
+function closeModalOnClickOutside (event: MouseEvent) {
     if (event.target === modalRef.value) {
         closeModal()
     }
 }
 </script>
+
 <template>
     <dialog
         :id="controller.id"
         ref="modalRef"
-        class="modal bg-white rounded-lg text-left overflow-hidden shadow-xl p-8 m-auto"
+        class="modal bg-white rounded-lg text-left overflow-hidden shadow-xl m-auto"
         aria-modal="true"
-        aria-labelledby="modal-headline"
+        :aria-labelledby="modalHeadline ? headlineId : undefined"
         @close="closeModal"
     >
         <div class="modal-box">
             <div class="flex flex-col justify-start">
-                <div class="flex justify-between items-center w-full">
-                    <FoundationHeadline v-if="modalHeadline" tag="h2" class="text-lg font-semibold">
+                <div class="flex justify-between items-center p-6 pb-3 w-full">
+                    <FoundationHeadline v-if="modalHeadline" :id="headlineId" tag="div" class="text-lg font-semibold">
                         {{ modalHeadline }}
                     </FoundationHeadline>
                     <form method="dialog">
@@ -56,7 +63,9 @@ function closeModalOnClickOutside(event: MouseEvent) {
                     </form>
                 </div>
 
-                <slot />
+                <div class="px-6 pb-6">
+                    <slot />
+                </div>
             </div>
         </div>
     </dialog>

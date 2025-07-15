@@ -11,7 +11,8 @@ const useModalState = createGlobalState(() => {
 })
 
 export function useModal(id?: string) {
-    const modalId = id || `modal_${Date.now()}_${Math.random()}`
+    const uuid = useId()
+    const modalId = id || `modal_${uuid}`
     const state = useModalState()
 
     const open = () => {
