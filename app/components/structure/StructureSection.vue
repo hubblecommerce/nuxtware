@@ -21,23 +21,26 @@ const sidebarBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
 <template>
     <section
         class="cms-section"
-        :class="{
-            [content.cssClass as string]: content.cssClass,
-            'lg:container m-auto p-2': content.sizingMode === 'boxed',
-            'w-full': content.sizingMode === 'fullwidth'
-        }"
+        :class="{[content.cssClass as string]: content.cssClass}"
         :style="backgroundStyles"
     >
-        <div class="grid grid-cols-12 gap-4">
-            <div
-                v-if="content.type === 'sidebar'"
-                :class="{ 'col-span-12': content.mobileBehavior === 'wrap','hidden': content.mobileBehavior === 'hidden' }"
-                class="md:flex md:flex-col md:gap-4 md:col-span-3"
-            >
-                <StructureBlock v-for="(sidebarBlock) in sidebarBlocks" :key="sidebarBlock.id" :content="sidebarBlock" :count="count" />
-            </div>
-            <div :class="{ 'md:col-span-9': content.type === 'sidebar' }" class="flex flex-col gap-4 col-span-12">
-                <StructureBlock v-for="(mainBlock) in mainBlocks" :key="mainBlock.id" :content="mainBlock" :count="count" />
+        <div
+            :class="{
+                'lg:container m-auto px-2': content.sizingMode === 'boxed',
+                'w-full': content.sizingMode === 'fullwidth'
+            }"
+        >
+            <div class="grid grid-cols-12 gap-4">
+                <div
+                    v-if="content.type === 'sidebar'"
+                    :class="{ 'col-span-12': content.mobileBehavior === 'wrap','hidden': content.mobileBehavior === 'hidden' }"
+                    class="md:flex md:flex-col md:gap-4 md:col-span-3"
+                >
+                    <StructureBlock v-for="(sidebarBlock) in sidebarBlocks" :key="sidebarBlock.id" :content="sidebarBlock" :count="count" />
+                </div>
+                <div :class="{ 'md:col-span-9': content.type === 'sidebar' }" class="flex flex-col gap-4 col-span-12">
+                    <StructureBlock v-for="(mainBlock) in mainBlocks" :key="mainBlock.id" :content="mainBlock" :count="count" />
+                </div>
             </div>
         </div>
     </section>
