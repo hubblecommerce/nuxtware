@@ -370,7 +370,7 @@ const getCurrentPaymentMethodId = (orderId: string) => {
                 <p class="text-muted-foreground mb-6">
                     {{ $t('orders.empty') }}
                 </p>
-                <FoundationLink :href="formatLink('/')" class="btn btn-default">
+                <FoundationLink :href="formatLink('/')" class="btn">
                     {{ $t('common.startShopping') }}
                 </FoundationLink>
             </div>

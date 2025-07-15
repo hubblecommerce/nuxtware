@@ -8,6 +8,7 @@ const props = defineProps<{
 }>()
 
 const { backgroundStyles } = useCmsBackgroundStyles(props.content)
+const { marginStyles } = useCmsMarginStyles(props.content)
 const { getCmsBlockName, getCmsElementName } = useCms()
 
 const component = shallowRef()
@@ -47,7 +48,7 @@ const loadComponent = function () {
 </script>
 
 <template>
-    <div ref="blockWrapper" class="cms-block" :class="content.cssClass" :style="backgroundStyles">
+    <div ref="blockWrapper" class="cms-block" :class="content.cssClass" :style="[marginStyles, backgroundStyles]">
         <component :is="component" :content="content.slots.length === 1 ? content.slots[0] : content" />
     </div>
 </template>

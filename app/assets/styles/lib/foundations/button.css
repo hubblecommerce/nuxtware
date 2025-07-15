@@ -14,7 +14,31 @@
                 right: -8px;
                 bottom: -8px;
                 left: -8px;
+                z-index: -1;
             }
+        }
+
+        /* Hover-Zustand nur bei Hover-Unterstützung */
+        @media (hover: hover) {
+            &:hover:not(:disabled) {
+                @apply bg-btn-shade-dark;
+            }
+        }
+
+        /* Aktiver Zustand */
+        &:active:not(:disabled) {
+            @apply bg-btn-shade-dark;
+        }
+
+        /* Focus-Zustand verstärken */
+        &:focus-visible {
+            @apply outline-2 outline-offset-2 outline-blue-500;
+        }
+
+        /* Disabled-Zustand verbessern */
+        &:disabled {
+            @apply opacity-60 cursor-not-allowed;
+            pointer-events: none;
         }
     }
 }
@@ -74,6 +98,27 @@
 
 @utility btn-loading {
     @apply cursor-wait;
+
+    /* Verhindert Interaktion während Loading */
+    pointer-events: none;
+
+    /* Screen Reader Hinweis */
+    &::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: btn-spin 1s linear infinite;
+    }
+}
+
+@keyframes btn-spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @utility btn-square {
@@ -110,4 +155,22 @@
 
 @utility no-animation {
     @apply active:translate-y-0;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .btn {
+        border: 2px solid currentColor;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .btn {
+        transition: none;
+    }
+
+    .btn-loading::after {
+        animation: none;
+    }
 }
