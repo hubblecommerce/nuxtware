@@ -18,10 +18,10 @@ const serviceNavigation = await serviceNavigationComposable.loadNavigationElemen
 </script>
 <template>
     <footer>
-        <fieldset class="bg-gray-100">
-            <FormsNewsletter class="w-2/3 mx-auto p-8" />
+        <fieldset class="container m-auto p-2">
+            <FormsNewsletter />
         </fieldset>
-        <div class="border-primary border-t">
+        <div class="border-border border-t">
             <div class="container m-auto px-2">
                 <section class="flex flex-col sm:flex-row sm:gap-6 m-auto py-6">
                     <FooterNavigation :navigation="footerNavigation" />
