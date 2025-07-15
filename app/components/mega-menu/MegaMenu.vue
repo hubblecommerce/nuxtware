@@ -59,66 +59,70 @@ function clearPopoverTimeout () {
         class="w-full relative"
         @mouseleave="closePopover()"
     >
-        <ul class="flex justify-start items-center flex-wrap">
-            <li
-                v-for="item in navigationItems"
-                :key="item.id"
-                class="btn text-primary-content hover:bg-primary no-animation"
-                @mouseenter.passive="item.children.length ? openPopover(item.id) : clearPopoverTimeout()"
-            >
-                <FoundationLink
-                    :href="formatLink(getCategoryRoute(item))"
-                    itemprop="url"
-                    class="btn hover:bg-primary px-1"
-                    @click="closePopover()"
+        <div class="lg:container m-auto px-2">
+            <ul class="flex justify-center items-center flex-wrap">
+                <li
+                    v-for="item in navigationItems"
+                    :key="item.id"
+                    class="btn no-animation"
+                    @mouseenter.passive="item.children.length ? openPopover(item.id) : clearPopoverTimeout()"
                 >
-                    <span itemprop="name">{{ item.name }}</span>
-                </FoundationLink>
+                    <FoundationLink
+                        :href="formatLink(getCategoryRoute(item))"
+                        itemprop="url"
+                        class="btn px-0 hover:underline"
+                        @click="closePopover()"
+                    >
+                        <span itemprop="name">{{ item.name }}</span>
+                    </FoundationLink>
 
-                <FoundationButton
-                    v-if="item.children.length"
-                    square
-                    size="small"
-                    class="hover:bg-primary"
-                    :aria-expanded="activeItem"
-                    :aria-controls="`menu-${item.id}`"
-                    @click="openPopover(item.id, { focusTrap: true, delay: 0 })"
-                >
-                    <span class="sr-only">{{ $t('megaMenu.firstLevel.openChildren', { category: item.name }) }}</span>
-                    <FoundationIcon :name="activeItem ? 'chevron-up' : 'chevron-down'" />
-                </FoundationButton>
-            </li>
-        </ul>
+                    <FoundationButton
+                        v-if="item.children.length"
+                        square
+                        size="small"
+                        :aria-expanded="activeItem"
+                        :aria-controls="`menu-${item.id}`"
+                        @click="openPopover(item.id, { focusTrap: true, delay: 0 })"
+                    >
+                        <span class="sr-only">{{ $t('megaMenu.firstLevel.openChildren', { category: item.name }) }}</span>
+                        <FoundationIcon :name="activeItem ? 'chevron-up' : 'chevron-down'" />
+                    </FoundationButton>
+                </li>
+            </ul>
+        </div>
         <div
             v-show="openedCategory"
             ref="megaMenuPopover"
-            class="container absolute top-full -mt-px left-0 bg-white border p-10 z-50"
+            class="absolute top-full -mt-px left-0 bg-white shadow-lg border-t border-border p-10 z-50 w-full"
             @mouseleave="closePopover()"
         >
-            <FoundationButton
-                size="small"
-                square
-                class="absolute top-2 right-2"
-                @click="closePopover()"
-            >
-                <span class="sr-only">{{ $t('megaMenu.popOver.close') }}</span>
-                <FoundationIcon name="x" />
-            </FoundationButton>
-            <template v-for="item in navigationItems" :key="item.id">
-                <div
-                    v-show="openedCategory === item.id && activeItem?.children?.length"
-                    :id="`menu-${item.id}`"
-                    class="flex flex-wrap items-start gap-8"
+            <div class="lg:container m-auto px-2 relative">
+                <FoundationButton
+                    size="small"
+                    square
+                    class="absolute top-0 right-0"
+                    @click="closePopover()"
                 >
-                    <MegaMenuItem
-                        v-for="subItem in item.children"
-                        v-show="activeItem"
-                        :key="subItem.id"
-                        :item="subItem"
-                        @navigate="closePopover()"
-                    />
-                </div>
-            </template>
+                    <span class="sr-only">{{ $t('megaMenu.popOver.close') }}</span>
+                    <FoundationIcon name="x" />
+                </FoundationButton>
+                <template v-for="item in navigationItems" :key="item.id">
+                    <div
+                        v-show="openedCategory === item.id && activeItem?.children?.length"
+                        :id="`menu-${item.id}`"
+                        class="flex flex-wrap items-start gap-8"
+                    >
+                        <MegaMenuItem
+                            v-for="subItem in item.children"
+                            v-show="activeItem"
+                            :key="subItem.id"
+                            class="font-semibold text-neutral"
+                            :item="subItem"
+                            @navigate="closePopover()"
+                        />
+                    </div>
+                </template>
+            </div>
         </div>
     </nav>
 </template>

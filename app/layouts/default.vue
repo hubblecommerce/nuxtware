@@ -16,21 +16,26 @@ const { open } = useSidenav()
 </script>
 
 <template>
+    <!-- Skip Link -->
     <LayoutSkipLinks />
-    <header>
-        <div class="hidden m-auto w-full flex-wrap justify-end items-center gap-2 p-2 lg:flex lg:container">
+
+    <!-- Top Bar -->
+    <LayoutTopBar />
+
+    <header class="shadow-lg">
+        <div class="hidden m-auto w-full flex-wrap justify-end items-center gap-2 py-1 px-2 lg:flex lg:container">
             <ContextLanguageSwitch size="small" />
             <ContextCurrencySwitch size="small" />
         </div>
 
-        <div class="m-auto w-full flex flex-wrap justify-between items-center p-2 lg:container">
+        <div class="m-auto w-full flex flex-wrap justify-between items-center px-2 lg:container">
             <SidenavMenu />
 
-            <FoundationLink href="/" class="w-[calc(100%-3rem-50%)] max-w-[200px] order-20 mr-auto lg:mr-0">
+            <FoundationLink href="/" class="w-[calc(100%-3rem-50%)] max-w-[160px] order-20 mr-auto lg:mr-0">
                 <span class="sr-only">{{ $t('header.homeLink') }}</span><FoundationIcon name="logo" class="w-full" />
             </FoundationLink>
 
-            <SearchQuick class="w-full mt-2 order-40 lg:order-25 lg:w-[300px] lg:mt-0" />
+            <SearchQuick class="w-full my-2 order-40 lg:order-25 lg:max-w-[580px] lg:my-0" />
 
             <div class="shrink-0 flex justify-between items-center gap-2 order-30">
                 <ClientOnly>
@@ -54,7 +59,7 @@ const { open } = useSidenav()
                     <FoundationLink 
                         v-else
                         href="/account/login" 
-                        class="btn btn-ghost btn-medium btn-square"
+                        class="btn btn-ghost btn-medium btn-circle"
                     >
                         <span class="sr-only">{{ $t('header.customerLink') }}</span><FoundationIcon name="user" />
                     </FoundationLink>
@@ -63,13 +68,13 @@ const { open } = useSidenav()
                         <!-- Default to login link on server -->
                         <FoundationLink 
                             href="/account/login" 
-                            class="btn btn-ghost btn-medium btn-square"
+                            class="btn btn-ghost btn-medium btn-circle"
                         >
                             <span class="sr-only">{{ $t('header.customerLink') }}</span><FoundationIcon name="user" />
                         </FoundationLink>
                     </template>
                 </ClientOnly>
-                <FoundationLink href="/wishlist" class="btn btn-ghost btn-medium btn-square relative">
+                <FoundationLink href="/wishlist" class="btn btn-ghost btn-medium btn-circle relative">
                     <span class="sr-only">{{ $t('header.wishlistLink') }}</span><FoundationIcon name="heart" />
                     <client-only>
                         <span 
@@ -83,8 +88,8 @@ const { open } = useSidenav()
                 </FoundationLink>
                 <FoundationButton 
                     size="medium" 
-                    variant="ghost" 
-                    square
+                    variant="ghost"
+                    circle
                     class="relative"
                     :aria-label="$t('header.cart.open')"
                     @click="open('cart')"
@@ -103,14 +108,10 @@ const { open } = useSidenav()
             </div>
         </div>
 
-        <div class="hidden lg:block bg-primary">
-            <div class="container m-auto px-2">
-                <MegaMenu />
-            </div>
+        <div class="hidden lg:block bg-base-100">
+            <MegaMenu />
         </div>
     </header>
-
-    <LayoutTopBar />
 
     <main>
         <slot />

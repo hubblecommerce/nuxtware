@@ -16,7 +16,6 @@ defineEmits(['navigate'])
     <FoundationLink
         v-if="!item.children.length"
         :href="formatLink(getCategoryRoute(item))"
-        class="font-semibold"
         itemprop="url"
         @click="$emit('navigate')"
     >
@@ -24,16 +23,16 @@ defineEmits(['navigate'])
     </FoundationLink>
 
     <div v-else class="flex flex-col gap-2">
-        <FoundationLink :href="formatLink(getCategoryRoute(item))" class="font-semibold">
+        <FoundationLink :href="formatLink(getCategoryRoute(item))" class="font-semibold text-neutral">
             {{ item.name }}
         </FoundationLink>
 
-        <div v-if="item.children.length" class="flex flex-col pl-6">
+        <div v-if="item.children.length" class="flex flex-col">
             <MegaMenuItem
                 v-for="childItem in item.children"
                 :key="childItem.id"
                 :item="childItem"
-                class="font-normal"
+                class="font-normal text-neutral text-sm"
                 itemprop="url"
                 @click="$emit('navigate')"
                 @navigate="$emit('navigate')"
