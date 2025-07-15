@@ -1,9 +1,10 @@
 @layer components {
     .input {
         @apply input-md input-default;
-        @apply block rounded-lg;
         @apply disabled:input-disabled;
         @apply focus-style appearance-none forced-colors:appearance-auto;
+        @apply block rounded-lg;
+        @apply placeholder:text-input-placeholder;
 
         &[aria-disabled="true"] {
             @apply input-disabled;
@@ -61,7 +62,7 @@
 }
 
 @utility input-bordered {
-    --color-input: --color-border;
+    --color-input: var(--color-gray-500);
 }
 
 @utility input-error {
