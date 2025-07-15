@@ -122,7 +122,7 @@ Nuxtware:
 - [x] Checkout
     - [x] Index
     - [x] Success
-    - [ ] Error
+    - [x] Error
 - [x] Wishlist
 - [x] Account
     - [x] Login
@@ -151,7 +151,7 @@ Nuxtware:
 - [x] Skiplinks
 - [x] Scroll To Top
 - [x] Newsletter Form
-    - [ ] Newsletter double opt in retun page (newsletter-subscribe)   
+    - [x] Newsletter double opt in retun page (newsletter-subscribe)   
 - [x] Popups (Modals)
 - [x] Footer
 - [x] Topbar / Banderole

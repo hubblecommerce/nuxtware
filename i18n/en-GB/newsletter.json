@@ -10,6 +10,10 @@
     "successUnsubscribed": "Successfully unsubscribed from newsletter!",
     "subscriptionCheckbox": "Yes, I would like to subscribe to the free Demostore newsletter. (I may unsubscribe at any time.)",
     "subscriptionInfo": "Please check your email to confirm your newsletter subscription.",
+    "confirmTitle": "Newsletter Confirmation",
+    "confirmDescription": "Confirming your newsletter subscription",
+    "confirmSuccess": "Successfully confirmed your newsletter subscription!",
+    "confirmError": "Failed to confirm newsletter subscription. Please try again or contact support.",
     "messages": {
       "newsletterSubscribed": "Successfully subscribed to newsletter!",
       "newsletterUnsubscribed": "Successfully unsubscribed from newsletter!"

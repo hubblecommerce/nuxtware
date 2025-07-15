@@ -10,6 +10,10 @@
     "successUnsubscribed": "Newsletter erfolgreich abbestellt",
     "subscriptionCheckbox": "Ja, ich möchte den kostenlosen Demostore Newsletter abonnieren. (Ich kann mich jederzeit abmelden.)",
     "subscriptionInfo": "Bitte überprüfen Sie Ihre E-Mail, um Ihr Newsletter-Abonnement zu bestätigen.",
+    "confirmTitle": "Newsletter Bestätigung",
+    "confirmDescription": "Bestätigung Ihres Newsletter-Abonnements",
+    "confirmSuccess": "Newsletter-Abonnement erfolgreich bestätigt!",
+    "confirmError": "Newsletter-Abonnement konnte nicht bestätigt werden. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.",
     "messages": {
       "newsletterSubscribed": "Newsletter erfolgreich abonniert!",
       "newsletterUnsubscribed": "Newsletter erfolgreich abbestellt!"
