@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Schemas } from "#shopware"
 import type { CmsElementImageGallery } from '@shopware/composables'
 import { getBiggestThumbnailUrl } from "@shopware/helpers"
 
@@ -8,11 +7,26 @@ const props = defineProps<{
     content: CmsElementImageGallery
 }>()
 
-const srcPath = (item: CmsElementImageGallery['data']['sliderItems'][0]) => {
-    const media = 'media' in item && typeof item.media === 'object' 
-        ? item.media 
-        : (item as Schemas["ProductMedia"]).media
-    return getBiggestThumbnailUrl(media)
+// Follow Shopware's pattern exactly - use sliderItems directly
+const mediaGallery = computed(() => props.content.data?.sliderItems ?? [])
+
+const srcPath = (item: any) => {
+    // Following Shopware's pattern: item.media.url
+    if (item.media?.url) {
+        return item.media.url
+    }
+    
+    // Fallback to getBiggestThumbnailUrl for better quality
+    if (item.media) {
+        return getBiggestThumbnailUrl(item.media)
+    }
+    
+    // Handle direct media objects
+    if (item.url || item.thumbnails) {
+        return getBiggestThumbnailUrl(item)
+    }
+    
+    return ''
 }
 
 // Extract navigation and indicator configuration from Shopware config
@@ -32,7 +46,7 @@ const navigationDots = computed(() => {
 <template>
     <div>
         <ComponentCarousel
-            :items="content.data.sliderItems"
+            :items="mediaGallery"
             :items-per-slide="{ default: 1 }"
             aspect-ratio="16/9"
             :auto-play="false"
@@ -44,9 +58,8 @@ const navigationDots = computed(() => {
         >
             <template #default="{ item }">
                 <img 
-                    v-if="(item as any).media" 
-                    :src="srcPath(item as CmsElementImageGallery['data']['sliderItems'][0])" 
-                    :alt="(item as any).media?.alt || ''"
+                    :src="srcPath(item)" 
+                    :alt="item.media?.alt || item.alt || ''"
                     class="w-full h-full object-cover"
                 >
             </template>
