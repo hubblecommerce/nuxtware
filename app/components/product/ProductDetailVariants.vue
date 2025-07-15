@@ -47,8 +47,6 @@ const onHandleChange = async () => {
     try {
         const variantFound = await findVariantForSelectedOptions()
 
-        console.log('variantFound: ', variantFound)
-
         if (variantFound) {
             const newProductVariant = await search(variantFound.id)
             emit('productVariantChanged', newProductVariant.product)
@@ -226,9 +224,9 @@ function optionStyles(state: OptionStates): string {
     <section v-if="props.configurator != null && props.configurator.length > 0" :aria-label="$t('product.detail.variants')" class="relative flex flex-col gap-6">
         <div
             v-if="isLoading"
-            class="absolute top-0 left-0 w-full h-full flex items-center justify-center z-10 bg-white/75 rounded-md"
+            class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white/75 z-10"
         >
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-neutral" />
+            <div class="w-4 h-4 border-2 border-gray-300 border-t-primary rounded-full animate-spin" />
         </div>
         
         <div v-for="variantGroup in props.configurator" :key="variantGroup.id">
