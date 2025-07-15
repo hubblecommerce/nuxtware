@@ -155,6 +155,11 @@ const changePage = async (page: number) => {
 
 // Load orders on component mount
 onMounted(() => {
+    // Check for payment error in URL params
+    if (route.query.error === 'payment') {
+        errorNotification(t('orders.paymentError.redirectMessage'), { keepAlive: true })
+    }
+    
     loadOrdersData()
 })
 

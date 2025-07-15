@@ -136,6 +136,9 @@
             "loadError": "Fehler beim Laden der Zahlungsarten",
             "updateError": "Fehler beim Aktualisieren der Zahlungsart",
             "reloadError": "Fehler beim Aktualisieren der Bestellinformationen"
+        },
+        "paymentError": {
+            "redirectMessage": "Die Zahlung war nicht erfolgreich. Sie können es erneut versuchen, indem Sie Ihre Zahlungsart unten ändern."
         }
     }
 }

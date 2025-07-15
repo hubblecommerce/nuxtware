@@ -136,6 +136,9 @@
             "loadError": "Failed to load payment methods",
             "updateError": "Failed to update payment method",
             "reloadError": "Failed to reload order information"
+        },
+        "paymentError": {
+            "redirectMessage": "Payment was not successful. You can try again or change your payment method below."
         }
     }
 }

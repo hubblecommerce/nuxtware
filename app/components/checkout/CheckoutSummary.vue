@@ -1,3 +1,82 @@
+<script setup lang="ts">
+interface ComponentCheckoutSummaryProps {
+    disabled?: boolean
+}
+
+interface ComponentCheckoutSummaryEmits {
+    (e: 'order-placed', orderId: string): void
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    (e: 'order-error', error: string): void
+}
+
+const props = withDefaults(defineProps<ComponentCheckoutSummaryProps>(), {
+    disabled: false
+})
+
+const emit = defineEmits<ComponentCheckoutSummaryEmits>()
+
+const { 
+    cartItems, 
+    cart,
+    refreshCart 
+} = useCart()
+const { createOrder } = useCheckout()
+const { handlePayment } = usePayment()
+const { isLoggedIn, isGuestSession } = useUser()
+const { refreshSessionContext } = useSessionContext()
+const { success, error: notifyError } = useGlobalNotifications()
+const { t } = useI18n()
+
+const isPlacingOrder = ref(false)
+const isInitializing = ref(true)
+
+const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
+
+const handlePlaceOrder = async () => {
+    if (!isUserSession.value || props.disabled || isPlacingOrder.value) return
+
+    isPlacingOrder.value = true
+
+    try {
+        const order = await createOrder()
+        
+        if (order?.id) {
+            // Handle payment after order creation
+            const paymentResult = await handlePayment(order.id)
+            
+            if (paymentResult.redirectUrl) {
+                // Redirect to payment provider for async payment
+                window.location.href = paymentResult.redirectUrl
+            } else {
+                // Synchronous payment completed
+                success(t('checkout.summary.orderSuccess', { orderId: order.id }))
+                emit('order-placed', order.id)
+                await refreshCart()
+            }
+        } else {
+            throw new Error('Order creation failed')
+        }
+    } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : t('checkout.summary.orderError')
+        notifyError(errorMessage)
+        emit('order-error', errorMessage)
+    } finally {
+        isPlacingOrder.value = false
+    }
+}
+
+// Initialize session context on mount
+onMounted(async () => {
+    try {
+        await refreshSessionContext()
+    } catch (error) {
+        console.warn('Failed to refresh session context:', error)
+    } finally {
+        isInitializing.value = false
+    }
+})
+</script>
+
 <template>
     <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
@@ -66,76 +145,3 @@
         </div>
     </fieldset>
 </template>
-
-<script setup lang="ts">
-interface ComponentCheckoutSummaryProps {
-    disabled?: boolean
-}
-
-interface ComponentCheckoutSummaryEmits {
-    (e: 'order-placed', orderId: string): void
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    (e: 'order-error', error: string): void
-}
-
-const props = withDefaults(defineProps<ComponentCheckoutSummaryProps>(), {
-    disabled: false
-})
-
-const emit = defineEmits<ComponentCheckoutSummaryEmits>()
-
-// Composables
-const { 
-    cartItems, 
-    cart,
-    refreshCart 
-} = useCart()
-const { createOrder } = useCheckout()
-const { isLoggedIn, isGuestSession } = useUser()
-const { refreshSessionContext } = useSessionContext()
-const { success, error: notifyError } = useGlobalNotifications()
-const { t } = useI18n()
-
-// State
-const isPlacingOrder = ref(false)
-const isInitializing = ref(true)
-
-// Computed
-const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
-
-// Methods
-const handlePlaceOrder = async () => {
-    if (!isUserSession.value || props.disabled || isPlacingOrder.value) return
-
-    isPlacingOrder.value = true
-
-    try {
-        const order = await createOrder()
-        
-        if (order?.id) {
-            success(t('checkout.summary.orderSuccess', { orderId: order.id }))
-            emit('order-placed', order.id)
-            await refreshCart()
-        } else {
-            throw new Error('Order creation failed')
-        }
-    } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : t('checkout.summary.orderError')
-        notifyError(errorMessage)
-        emit('order-error', errorMessage)
-    } finally {
-        isPlacingOrder.value = false
-    }
-}
-
-// Initialize session context on mount
-onMounted(async () => {
-    try {
-        await refreshSessionContext()
-    } catch (error) {
-        console.warn('Failed to refresh session context:', error)
-    } finally {
-        isInitializing.value = false
-    }
-})
-</script>
