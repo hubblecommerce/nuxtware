@@ -152,7 +152,7 @@ Nuxtware:
 - [x] Scroll To Top
 - [x] Newsletter Form
     - [ ] Newsletter double opt in retun page (newsletter-subscribe)   
-- [ ] Popups (Modals)
+- [x] Popups (Modals)
 - [x] Footer
 - [x] Topbar / Banderole
 - [ ] Brands Page

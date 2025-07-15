@@ -18,6 +18,7 @@ import wishlist from './wishlist.json'
 import carousel from './carousel.json'
 import tabs from './tabs.json'
 import review from './review.json'
+import modal from './modal.json'
 import productPurchaseUnitAndInfos from './productPurchaseUnitAndInfos.json'
 import productDeliveryInformation from './productDeliveryInformation.json'
 import productSoldOut from './productSoldOut.json'
@@ -52,6 +53,7 @@ export default {
     ...carousel,
     ...tabs,
     ...review,
+    ...modal,
     ...misc,
     ...newsletter,
     ...skipLinks,

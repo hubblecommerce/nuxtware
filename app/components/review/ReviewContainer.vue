@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useProductReviews } from '../../composables/useProductReviews'
+import { useModal } from '../../composables/useModal'
 
 interface ReviewContainerProps {
     productId: string
     initialReviews?: unknown[]
     showInModal?: boolean
 }
-
 interface ReviewData {
     id?: string
     title: string
@@ -51,6 +51,7 @@ const {
 const showForm = ref(false)
 const showList = ref(true)
 const formMode = ref<'create'>('create')
+const reviewsModal = useModal('reviews-modal')
 
 // Computed
 const sortOptions = computed(() => [
@@ -140,6 +141,30 @@ const hasActiveFilters = computed(() => {
 
 <template>
     <div id="reviews-container" class="review-container">
+        <!-- examplary modal implementation-->
+        <FoundationButton
+            type="button"
+            class="btn btn-secondary mb-6"
+            @click="reviewsModal.open"
+        >
+            Open Modal
+        </FoundationButton>
+        <ComponentModal
+            :controller="reviewsModal"
+            modal-headline="Reviews Modal"
+            :close-on-click-outside="true"
+        >
+            <ReviewWidget
+                :product-id="productId"
+                :statistics="statistics"
+                :selected-ratings="filters.points || []"
+                :show-all-languages="filters.language || false"
+                @filter-rating="handleFilterRating"
+                @toggle-language="handleToggleLanguage"
+                @toggle-form="handleToggleForm"
+            />
+        </ComponentModal>
+
         <!-- Mobile-first responsive layout -->
         <div class="flex flex-col lg:flex-row gap-6">
             
