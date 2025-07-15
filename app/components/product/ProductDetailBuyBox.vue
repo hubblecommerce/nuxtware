@@ -11,6 +11,7 @@ const props = defineProps<{
 const { addToCart, quantity, isInCart, count } = useAddToCart(ref(props.product))
 
 const cartItemCount = computed(() => count.value || 0)
+const variantNotFound = ref(false)
 
 const showQtySelect = computed(() => {
     return props.product.maxPurchase !== 1
@@ -18,7 +19,7 @@ const showQtySelect = computed(() => {
 
 const isBuyable = computed(() => {
     if (props.product.calculatedMaxPurchase) {
-        return props.product.available && (!props.product.childCount || props.product.childCount <= 0) && props.product.calculatedMaxPurchase > 0
+        return props.product.available && (!props.product.childCount || props.product.childCount <= 0) && props.product.calculatedMaxPurchase > 0 && !variantNotFound.value
     } else return false
 })
 
@@ -42,6 +43,11 @@ function openProductTab (anchor: string) {
 
 function updateProduct (newProduct: Schemas["Product"]) {
     Object.assign(props.product, newProduct)
+    variantNotFound.value = false
+}
+
+function handleVariantNotFound () {
+    variantNotFound.value = true
 }
 </script>
 <template>
@@ -101,6 +107,7 @@ function updateProduct (newProduct: Schemas["Product"]) {
             :configurator="props.configurator"
             :parent-id="props.product.parentId"
             @product-variant-changed="(product) => updateProduct(product)"
+            @variant-not-found="handleVariantNotFound"
         />
 
         <div v-if="isBuyable" class="flex flex-row gap-2 items-center">

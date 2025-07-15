@@ -27,7 +27,9 @@
         "description": "Beschreibung",
         "reviews": "Bewertungen"
       },
-      "variants": "Produktvarianten"
+      "variants": "Produktvarianten",
+      "selected": "Ausgewählt",
+      "chooseOption": "Option wählen für"
     },
     "reviews": {
       "link": "{rating} von 5 Sternen, zu den Bewertungen"
