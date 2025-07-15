@@ -141,14 +141,6 @@ const hasActiveFilters = computed(() => {
 
 <template>
     <div id="reviews-container" class="review-container">
-        <!-- examplary modal implementation-->
-        <FoundationButton
-            type="button"
-            class="btn btn-secondary mb-6"
-            @click="reviewsModal.open"
-        >
-            Open Modal
-        </FoundationButton>
         <ComponentModal
             :controller="reviewsModal"
             modal-headline="Reviews Modal"
