@@ -64,7 +64,7 @@ const buttonSizes = reactive<Record<ButtonSize, string>>({
 })
 
 const buttonVariants = reactive<Record<ButtonVariant, string>>({
-    default: 'btn-default',
+    default: '',
     outline: 'btn-outline',
     ghost: 'btn-ghost',
 })
