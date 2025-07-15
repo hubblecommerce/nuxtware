@@ -2,10 +2,12 @@
 const props = withDefaults(defineProps<{
     controller: ReturnType<typeof useModal>,
     modalHeadline?: string | null,
-    closeOnClickOutside?: boolean
+    closeOnClickOutside?: boolean,
+    fullscreen?: boolean
 }>(), {
     modalHeadline: null,
-    closeOnClickOutside: false
+    closeOnClickOutside: false,
+    fullscreen: false
 })
 const { close } = props.controller
 const modalRef = ref<HTMLDialogElement | null>()
@@ -47,14 +49,19 @@ function closeModalOnClickOutside (event: MouseEvent) {
     <dialog
         :id="controller.id"
         ref="modalRef"
-        class="bg-white rounded-lg text-left overflow-hidden shadow-xl m-auto max-h-[90vh] max-w-[95vw]"
+        :class="[
+            'bg-white text-left overflow-hidden shadow-xl',
+            fullscreen 
+                ? 'w-screen h-screen max-w-none max-h-none m-0'
+                : 'rounded-lg m-auto max-h-[90vh] max-w-[95vw]'
+        ]"
         aria-modal="true"
         :aria-labelledby="modalHeadline ? headlineId : undefined"
         @close="closeModal"
     >
-        <div class="flex flex-col max-h-[90vh] min-h-0">
-            <!-- Fixed Header -->
-            <div class="flex justify-between items-center p-6 pb-3 w-full flex-shrink-0 border-b border-border">
+        <div :class="fullscreen ? 'flex flex-col w-full h-full' : 'flex flex-col max-h-[90vh] min-h-0'">
+            <!-- Header -->
+            <div :class="fullscreen ? 'flex justify-between items-center p-6 pb-3 w-full border-b border-border flex-shrink-0' : 'flex justify-between items-center p-6 pb-3 w-full flex-shrink-0 border-b border-border'">
                 <FoundationHeadline v-if="modalHeadline" :id="headlineId" tag="div" class="text-lg font-semibold">
                     {{ modalHeadline }}
                 </FoundationHeadline>
@@ -69,8 +76,8 @@ function closeModalOnClickOutside (event: MouseEvent) {
                 </form>
             </div>
 
-            <!-- Scrollable Content Area -->
-            <div class="flex-1 overflow-y-auto overscroll-contain p-6 min-h-0">
+            <!-- Content Area -->
+            <div :class="fullscreen ? 'flex-1 p-6 w-full min-h-0 overflow-hidden flex flex-col' : 'flex-1 overflow-y-auto overscroll-contain p-6 min-h-0'">
                 <slot />
             </div>
         </div>

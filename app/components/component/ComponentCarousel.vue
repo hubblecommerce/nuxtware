@@ -59,6 +59,11 @@ const props = withDefaults(defineProps<ComponentCarouselProps>(), {
     showScrollbar: false
 })
 
+// Define emits for slide changes
+const emit = defineEmits<{
+    'slide-change': [currentSlide: number]
+}>()
+
 // Initialize carousel composable with optimized configuration
 const carousel = useCarousel({
     itemsPerSlide: props.itemsPerSlide,
@@ -285,6 +290,16 @@ const handleKeyDown = (event: KeyboardEvent): void => {
         action()
     }
 }
+
+// Watch for slide changes and emit events
+watch(currentSlide, (newSlide) => {
+    emit('slide-change', newSlide)
+})
+
+// Expose goToSlide for parent components
+defineExpose({
+    goToSlide
+})
 
 </script>
 
