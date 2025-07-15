@@ -67,7 +67,7 @@ onMounted(async () => {
     try {
         // Wait for image to load before calculations
         if (!imageLoaded.value) {
-            await until(imageLoaded).toBe(true, { timeout: 3000 })
+            await until(imageLoaded).toBe(true, { timeout: 1000 })
         }
         
         await nextTick()
