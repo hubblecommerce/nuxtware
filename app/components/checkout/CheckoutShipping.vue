@@ -49,7 +49,7 @@
                                 class="cursor-pointer"
                             >
                                 <div class="flex items-center gap-2">
-                                    <span class="font-medium text-secondary">
+                                    <span class="font-medium">
                                         {{ method.translated?.name }}
                                     </span>
                                     

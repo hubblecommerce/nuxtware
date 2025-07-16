@@ -37,7 +37,7 @@ function getHighlightCategory(navigationElement: Schemas["Category"]) {
 }
 </script>
 <template>
-    <ul v-if="props.elements?.length" class="list-none m-0 px-5">
+    <ul v-if="props.elements?.length" class="list-none m-0">
         <li
             v-for="(navigationElement, index) in props.elements"
             :key="index"
