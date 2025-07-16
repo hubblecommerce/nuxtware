@@ -20,6 +20,7 @@ const { formatLink } = useInternationalization(localePath)
                 ? '_blank'
                 : undefined
             "
+                class="text-neutral hover:underline"
                 :to="formatLink(getCategoryRoute(navigationElement))"
             >
                 {{ getTranslatedProperty(navigationElement, "name") }}

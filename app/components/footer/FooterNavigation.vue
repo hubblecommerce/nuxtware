@@ -14,21 +14,22 @@ const { formatLink } = useInternationalization(localePath)
         v-for="navigationElement in props.navigation"
         :key="navigationElement.id"
     >
-        <h3 class="mb-5">
+        <FoundationHeadline level="h3" class="font-semibold mb-4">
             {{ getTranslatedProperty(navigationElement, "name") }}
-        </h3>
+        </FoundationHeadline>
         <template v-if="navigationElement.childCount > 0">
-            <ul class="list-none p-0 mb-5">
+            <ul class="list-none">
                 <li
                     v-for="navigationChild in navigationElement.children"
                     :key="navigationChild.id"
-                    class="pb-3"
+                    class="pb-3 last:pb-0"
                 >
                     <FoundationLink
                         :target="navigationElement.externalLink || navigationElement.linkNewTab
                         ? '_blank'
                         : undefined
                     "
+                        class="text-neutral"
                         :to="formatLink(getCategoryRoute(navigationChild))"
                     >
                         {{ getTranslatedProperty(navigationChild, "name") }}
