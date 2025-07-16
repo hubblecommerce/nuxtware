@@ -86,12 +86,12 @@ const formatItemDescription = (description: string | undefined) => {
                                 class="flex-shrink-0"
                                 :class="compact ? 'w-12 h-12' : 'w-16 h-16'"
                             >
-                                <img
+                                <FoundationImage
                                     v-if="getItemImage(lineItem)"
                                     :src="getItemImage(lineItem) as string"
                                     :alt="lineItem.label"
                                     class="w-full h-full object-cover rounded border border-border"
-                                >
+                                />
                                 <div 
                                     v-else
                                     class="w-full h-full bg-muted rounded border border-border flex items-center justify-center"

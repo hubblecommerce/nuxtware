@@ -32,13 +32,13 @@ function getPrice (product: Schemas['Product']) {
                     class="flex items-center gap-2"
                     @click="$emit('navigate')"
                 >
-                    <img
+                    <FoundationImage
                         ref="imageElement"
                         loading="lazy"
                         :src="getSmallestThumbnailUrl(product.cover?.media)"
                         class="h-8 w-8 object-cover"
                         alt=""
-                    >
+                    />
                     {{ getTranslatedProperty(product, 'name') }}
                     <div>
                         {{ getPrice(product) }}

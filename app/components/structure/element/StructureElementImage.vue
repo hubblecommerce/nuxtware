@@ -204,7 +204,7 @@ const processedImageLink = computed(() => {
                     <source :src="imageAttrs.src" :type="mimeType">
                     {{ $t('misc.videoNotSupported') }}
                 </video>
-                <img
+                <FoundationImage
                     v-else
                     ref="imageElement"
                     loading="lazy"
@@ -214,7 +214,7 @@ const processedImageLink = computed(() => {
                     :src="srcPath || undefined"
                     :srcset="imageAttrs.srcset"
                     :data-object-fit="(['cover', 'stretch'].includes(displayModeValue)) ? displayModeValue : undefined"
-                >
+                />
             </component>
         </div>
         <component
@@ -244,7 +244,7 @@ const processedImageLink = computed(() => {
                 <source :src="imageAttrs.src" :type="mimeType">
                 {{ $t('misc.videoNotSupported') }}
             </video>
-            <img
+            <FoundationImage
                 v-else
                 ref="imageElement"
                 loading="lazy"
@@ -254,7 +254,7 @@ const processedImageLink = computed(() => {
                 :src="srcPath || undefined"
                 :srcset="imageAttrs.srcset"
                 :data-object-fit="(['cover', 'stretch'].includes(displayModeValue)) ? displayModeValue : undefined"
-            >
+            />
         </component>
     </div>
 </template>

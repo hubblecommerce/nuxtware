@@ -52,11 +52,11 @@ const speed = computed(() => props.content.config?.speed?.value ?? 300)
                     v-bind="(item as CmsElementImageSlider['data']['sliderItems'][0]).newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {}"
                     class="block w-full h-full"
                 >
-                    <img 
+                    <FoundationImage 
                         :src="srcPath(item as CmsElementImageSlider['data']['sliderItems'][0])" 
                         :alt="(item as CmsElementImageSlider['data']['sliderItems'][0]).media?.alt || ''"
                         class="w-full h-full object-cover"
-                    >
+                    />
                 </component>
             </template>
         </ComponentCarousel>

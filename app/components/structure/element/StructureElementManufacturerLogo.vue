@@ -35,11 +35,11 @@ const imageClasses = computed(() => ({
 </script>
 
 <template>
-    <img
+    <FoundationImage
         v-if="srcPath"
         ref="manufacturerLogo"
         :src="srcPath"
         :alt="props.content.data?.manufacturer?.media?.alt || ''"
         :class="imageClasses"
-    >
+    />
 </template>

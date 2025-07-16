@@ -122,13 +122,13 @@ function optionStyles(state: 'selected' | 'combinable' | 'uncombinable' | 'disab
                 </template>
 
                 <template v-else>
-                    <img
+                    <FoundationImage
                         v-if="swatchToProduct.get(variantOption.id)?.cover?.media?.url"
                         :src="swatchToProduct.get(variantOption.id)?.cover?.media.url"
                         :alt="swatchToProduct.get(variantOption.id)?.cover?.media.translated.alt || ''"
                         class="mix-blend-multiply"
                         width="60"
-                    >
+                    />
                     <span v-else>{{ variantOption.translated.name }}</span>
                 </template>
 

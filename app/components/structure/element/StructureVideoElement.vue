@@ -36,12 +36,12 @@ const confirmVideo = () => {
             v-else
             class="w-full h-full absolute top-0 left-0 flex items-center justify-center"
         >
-            <img
+            <FoundationImage
                 v-if="previewImage"
                 :src="previewImage"
                 :alt="$t(`${i18nNamespace}.previewAlt`)"
                 class="w-full h-full absolute top-0 left-0 object-cover"
-            >
+            />
             <div
                 v-else
                 class="w-full h-full absolute top-0 left-0 bg-gray-200 flex items-center justify-center"

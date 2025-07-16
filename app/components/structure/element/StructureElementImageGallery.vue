@@ -57,11 +57,11 @@ const navigationDots = computed(() => {
             :show-indicators="navigationDots"
         >
             <template #default="{ item }">
-                <img 
+                <FoundationImage 
                     :src="srcPath(item as CmsElementImageGallery['data']['sliderItems'][0])"
                     :alt="item.media?.alt || item.alt || ''"
                     class="w-full h-full object-cover"
-                >
+                />
             </template>
         </ComponentCarousel>
     </div>

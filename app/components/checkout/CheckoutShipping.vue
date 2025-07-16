@@ -74,12 +74,12 @@
 
                         <!-- Method Image -->
                         <div v-if="method.media?.url" class="flex-shrink-0">
-                            <img
+                            <FoundationImage
                                 :src="method.media.url"
                                 :alt="method.translated?.name"
                                 class="w-12 h-8 object-contain"
                                 loading="lazy"
-                            >
+                            />
                         </div>
                     </div>
 

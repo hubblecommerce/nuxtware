@@ -41,12 +41,12 @@ const removeItem = () => {
     <div class="flex gap-4 py-4 border-b border-border last:border-b-0">
         <!-- Product image -->
         <div class="relative w-20 h-20 flex-shrink-0 rounded">
-            <img
+            <FoundationImage
                 v-if="item.cover?.media?.url"
                 :src="item.cover.media.url"
                 :alt="item.label || ''"
                 class="w-full h-full object-cover rounded"
-            >
+            />
             <div v-else class="w-full h-full flex items-center justify-center ">
                 <FoundationIcon name="image" class="w-6 h-6" aria-hidden="true" />
             </div>

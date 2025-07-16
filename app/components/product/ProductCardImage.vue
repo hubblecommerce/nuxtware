@@ -50,7 +50,7 @@ const imageClasses = computed(() => ({
 </script>
 
 <template>
-    <img
+    <FoundationImage
         ref="imageElement"
         :src="srcPath"
         :srcset="getSrcSetForMedia(props.product.cover?.media)"
@@ -58,5 +58,5 @@ const imageClasses = computed(() => ({
         :class="imageClasses"
         data-testid="product-card-image"
         @load="onImageLoad"
-    >
+    />
 </template>
