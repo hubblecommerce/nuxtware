@@ -20,11 +20,7 @@ export default defineNuxtConfig({
         'types/*.{ts,tsx}',
     ],
   },
-  modules: [
-    '@shopware/nuxt-module',
-    '@nuxt/eslint',
-    '@nuxtjs/i18n'
-  ],
+  modules: ['@shopware/nuxt-module', '@nuxt/eslint', '@nuxtjs/i18n', '@nuxt/image'],
   css: [
     // needs to be relative to work and to be able to be overridden by consumer instance
     './app/assets/styles/main.css',

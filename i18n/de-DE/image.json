@@ -1,0 +1,7 @@
+{
+    "image": {
+        "loading": "Bild wird geladen...",
+        "error": "Bild konnte nicht geladen werden",
+        "altTextMissing": "Bildbeschreibung fehlt"
+    }
+}
