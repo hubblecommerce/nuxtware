@@ -8,23 +8,41 @@ const props = defineProps<{
 // Extract products from CMS element data
 const products = computed(() => props.content?.data?.products ?? [])
 
-// Get configuration values with proper typing
-const config = computed(() => {
-    const configData = props.content?.config || {}
-    console.log('Product Slider Full Config:', configData)
-    return configData as Record<string, { value?: string | boolean | number, source?: string }>
-})
+// Define config interface to match actual structure
+interface ConfigValue {
+    value?: string | boolean | number | null
+    source?: string
+}
 
-// Configuration mapping following Shopware reference
+interface ProductSliderConfig {
+    title?: ConfigValue
+    navigationArrows?: ConfigValue
+    rotate?: ConfigValue
+    border?: ConfigValue
+    boxLayout?: ConfigValue
+    displayMode?: ConfigValue
+    slidesPerViewMobile?: ConfigValue
+    slidesPerViewTablet?: ConfigValue
+    slidesPerViewDesktop?: ConfigValue
+    [key: string]: ConfigValue | undefined
+}
+
+// Get configuration values with proper typing
+const config = computed(() => props.content?.config as unknown as ProductSliderConfig || {})
+
+// Configuration mapping following shopware reference
 const title = computed(() => config.value.title?.value as string || '')
 const showNavigation = computed(() => {
-    const configValue = props.content.config?.navigationArrows?.value
+    const configValue = config.value.navigationArrows?.value
     if (configValue === '' || !configValue) return false
-    return configValue
+    return Boolean(configValue)
 })
 const autoPlay = computed(() => config.value.rotate?.value === true)
 const border = computed(() => config.value.border?.value === true)
-const layoutType = computed(() => config.value.boxLayout?.value as string || 'standard')
+const layoutType = computed(() => {
+    const value = config.value.boxLayout?.value
+    return (value as 'standard' | 'image' | 'minimal') || 'standard'
+})
 const displayMode = computed(() => config.value.displayMode?.value as string || 'standard')
 
 // Extract items per slide from config - these should be the direct backend values
