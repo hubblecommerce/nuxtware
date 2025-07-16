@@ -20,7 +20,8 @@ export interface ComponentCarouselProps {
         readonly next?: string
     }
     readonly class?: string
-    readonly showScrollbar?: boolean
+    readonly initialSlide?: number
+    readonly reserveSpace?: boolean
 }
 
 interface NavigationLabels {
@@ -42,8 +43,8 @@ const props = withDefaults(defineProps<ComponentCarouselProps>(), {
     items: () => [],
     itemsPerSlide: () => ({ default: 1, md: 2, lg: 3 }),
     gap: 16,
-    showNavigation: true,
-    showIndicators: true,
+    showNavigation: 'inside',
+    showIndicators: 'inside',
     autoPlay: false,
     autoPlayInterval: 3000,
     loop: true,
@@ -56,12 +57,14 @@ const props = withDefaults(defineProps<ComponentCarouselProps>(), {
     enableTouch: true,
     navigationLabels: () => ({}),
     class: '',
-    showScrollbar: false
+    initialSlide: 0,
+    reserveSpace: false
 })
 
 // Define emits for slide changes
 const emit = defineEmits<{
     'slide-change': [currentSlide: number]
+    'change-slide': [index: number]
 }>()
 
 // Initialize carousel composable with optimized configuration
@@ -74,7 +77,7 @@ const carousel = useCarousel({
     transitionDuration: props.transitionDuration,
     containerHeight: props.height,
     aspectRatio: props.aspectRatio,
-    reserveSpace: props.loading,
+    reserveSpace: props.reserveSpace,
     skeletonItems: props.skeletonItems,
     enableTouch: props.enableTouch
 })
@@ -129,10 +132,10 @@ const navigationClasses = computed(() => {
     const isOutside = navigationConfig.value.position === 'outside'
     return {
         prev: isOutside 
-            ? 'carousel-nav carousel-nav-prev absolute left-0 top-1/2 transform -translate-y-1/2 z-10'
+            ? 'carousel-nav carousel-nav-prev absolute left-1 top-1/2 transform -translate-y-1/2 z-10'
             : 'carousel-nav carousel-nav-prev absolute left-2 top-1/2 transform -translate-y-1/2 z-10',
         next: isOutside 
-            ? 'carousel-nav carousel-nav-next absolute right-0 top-1/2 transform -translate-y-1/2 z-10'
+            ? 'carousel-nav carousel-nav-next absolute right-1 top-1/2 transform -translate-y-1/2 z-10'
             : 'carousel-nav carousel-nav-next absolute right-2 top-1/2 transform -translate-y-1/2 z-10'
     }
 })
@@ -147,7 +150,7 @@ const indicatorClasses = computed(() => {
         inner: isOutside 
             ? 'carousel-indicators flex justify-center mt-4'
             : '',
-        buttonWrapper: 'flex gap-2' // Always has gap regardless of position
+        buttonWrapper: 'flex gap-2'
     }
 })
 
@@ -215,10 +218,9 @@ const skeletonSlides = computed((): SkeletonSlideData[] =>
 )
 
 const itemStyle = computed(() => {
-    // Always use currentItemsPerSlide.value for consistent hydration
     const itemsCount = currentItemsPerSlide.value
     const itemWidth = `calc(100% / ${itemsCount})`
-    const itemPadding = props.gap / 2 // Half of configured gap
+    const itemPadding = props.gap / 2
     
     return {
         flex: `0 0 ${itemWidth}`,
@@ -267,6 +269,12 @@ watch(() => props.loading, (newLoading) => {
     }
 })
 
+// Watch for slide changes and emit events
+watch(currentSlide, (newSlide) => {
+    emit('slide-change', newSlide)
+    emit('change-slide', newSlide)
+})
+
 // Event handlers
 const handleMouseEnter = (): void => {
     if (props.autoPlay) pause()
@@ -291,16 +299,12 @@ const handleKeyDown = (event: KeyboardEvent): void => {
     }
 }
 
-// Watch for slide changes and emit events
-watch(currentSlide, (newSlide) => {
-    emit('slide-change', newSlide)
-})
-
-// Expose goToSlide for parent components
+// Expose methods for parent components
 defineExpose({
-    goToSlide
+    goToSlide,
+    next,
+    previous
 })
-
 </script>
 
 <template>
@@ -319,10 +323,7 @@ defineExpose({
         <!-- Main carousel content -->
         <div
             ref="containerRef"
-            :class="[
-                'carousel-track h-full relative overflow-x-auto scroll-smooth',
-                { 'show-scrollbar': props.showScrollbar }
-            ]"
+            class="carousel-track h-full relative overflow-x-auto scroll-smooth"
             role="tabpanel"
             :aria-live="isPlaying ? 'off' : 'polite'"
             @touchstart="onTouchStart"
@@ -336,13 +337,13 @@ defineExpose({
             <!-- Loading skeleton -->
             <div 
                 v-if="loading || isLoading"
-                class="carousel-slides flex"
+                :class="['carousel-slides', 'flex']"
             >
                 <div
                     v-for="(slide, slideIndex) in skeletonSlides"
                     :key="`skeleton-slide-${slideIndex}`"
                     :ref="(el) => setSlideRef(el as HTMLElement, slideIndex)"
-                    class="carousel-slide flex-shrink-0 w-full flex"
+                    :class="['carousel-slide', 'flex-shrink-0', 'flex', 'w-full']"
                 >
                     <div 
                         v-for="item in slide.items"
@@ -362,7 +363,7 @@ defineExpose({
             <!-- Actual carousel items -->
             <div 
                 v-else-if="items && items.length > 0"
-                class="carousel-slides flex"
+                :class="['carousel-slides', 'flex', 'flex-row']"
                 role="group"
                 :aria-label="$t('carousel.items', { current: currentSlide + 1, total: visibleSlides })"
             >
@@ -370,7 +371,7 @@ defineExpose({
                     v-for="slide in slidesData"
                     :key="`slide-${slide.index}`"
                     :ref="(el) => setSlideRef(el as HTMLElement, slide.index)"
-                    class="carousel-slide flex-shrink-0 w-full flex"
+                    :class="['carousel-slide', 'flex-shrink-0', 'flex', 'w-full']"
                     role="tabpanel"
                     :aria-label="$t('carousel.slide', { index: slide.index + 1 })"
                 >
@@ -408,7 +409,7 @@ defineExpose({
             </div>
         </div>
 
-        <!-- Navigation buttons (consolidated) -->
+        <!-- Navigation buttons -->
         <template v-if="navigationConfig.show && items && items.length > currentItemsPerSlide">
             <!-- Previous button -->
             <FoundationButton
@@ -421,7 +422,11 @@ defineExpose({
                 :disabled="!canGoPrevious && !props.loop"
                 @click="previous"
             >
-                <FoundationIcon name="chevron-left" class="w-4 h-4 text-neutral" aria-hidden="true" />
+                <FoundationIcon 
+                    name="chevron-left" 
+                    class="w-4 h-4 text-neutral" 
+                    aria-hidden="true" 
+                />
             </FoundationButton>
 
             <!-- Next button -->
@@ -435,11 +440,15 @@ defineExpose({
                 :disabled="!canGoNext && !props.loop"
                 @click="next"
             >
-                <FoundationIcon name="chevron-right" class="w-4 h-4 text-neutral" aria-hidden="true" />
+                <FoundationIcon 
+                    name="chevron-right" 
+                    class="w-4 h-4 text-neutral" 
+                    aria-hidden="true" 
+                />
             </FoundationButton>
         </template>
 
-        <!-- Indicators (consolidated) -->
+        <!-- Indicators -->
         <div 
             v-if="indicatorConfig.show && visibleSlides > 1"
             :class="indicatorClasses.container"
@@ -482,7 +491,5 @@ defineExpose({
             </div>
         </template>
         </ClientOnly>
-        
-        
     </div>
 </template>
