@@ -42,11 +42,9 @@ const srcPath = computed(() => {
     )}?&height=${roundUp(height.value)}&fit=cover`
 })
 
-const imageClasses = computed(() => ({
-    'w-full overflow-hidden': true,
-    'object-cover': props.layoutType === 'image',
-    'h-60 object-contain': props.layoutType === 'standard'
-}))
+const imageClasses = computed(() =>
+    `w-auto object-contain overflow-hidden ${props.layoutType === 'image' ? 'h-[380px]' : 'h-[290px]'}`
+)
 </script>
 
 <template>
