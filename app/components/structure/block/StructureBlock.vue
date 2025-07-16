@@ -23,7 +23,6 @@ const compName = computed(() => {
     return name
 })
 
-
 // Render first two section server side (SEO relevant hero elements)
 const staticSections = 2
 if (props.count != null && props.count <= staticSections) {

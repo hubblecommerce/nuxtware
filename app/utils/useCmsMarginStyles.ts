@@ -1,7 +1,20 @@
 import { computed, type Ref } from 'vue'
 import type { Schemas } from '#shopware'
 
-export function useCmsMarginStyles(content: Schemas['CmsSection'] | Schemas['CmsBlock']): { marginStyles: Ref<string> } {
+interface MarginProperties {
+    marginTop?: string | null
+    marginBottom?: string | null
+    marginLeft?: string | null
+    marginRight?: string | null
+}
+
+type CmsContent = (Schemas['CmsSection'] | Schemas['CmsBlock']) & MarginProperties
+
+interface UseCmsMarginStylesReturn {
+    marginStyles: Ref<string>
+}
+
+export function useCmsMarginStyles(content: CmsContent): UseCmsMarginStylesReturn {
     const marginStyles = computed(() => {
         const styles: string[] = []
 
