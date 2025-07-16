@@ -156,7 +156,7 @@ Nuxtware:
 - [x] Footer
 - [x] Topbar / Banderole
 - [ ] Brands Page
-- [ ] Refactor \<img\> to use nuxt-image component instead
+- [x] Refactor \<img\> to use nuxt-image component instead
 - [ ] Add Consent Modal to Video CMS Element
 - [ ] Add Cookie Consent
 - [x] Language Switch
