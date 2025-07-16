@@ -135,9 +135,9 @@ onMounted(async () => {
 
             <!-- Terms and Conditions -->
             <div class="text-center">
-                <p class="text-xs text-secondary">
+                <p class="text-xs">
                     {{ $t('checkout.summary.termsNotice') }}
-                    <FoundationLink href="/terms" class="text-primary hover:text-primary/80">
+                    <FoundationLink href="/terms">
                         {{ $t('checkout.summary.termsLink') }}
                     </FoundationLink>
                 </p>

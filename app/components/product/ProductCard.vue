@@ -127,7 +127,7 @@ function onTransitionEnd () {
         <article 
             ref="productCard"
             class="
-                product-card w-full top-0 left-0 border border-border cursor-pointer 
+                product-card w-full top-0 left-0 border border-border cursor-pointer rounded-lg overflow-hidden
                 transition-all 
                 focus-style
                 lg:hover:shadow-lg
@@ -149,11 +149,11 @@ function onTransitionEnd () {
                 {{ $t('product.viewDetailsFor', { name: getProductName({ product }) }) }}
             </RouterLink>
 
-            <div class="relative">
+            <div class="relative p-4 text-center">
                 <ProductCardImage 
                     :product="product"
                     :layout-type="layoutType"
-                    class="relative -z-10"
+                    class="relative -z-10 object-contain w-auto m-auto"
                     @loaded="onImageLoaded"
                 />
 

@@ -22,7 +22,7 @@ const { open } = useSidenav()
     <!-- Top Bar -->
     <LayoutTopBar />
 
-    <header class="shadow-lg">
+    <header class="relative shadow-lg z-50">
         <div class="hidden m-auto w-full flex-wrap justify-end items-center gap-2 py-1 px-2 lg:flex lg:container">
             <ContextLanguageSwitch size="small" />
             <ContextCurrencySwitch size="small" />

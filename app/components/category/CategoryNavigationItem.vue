@@ -25,14 +25,12 @@ const url = computed(() => {
 })
 </script>
 <template>
-    <div class="flex items-center py-2 px-5 text-base my-2">
+    <div class="flex items-center text-base my-2">
         <FoundationLink
             v-if="!urlIsAbsolute(url.path)"
             :to="url.path"
-            :class="[
-                props.isHighlighted ? 'font-bold' : 'font-normal',
-                {'text-secondary' : props.isActive }
-            ]"
+            :class="props.isHighlighted ? 'font-bold' : 'font-normal'"
+            class="text-neutral py-2 block w-full"
             :aria-expanded="props.isExpanded"
         >
             <span>{{ getTranslatedProperty(props.navigationElement, "name") }}</span>

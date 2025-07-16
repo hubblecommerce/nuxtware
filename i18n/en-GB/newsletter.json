@@ -1,5 +1,6 @@
 {
   "newsletter": {
+    "title": "Newsletter",
     "headline": "Newsletter Form",
     "labelActionSelect": "Action",
     "subscribeOption": "Subscribe",
