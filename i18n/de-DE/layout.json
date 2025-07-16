@@ -8,7 +8,7 @@
         "selectLanguage": "Sprache auswählen",
         "selectCurrency": "Währung auswählen",
         "footerLight": {
-        "copyright": "©{year} SHOPNAME. Alle Rechte vorbehalten"
+        "copyright": "©{year} Nuxtware 0.0.1 - Alle Rechte vorbehalten"
         }
     },
     "common": {
