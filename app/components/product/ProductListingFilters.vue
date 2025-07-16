@@ -259,8 +259,8 @@ const map: {
                     >
                         <ComponentDropdown
                             :trigger-label="filter?.code === 'properties' ? getTranslatedProperty(filter, 'name') : getStaticFilterName(filter?.code)"
-                            class="w-full border btn-small justify-between"
-                            content-classes="bg-white w-full p-2 z-50 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded-xs lg:shadow-lg lg:border"
+                            class="w-full bg-gray-200 border border-border btn-small justify-between"
+                            content-classes="bg-white w-full p-2 z-50 lg:origin-top-left lg:absolute lg:left-0 lg:mt-2 lg:w-56 lg:rounded lg:shadow-lg lg:border lg:border-border"
                         >
                             <component
                                 :is="filterMap(filter?.code)"
