@@ -23,27 +23,28 @@ const compName = computed(() => {
     return name
 })
 
+// TODO: deactivate lazy loading blocks temporarily 
 // Render first two section server side (SEO relevant hero elements)
-const staticSections = 2
-if (props.count != null && props.count <= staticSections) {
+// const staticSections = 2
+// if (props.count != null && props.count <= staticSections) {
     component.value = resolveComponent(`${compName.value}`)
-}
+// }
 
 // Lazy load other sections via intersection observer
 const blockWrapper = ref()
 onMounted(() => {
-    if (props.count && props.count > staticSections) {
-        useIntersectionObserver(blockWrapper.value, loadComponent)
-    }
+    // if (props.count && props.count > staticSections) {
+    //     useIntersectionObserver(blockWrapper.value, loadComponent)
+    // }
 })
 
 // For lazy loaded components
-const loadComponent = function () {
-    component.value = defineAsyncComponent({
-        // the loader function
-        loader: () => import(`${props.content.slots.length === 1 ? '../element' : '.'}/${compName.value}.vue`),
-    })
-}
+// const loadComponent = function () {
+//     component.value = defineAsyncComponent({
+//         // the loader function
+//         loader: () => import(`${props.content.slots.length === 1 ? '../element' : '.'}/${compName.value}.vue`),
+//     })
+// }
 </script>
 
 <template>
