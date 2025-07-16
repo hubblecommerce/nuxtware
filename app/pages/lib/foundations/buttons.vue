@@ -11,12 +11,14 @@ function handleClick () {
                 text="Button Default Primary Small"
                 size="small"
                 color="primary"
+                :disabled="true"
                 @click="handleClick"
             />
             <FoundationButton
                 text="Button Default Primary Medium"
                 size="medium"
                 color="primary"
+                loading
                 @click="handleClick"
             />
             <FoundationButton

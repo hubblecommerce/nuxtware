@@ -1,48 +1,40 @@
+/* === BASE COMPONENT === */
 @layer components {
     .btn {
         @apply btn-default btn-medium;
         @apply focus-style;
         @apply relative inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-100 cursor-pointer;
-        @apply disabled:opacity-60 disabled:cursor-not-allowed;
+        @apply disabled:opacity-60 disabled:cursor-not-allowed disabled:pointer-events-none;
 
-        /* Invisible Hit Areas */
+        /* Touch device optimizations */
         @media (pointer: coarse) {
             &:before  {
+                @apply absolute -inset-2 -z-10;
                 content: '';
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                bottom: -8px;
-                left: -8px;
-                z-index: -1;
             }
         }
 
-        /* Hover-Zustand nur bei Hover-Unterstützung */
         @media (hover: hover) {
             &:hover:not(:disabled) {
                 @apply bg-btn-shade-dark;
             }
         }
 
-        /* Aktiver Zustand */
         &:active:not(:disabled) {
             @apply bg-btn-shade-dark;
         }
 
-        /* Focus-Zustand verstärken */
-        &:focus-visible {
-            @apply outline-2 outline-offset-2 outline-blue-500;
+        @media (prefers-contrast: high) {
+            @apply border-2 border-current;
         }
 
-        /* Disabled-Zustand verbessern */
-        &:disabled {
-            @apply opacity-60 cursor-not-allowed;
-            pointer-events: none;
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
         }
     }
 }
 
+/* === SIZE VARIANTS === */
 @utility btn-small {
     @apply text-sm h-10 min-h-10 px-4 py-2;
 }
@@ -55,6 +47,7 @@
     @apply text-lg h-14 min-h-14 px-8 py-4;
 }
 
+/* === COLOR VARIANTS === */
 @utility btn-primary {
     --color-btn: var(--color-primary);
     --color-btn-shade-light: var(--color-primary-shade-light);
@@ -76,6 +69,7 @@
     --color-btn-content: var(--color-tertiary-content);
 }
 
+/* === STYLE VARIANTS === */
 @utility btn-default {
     @apply bg-btn text-btn-content;
 }
@@ -96,31 +90,30 @@
     }
 }
 
+/* === STATE MODIFIERS === */
 @utility btn-loading {
-    @apply cursor-wait;
+    @apply cursor-wait pointer-events-none;
 
-    /* Verhindert Interaktion während Loading */
-    pointer-events: none;
-
-    /* Screen Reader Hinweis */
     &::after {
+        @apply absolute w-4 h-4 border-2 border-current rounded-full;
         content: '';
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        border: 2px solid currentColor;
         border-right-color: transparent;
-        border-radius: 50%;
         animation: btn-spin 1s linear infinite;
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
+        }
     }
 }
 
+/* === ANIMATIONS === */
 @keyframes btn-spin {
     to {
         transform: rotate(360deg);
     }
 }
 
+/* === SHAPE VARIANTS === */
 @utility btn-square {
     @apply w-12 h-12 p-0;
 
@@ -153,24 +146,6 @@
     }
 }
 
-@utility no-animation {
+@utility btn-no-animation {
     @apply active:translate-y-0;
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-    .btn {
-        border: 2px solid currentColor;
-    }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-    .btn {
-        transition: none;
-    }
-
-    .btn-loading::after {
-        animation: none;
-    }
 }

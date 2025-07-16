@@ -64,7 +64,7 @@ function clearPopoverTimeout () {
                 <li
                     v-for="item in navigationItems"
                     :key="item.id"
-                    class="btn no-animation"
+                    class="btn btn-no-animation"
                     @mouseenter.passive="item.children.length ? openPopover(item.id) : clearPopoverTimeout()"
                 >
                     <FoundationLink
