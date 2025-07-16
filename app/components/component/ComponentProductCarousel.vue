@@ -18,8 +18,8 @@ interface ComponentProductCarouselProps {
         xl?: number
     }
     gap?: number
-    showNavigation?: boolean
-    showIndicators?: boolean
+    showNavigation?: 'inside' | 'outside' | '' | false
+    showIndicators?: 'inside' | 'outside' | '' | false
     autoPlay?: boolean
     autoPlayInterval?: number
     loop?: boolean
@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<ComponentProductCarouselProps>(), {
     descriptionLines: 2,
     itemsPerSlide: () => ({ default: 1, md: 2, lg: 3, xl: 4 }),
     gap: 20,
-    showNavigation: true,
+    showNavigation: 'inside',
     showIndicators: false,
     autoPlay: false,
     autoPlayInterval: 5000,
