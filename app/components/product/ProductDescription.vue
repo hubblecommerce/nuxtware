@@ -15,6 +15,11 @@ const props = withDefaults(defineProps<ProductDescriptionProps>(), {
 
 const description = computed(() => getTranslatedProperty(props.product, 'description'))
 
+const stripDescription = computed(() => {
+    if (!description.value) return ''
+    return description.value.replace(/<[^>]*>/g, '')
+})
+
 // Dynamic line-clamp classes
 const descriptionClasses = computed(() => ({
     'text-sm text-center leading-relaxed': props.variant === 'default',
@@ -33,7 +38,7 @@ const descriptionClasses = computed(() => ({
         data-testid="product-description"
     >
         <p :class="descriptionClasses">
-            {{ description }}
+            {{ stripDescription }}
         </p>
     </div>
 </template>
