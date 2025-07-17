@@ -7,7 +7,7 @@ const props = defineProps<{
 }>()
 </script>
 <template>
-    <FoundationHeadline v-if="content.data?.content" level="h1" class="text-xl sm:text-4xl font-bold mb-2">
+    <FoundationHeadline v-if="content.data?.content" tag="div" class="text-xl sm:text-4xl font-bold mb-2">
         {{ content.data.content }}
     </FoundationHeadline>
 </template>
