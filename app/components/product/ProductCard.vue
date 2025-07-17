@@ -153,7 +153,7 @@ function onTransitionEnd () {
                 <ProductCardImage 
                     :product="product"
                     :layout-type="layoutType"
-                    class="relative -z-10 object-contain w-auto m-auto"
+                    class="relative -z-10 m-auto"
                     @loaded="onImageLoaded"
                 />
 
