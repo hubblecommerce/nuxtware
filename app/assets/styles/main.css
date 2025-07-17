@@ -21,10 +21,21 @@
 @import '#hubble/assets/styles/lib/components/cms-blocks.css';
 
 @theme {
+    /* Colors palettes */
     --color-red-200: oklch(0.915 0.044 17.978);
     --color-red-500: oklch(0.694 0.192 30.074);
     --color-red-600: oklch(0.616 0.224 33.55);
     --color-red-700: oklch(0.462 0.18 30.962);
+
+    --color-gray-100: oklch(1 0 89.876);
+    --color-gray-200: oklch(0.993 0.003 39.485);
+    --color-gray-300: oklch(0.952 0.005 48.685);
+    --color-gray-400: oklch(0.907 0.007 53.439);
+    --color-gray-500: oklch(0.865 0.008 48.64);
+    --color-gray-600: oklch(0.741 0.007 53.41);
+    --color-gray-700: oklch(0.616 0.004 39.467);
+    --color-gray-800: oklch(0.48 0.003 17.246);
+    --color-gray-900: oklch(0.337 0.002 286.307);
 
     /* Semantic colors */
     --color-primary: var(--color-red-600);
@@ -47,16 +58,6 @@
     --color-link-hover: var(--color-secondary-shade-dark);
     --color-link-active: var(--color-secondary-shade-dark);
 
-    --color-gray-100: oklch(1 0 89.876);
-    --color-gray-200: oklch(0.993 0.003 39.485);
-    --color-gray-300: oklch(0.952 0.005 48.685);
-    --color-gray-400: oklch(0.907 0.007 53.439);
-    --color-gray-500: oklch(0.865 0.008 48.64);
-    --color-gray-600: oklch(0.741 0.007 53.41);
-    --color-gray-700: oklch(0.616 0.004 39.467);
-    --color-gray-800: oklch(0.48 0.003 17.246);
-    --color-gray-900: oklch(0.337 0.002 286.307);
-
     --color-neutral: oklch(0.143 0.048 255.681);
     --color-border: var(--color-gray-500);
     --color-border-light: var(--color-gray-200);
@@ -75,7 +76,7 @@
     --color-info-light: oklch(0.93 0.05 231.6);
     --color-info-content: oklch(1 0 1);
 
-    /* Components colors */
+    /* Foundation / Component colors */
     --color-input: var(--color-input, --color-border);
     --color-input-content: var(--color-input-content);
     --color-input-placeholder: var(--color-gray-600);
