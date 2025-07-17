@@ -18,6 +18,13 @@ export default defineNuxtConfig({
       }
     },
   },
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ],
+    }
+  },
   eslint: {
     config: {
       // Layer dev only: use the generated ESLint config for lint root project as well

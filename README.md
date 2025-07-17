@@ -172,3 +172,5 @@ Nuxtware:
     - [ ] Imitate customer
     - [ ] Sitemap
 - [ ] Properly implement StructureElementImageGallery with Thumbnail Gallery and Full-Screen Gallery on click
+- [ ] Lazy Loading of Structure Blocks 
+- [ ] Loading page indicator bar 

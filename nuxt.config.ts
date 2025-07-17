@@ -8,13 +8,6 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
-  app: {
-    head: {
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-      ],
-    }
-  },
   devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,
