@@ -13,12 +13,9 @@ const props = withDefaults(defineProps<ProductDescriptionProps>(), {
     variant: 'default'
 })
 
-const description = computed(() => getTranslatedProperty(props.product, 'description'))
+const { sanitizeHtml } = useSanitization()
 
-const stripDescription = computed(() => {
-    if (!description.value) return ''
-    return description.value.replace(/<[^>]*>/g, '')
-})
+const description = computed(() => sanitizeHtml(getTranslatedProperty(props.product, 'description')))
 
 // Dynamic line-clamp classes
 const descriptionClasses = computed(() => ({
@@ -37,8 +34,7 @@ const descriptionClasses = computed(() => ({
         class="product-description"
         data-testid="product-description"
     >
-        <p :class="descriptionClasses">
-            {{ stripDescription }}
-        </p>
+        <!-- eslint-disable-next-line vue/no-v-html --> 
+        <p :class="descriptionClasses" v-html="description" />
     </div>
 </template>
