@@ -14,7 +14,7 @@ const { formatLink } = useInternationalization(localePath)
         v-for="navigationElement in props.navigation"
         :key="navigationElement.id"
     >
-        <FoundationHeadline level="h3" class="font-semibold mb-4">
+        <FoundationHeadline tag="h3" class="font-semibold mb-4">
             {{ getTranslatedProperty(navigationElement, "name") }}
         </FoundationHeadline>
         <template v-if="navigationElement.childCount > 0">
