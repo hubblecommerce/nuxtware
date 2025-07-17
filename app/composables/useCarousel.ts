@@ -172,6 +172,7 @@ export function useCarousel(options: CarouselOptions = {}): UseCarouselReturn {
         currentY: 0,
         initialOffset: 0
     })
+    
 
     // Timers and observers
     let autoPlayTimer: ReturnType<typeof setInterval> | null = null
@@ -222,7 +223,14 @@ export function useCarousel(options: CarouselOptions = {}): UseCarouselReturn {
         const slideWidth = containerRef.value.clientWidth
         const scrollLeft = index * slideWidth
         
-        containerRef.value.scrollTo({ left: scrollLeft, behavior })
+        // Use transform method since scroll isn't working properly
+        const slidesContainer = containerRef.value.querySelector('.carousel-slides')
+        if (slidesContainer) {
+            const element = slidesContainer as HTMLElement
+            // Add transition for smooth animation
+            element.style.transition = behavior === 'smooth' ? 'transform 0.3s ease-in-out' : 'none'
+            element.style.transform = `translateX(-${scrollLeft}px)`
+        }
     }
 
     const getNextSlideIndex = (): number => {
@@ -240,14 +248,12 @@ export function useCarousel(options: CarouselOptions = {}): UseCarouselReturn {
     }
 
     const next = (): void => {
-        if (!canGoNext.value) return
         const nextSlide = getNextSlideIndex()
         currentSlide.value = nextSlide
         scrollToSlide(nextSlide)
     }
 
     const previous = (): void => {
-        if (!canGoPrevious.value) return
         const prevSlide = getPreviousSlideIndex()
         currentSlide.value = prevSlide
         scrollToSlide(prevSlide)
@@ -291,7 +297,7 @@ export function useCarousel(options: CarouselOptions = {}): UseCarouselReturn {
         }
     }
 
-    const findMostVisibleSlide = (entries: IntersectionObserverEntry[]): number => {
+    const _findMostVisibleSlide = (entries: IntersectionObserverEntry[]): number => {
         let mostVisibleSlide = -1
         let highestRatio = 0
         
@@ -324,27 +330,9 @@ export function useCarousel(options: CarouselOptions = {}): UseCarouselReturn {
 
         cleanupObserver()
 
-        intersectionObserver = new IntersectionObserver(
-            (entries) => {
-                const mostVisibleSlide = findMostVisibleSlide(entries)
-                if (mostVisibleSlide !== -1 && mostVisibleSlide !== currentSlide.value) {
-                    currentSlide.value = mostVisibleSlide
-                }
-            },
-            {
-                root: containerRef.value,
-                threshold: [0.1, 0.3, 0.5, 0.7, 0.9],
-                rootMargin: '0px'
-            }
-        )
-
-        // Observe all slide elements
-        slideElements.value.forEach((slide) => {
-            if (slide) intersectionObserver?.observe(slide)
-        })
-
-        // Add scroll event listener as backup
-        containerRef.value.addEventListener('scroll', handleScroll, { passive: true })
+        // Skip intersection observer since we're using transform-based navigation
+        // The carousel state is managed programmatically via goToSlide()
+        return
     }
 
     // Items management

@@ -6,124 +6,192 @@ import { getBiggestThumbnailUrl } from "@shopware/helpers"
 import { useModal } from '#hubble/composables/useModal'
 import { useCmsElementConfig } from '#imports'
 
+// Types
+type SliderItem = CmsElementImageGallery['data']['sliderItems'][0]
+type CarouselRef = { goToSlide: (index: number) => void } | null
+
+// Props
 const props = defineProps<{
     content: CmsElementImageGallery
 }>()
 
+// Composables
 const { getConfigValue } = useCmsElementConfig(props.content)
-
-// Current index for main image and thumbnails
-const currentIndex = ref(0)
-const imageSlider = ref()
-const thumbnailSlider = ref()
-
-// Gallery data and configuration
-const mediaGallery = computed(() => props.content?.data?.sliderItems ?? [])
-const isLoading = computed(() => !mediaGallery.value.length)
-const galleryPosition = computed<string>(() =>
-    getConfigValue("galleryPosition") ?? "left"
-)
-
-// Extract navigation and indicator configuration from Shopware config
-const navigationArrows = computed(() => {
-    const config = props.content?.config?.navigationArrows?.value
-    if (config === '' || !config) return false
-    return config
-})
-
-const navigationDots = computed(() => {
-    const config = props.content?.config?.navigationDots?.value
-    if (config === '' || !config) return false
-    return config
-})
-
-// Check if fullscreen is enabled in backend config
-const isFullscreenEnabled = computed(() => {
-    return props.content?.config?.fullScreen?.value === true
-})
-
-
-// Modal state
-const currentSlideIndex = ref(0)
-const fullscreenCarouselRef = ref<{ goToSlide: (index: number) => void } | null>(null)
 const fullscreenModal = useModal('image-gallery-fullscreen')
 
-// Check if media is spatial/3D
+// Refs
+const mainCarouselRef = ref<CarouselRef>(null)
+const fullscreenCarouselRef = ref<CarouselRef>(null)
+const currentSlideIndex = ref(0)
+
+// Gallery Configuration
+const mediaGallery = computed(() => props.content?.data?.sliderItems ?? [])
+const isLoading = computed(() => !mediaGallery.value.length)
+const galleryPosition = computed(() => getConfigValue("galleryPosition") ?? "left")
+
+// UI Configuration - Extract values from Shopware config
+const getRawConfigValue = (key: keyof typeof props.content.config) => {
+    const config = props.content?.config?.[key]?.value
+    return config
+}
+
+const getConfigBoolean = (key: keyof typeof props.content.config) => {
+    const config = props.content?.config?.[key]?.value
+    return config !== '' && !!config
+}
+
+const navigationArrows = computed(() => {
+    const value = getRawConfigValue('navigationArrows') as string | undefined
+    return value === 'none' || value === '' ? false : (value as 'inside' | 'outside')
+})
+const navigationDots = computed(() => {
+    const value = getRawConfigValue('navigationDots') as string | undefined
+    return value === 'none' || value === '' ? false : (value as 'inside' | 'outside')
+})
+const isFullscreenEnabled = computed(() => getConfigBoolean('fullScreen'))
+
+// Layout Configuration
+const isVerticalLayout = computed(() => galleryPosition.value === 'left')
+const thumbnailContainerStyle = computed(() => ({
+    width: isVerticalLayout.value ? '120px' : '100%',
+    height: isVerticalLayout.value ? '600px' : '120px',
+}))
+
+// Media Utilities
 const isSpatial = (media: Schemas["Media"]) => {
     return media?.fileExtension === 'usdz' || media?.fileExtension === 'glb'
 }
 
-// Get media object from item
-const getMedia = (item: CmsElementImageGallery['data']['sliderItems'][0]) => {
+const getMedia = (item: SliderItem) => {
     return 'media' in item && typeof item.media === 'object'
         ? item.media
         : (item as Schemas["ProductMedia"]).media
 }
 
-// Get image source path
-const srcPath = (item: CmsElementImageGallery['data']['sliderItems'][0]) => {
+const getImageSrc = (item: SliderItem) => {
     const media = getMedia(item)
-    if (media?.url) {
-        return media.url
+    return media?.url || getBiggestThumbnailUrl(media)
+}
+
+// Thumbnail Scrolling Logic
+const scrollThumbnailsToShow = (index: number) => {
+    const thumbnailContainer = document.querySelector('.thumbnail-container') as HTMLElement
+    if (!thumbnailContainer) return
+
+    const thumbnailButtons = thumbnailContainer.querySelectorAll('button')
+    const selectedThumbnail = thumbnailButtons[index] as HTMLElement
+    if (!selectedThumbnail) return
+
+    const scrollConfig = isVerticalLayout.value
+        ? calculateVerticalScroll(thumbnailContainer, selectedThumbnail)
+        : calculateHorizontalScroll(thumbnailContainer, selectedThumbnail)
+
+    if (scrollConfig.shouldScroll) {
+        thumbnailContainer.scrollTo({
+            ...scrollConfig.scrollOptions,
+            behavior: 'smooth'
+        })
     }
-    return getBiggestThumbnailUrl(media)
 }
 
-// Change main image when thumbnail is clicked
-function changeCover(i: number) {
-    if (i === currentIndex.value) return
-    currentIndex.value = i
-    imageSlider.value?.goToSlide(i)
+const calculateVerticalScroll = (container: HTMLElement, thumbnail: HTMLElement) => {
+    const containerHeight = container.clientHeight
+    const thumbnailHeight = thumbnail.offsetHeight
+    const thumbnailTop = thumbnail.offsetTop
+    const containerScrollTop = container.scrollTop
+
+    const thumbnailVisibleTop = thumbnailTop - containerScrollTop
+    const thumbnailVisibleBottom = thumbnailVisibleTop + thumbnailHeight
+    const shouldScroll = thumbnailVisibleTop < 0 || thumbnailVisibleBottom > containerHeight
+
+    return {
+        shouldScroll,
+        scrollOptions: {
+            top: thumbnailTop - (containerHeight / 2) + (thumbnailHeight / 2)
+        }
+    }
 }
 
-// Handle slide change from main carousel
-function handleChangeSlide(slideIndex: number) {
-    currentIndex.value = slideIndex
-    // Thumbnail carousel will auto-sync via selectedIndex prop
+const calculateHorizontalScroll = (container: HTMLElement, thumbnail: HTMLElement) => {
+    const containerWidth = container.clientWidth
+    const thumbnailWidth = thumbnail.offsetWidth
+    const thumbnailLeft = thumbnail.offsetLeft
+    const containerScrollLeft = container.scrollLeft
+
+    const thumbnailVisibleLeft = thumbnailLeft - containerScrollLeft
+    const thumbnailVisibleRight = thumbnailVisibleLeft + thumbnailWidth
+    const shouldScroll = thumbnailVisibleLeft < 0 || thumbnailVisibleRight > containerWidth
+
+    return {
+        shouldScroll,
+        scrollOptions: {
+            left: thumbnailLeft - (containerWidth / 2) + (thumbnailWidth / 2)
+        }
+    }
 }
 
-// Modal functions
-function openModal(index: number) {
+// Event Handlers
+const handleMainSlideChange = (slideIndex: number) => {
+    currentSlideIndex.value = slideIndex
+    nextTick(() => scrollThumbnailsToShow(slideIndex))
+}
+
+const handleThumbnailClick = (index: number) => {
+    currentSlideIndex.value = index
+    nextTick(() => {
+        mainCarouselRef.value?.goToSlide(index)
+    })
+}
+
+const openModal = (index: number) => {
     if (!isFullscreenEnabled.value) return
 
     currentSlideIndex.value = index
     fullscreenModal.open()
 
     nextTick(() => {
-        if (fullscreenCarouselRef.value && fullscreenCarouselRef.value.goToSlide) {
-            fullscreenCarouselRef.value.goToSlide(index)
-        }
+        fullscreenCarouselRef.value?.goToSlide(index)
     })
 }
 
+// Template Utilities
+const getThumbnailClasses = (index: number) => ({
+    'border-primary': index === currentSlideIndex.value,
+    'border-border hover:border-primary/50': index !== currentSlideIndex.value
+})
+
+const getMainImageClasses = (_item: SliderItem) => [
+    'w-full h-full object-cover',
+    { 'cursor-zoom-in': isFullscreenEnabled.value }
+]
 </script>
 
 <template>
     <div
         :class="{
             'flex gap-10': true,
-            'flex-col': galleryPosition !== 'left',
+            'flex-col': !isVerticalLayout,
         }"
     >
         <!-- Main Image Display -->
         <div
             class="flex-1 overflow-hidden relative"
-            :class="{ 'order-2': galleryPosition === 'left' }"
+            :class="{ 'order-2': isVerticalLayout }"
         >
             <!-- Fullscreen button -->
             <FoundationButton
                 v-if="isFullscreenEnabled"
                 size="small"
                 :circle="true"
-                class="absolute bg-white top-2 right-2 opacity-0 focus:opacity-100 transition-opacity z-10"
+                class="absolute bg-white top-2 right-2 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity z-10"
                 :aria-label="$t('gallery.openFullscreen')"
-                @click="openModal(currentIndex)"
+                @click="openModal(currentSlideIndex)"
             >
                 <FoundationIcon name="scan" class="w-4 h-4" />
             </FoundationButton>
 
             <ComponentCarousel
-                ref="imageSlider"
+                ref="mainCarouselRef"
                 :items="mediaGallery"
                 :items-per-slide="{ default: 1 }"
                 aspect-ratio="16/9"
@@ -134,12 +202,14 @@ function openModal(index: number) {
                 :reserve-space="true"
                 :show-navigation="navigationArrows"
                 :show-indicators="navigationDots"
-                @change-slide="handleChangeSlide"
+                @change-slide="handleMainSlideChange"
+                @slide-change="handleMainSlideChange"
             >
                 <template #default="{ item, index }">
                     <div
-                        v-if="isSpatial(getMedia(item as CmsElementImageGallery['data']['sliderItems'][0]))"
-                        class="w-full h-full bg-muted flex items-center justify-center relative"
+                        v-if="isSpatial(getMedia(item as SliderItem))"
+                        class="w-full h-full bg-muted flex items-center justify-center relative cursor-pointer"
+                        @click="openModal(index)"
                     >
                         <FoundationIcon name="box" size="2xl" />
                         <span class="absolute bottom-4 left-4 text-sm bg-gray-800 rounded px-2 py-1 text-white">
@@ -147,12 +217,10 @@ function openModal(index: number) {
                         </span>
                     </div>
                     <FoundationImage
-                        :src="srcPath(item as CmsElementImageGallery['data']['sliderItems'][0])"
-                        :alt="item.media?.alt || item.alt || ''"
-                        :class="[
-                        'w-full h-full object-cover',
-                        { 'cursor-zoom-in': isFullscreenEnabled }
-                    ]"
+                        v-else
+                        :src="getImageSrc(item as SliderItem)"
+                        :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
+                        :class="getMainImageClasses(item as SliderItem)"
                         @click="openModal(index)"
                     />
                 </template>
@@ -161,30 +229,36 @@ function openModal(index: number) {
 
         <!-- Thumbnail Navigation -->
         <div
+            v-if="mediaGallery.length > 1"
             class="hidden lg:flex flex-shrink-0"
             :class="{
-                'order-1': galleryPosition === 'left',
-                'w-full': galleryPosition !== 'left',
+                'order-1': isVerticalLayout,
+                'w-full': !isVerticalLayout,
             }"
         >
-            <ComponentThumbnailCarousel
-                ref="thumbnailSlider"
-                :items="mediaGallery"
-                :selected-index="currentIndex"
-                :vertical="galleryPosition === 'left'"
-                :thumbnail-size="80"
-                :gap="10"
-                :show-navigation="true"
-                :position="galleryPosition === 'left' ? 'left' : 'underneath'"
-                :loading="isLoading"
-                :skeleton-items="galleryPosition === 'left' ? 5 : 10"
-                @thumbnail-select="changeCover"
+            <div
+                class="thumbnail-container flex gap-3 overflow-auto"
+                :class="{
+                    'flex-col': isVerticalLayout,
+                    'flex-row': !isVerticalLayout,
+                }"
+                :style="thumbnailContainerStyle"
             >
-                <template #thumbnail="{ item }">
-                    <div v-if="isSpatial(getMedia(item as CmsElementImageGallery['data']['sliderItems'][0]))" class="h-full relative">
-                        <div class="w-full h-full bg-muted flex items-center justify-center">
-                            <FoundationIcon name="box" size="lg" />
-                        </div>
+                <button
+                    v-for="(item, index) in mediaGallery"
+                    :key="index"
+                    class="flex-shrink-0 border-2 rounded transition-all duration-200 focus:outline-none p-1"
+                    :class="getThumbnailClasses(index)"
+                    style="width: 100px; height: 100px;"
+                    :aria-label="$t('gallery.selectThumbnail', { index: index + 1 })"
+                    :aria-current="index === currentSlideIndex ? 'true' : 'false'"
+                    @click="handleThumbnailClick(index)"
+                >
+                    <div
+                        v-if="isSpatial(getMedia(item as SliderItem))"
+                        class="w-full h-full bg-muted flex items-center justify-center relative"
+                    >
+                        <FoundationIcon name="box" size="lg" />
                         <span class="absolute bottom-0 text-xs bg-gray-800 rounded px-1 text-white">
                             3D
                         </span>
@@ -192,12 +266,12 @@ function openModal(index: number) {
                     <img
                         v-else
                         loading="lazy"
-                        :src="srcPath(item as CmsElementImageGallery['data']['sliderItems'][0])"
-                        class="w-full h-full object-center object-contain"
-                        :alt="getMedia(item as CmsElementImageGallery['data']['sliderItems'][0])?.alt || $t('gallery.productImage')"
+                        :src="getImageSrc(item as SliderItem)"
+                        class="w-full h-full object-cover rounded-sm"
+                        :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
                     >
-                </template>
-            </ComponentThumbnailCarousel>
+                </button>
+            </div>
         </div>
 
         <!-- Fullscreen Modal -->
@@ -222,7 +296,7 @@ function openModal(index: number) {
             >
                 <template #default="{ item }">
                     <div
-                        v-if="isSpatial(getMedia(item as CmsElementImageGallery['data']['sliderItems'][0]))"
+                        v-if="isSpatial(getMedia(item as SliderItem))"
                         class="w-full h-full bg-muted flex items-center justify-center relative"
                     >
                         <FoundationIcon name="box" size="2xl" />
@@ -232,8 +306,8 @@ function openModal(index: number) {
                     </div>
                     <img
                         v-else
-                        :src="srcPath(item as CmsElementImageGallery['data']['sliderItems'][0])"
-                        :alt="getMedia(item as CmsElementImageGallery['data']['sliderItems'][0])?.alt || $t('gallery.productImage')"
+                        :src="getImageSrc(item as SliderItem)"
+                        :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
                         class="w-full h-full object-contain"
                     >
                 </template>

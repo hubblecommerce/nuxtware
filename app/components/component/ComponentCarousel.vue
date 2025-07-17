@@ -410,7 +410,7 @@ defineExpose({
         </div>
 
         <!-- Navigation buttons -->
-        <template v-if="navigationConfig.show && items && items.length > currentItemsPerSlide">
+        <template v-if="navigationConfig.show && items && visibleSlides > 1">
             <!-- Previous button -->
             <FoundationButton
                 v-if="canGoPrevious || props.loop"
