@@ -364,7 +364,7 @@ const getCurrentPaymentMethodId = (orderId: string) => {
                 <div class="w-16 h-16 mx-auto mb-4 text-muted-foreground">
                     <FoundationIcon name="package" class="w-full h-full" />
                 </div>
-                <FoundationHeadline level="h3" class="mb-2">
+                <FoundationHeadline tag="h3" class="mb-2">
                     {{ $t('orders.noOrdersFound') }}
                 </FoundationHeadline>
                 <p class="text-muted-foreground mb-6">

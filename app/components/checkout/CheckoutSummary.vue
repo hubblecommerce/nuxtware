@@ -80,7 +80,7 @@ onMounted(async () => {
 <template>
     <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
         <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline level="h3" class="text-lg font-medium mb-2">
+            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
                 {{ $t('checkout.orderSummary') }}
             </FoundationHeadline>
             <p class="text-sm">
@@ -90,7 +90,7 @@ onMounted(async () => {
 
         <!-- Cart Items -->
         <div v-if="cartItems.length > 0">
-            <FoundationHeadline level="h4" class="text-base font-medium mb-3">
+            <FoundationHeadline tag="h4" class="text-base font-medium mb-3">
                 {{ $t('checkout.summary.items') }} ({{ cartItems.length }})
             </FoundationHeadline>
             

@@ -2,7 +2,7 @@
     <div class="space-y-6">
         <!-- Header -->
         <div class="flex items-center justify-between mb-4">
-            <FoundationHeadline level="h3" class="text-lg font-medium">
+            <FoundationHeadline tag="h3" class="text-lg font-medium">
                 {{ $t('orders.paymentChange.title') }}
             </FoundationHeadline>
             <FoundationButton

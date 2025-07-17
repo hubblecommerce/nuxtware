@@ -39,7 +39,7 @@ const hasLineItems = computed(() => props.order.lineItems && props.order.lineIte
         >
             <!-- Documents Section -->
             <div v-if="showDocuments && hasDocuments" class="space-y-4">
-                <FoundationHeadline level="h4" class="text-lg font-semibold">
+                <FoundationHeadline tag="h4" class="text-lg font-semibold">
                     {{ t('orders.details.documents') }}
                 </FoundationHeadline>
                 <OrderDocumentsList 
@@ -50,7 +50,7 @@ const hasLineItems = computed(() => props.order.lineItems && props.order.lineIte
 
             <!-- Line Items Section -->
             <div v-if="showLineItems && hasLineItems" class="space-y-4">
-                <FoundationHeadline level="h4" class="text-lg font-semibold">
+                <FoundationHeadline tag="h4" class="text-lg font-semibold">
                     {{ t('orders.details.items') }}
                 </FoundationHeadline>
                 <OrderLineItemsTable 
@@ -61,7 +61,7 @@ const hasLineItems = computed(() => props.order.lineItems && props.order.lineIte
 
             <!-- Customer Comment Section -->
             <div v-if="order.customerComment" class="space-y-4">
-                <FoundationHeadline level="h4" class="text-lg font-semibold">
+                <FoundationHeadline tag="h4" class="text-lg font-semibold">
                     {{ t('orders.details.customerComment') }}
                 </FoundationHeadline>
                 <div class="bg-muted/50 rounded-lg p-4">
@@ -73,7 +73,7 @@ const hasLineItems = computed(() => props.order.lineItems && props.order.lineIte
 
             <!-- Order Summary Section -->
             <div v-if="showSummary" class="space-y-4">
-                <FoundationHeadline level="h4" class="text-lg font-semibold">
+                <FoundationHeadline tag="h4" class="text-lg font-semibold">
                     {{ t('orders.details.summary') }}
                 </FoundationHeadline>
                 <OrderSummary 

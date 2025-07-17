@@ -159,7 +159,7 @@ watch(() => props.modelValue, (newValue) => {
 <template>
     <div class="space-y-4">
         <div v-if="title">
-            <FoundationHeadline level="h4" class="text-base font-medium mb-3">
+            <FoundationHeadline tag="h4" class="text-base font-medium mb-3">
                 {{ title }}
             </FoundationHeadline>
         </div>

@@ -40,7 +40,7 @@ onMounted(async () => {
                     <div v-else-if="order" class="p-8 border border-border rounded-lg bg-surface text-center">
                         <div class="mb-6">
                             <FoundationIcon name="check" class="block w-16 h-16 text-success mx-auto mb-4" />
-                            <FoundationHeadline level="h2" class="text-2xl font-bold mb-3">
+                            <FoundationHeadline tag="h2" class="text-2xl font-bold mb-3">
                                 {{ $t('checkout.success.orderConfirmed') }}
                             </FoundationHeadline>
                             <p class="text-lg mb-6">
@@ -83,7 +83,7 @@ onMounted(async () => {
                     <!-- Error State -->
                     <div v-else class="p-8 border border-error rounded-lg bg-error/5 text-center">
                         <FoundationIcon name="alert-triangle" class="w-16 h-16 text-error mx-auto mb-4" />
-                        <FoundationHeadline level="h3" class="text-xl font-bold text-error mb-3">
+                        <FoundationHeadline tag="h3" class="text-xl font-bold text-error mb-3">
                             {{ $t('checkout.success.orderNotFound') }}
                         </FoundationHeadline>
                         <p class="">

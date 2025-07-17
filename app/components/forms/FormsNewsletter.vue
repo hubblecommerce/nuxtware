@@ -101,7 +101,7 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div>
-        <FoundationHeadline level="h3" class="px-4 -ml-4 text-lg font-medium mb-2">
+        <FoundationHeadline tag="h3" class="px-4 -ml-4 text-lg font-medium mb-2">
             {{ title }}
         </FoundationHeadline>
 

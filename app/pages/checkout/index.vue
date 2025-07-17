@@ -74,7 +74,7 @@ onMounted(async () => {
             <div class="mx-auto">
                 <!-- Page Header -->
                 <div class="mb-8">
-                    <FoundationHeadline level="h1" class="text-2xl font-bold mb-2">
+                    <FoundationHeadline tag="h1" class="text-2xl font-bold mb-2">
                         {{ $t('checkout.title') }}
                     </FoundationHeadline>
                     <p>
@@ -119,7 +119,7 @@ onMounted(async () => {
                         <div v-else-if="isUserSession" class="p-6 border border-border rounded-lg bg-surface">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <FoundationHeadline level="h3" class="text-lg font-medium mb-1">
+                                    <FoundationHeadline tag="h3" class="text-lg font-medium mb-1">
                                         {{ $t('checkout.loggedInAs') }} {{ user?.firstName }}
                                     </FoundationHeadline>
                                     <p class="text-sm text-secondary">

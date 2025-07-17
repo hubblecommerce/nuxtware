@@ -139,7 +139,7 @@ onMounted(async () => {
 
                     <!-- Newsletter card -->
                     <div class="bg-surface border border-border rounded-lg p-6">
-                    <FoundationHeadline level="h2" class="text-lg font-semibold mb-4">
+                    <FoundationHeadline tag="h2" class="text-lg font-semibold mb-4">
                         {{ $t('account.newsletterTitle') }}
                     </FoundationHeadline>
 
@@ -246,7 +246,7 @@ onMounted(async () => {
 
                 <!-- Newest order section - placeholder -->
                 <div class="bg-surface border border-border rounded-lg p-6">
-                    <FoundationHeadline level="h2" class="text-lg font-semibold mb-4">
+                    <FoundationHeadline tag="h2" class="text-lg font-semibold mb-4">
                         {{ $t('account.overviewNewestOrderHeader') }}
                     </FoundationHeadline>
 

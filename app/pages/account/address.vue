@@ -274,7 +274,7 @@ onMounted(() => {
             
             <!-- Other Addresses Section -->
             <div v-if="otherAddresses.length > 0" class="mb-8">
-                <FoundationHeadline level="h2" class="text-lg font-medium mb-4">
+                <FoundationHeadline tag="h2" class="text-lg font-medium mb-4">
                     {{ $t('account.address.otherAddresses') }}
                 </FoundationHeadline>
                 
@@ -295,7 +295,7 @@ onMounted(() => {
             <!-- No Addresses Message -->
             <div v-if="!loading && customerAddresses.length === 0" class="text-center py-12">
                 <FoundationIcon name="map-pin" class="w-12 h-12 mx-auto mb-4" />
-                <FoundationHeadline level="h3" class="text-lg font-medium mb-2">
+                <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
                     {{ $t('account.address.noAddresses') }}
                 </FoundationHeadline>
                 <p class="mb-6">

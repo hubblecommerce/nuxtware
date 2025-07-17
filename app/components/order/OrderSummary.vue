@@ -118,7 +118,7 @@ const formatAddress = (address: Schemas['OrderAddress']) => {
         <div class="grid gap-6" :class="layout === 'horizontal' ? 'lg:grid-cols-2' : 'grid-cols-1'">
             <!-- Order Information -->
             <div class="space-y-4">
-                <FoundationHeadline level="h5" class="text-base font-medium text-muted-foreground">
+                <FoundationHeadline tag="h5" class="text-base font-medium text-muted-foreground">
                     {{ t('orders.summary.orderInformation') }}
                 </FoundationHeadline>
                 
@@ -189,7 +189,7 @@ const formatAddress = (address: Schemas['OrderAddress']) => {
 
             <!-- Order Totals -->
             <div class="space-y-4">
-                <FoundationHeadline level="h5" class="text-base font-medium text-muted-foreground">
+                <FoundationHeadline tag="h5" class="text-base font-medium text-muted-foreground">
                     {{ t('orders.summary.orderTotals') }}
                 </FoundationHeadline>
                 
@@ -236,7 +236,7 @@ const formatAddress = (address: Schemas['OrderAddress']) => {
 
         <!-- Addresses Section -->
         <div v-if="showAddresses && (billingAddress || shippingAddress)" class="space-y-4 pt-4 border-t border-border">
-            <FoundationHeadline level="h5" class="text-base font-medium text-muted-foreground">
+            <FoundationHeadline tag="h5" class="text-base font-medium text-muted-foreground">
                 {{ t('orders.summary.addresses') }}
             </FoundationHeadline>
             

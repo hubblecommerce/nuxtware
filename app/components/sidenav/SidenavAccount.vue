@@ -71,7 +71,7 @@ const handleLogout = async () => {
             <!-- Header with personalized greeting -->
             <header class="flex items-center justify-between p-2 pl-4 pr-0 border-b border-border">
                 <FoundationHeadline 
-                    level="h2" 
+                    tag="h2" 
                     class="text-lg font-medium"
                     :level-style="false"
                 >
