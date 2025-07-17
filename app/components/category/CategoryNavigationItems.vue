@@ -53,6 +53,7 @@ function getHighlightCategory(navigationElement: Schemas["Category"]) {
                 :elements="navigationElement.children"
                 :active-category="props.activeCategory"
                 :level="navigationElement.level"
+                class="pl-5"
             />
         </li>
     </ul>

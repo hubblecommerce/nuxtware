@@ -25,7 +25,7 @@ const url = computed(() => {
 })
 </script>
 <template>
-    <div class="flex items-center text-base my-2">
+    <div class="flex items-center text-base my-2 ">
         <FoundationLink
             v-if="!urlIsAbsolute(url.path)"
             :to="url.path"
