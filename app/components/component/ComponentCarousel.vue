@@ -22,6 +22,7 @@ export interface ComponentCarouselProps {
     readonly class?: string
     readonly initialSlide?: number
     readonly reserveSpace?: boolean
+    readonly showScrollbar?: boolean
 }
 
 interface NavigationLabels {
@@ -58,7 +59,8 @@ const props = withDefaults(defineProps<ComponentCarouselProps>(), {
     navigationLabels: () => ({}),
     class: '',
     initialSlide: 0,
-    reserveSpace: false
+    reserveSpace: false,
+    showScrollbar: false
 })
 
 // Define emits for slide changes
@@ -323,7 +325,10 @@ defineExpose({
         <!-- Main carousel content -->
         <div
             ref="containerRef"
-            class="carousel-track h-full relative overflow-x-auto scroll-smooth"
+            :class="[
+                'carousel-track h-full relative overflow-x-auto scroll-smooth',
+                { 'show-scrollbar': props.showScrollbar }
+            ]"
             role="tabpanel"
             :aria-live="isPlaying ? 'off' : 'polite'"
             @touchstart="onTouchStart"
