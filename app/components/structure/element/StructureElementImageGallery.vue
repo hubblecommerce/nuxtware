@@ -6,20 +6,16 @@ import { getBiggestThumbnailUrl } from "@shopware/helpers"
 import { useModal } from '#hubble/composables/useModal'
 import { useCmsElementConfig } from '#imports'
 
-// Types
 type SliderItem = CmsElementImageGallery['data']['sliderItems'][0]
 type CarouselRef = { goToSlide: (index: number) => void } | null
 
-// Props
 const props = defineProps<{
     content: CmsElementImageGallery
 }>()
 
-// Composables
 const { getConfigValue } = useCmsElementConfig(props.content)
 const fullscreenModal = useModal('image-gallery-fullscreen')
 
-// Refs
 const mainCarouselRef = ref<CarouselRef>(null)
 const fullscreenCarouselRef = ref<CarouselRef>(null)
 const currentSlideIndex = ref(0)
@@ -183,7 +179,7 @@ const getMainImageClasses = (_item: SliderItem) => [
                 v-if="isFullscreenEnabled"
                 size="small"
                 :circle="true"
-                class="absolute bg-white top-2 right-2 opacity-0 hover:opacity-100 focus:opacity-100 transition-opacity z-10"
+                class="absolute bg-white top-2 right-2 hover:opacity-100 focus:opacity-100 transition-opacity z-10"
                 :aria-label="$t('gallery.openFullscreen')"
                 @click="openModal(currentSlideIndex)"
             >
@@ -244,7 +240,7 @@ const getMainImageClasses = (_item: SliderItem) => [
                 }"
                 :style="thumbnailContainerStyle"
             >
-                <button
+                <FoundationButton
                     v-for="(item, index) in mediaGallery"
                     :key="index"
                     class="flex-shrink-0 border-2 rounded transition-all duration-200 focus:outline-none p-1"
@@ -270,7 +266,7 @@ const getMainImageClasses = (_item: SliderItem) => [
                         class="w-full h-full object-cover rounded-sm"
                         :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
                     >
-                </button>
+                </FoundationButton>
             </div>
         </div>
 
@@ -280,6 +276,7 @@ const getMainImageClasses = (_item: SliderItem) => [
             :controller="fullscreenModal"
             :close-on-click-outside="true"
             :fullscreen="true"
+            :modal-headline="$t('gallery.fullscreenTitle')"
         >
             <ComponentCarousel
                 ref="fullscreenCarouselRef"
