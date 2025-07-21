@@ -156,9 +156,26 @@ const getThumbnailClasses = (index: number) => ({
     'border-border hover:border-primary/50': index !== currentSlideIndex.value
 })
 
+const getCarouselHeight = () => {
+    const displayMode = getRawConfigValue('displayMode')
+    const minHeight = getRawConfigValue('minHeight')
+    
+    if (displayMode === 'standard' || minHeight == null) {
+        return ''
+    }
+    
+    return typeof minHeight === 'string' && minHeight.includes('px') 
+        ? minHeight 
+        : `${minHeight}px`
+}
+
 const getMainImageClasses = (_item: SliderItem) => [
-    'w-full h-full object-cover',
-    { 'cursor-zoom-in': isFullscreenEnabled.value }
+    'w-full h-full',
+    { 
+        'object-cover': getRawConfigValue('displayMode') === 'standard' || getRawConfigValue('displayMode') === 'cover',
+        'object-contain': getRawConfigValue('displayMode') === 'contain',
+        'cursor-zoom-in': isFullscreenEnabled.value 
+    }
 ]
 </script>
 
@@ -190,7 +207,8 @@ const getMainImageClasses = (_item: SliderItem) => [
                 ref="mainCarouselRef"
                 :items="mediaGallery"
                 :items-per-slide="{ default: 1 }"
-                aspect-ratio="16/9"
+                :height="getCarouselHeight()"
+                :aspect-ratio="getRawConfigValue('displayMode') === 'standard' ? '16/9' : ''"
                 :auto-play="false"
                 :loop="true"
                 :gap="0"
