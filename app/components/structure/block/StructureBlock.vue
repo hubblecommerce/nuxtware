@@ -41,7 +41,7 @@ onMounted(() => {
 const loadComponent = function () {
     component.value = defineAsyncComponent({
         // the loader function
-        loader: () => import(`${props.content.slots.length === 1 ? '../element' : '.'}/${compName.value}.vue`),
+        loader: () => import(`./${props.content.slots.length === 1 ? 'element' : 'block'}/${compName.value}.vue`),
     })
 }
 </script>
