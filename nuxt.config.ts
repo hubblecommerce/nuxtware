@@ -9,9 +9,6 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  future: {
-    compatibilityVersion: 4,
-  },
   imports: {
     dirs: [
         // auto import composables
@@ -32,7 +29,21 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       tailwindcss(),
-    ]
+    ],
+    optimizeDeps: {
+      include: [
+        '@vueuse/core',
+        '@shopware/helpers',
+        '@vueuse/shared',
+        '@vueuse/integrations/useFocusTrap',
+        '@shopware/api-client',
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+        '@intlify/shared',
+        '@intlify/core-base',
+        'scule'
+      ]
+    }
   },
   i18n: {
     strategy: "prefix_except_default",
