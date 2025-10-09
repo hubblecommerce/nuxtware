@@ -34,39 +34,57 @@ interface Props {
     intersectionLazy?: boolean
     rootMargin?: string
     threshold?: number
+    aspectRatio?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
     intersectionLazy: false,
     rootMargin: '50px',
-    threshold: 0.1
+    threshold: 0.1,
+    aspectRatio: undefined
 })
 
 const container = ref<HTMLElement>()
 const loaded = ref(false)
 
-// Filter out custom props from $attrs manually
-const customProps = ['intersectionLazy', 'rootMargin', 'threshold']
+// Filter out custom props using useAttrs
+const customProps = ['intersectionLazy', 'rootMargin', 'threshold', 'aspectRatio']
 
-const imageAttrs = (() => {
-    const attrs = {} as Record<string, unknown>
-    const currentAttrs = getCurrentInstance()?.attrs || {}
+const imageAttrs = computed(() => {
+    const attrs = useAttrs()
+    const filteredAttrs = {} as Record<string, unknown>
     
-    for (const [key, value] of Object.entries(currentAttrs)) {
+    for (const [key, value] of Object.entries(attrs)) {
         if (!customProps.includes(key)) {
-            attrs[key] = value
+            filteredAttrs[key] = value
         }
     }
-    return attrs
-})()
+    return filteredAttrs
+})
 
-const placeholderStyle = (() => {
-    const attrs = getCurrentInstance()?.attrs || {}
-    return {
-        width: attrs.width ? `${attrs.width}px` : '100%',
-        height: attrs.height ? `${attrs.height}px` : 'auto'
+const placeholderStyle = computed(() => {
+    const attrs = useAttrs()
+    const styles: Record<string, string> = {}
+    
+    if (attrs.width) {
+        styles.width = `${attrs.width}px`
+    } else {
+        styles.width = '100%'
     }
-})()
+    
+    if (attrs.height) {
+        styles.height = `${attrs.height}px`
+    }
+    
+    // Use aspectRatio prop or calculate from width/height
+    if (props.aspectRatio) {
+        styles.aspectRatio = props.aspectRatio
+    } else if (attrs.width && attrs.height) {
+        styles.aspectRatio = `${attrs.width} / ${attrs.height}`
+    }
+    
+    return styles
+})
 
 onMounted(() => {
     if (props.intersectionLazy && container.value) {

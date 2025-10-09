@@ -21,8 +21,7 @@ const fullscreenCarouselRef = ref<CarouselRef>(null)
 const currentSlideIndex = ref(0)
 
 // Gallery Configuration
-const mediaGallery = computed(() => props.content?.data?.sliderItems ?? [])
-const isLoading = computed(() => !mediaGallery.value.length)
+const mediaGallery = computed<SliderItem[]>(() => props.content?.data?.sliderItems ?? [])
 const galleryPosition = computed(() => getConfigValue("galleryPosition") ?? "left")
 
 // UI Configuration - Extract values from Shopware config
@@ -156,19 +155,6 @@ const getThumbnailClasses = (index: number) => ({
     'border-border hover:border-primary/50': index !== currentSlideIndex.value
 })
 
-const getCarouselHeight = () => {
-    const displayMode = getRawConfigValue('displayMode')
-    const minHeight = getRawConfigValue('minHeight')
-    
-    if (displayMode === 'standard' || minHeight == null) {
-        return ''
-    }
-    
-    return typeof minHeight === 'string' && minHeight.includes('px') 
-        ? minHeight 
-        : `${minHeight}px`
-}
-
 const getMainImageClasses = (_item: SliderItem) => [
     'w-full h-full',
     { 
@@ -205,23 +191,26 @@ const getMainImageClasses = (_item: SliderItem) => [
 
             <ComponentCarousel
                 ref="mainCarouselRef"
-                :items="mediaGallery"
-                :items-per-slide="{ default: 1 }"
-                :height="getCarouselHeight()"
-                :aspect-ratio="getRawConfigValue('displayMode') === 'standard' ? '16/9' : ''"
-                :auto-play="false"
-                :loop="true"
+                :slides="mediaGallery"
+                :label="$t('gallery.productImage')"
+                :breakpoints="{
+                    'default': {
+                        slidesPerView: 1
+                    }
+                }"
                 :gap="0"
-                :loading="isLoading"
-                :reserve-space="true"
-                :show-navigation="navigationArrows"
-                :show-indicators="navigationDots"
-                @change-slide="handleMainSlideChange"
+                :enable-arrows="mediaGallery?.length > 1 && navigationArrows ? true : false"
+                :enable-dots="mediaGallery?.length > 1 && navigationDots ? true : false"
+                :enable-autoplay="false"
+                carousel-width="100%"
+                left-arrow-class="btn btn-circle bg-transparent z-30 border-none"
+                right-arrow-class="btn btn-circle bg-transparent z-30 border-none"
+                dots-container-class="absolute bottom-0 left-0 right-0 flex justify-center gap-4 flex justify-center gap-4 mt-4"
                 @slide-change="handleMainSlideChange"
             >
-                <template #default="{ item, index }">
+                <template #default="{ index }">
                     <div
-                        v-if="isSpatial(getMedia(item as SliderItem))"
+                        v-if="isSpatial(getMedia(mediaGallery[index] as SliderItem))"
                         class="w-full h-full bg-muted flex items-center justify-center relative cursor-pointer"
                         @click="openModal(index)"
                     >
@@ -232,9 +221,10 @@ const getMainImageClasses = (_item: SliderItem) => [
                     </div>
                     <FoundationImage
                         v-else
-                        :src="getImageSrc(item as SliderItem)"
-                        :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
-                        :class="getMainImageClasses(item as SliderItem)"
+                        :src="getImageSrc(mediaGallery[index] as SliderItem)"
+                        :alt="getMedia(mediaGallery[index] as SliderItem)?.alt || $t('gallery.productImage')"
+                        :class="getMainImageClasses(mediaGallery[index] as SliderItem)"
+                        :intersection-lazy="index === 0 ? false : true"
                         @click="openModal(index)"
                     />
                 </template>
@@ -277,13 +267,13 @@ const getMainImageClasses = (_item: SliderItem) => [
                             3D
                         </span>
                     </div>
-                    <img
+                    <FoundationImage
                         v-else
-                        loading="lazy"
                         :src="getImageSrc(item as SliderItem)"
                         class="w-full h-full object-cover rounded-sm"
                         :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
-                    >
+                        intersection-lazy
+                    />
                 </FoundationButton>
             </div>
         </div>
@@ -299,19 +289,25 @@ const getMainImageClasses = (_item: SliderItem) => [
             <ComponentCarousel
                 ref="fullscreenCarouselRef"
                 :key="`modal-${currentSlideIndex}`"
-                :items="mediaGallery"
-                :items-per-slide="{ default: 1 }"
-                :loop="true"
-                :show-navigation="'inside'"
-                :show-indicators="'inside'"
-                :auto-play="false"
+                :slides="mediaGallery"
+                :label="$t('gallery.productImage')"
+                :breakpoints="{
+                    'default': {
+                        slidesPerView: 1
+                    }
+                }"
                 :gap="0"
-                class="w-full h-full"
-                :initial-slide="currentSlideIndex"
+                :enable-arrows="mediaGallery?.length > 1 ? true : false"
+                left-arrow-class="absolute left-2 w-5 h-5 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full"
+                right-arrow-class="absolute right-2 w-5 h-5 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full"
+                :enable-dots="mediaGallery?.length > 1 ? true : false"
+                :enable-autoplay="false"
+                enable-infinite-scroll
+                carousel-width="100%"
             >
-                <template #default="{ item }">
+                <template #default="{ index }">
                     <div
-                        v-if="isSpatial(getMedia(item as SliderItem))"
+                        v-if="isSpatial(getMedia(mediaGallery[index] as SliderItem))"
                         class="w-full h-full bg-muted flex items-center justify-center relative"
                     >
                         <FoundationIcon name="box" size="2xl" />
@@ -319,12 +315,21 @@ const getMainImageClasses = (_item: SliderItem) => [
                             {{ $t('gallery.3dModel') }}
                         </span>
                     </div>
-                    <img
+                    <FoundationImage
                         v-else
-                        :src="getImageSrc(item as SliderItem)"
-                        :alt="getMedia(item as SliderItem)?.alt || $t('gallery.productImage')"
+                        :src="getImageSrc(mediaGallery[index] as SliderItem)"
+                        :alt="getMedia(mediaGallery[index] as SliderItem)?.alt || $t('gallery.productImage')"
                         class="w-full h-full object-contain"
-                    >
+                        intersection-lazy
+                    />
+                </template>
+
+                <template #left-arrow="{ previous }">
+                    <FoundationIcon name="chevron-left" class="w-5 h-5" @click="previous" />
+                </template>
+
+                <template #right-arrow="{ next }">
+                    <FoundationIcon name="chevron-right" class="w-5 h-5" @click="next" />
                 </template>
             </ComponentCarousel>
         </ComponentModal>
