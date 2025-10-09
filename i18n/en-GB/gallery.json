@@ -1,0 +1,10 @@
+{
+    "gallery": {
+        "openFullscreen": "Open fullscreen gallery",
+        "fullscreenTitle": "Fullscreen gallery",
+        "3dModel": "3D Model",
+        "productImage": "Product image",
+        "thumbnails": "Thumbnails",
+        "selectThumbnail": "Select thumbnail {index}"
+    }
+}

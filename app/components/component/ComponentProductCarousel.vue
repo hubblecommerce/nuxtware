@@ -78,23 +78,41 @@ const { t } = useI18n()
 
         <!-- Product Carousel -->
         <ComponentCarousel
-            :items="carouselItems"
-            :items-per-slide="itemsPerSlide"
+            ref="productSlider"
+            :slides="carouselItems"
+            :label="$t('carousel.label')"
+            :breakpoints="{
+                'default': {
+                    slidesPerView: 2
+                },
+                sm: {
+                    slidesPerView: 2
+                },
+                md: {
+                    slidesPerView: 3
+                },
+                lg: {
+                    slidesPerView: 4
+                },
+                xl: {
+                    slidesPerView: 5
+                },
+                '2xl': {
+                    slidesPerView: 6
+                }
+            }"
             :gap="gap"
-            :show-navigation="showNavigation"
-            :show-indicators="showIndicators"
-            :auto-play="autoPlay"
-            :auto-play-interval="autoPlayInterval"
-            :loop="loop"
-            :loading="loading"
-            :skeleton-items="skeletonItems"
-            height="auto"
-            :reserve-space="true"
-            class="product-carousel"
+            :enable-arrows="false"
+            :enable-dots="false"
+            :enable-autoplay="false"
+            carousel-width="100%"
+            left-arrow-class="btn btn-circle bg-transparent z-30 border-none"
+            right-arrow-class="btn btn-circle bg-transparent z-30 border-none"
+            dots-container-class="carousel__navdots flex justify-center gap-4 mt-4"
         >
-            <template #default="{ item }">
+            <template #default="{ index }">
                 <ProductCard
-                    :product="(item.data as Schemas['Product'])"
+                    :product="(carouselItems?.[index]?.data as Schemas['Product'])"
                     :layout-type="layoutType"
                     :show-wishlist="showWishlist"
                     :show-badges="showBadges"

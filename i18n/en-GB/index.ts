@@ -30,6 +30,7 @@ import skipLinks from './skipLinks.json'
 import orders from './orders.json'
 import newsletter from './newsletter.json'
 import contact from './contact.json'
+import gallery from './gallery.json'
 import image from './image.json'
 
 export default {
@@ -63,6 +64,7 @@ export default {
     ...misc,
     ...newsletter,
     ...contact,
+    ...gallery,
     ...skipLinks,
     ...orders,
     ...image,

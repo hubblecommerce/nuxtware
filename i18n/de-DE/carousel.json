@@ -11,6 +11,8 @@
         "loading": "Karussell wird geladen...",
         "indicatorsLabel": "Karussell-Navigation",
         "goToSlide": "Gehe zu slide {slide}",
-        "currentSlide": "Aktueller Slide: {current} von {total}"
+        "currentSlide": "Aktueller Slide: {current} von {total}",
+        "chooseslide": "Slide zum Anzeigen auswählen",
+        "of": "von"
     }
 }
