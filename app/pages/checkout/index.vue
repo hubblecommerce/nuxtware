@@ -70,7 +70,7 @@ onMounted(async () => {
 
 <template>
     <div class="min-h-screen bg-surface-secondary">
-        <div class="lg:container mx-auto px-2 py-8">
+        <div class="mx-auto w-full max-w-8xl px-2 py-8">
             <div class="mx-auto">
                 <!-- Page Header -->
                 <div class="mb-8">

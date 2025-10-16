@@ -47,7 +47,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="lg:container mx-auto px-2 py-8">
+    <div class="mx-auto w-full max-w-8xl px-2 py-8">
         <div class="max-w-md mx-auto text-center">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto" />
         </div>

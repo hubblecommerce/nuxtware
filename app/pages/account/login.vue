@@ -71,7 +71,7 @@ useSeoMeta({
 </script>
 
 <template>
-    <div class="lg:container mx-auto px-2 py-8">
+    <div class="mx-auto w-full max-w-8xl px-2 py-8">
         <div class="max-w-2xl mx-auto">
             <div class="text-center mb-8">
                 <FoundationHeadline tag="h1" class="text-2xl md:text-3xl font-bold mb-4">

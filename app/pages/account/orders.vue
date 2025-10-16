@@ -266,7 +266,7 @@ const getCurrentPaymentMethodId = (orderId: string) => {
 <template>
     <ClientOnly>
         <!-- Loading state while checking auth -->
-        <div v-if="isChecking" class="lg:container mx-auto px-2 py-8">
+        <div v-if="isChecking" class="mx-auto w-full max-w-8xl px-2 py-8">
             <div class="animate-pulse">
                 <div class="h-8 bg-gray-200 rounded mb-6 w-48" />
                 <div class="h-4 bg-gray-200 rounded w-64" />
@@ -274,7 +274,7 @@ const getCurrentPaymentMethodId = (orderId: string) => {
         </div>
         
         <!-- Protected content (only shows when authorized) -->
-        <div v-else-if="isAuthorized" class="lg:container mx-auto px-2 py-8">
+        <div v-else-if="isAuthorized" class="mx-auto w-full max-w-8xl px-2 py-8">
             <LayoutBreadcrumb />
 
             <!-- Page Header -->

@@ -98,4 +98,7 @@
 
     --color-wishlist-toggle: var(--color-neutral);
     --color-wishlist-toggle-active: var(--color-secondary);
+
+    /* Container Breakpoints */
+    --container-8xl: 96rem;
 }

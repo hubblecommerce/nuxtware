@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto px-4 py-8">
+    <div class="mx-auto w-full max-w-8xl px-4 py-8">
         <FoundationHeadline tag="h1" class="mb-8">
             FoundationImage Component
         </FoundationHeadline>

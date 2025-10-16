@@ -5,7 +5,7 @@ const localePath = useLocalePath()
 
 <template>
     <nav
-        class="hidden lg:flex lg:container mx-auto mb-6"
+        class="hidden lg:flex mx-auto w-full max-w-8xl mb-6"
         aria-label="Breadcrumb"
     >
         <ol class="inline-flex items-center space-x-1 md:space-x-3">

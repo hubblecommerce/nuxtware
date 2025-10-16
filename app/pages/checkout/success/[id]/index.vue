@@ -23,7 +23,7 @@ onMounted(async () => {
 
 <template>
     <div class="min-h-screen bg-surface-secondary">
-        <div class="lg:container mx-auto px-2 py-8">
+        <div class="mx-auto w-full max-w-8xl px-2 py-8">
             <div class="mx-auto">
                 <!-- Success Content -->
                 <div class="max-w-2xl mx-auto">

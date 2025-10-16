@@ -23,12 +23,12 @@ const { open } = useSidenav()
     <LayoutTopBar />
 
     <header class="relative shadow-lg z-50">
-        <div class="hidden m-auto w-full flex-wrap justify-end items-center gap-2 py-1 px-2 lg:flex lg:container">
+        <div class="hidden mx-auto w-full max-w-8xl flex-wrap justify-end items-center gap-2 py-1 px-2 lg:flex">
             <ContextLanguageSwitch size="small" />
             <ContextCurrencySwitch size="small" />
         </div>
 
-        <div class="m-auto w-full flex flex-wrap justify-between items-center px-2 lg:container">
+        <div class="mx-auto w-full max-w-8xl flex flex-wrap justify-between items-center px-2">
             <SidenavMenu />
 
             <FoundationLink href="/" class="w-[calc(100%-3rem-50%)] max-w-[160px] order-20 mr-auto lg:mr-0">

@@ -59,7 +59,7 @@ function clearPopoverTimeout () {
         class="w-full relative"
         @mouseleave="closePopover()"
     >
-        <div class="lg:container m-auto px-2">
+        <div class="mx-auto w-full max-w-8xl px-2">
             <ul class="flex justify-center items-center flex-wrap">
                 <li
                     v-for="item in navigationItems"
@@ -96,7 +96,7 @@ function clearPopoverTimeout () {
             class="absolute top-full -mt-px left-0 bg-white shadow-lg border-t border-border p-10 z-50 w-full"
             @mouseleave="closePopover()"
         >
-            <div class="lg:container m-auto px-2 relative">
+            <div class="mx-auto w-full max-w-8xl px-2 relative">
                 <FoundationButton
                     size="small"
                     square

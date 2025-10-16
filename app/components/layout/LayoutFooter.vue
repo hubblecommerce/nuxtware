@@ -20,14 +20,14 @@ const serviceNavigation = await serviceNavigationComposable.loadNavigationElemen
 <template>
     <footer>
         <div class="border-border border-t">
-            <div class="container m-auto px-2">
+            <div class="mx-auto w-full max-w-8xl px-2">
                 <section class="grid grid-cols-1 md:grid-cols-4 gap-12 m-auto py-6">
                     <FooterNavigation :navigation="footerNavigation" />
                 </section>
             </div>
         </div>
         <div class="bg-gray-200 border-t border-border flex flex-col lg:gap-0 py-6">
-            <div class="container m-auto px-2">
+            <div class="mx-auto w-full max-w-8xl px-2">
                 <section class="flex flex-wrap justify-start text-sm gap-4 pb-4">
                     <FooterServiceNavigation :navigation="serviceNavigation" />
                 </section>
