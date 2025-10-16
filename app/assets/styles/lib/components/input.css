@@ -62,7 +62,7 @@
 }
 
 @utility input-bordered {
-    --color-input: var(--color-gray-500);
+    --color-input: var(--color-border);
 }
 
 @utility input-error {
