@@ -63,7 +63,7 @@
 }
 
 @utility textarea-bordered {
-    --color-textarea: var(--color-gray-500);
+    --color-textarea: var(--color-border);
 }
 
 @utility textarea-error {

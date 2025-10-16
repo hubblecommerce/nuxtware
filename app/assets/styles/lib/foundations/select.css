@@ -59,7 +59,7 @@
 }
 
 @utility select-bordered {
-    --color-select: var(--color-gray-500);
+    --color-select: var(--color-border);
 }
 
 @utility select-error {
