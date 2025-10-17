@@ -6,7 +6,7 @@ const banderoleItems = [
 ]
 </script>
 <template>
-    <div class="container m-auto p-2">
+    <div class="mx-auto w-full max-w-8xl p-2">
         <h1 class="text-2xl font-bold mb-6">Skeleton Banderole Examples</h1>
 
         <h2 class="text-xl font-bold mb-3">Default blinking animation mobile</h2>

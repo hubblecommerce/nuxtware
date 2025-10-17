@@ -1,5 +1,5 @@
 <template>
-    <div class="container m-auto">
+    <div class="mx-auto w-full max-w-8xl">
         <div class="flex flex-col justify-start items-center gap-4 py-4">
             <FoundationInput class="input input-xs" placeholder="Input x-small" />
             <FoundationInput class="input input-sm input-primary" placeholder="Input small primary" />

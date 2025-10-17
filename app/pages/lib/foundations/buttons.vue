@@ -5,7 +5,7 @@ function handleClick () {
 </script>
 
 <template>
-    <div class="container m-auto">
+    <div class="mx-auto w-full max-w-8xl">
         <div class="flex justify-start items-center gap-4 py-4">
             <FoundationButton
                 text="Button Default Primary Small"

@@ -16,7 +16,7 @@ const serviceNavigation = await loadNavigationElements({ depth: props.depth })
 
 <template>
     <footer class="bg-gray-200 border-t border-border flex flex-col lg:gap-0 py-6">
-        <div class="container m-auto px-2">
+        <div class="mx-auto w-full max-w-8xl px-2">
             <div class="flex flex-wrap justify-start text-sm gap-4 pb-4">
                 <FooterServiceNavigation :navigation="serviceNavigation" />
             </div>

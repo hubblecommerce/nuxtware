@@ -59,7 +59,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="lg:container mx-auto px-2 py-8">
+    <div class="mx-auto w-full max-w-8xl px-2 py-8">
         <!-- Error state -->
         <div v-if="errors?.length > 0" class="mb-6 p-4 bg-error border border-error-content rounded">
             <h2 class="text-error-content font-medium mb-2">{{ $t('common.error') }}</h2>

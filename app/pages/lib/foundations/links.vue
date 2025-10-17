@@ -1,5 +1,5 @@
 <template>
-    <div class="container m-auto">
+    <div class="mx-auto w-full max-w-8xl">
         <div class="flex flex-col justify-start items-center gap-4 py-4">
             <FoundationLink href="/">Link to internal via NuxtLink / Vue Router</FoundationLink>
             <FoundationLink href="/" type="external">Link to external via anchor tag</FoundationLink>

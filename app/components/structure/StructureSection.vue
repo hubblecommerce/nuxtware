@@ -26,7 +26,7 @@ const sidebarBlocks: Ref<Schemas['CmsBlock'][]> = computed(() => {
     >
         <div
             :class="{
-                'lg:container m-auto px-2': content.sizingMode === 'boxed',
+                'mx-auto w-full max-w-8xl px-2': content.sizingMode === 'boxed',
                 'w-full': content.sizingMode === 'fullwidth'
             }"
         >

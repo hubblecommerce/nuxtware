@@ -1,5 +1,5 @@
 <template>
-    <div class="container m-auto">
+    <div class="mx-auto w-full max-w-8xl">
         <div class="flex justify-start items-center gap-4 py-4">
             <FoundationIcon name="x" size="xs" />
             <FoundationIcon name="home" size="sm" />

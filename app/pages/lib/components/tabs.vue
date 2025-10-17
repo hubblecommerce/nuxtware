@@ -20,7 +20,7 @@ const accountTabs = [
 </script>
 
 <template>
-    <div class="container mx-auto p-8 space-y-12">
+    <div class="mx-auto w-full max-w-8xl p-8 space-y-12">
         <div>
             <FoundationHeadline tag="h1" class="mb-8">ComponentTabs Demo</FoundationHeadline>
             
