@@ -1,18 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
 import { createResolver } from '@nuxt/kit'
 import tailwindcss from '@tailwindcss/vite'
 
-const currentDir = dirname(fileURLToPath(import.meta.url))
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  extends: ["@shopware/composables/nuxt-layer"],
   imports: {
     dirs: [
-        // auto import composables
-        join(currentDir, 'node_modules/@shopware/composables/src'),
         // auto import types
         'types/*.{ts,tsx}',
     ],
