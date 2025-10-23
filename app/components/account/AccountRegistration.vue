@@ -186,16 +186,10 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-    <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
-                {{ $t('account.registration.title') }}
-            </FoundationHeadline>
-            <p class="text-sm">
-                {{ $t('account.registration.description') }}
-            </p>
-        </legend>
-
+    <ComponentFieldset
+        :headline="$t('account.registration.title')"
+        :description="$t('account.registration.description')"
+    >
         <form @submit.prevent="handleSubmit">
             <div class="space-y-6">
                 <!-- Personal Information Section -->
@@ -437,5 +431,5 @@ const handleSubmit = async () => {
                 </div>
             </div>
         </form>
-    </fieldset>
+    </ComponentFieldset>
 </template>

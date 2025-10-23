@@ -10,7 +10,7 @@ const formType = computed(() => {
 })
 </script>
 <template>
-    <fieldset class="space-y-6 p-6 border border-border rounded-lg">
+    <ComponentFieldset :legend="false">
         <LazyFormsNewsletter
             v-if="formType === 'newsletter'"
             :content="props.content"
@@ -19,5 +19,5 @@ const formType = computed(() => {
             v-else-if="formType === 'contact'"
             :content="props.content"
         />
-    </fieldset>
+    </ComponentFieldset>
 </template>
