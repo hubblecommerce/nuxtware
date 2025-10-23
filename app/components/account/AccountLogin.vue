@@ -126,19 +126,22 @@ watch(formData, () => {
         errors.value = []
     }
 })
+
+// Computed properties for legend
+const headlineText = computed(() => {
+    return isPasswordRecoveryMode.value ? t('account.passwordRecovery.title') : t('account.login.title')
+})
+
+const descriptionText = computed(() => {
+    return isPasswordRecoveryMode.value ? t('account.passwordRecovery.description') : t('account.login.description')
+})
 </script>
 
 <template>
-    <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
-                {{ isPasswordRecoveryMode ? $t('account.passwordRecovery.title') : $t('account.login.title') }}
-            </FoundationHeadline>
-            <p class="text-sm">
-                {{ isPasswordRecoveryMode ? $t('account.passwordRecovery.description') : $t('account.login.description') }}
-            </p>
-        </legend>
-
+    <ComponentFieldset
+        :headline="headlineText"
+        :description="descriptionText"
+    >
         <form @submit.prevent="handleFormSubmit">
             <div class="space-y-4">
                 <div v-if="errors.length > 0" class="p-4 border-l-4 border-error bg-error/10 text-error" role="alert">
@@ -212,5 +215,5 @@ watch(formData, () => {
                 </div>
             </div>
         </form>
-    </fieldset>
+    </ComponentFieldset>
 </template>

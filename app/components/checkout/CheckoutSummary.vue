@@ -78,16 +78,10 @@ onMounted(async () => {
 </script>
 
 <template>
-    <fieldset class="space-y-6 p-6 border border-border rounded-lg bg-surface">
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
-                {{ $t('checkout.orderSummary') }}
-            </FoundationHeadline>
-            <p class="text-sm">
-                {{ $t('checkout.orderSummaryLabel') }}
-            </p>
-        </legend>
-
+    <ComponentFieldset
+        :headline="$t('checkout.orderSummary')"
+        :description="$t('checkout.orderSummaryLabel')"
+    >
         <!-- Cart Items -->
         <div v-if="cartItems.length > 0">
             <FoundationHeadline tag="h4" class="text-base font-medium mb-3">
@@ -143,5 +137,5 @@ onMounted(async () => {
                 </p>
             </div>
         </div>
-    </fieldset>
+    </ComponentFieldset>
 </template>

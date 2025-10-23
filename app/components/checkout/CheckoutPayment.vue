@@ -1,14 +1,8 @@
 <template>
-    <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
-                {{ mode === 'order' ? $t('orders.paymentChange.selectMethod') : $t('checkout.paymentMethodLabel') }}
-            </FoundationHeadline>
-            <p class="text-sm">
-                {{ mode === 'order' ? $t('orders.paymentChange.description') : $t('checkout.selectPaymentMethod') }}
-            </p>
-        </legend>
-
+    <ComponentFieldset
+        :headline="headlineText"
+        :description="descriptionText"
+    >
         <!-- Loading State -->
         <div v-if="isLoading" class="space-y-3">
             <div v-for="i in 3" :key="i" class="flex animate-pulse items-center space-x-4">
@@ -101,7 +95,7 @@
             <p class="font-medium">{{ $t('checkout.payment.error') }}</p>
             <p class="text-sm mt-1">{{ error }}</p>
         </div>
-    </fieldset>
+    </ComponentFieldset>
 </template>
 
 <script setup lang="ts">
@@ -147,6 +141,15 @@ const selectedPaymentMethod = computed(() => {
     } else {
         return orderDetails?.paymentMethod.value
     }
+})
+
+// Computed properties for legend
+const headlineText = computed(() => {
+    return props.mode === 'order' ? t('orders.paymentChange.selectMethod') : t('checkout.paymentMethodLabel')
+})
+
+const descriptionText = computed(() => {
+    return props.mode === 'order' ? t('orders.paymentChange.description') : t('checkout.selectPaymentMethod')
 })
 
 // Order-specific payment methods state

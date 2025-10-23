@@ -1,14 +1,8 @@
 <template>
-    <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
-                {{ $t('checkout.voucher.title') }}
-            </FoundationHeadline>
-            <p class="text-sm">
-                {{ $t('checkout.voucher.description') }}
-            </p>
-        </legend>
-
+    <ComponentFieldset
+        :headline="$t('checkout.voucher.title')"
+        :description="$t('checkout.voucher.description')"
+    >
         <!-- Voucher Input Form -->
         <form @submit.prevent="handleApplyVoucher">
             <div class="flex gap-3">
@@ -76,7 +70,7 @@
                 </div>
             </div>
         </div>
-    </fieldset>
+    </ComponentFieldset>
 </template>
 
 <script setup lang="ts">

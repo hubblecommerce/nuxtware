@@ -1,14 +1,8 @@
 <template>
-    <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
-        <legend class="px-4 mb-0 -ml-4">
-            <FoundationHeadline tag="h3" class="text-lg font-medium mb-2">
-                {{ $t('checkout.shippingMethodLabel') }}
-            </FoundationHeadline>
-            <p class="text-sm">
-                {{ $t('checkout.selectShippingMethod') }}
-            </p>
-        </legend>
-
+    <ComponentFieldset
+        :headline="$t('checkout.shippingMethodLabel')"
+        :description="$t('checkout.selectShippingMethod')"
+    >
         <!-- Loading State -->
         <div v-if="isLoading" class="space-y-3">
             <div v-for="i in 2" :key="i" class="flex animate-pulse items-center space-x-4">
@@ -112,7 +106,7 @@
             <p class="font-medium">{{ $t('checkout.shipping.error') }}</p>
             <p class="text-sm mt-1">{{ error }}</p>
         </div>
-    </fieldset>
+    </ComponentFieldset>
 </template>
 
 <script setup lang="ts">

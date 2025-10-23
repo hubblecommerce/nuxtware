@@ -104,7 +104,7 @@ watch(formData, () => {
                     </p>
                 </div>
 
-                <fieldset class="space-y-4 p-6 border border-border rounded-lg bg-surface">
+                <ComponentFieldset :legend="false">
                     <form @submit.prevent="handlePasswordReset">
                         <div class="space-y-4">
                             <div v-if="errors.length > 0" class="p-4 border-l-4 border-error bg-error/10 text-error" role="alert">
@@ -166,7 +166,7 @@ watch(formData, () => {
                             </div>
                         </div>
                     </form>
-                </fieldset>
+                </ComponentFieldset>
             </div>
         </div>
     </div>
