@@ -38,9 +38,9 @@ withDefaults(defineProps<ComponentFieldsetProps>(), {
             >
                 {{ headline }}
             </FoundationHeadline>
-            <p v-if="description" class="text-sm">
+            <span v-if="description" class="block text-sm">
                 {{ description }}
-            </p>
+            </span>
         </legend>
 
         <slot />
