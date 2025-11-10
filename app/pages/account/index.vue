@@ -131,9 +131,13 @@ onMounted(async () => {
                         </div>
 
                         <div class="flex justify-end pt-4 border-t border-border">
-                            <NuxtLink :to="localePath('/account/profile')" class="text-primary hover:text-primary/80">
+                          <FoundationLink
+                              is="internal"
+                              :to="localePath('/account/profile')"
+                              class="text-primary hover:text-primary/80"
+                          >
                                 {{ $t('account.change') }}
-                            </NuxtLink>
+                            </FoundationLink>
                         </div>
                     </div>
 
@@ -200,9 +204,13 @@ onMounted(async () => {
                         </div>
 
                         <div class="flex justify-end pt-4 border-t border-border">
-                            <NuxtLink :to="localePath('/account/address')" class="text-primary hover:text-primary/80">
+                          <FoundationLink
+                              is="internal"
+                              :to="localePath('/account/address')"
+                              class="text-primary hover:text-primary/80"
+                          >
                                 {{ $t('account.change') }}
-                            </NuxtLink>
+                            </FoundationLink>
                         </div>
                     </div>
 
@@ -237,9 +245,13 @@ onMounted(async () => {
                         </div>
 
                         <div class="flex justify-end pt-4 border-t border-border">
-                            <NuxtLink :to="localePath('/account/address')" class="text-primary hover:text-primary/80">
+                          <FoundationLink
+                              is="internal"
+                              :to="localePath('/account/address')"
+                              class="text-primary hover:text-primary/80"
+                          >
                                 {{ $t('account.change') }}
-                            </NuxtLink>
+                            </FoundationLink>
                         </div>
                     </div>
                 </div>
@@ -255,9 +267,13 @@ onMounted(async () => {
                     </div>
 
                     <div class="flex justify-end pt-4 border-t border-border">
-                        <NuxtLink :to="localePath('/account/orders')" class="text-primary hover:text-primary/80">
+                      <FoundationLink
+                          is="internal"
+                          :to="localePath('/account/orders')"
+                          class="text-primary hover:text-primary/80"
+                      >
                             {{ $t('account.viewAllOrders') }}
-                        </NuxtLink>
+                        </FoundationLink>
                     </div>
                 </div>
             </div>
