@@ -22,6 +22,7 @@ watch(props.controller.isOpen, (newX) => {
             modalRef.value?.addEventListener("click", closeModalOnClickOutside)
         }
     } else {
+        modalRef.value?.close()
         document.body.style.overflow = ''
     }
 })
