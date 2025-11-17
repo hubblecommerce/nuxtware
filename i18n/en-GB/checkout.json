@@ -60,7 +60,8 @@
             "noMethodsAvailable": "No shipping methods available",
             "error": "Shipping Error",
             "updateError": "Failed to update shipping method",
-            "loadError": "Failed to load shipping methods"
+            "loadError": "Failed to load shipping methods",
+            "noMethodSelectedError": "Please select a valid shipping method."
         },
         "payment": {
             "afterOrder": "Pay after order",
@@ -68,7 +69,8 @@
             "selectedMethod": "Selected Payment Method",
             "error": "Payment Error",
             "updateError": "Failed to update payment method",
-            "loadError": "Failed to load payment methods"
+            "loadError": "Failed to load payment methods",
+            "noMethodSelectedError": "Please select a valid payment method."
         },
         "summary": {
             "items": "Items",
@@ -94,6 +96,13 @@
             "confirmationEmail": "Confirmation Email",
             "orderNotFound": "Order Not Found",
             "orderNotFoundDescription": "We couldn't find the order you're looking for. Please check the order ID and try again."
+        },
+        "breadcrumb": {
+            "cart": "Cart"
+,            "contact": "Contact",
+            "shipping": "Shipping",
+            "payment": "Payment",
+            "summary": "Summary"
         }
     }
 }

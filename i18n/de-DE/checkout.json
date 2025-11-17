@@ -60,7 +60,8 @@
             "noMethodsAvailable": "Keine Versandmethoden verfügbar",
             "error": "Versandfehler",
             "updateError": "Versandmethode konnte nicht aktualisiert werden",
-            "loadError": "Versandmethoden konnten nicht geladen werden"
+            "loadError": "Versandmethoden konnten nicht geladen werden",
+            "noMethodSelectedError": ""
         },
         "payment": {
             "afterOrder": "Nach Bestellung zahlen",
@@ -68,7 +69,8 @@
             "selectedMethod": "Gewählte Zahlungsmethode",
             "error": "Zahlungsfehler",
             "updateError": "Zahlungsmethode konnte nicht aktualisiert werden",
-            "loadError": "Zahlungsmethoden konnten nicht geladen werden"
+            "loadError": "Zahlungsmethoden konnten nicht geladen werden",
+            "noMethodSelectedError": ""
         },
         "summary": {
             "items": "Artikel",
@@ -94,6 +96,13 @@
             "confirmationEmail": "Bestätigungs-E-Mail",
             "orderNotFound": "Bestellung nicht gefunden",
             "orderNotFoundDescription": "Wir konnten die gesuchte Bestellung nicht finden. Bitte überprüfen Sie die Bestell-ID und versuchen Sie es erneut."
+        },
+        "breadcrumb": {
+            "cart": "Warenkorb"
+,            "contact": "Ihre Angaben",
+            "shipping": "Lieferung",
+            "payment": "Bezahlung",
+            "summary": "Zusammenfassung"
         }
     }
 }
