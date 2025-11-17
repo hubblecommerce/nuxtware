@@ -65,7 +65,7 @@ const removeItem = () => {
 
             <!-- Product variant details if available -->
             <div v-if="item.payload?.options?.length" class="mt-1">
-                <p v-for="option in item.payload.options" :key="option.id" class="text-xs ">
+                <p v-for="(option, index) in item.payload.options" :key="index" class="text-xs">
                     {{ option.group }}: {{ option.option }}
                 </p>
             </div>
