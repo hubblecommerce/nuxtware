@@ -7,9 +7,10 @@ export interface UseCheckoutFlowOptions {
 
 export function useCheckoutFlow(options: UseCheckoutFlowOptions = {}) {
     const { t } = useI18n()
-    const { isLoggedIn, isGuestSession } = useUser()
+    const { isLoggedIn, isGuestSession, logout } = useUser()
     const { success } = useGlobalNotifications()
     const { refreshSessionContext } = useSessionContext()
+    const { push } = useRouter()
 
     // Default options
     const {
@@ -51,6 +52,24 @@ export function useCheckoutFlow(options: UseCheckoutFlowOptions = {}) {
         contactSubStep.value = 'registration'
     }
 
+    // Handler: Logout
+    const handleLogout = async () => {
+        await logout()
+        contactSubStep.value = 'login'
+        currentStep.value = 'checkout'
+    }
+
+    // Handler: Order Placed
+    const handleOrderPlaced = async (orderId: string) => {
+        await push(`/checkout/success/${orderId}`)
+    }
+
+    // Handler: Order Error
+    const handleOrderError = (error: string) => {
+        // Error is already handled by the notification system in the component
+        console.error('Order placement failed:', error)
+    }
+
     // Initialize on mount - MUST be called in component's onMounted
     const initializeCheckoutFlow = async () => {
         try {
@@ -80,6 +99,9 @@ export function useCheckoutFlow(options: UseCheckoutFlowOptions = {}) {
         handleRegistrationSuccess,
         handleSwitchToLogin,
         handleSwitchToRegistration,
+        handleLogout,
+        handleOrderPlaced,
+        handleOrderError,
 
         // Initialization
         initializeCheckoutFlow

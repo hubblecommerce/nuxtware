@@ -7,7 +7,7 @@ const { t } = useI18n()
 const { isVirtualCart } = useCart()
 const { error } = useGlobalNotifications()
 const { selectedPaymentMethod, selectedShippingMethod } = useSessionContext()
-const { user, isGuestSession, logout } = useUser()
+const { user, isGuestSession } = useUser()
 
 // Initialize checkout flow for multi-step (navigate between steps)
 const {
@@ -19,17 +19,14 @@ const {
     handleRegistrationSuccess,
     handleSwitchToLogin,
     handleSwitchToRegistration,
+    handleLogout,
+    handleOrderPlaced,
+    handleOrderError,
     initializeCheckoutFlow
 } = useCheckoutFlow({
     afterAuthStep: 'shipping',
     initialAuthStep: 'login'
 })
-
-const handleLogout = async () => {
-    await logout()
-    contactSubStep.value = 'login'
-    currentStep.value = 'checkout'
-}
 
 function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
     // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
@@ -85,36 +82,52 @@ onMounted(async () => {
                     </ul>
                 </div>
 
-                <template v-if="currentStep === 'checkout'">
-                    <ClientOnly>
-                        <CheckoutLogin
-                            :is-initializing="isInitializing"
-                            :contact-sub-step="contactSubStep"
-                            :is-user-session="isUserSession"
-                            :user="user"
-                            :is-guest-session="isGuestSession"
-                            @login-success="handleLoginSuccess"
-                            @registration-success="handleRegistrationSuccess"
-                            @switch-to-login="handleSwitchToLogin"
-                            @switch-to-register="handleSwitchToRegistration"
-                            @logout="handleLogout"
-                        />
-                    </ClientOnly>
-                </template>
+                <!-- Checkout Flow -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column: Forms -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <template v-if="currentStep === 'checkout'">
+                            <ClientOnly>
+                                <CheckoutLogin
+                                    :is-initializing="isInitializing"
+                                    :contact-sub-step="contactSubStep"
+                                    :is-user-session="isUserSession"
+                                    :user="user"
+                                    :is-guest-session="isGuestSession"
+                                    @login-success="handleLoginSuccess"
+                                    @registration-success="handleRegistrationSuccess"
+                                    @switch-to-login="handleSwitchToLogin"
+                                    @switch-to-register="handleSwitchToRegistration"
+                                    @logout="handleLogout"
+                                />
+                            </ClientOnly>
+                        </template>
 
-                <ClientOnly>
-                    <!-- Shipping Section -->
-                    <CheckoutShipping v-if="!isVirtualCart" v-show="currentStep === 'shipping'" />
-                </ClientOnly>
+                        <ClientOnly>
+                            <!-- Shipping Section -->
+                            <CheckoutShipping v-if="!isVirtualCart" v-show="currentStep === 'shipping'" />
+                        </ClientOnly>
 
-                 <ClientOnly>
-                    <!-- Shipping Section -->
-                    <CheckoutPayment v-show="currentStep === 'payment'" />
-                </ClientOnly>
+                         <ClientOnly>
+                            <!-- Shipping Section -->
+                            <CheckoutPayment v-show="currentStep === 'payment'" />
+                        </ClientOnly>
 
-                <template v-if="currentStep === 'summary'">
+                        <template v-if="currentStep === 'summary'">
 
-                </template>
+                        </template>
+                    </div>
+
+                    <!-- Right Column: Order Summary -->
+                    <div class="lg:col-span-1">
+                        <div class="sticky top-4">
+                            <CheckoutSummary
+                                @order-placed="handleOrderPlaced"
+                                @order-error="handleOrderError"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
 <script setup lang='ts'>
-const { push } = useRouter()
-const { user, logout, isGuestSession } = useUser()
+const { user, isGuestSession } = useUser()
 const { isVirtualCart } = useCart()
 
 // Initialize checkout flow for one-step (stay on checkout step)
@@ -12,26 +11,14 @@ const {
     handleRegistrationSuccess,
     handleSwitchToLogin,
     handleSwitchToRegistration,
+    handleLogout,
+    handleOrderPlaced,
+    handleOrderError,
     initializeCheckoutFlow
 } = useCheckoutFlow({
     afterAuthStep: 'checkout',
     initialAuthStep: 'login'
 })
-
-// Event handlers
-const handleOrderPlaced = async (orderId: string) => {
-    await push(`/checkout/success/${orderId}`)
-}
-
-const handleOrderError = (error: string) => {
-    // Error is already handled by the notification system in the component
-    console.error('Order placement failed:', error)
-}
-
-const handleLogout = async () => {
-    await logout()
-    contactSubStep.value = 'login'
-}
 
 // Initialize on mount
 onMounted(async () => {
