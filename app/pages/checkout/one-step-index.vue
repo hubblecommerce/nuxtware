@@ -1,33 +1,25 @@
 <script setup lang='ts'>
 const { push } = useRouter()
-const { isLoggedIn, isGuestSession, user, logout } = useUser()
-const { refreshSessionContext } = useSessionContext()
+const { user, logout, isGuestSession } = useUser()
 const { isVirtualCart } = useCart()
-const { success } = useGlobalNotifications()
-const { t } = useI18n()
 
-// State for checkout flow
-const currentStep = ref<'login' | 'registration' | 'checkout'>('checkout')
-const isInitializing = ref(true)
-const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
+// Initialize checkout flow for one-step (stay on checkout step)
+const {
+    contactSubStep,
+    isUserSession,
+    isInitializing,
+    handleLoginSuccess,
+    handleRegistrationSuccess,
+    handleSwitchToLogin,
+    handleSwitchToRegistration,
+    initializeCheckoutFlow
+} = useCheckoutFlow({
+    loginSuccessStep: 'checkout',
+    registrationSuccessStep: 'checkout',
+    initialAuthStep: 'login'
+})
 
 // Event handlers
-const handleLoginSuccess = async () => {
-    await refreshSessionContext()
-    currentStep.value = 'checkout'
-    success(t('checkout.login.loginSuccess'))
-}
-
-const handleRegistrationSuccess = async () => {
-    try {
-        await refreshSessionContext()
-        currentStep.value = 'checkout'
-        success(t('checkout.registration.registrationSuccess'))
-    } catch (e) {
-        console.error(e)
-    }
-}
-
 const handleOrderPlaced = async (orderId: string) => {
     await push(`/checkout/success/${orderId}`)
 }
@@ -37,34 +29,14 @@ const handleOrderError = (error: string) => {
     console.error('Order placement failed:', error)
 }
 
-const handleSwitchToLogin = () => {
-    currentStep.value = 'login'
-}
-
-const handleSwitchToRegistration = () => {
-    currentStep.value = 'registration'
-}
-
 const handleLogout = async () => {
     await logout()
-    currentStep.value = 'login'
+    contactSubStep.value = 'login'
 }
 
 // Initialize on mount
 onMounted(async () => {
-    try {
-        await refreshSessionContext()
-        
-        // If user is not logged in, show login/registration option
-        if (!isUserSession.value) {
-            currentStep.value = 'login'
-        }
-    } catch (error) {
-        console.warn('Failed to refresh session context:', error)
-        currentStep.value = 'login'
-    } finally {
-        isInitializing.value = false
-    }
+    await initializeCheckoutFlow()
 })
 </script>
 
@@ -100,14 +72,14 @@ onMounted(async () => {
                         </div>
 
                         <!-- Login/Registration Section -->
-                        <div v-else-if="currentStep === 'login'">
+                        <div v-else-if="!isUserSession && contactSubStep === 'login'">
                             <AccountLogin
                                 @login-success="handleLoginSuccess"
                                 @switch-to-register="handleSwitchToRegistration"
                             />
                         </div>
 
-                        <div v-else-if="currentStep === 'registration'">
+                        <div v-else-if="!isUserSession && contactSubStep === 'registration'">
                             <AccountRegistration
                                 allow-guest
                                 @registration-success="handleRegistrationSuccess"

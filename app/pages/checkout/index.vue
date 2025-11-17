@@ -1,70 +1,55 @@
-<script setup lang='ts'>
-const { push } = useRouter()
-const { isLoggedIn, isGuestSession, user, logout } = useUser()
-const { refreshSessionContext } = useSessionContext()
-const { isVirtualCart } = useCart()
-const { success } = useGlobalNotifications()
+<script setup lang="ts">
+definePageMeta({
+    layout: 'checkout'
+})
+
 const { t } = useI18n()
+const { isVirtualCart } = useCart()
+const { error } = useGlobalNotifications()
+const { selectedPaymentMethod, selectedShippingMethod } = useSessionContext()
 
-// State for checkout flow
-const currentStep = ref<'login' | 'registration' | 'checkout'>('checkout')
-const isInitializing = ref(true)
-const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
+// Initialize checkout flow for multi-step (navigate between steps)
+const {
+    currentStep,
+    contactSubStep,
+    isUserSession,
+    isInitializing,
+    handleLoginSuccess,
+    handleRegistrationSuccess,
+    handleSwitchToLogin,
+    handleSwitchToRegistration,
+    initializeCheckoutFlow
+} = useCheckoutFlow({
+    loginSuccessStep: 'shipping',
+    registrationSuccessStep: 'shipping',
+    initialAuthStep: 'login'
+})
 
-// Event handlers
-const handleLoginSuccess = async () => {
-    await refreshSessionContext()
-    currentStep.value = 'checkout'
-    success(t('checkout.login.loginSuccess'))
-}
-
-const handleRegistrationSuccess = async () => {
-    try {
-        await refreshSessionContext()
-        currentStep.value = 'checkout'
-        success(t('checkout.registration.registrationSuccess'))
-    } catch (e) {
-        console.error(e)
+function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
+    // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
+    if ((stepName !== 'checkout') && !isUserSession.value) {
+        return
     }
-}
 
-const handleOrderPlaced = async (orderId: string) => {
-    await push(`/checkout/success/${orderId}`)
-}
+    // Prevent access to payment and summary steps if shipping method is not selected (for physical products)
+    if ((stepName === 'payment' || stepName === 'summary') && !isVirtualCart.value && !selectedShippingMethod.value) {
+        error(t('checkout.shipping.noMethodSelectedError'))
+        return
+    }
 
-const handleOrderError = (error: string) => {
-    // Error is already handled by the notification system in the component
-    console.error('Order placement failed:', error)
-}
+    // Prevent access to summary step if payment method is not selected
+    if (stepName === 'summary' && !selectedPaymentMethod.value) {
+        error(t('checkout.payment.noMethodSelectedError'))
+        return
+    }
 
-const handleSwitchToLogin = () => {
-    currentStep.value = 'login'
-}
-
-const handleSwitchToRegistration = () => {
-    currentStep.value = 'registration'
-}
-
-const handleLogout = async () => {
-    await logout()
-    currentStep.value = 'login'
+    // Update the current step
+    currentStep.value = stepName
 }
 
 // Initialize on mount
 onMounted(async () => {
-    try {
-        await refreshSessionContext()
-        
-        // If user is not logged in, show login/registration option
-        if (!isUserSession.value) {
-            currentStep.value = 'login'
-        }
-    } catch (error) {
-        console.warn('Failed to refresh session context:', error)
-        currentStep.value = 'login'
-    } finally {
-        isInitializing.value = false
-    }
+    await initializeCheckoutFlow()
 })
 </script>
 
@@ -72,91 +57,73 @@ onMounted(async () => {
     <div class="min-h-screen bg-surface-secondary">
         <div class="mx-auto w-full max-w-8xl px-2 py-8">
             <div class="mx-auto">
-                <!-- Page Header -->
-                <div class="mb-8">
-                    <FoundationHeadline tag="h1" class="text-2xl font-bold mb-2">
-                        {{ $t('checkout.title') }}
-                    </FoundationHeadline>
-                    <p>
-                        {{ $t('checkout.description') }}
-                    </p>
+                <div class="w-full text-sm breadcrumbs">
+                    <ul class="flex justify-center gap-4">
+                        <li>
+                            <FoundationLink to="/cart">
+                                {{ t('checkout.breadcrumb.cart') }}
+                            </FoundationLink>
+                        </li>
+                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'checkout'}" @click="selectStep('checkout')">
+                            {{ t('checkout.breadcrumb.contact') }}
+                        </li>
+                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'shipping'}" @click="selectStep('shipping')">
+                            {{ t('checkout.breadcrumb.shipping') }}
+                        </li>
+                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'payment'}" @click="selectStep('payment')">
+                            {{ t('checkout.breadcrumb.payment') }}
+                        </li>
+                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'summary'}" @click="selectStep('summary')">
+                            {{ t('checkout.breadcrumb.summary') }}
+                        </li>
+                    </ul>
                 </div>
 
-                <!-- Checkout Flow -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Left Column: Forms -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Loading Placeholder -->
-                        <div v-if="isInitializing" class="p-6 border border-border rounded-lg bg-surface">
-                            <div class="animate-pulse">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex-1">
-                                        <div class="h-5 bg-border rounded w-48 mb-2" />
-                                        <div class="h-4 bg-border rounded w-32"/>
-                                    </div>
-                                    <div class="h-8 bg-border rounded w-20"/>
-                                </div>
+                <template v-if="currentStep === 'checkout'">
+                    <ClientOnly>
+                      <!-- Loading Placeholder -->
+                      <div v-if="isInitializing" class="p-6 border border-border rounded-lg bg-surface">
+                        <div class="animate-pulse">
+                          <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                              <div class="h-5 bg-border rounded w-48 mb-2" />
+                              <div class="h-4 bg-border rounded w-32"/>
                             </div>
+                            <div class="h-8 bg-border rounded w-20"/>
+                          </div>
                         </div>
+                      </div>
+                      <!-- Login/Registration Section -->
+                      <div v-else-if="contactSubStep === 'login'">
+                        <AccountLogin
+                            @login-success="handleLoginSuccess"
+                            @switch-to-register="handleSwitchToRegistration"
+                        />
+                      </div>
 
-                        <!-- Login/Registration Section -->
-                        <div v-else-if="currentStep === 'login'">
-                            <AccountLogin
-                                @login-success="handleLoginSuccess"
-                                @switch-to-register="handleSwitchToRegistration"
-                            />
-                        </div>
+                      <div v-else-if="contactSubStep === 'registration'">
+                        <AccountRegistration
+                            allow-guest
+                            @registration-success="handleRegistrationSuccess"
+                            @switch-to-login="handleSwitchToLogin"
+                        />
+                      </div>
+                    </ClientOnly>
+                </template>
 
-                        <div v-else-if="currentStep === 'registration'">
-                            <AccountRegistration
-                                allow-guest
-                                @registration-success="handleRegistrationSuccess"
-                                @switch-to-login="handleSwitchToLogin"
-                            />
-                        </div>
+                <ClientOnly>
+                    <!-- Shipping Section -->
+                    <CheckoutShipping v-if="!isVirtualCart" v-show="currentStep === 'shipping'" />
+                </ClientOnly>
 
-                        <!-- User Info Section (when logged in) -->
-                        <div v-else-if="isUserSession" class="p-6 border border-border rounded-lg bg-surface">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <FoundationHeadline tag="h3" class="text-lg font-medium mb-1">
-                                        {{ $t('checkout.loggedInAs') }} {{ user?.firstName }}
-                                    </FoundationHeadline>
-                                    <p class="text-sm text-secondary">
-                                        <span v-if="isGuestSession">{{ $t('checkout.guest') }}</span>
-                                        <span v-else>{{ user?.email }}</span>
-                                    </p>
-                                </div>
-                                <FoundationButton
-                                    variant="outline"
-                                    size="small"
-                                    @click="handleLogout"
-                                >
-                                    {{ $t('checkout.logOut') }}
-                                </FoundationButton>
-                            </div>
-                        </div>
+                 <ClientOnly>
+                    <!-- Shipping Section -->
+                    <CheckoutPayment v-show="currentStep === 'payment'" />
+                </ClientOnly>
 
-                        <!-- Voucher Section -->
-                        <CheckoutVoucher />
+                <template v-if="currentStep === 'summary'">
 
-                        <!-- Shipping Section -->
-                        <CheckoutShipping v-if="!isVirtualCart" />
-
-                        <!-- Payment Section -->
-                        <CheckoutPayment />
-                    </div>
-
-                    <!-- Right Column: Order Summary -->
-                    <div class="lg:col-span-1">
-                        <div class="sticky top-4">
-                            <CheckoutSummary
-                                @order-placed="handleOrderPlaced"
-                                @order-error="handleOrderError"
-                            />
-                        </div>
-                    </div>
-                </div>
+                </template>
             </div>
         </div>
     </div>
