@@ -7,6 +7,7 @@ const { t } = useI18n()
 const { isVirtualCart } = useCart()
 const { error } = useGlobalNotifications()
 const { selectedPaymentMethod, selectedShippingMethod } = useSessionContext()
+const { user, isGuestSession, logout } = useUser()
 
 // Initialize checkout flow for multi-step (navigate between steps)
 const {
@@ -23,6 +24,12 @@ const {
     afterAuthStep: 'shipping',
     initialAuthStep: 'login'
 })
+
+const handleLogout = async () => {
+    await logout()
+    contactSubStep.value = 'login'
+    currentStep.value = 'checkout'
+}
 
 function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
     // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
@@ -80,33 +87,18 @@ onMounted(async () => {
 
                 <template v-if="currentStep === 'checkout'">
                     <ClientOnly>
-                      <!-- Loading Placeholder -->
-                      <div v-if="isInitializing" class="p-6 border border-border rounded-lg bg-surface">
-                        <div class="animate-pulse">
-                          <div class="flex items-center justify-between">
-                            <div class="flex-1">
-                              <div class="h-5 bg-border rounded w-48 mb-2" />
-                              <div class="h-4 bg-border rounded w-32"/>
-                            </div>
-                            <div class="h-8 bg-border rounded w-20"/>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Login/Registration Section -->
-                      <div v-else-if="contactSubStep === 'login'">
-                        <AccountLogin
+                        <CheckoutLogin
+                            :is-initializing="isInitializing"
+                            :contact-sub-step="contactSubStep"
+                            :is-user-session="isUserSession"
+                            :user="user"
+                            :is-guest-session="isGuestSession"
                             @login-success="handleLoginSuccess"
-                            @switch-to-register="handleSwitchToRegistration"
-                        />
-                      </div>
-
-                      <div v-else-if="contactSubStep === 'registration'">
-                        <AccountRegistration
-                            allow-guest
                             @registration-success="handleRegistrationSuccess"
                             @switch-to-login="handleSwitchToLogin"
+                            @switch-to-register="handleSwitchToRegistration"
+                            @logout="handleLogout"
                         />
-                      </div>
                     </ClientOnly>
                 </template>
 

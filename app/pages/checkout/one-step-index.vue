@@ -57,56 +57,19 @@ onMounted(async () => {
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <!-- Left Column: Forms -->
                     <div class="lg:col-span-2 space-y-6">
-                        <!-- Loading Placeholder -->
-                        <div v-if="isInitializing" class="p-6 border border-border rounded-lg bg-surface">
-                            <div class="animate-pulse">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex-1">
-                                        <div class="h-5 bg-border rounded w-48 mb-2" />
-                                        <div class="h-4 bg-border rounded w-32"/>
-                                    </div>
-                                    <div class="h-8 bg-border rounded w-20"/>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Login/Registration Section -->
-                        <div v-else-if="!isUserSession && contactSubStep === 'login'">
-                            <AccountLogin
-                                @login-success="handleLoginSuccess"
-                                @switch-to-register="handleSwitchToRegistration"
-                            />
-                        </div>
-
-                        <div v-else-if="!isUserSession && contactSubStep === 'registration'">
-                            <AccountRegistration
-                                allow-guest
-                                @registration-success="handleRegistrationSuccess"
-                                @switch-to-login="handleSwitchToLogin"
-                            />
-                        </div>
-
-                        <!-- User Info Section (when logged in) -->
-                        <div v-else-if="isUserSession" class="p-6 border border-border rounded-lg bg-surface">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <FoundationHeadline tag="h3" class="text-lg font-medium mb-1">
-                                        {{ $t('checkout.loggedInAs') }} {{ user?.firstName }}
-                                    </FoundationHeadline>
-                                    <p class="text-sm text-secondary">
-                                        <span v-if="isGuestSession">{{ $t('checkout.guest') }}</span>
-                                        <span v-else>{{ user?.email }}</span>
-                                    </p>
-                                </div>
-                                <FoundationButton
-                                    variant="outline"
-                                    size="small"
-                                    @click="handleLogout"
-                                >
-                                    {{ $t('checkout.logOut') }}
-                                </FoundationButton>
-                            </div>
-                        </div>
+                        <!-- Login/Registration/User Info Section -->
+                        <CheckoutLogin
+                            :is-initializing="isInitializing"
+                            :contact-sub-step="contactSubStep"
+                            :is-user-session="isUserSession"
+                            :user="user"
+                            :is-guest-session="isGuestSession"
+                            @login-success="handleLoginSuccess"
+                            @registration-success="handleRegistrationSuccess"
+                            @switch-to-login="handleSwitchToLogin"
+                            @switch-to-register="handleSwitchToRegistration"
+                            @logout="handleLogout"
+                        />
 
                         <!-- Voucher Section -->
                         <CheckoutVoucher />
