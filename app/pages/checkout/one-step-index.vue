@@ -14,8 +14,7 @@ const {
     handleSwitchToRegistration,
     initializeCheckoutFlow
 } = useCheckoutFlow({
-    loginSuccessStep: 'checkout',
-    registrationSuccessStep: 'checkout',
+    afterAuthStep: 'checkout',
     initialAuthStep: 'login'
 })
 
