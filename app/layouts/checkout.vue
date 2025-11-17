@@ -25,5 +25,5 @@
     <NotificationContainer />
 
     <!-- FooterLight -->
-    <LayoutFooterLight :depth="1" class="w-full grid grid-cols-1 lg:grid-cols-12" />
+    <LayoutFooterLight :depth="1" class="w-full grid" />
 </template>
