@@ -61,7 +61,11 @@
             "error": "Versandfehler",
             "updateError": "Versandmethode konnte nicht aktualisiert werden",
             "loadError": "Versandmethoden konnten nicht geladen werden",
-            "noMethodSelectedError": ""
+            "noMethodSelectedError": "",
+            "navigation": {
+                "back": "Zurück zu Ihren Angaben",
+                "forward": "Speichern und weiter zu Bezahlung"
+            }
         },
         "payment": {
             "afterOrder": "Nach Bestellung zahlen",
@@ -70,7 +74,11 @@
             "error": "Zahlungsfehler",
             "updateError": "Zahlungsmethode konnte nicht aktualisiert werden",
             "loadError": "Zahlungsmethoden konnten nicht geladen werden",
-            "noMethodSelectedError": ""
+            "noMethodSelectedError": "",
+            "navigation": {
+                "back": "Zurück zu Lieferung",
+                "forward": "Bestellung überprüfen"
+            }
         },
         "summary": {
             "items": "Artikel",
