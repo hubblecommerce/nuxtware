@@ -19,6 +19,10 @@
         "orderTotal": "Gesamtsumme",
         "loginRequired": "Bitte melden Sie sich an, um Ihre Bestellung abzuschließen",
         "placeOrder": "Bestellung aufgeben",
+        "navigation": {
+            "back": "Zurück zum Warenkorb",
+            "forward": "Speichern und weiter zur Lieferung"
+        },
         "login": {
             "title": "Anmelden",
             "description": "Melden Sie sich in Ihrem Konto an, um mit der Kasse fortzufahren",

@@ -19,6 +19,10 @@
         "orderTotal": "Order Total",
         "loginRequired": "Please log in to complete your order",
         "placeOrder": "Place Order",
+        "navigation": {
+            "back": "Back to cart",
+            "forward": "Save and continue to Shipping"
+        },
         "login": {
             "title": "Sign In",
             "description": "Sign in to your account to continue with checkout",

@@ -215,23 +215,35 @@ onMounted(async () => {
 
                         </template>
 
-                        <portal to="checkoutNavigation">
-                            <div v-if="currentStep !== 'checkout'" class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
-                                <div v-if="currentStep === 'shipping'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('checkout')">
-                                    {{ t('checkout.shipping.navigation.back') }}
+                        <ClientOnly>
+                            <Teleport to="#CheckoutNavigation">
+                                <div v-if="currentStep === 'checkout'" class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
+                                    <FoundationLink to="/cart" class="link link-hover cursor-pointer order-2 lg:order-1">
+                                        {{ t('checkout.navigation.back') }}
+                                    </FoundationLink>
+                                    <button
+                                        class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
+                                    >
+                                        <span>{{ t('checkout.navigation.forward') }}</span>
+                                    </button>
                                 </div>
-                                <div v-if="currentStep === 'shipping'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('payment')">
-                                    {{ t('checkout.shipping.navigation.forward') }}
-                                </div>
+                                <div v-else class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
+                                    <div v-if="currentStep === 'shipping'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('checkout')">
+                                        {{ t('checkout.shipping.navigation.back') }}
+                                    </div>
+                                    <div v-if="currentStep === 'shipping'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('payment')">
+                                        {{ t('checkout.shipping.navigation.forward') }}
+                                    </div>
 
-                                <div v-if="currentStep === 'payment'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('shipping')">
-                                    {{ t('checkout.payment.navigation.back') }}
+                                    <div v-if="currentStep === 'payment'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('shipping')">
+                                        {{ t('checkout.payment.navigation.back') }}
+                                    </div>
+                                    <div v-if="currentStep === 'payment'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('summary')">
+                                        {{ t('checkout.payment.navigation.forward') }}
+                                    </div>
                                 </div>
-                                <div v-if="currentStep === 'payment'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('summary')">
-                                    {{ t('checkout.payment.navigation.forward') }}
-                                </div>
-                            </div>
-                        </portal>
+                            </Teleport>
+                        </ClientOnly>
                     </div>
 
                     <!-- Right Column: Order Summary -->
