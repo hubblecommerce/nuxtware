@@ -102,6 +102,10 @@
             "billing": {
               "label": "Billing address",
               "edit": "Edit"
+            },
+            "payment": {
+                "label": "Payment",
+                "edit": "Edit"
             }
         },
         "address": {

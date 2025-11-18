@@ -155,7 +155,7 @@ onMounted(async () => {
                                     <AccountAddressCard
                                         :address="user.defaultShippingAddress"
                                         hide-buttons
-                                        class="border-0 pt-0"
+                                        class="border-0 pt-0 pl-0"
                                     />
                                 </div>
                                 <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
@@ -170,7 +170,7 @@ onMounted(async () => {
                                   <AccountAddressCard
                                       :address="user.defaultBillingAddress"
                                       hide-buttons
-                                      class="border-0 pt-0"
+                                      class="border-0 pt-0 pl-0"
                                   />
                                 </div>
                                 <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
@@ -186,6 +186,17 @@ onMounted(async () => {
                                 </div>
                                 <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('shipping')">
                                   {{ t('checkout.summary.shipping.edit') }}
+                                </div>
+                            </div>
+                            <div v-if="currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                                <div class="col-span-6 md:col-span-3 order-1">
+                                    {{ t('checkout.summary.payment.label') }}
+                                </div>
+                                <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                                  {{ selectedPaymentMethod.name }}
+                                </div>
+                                <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('payment')">
+                                    {{ t('checkout.summary.payment.edit') }}
                                 </div>
                             </div>
                         </div>
