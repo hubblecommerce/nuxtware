@@ -23,6 +23,9 @@
             "back": "Zurück zum Warenkorb",
             "forward": "Speichern und weiter zur Lieferung"
         },
+        "contact": {
+            "title": "Kontakt"
+        },
         "login": {
             "title": "Anmelden",
             "description": "Melden Sie sich in Ihrem Konto an, um mit der Kasse fortzufahren",
@@ -86,6 +89,7 @@
             }
         },
         "summary": {
+            "title": "Zusammenfassung",
             "items": "Artikel",
             "quantity": "Anz.",
             "each": "je",
@@ -110,6 +114,9 @@
             "payment": {
                 "label": "Bezahlung",
                 "edit": "Ändern"
+            },
+            "comment": {
+                "placeholder": "Kommentar zur Bestellung..."
             }
         },
         "address": {

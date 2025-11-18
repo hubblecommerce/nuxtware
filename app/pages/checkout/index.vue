@@ -28,6 +28,8 @@ const {
     initialAuthStep: 'login'
 })
 
+const { cart } = useCart()
+
 function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
     // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
     if ((stepName !== 'checkout') && !isUserSession.value) {
@@ -85,6 +87,13 @@ onMounted(async () => {
 
                 <!-- Checkout Flow -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <FoundationHeadline
+                        v-if="currentStep === 'summary' || currentStep === 'checkout'"
+                        tag="h1"
+                        class="lg:col-span-2 space-y-6 text-xl pr-2"
+                        :text="currentStep === 'checkout' ? t('checkout.contact.title') : t('checkout.summary.title')"
+                    />
+
                     <!-- Left Column: Forms -->
                     <div class="lg:col-span-2 space-y-6">
                         <template v-if="currentStep === 'checkout'">
@@ -212,7 +221,26 @@ onMounted(async () => {
                         </ClientOnly>
 
                         <template v-if="currentStep === 'summary'">
-
+                            <!-- Cart Summary with Totals -->
+                            <div v-if="cart">
+                                <CartSummary
+                                    :cart="cart"
+                                    :show-checkout-button="false"
+                                    :show-cart-button="false"
+                                    class="p-2 rounded-lg"
+                                />
+                            </div>
+                            <fieldset class="fieldset">
+                                <FoundationLabel for="order-comment" class="sr-only label">
+                                    {{ t('checkout.summary.comment.placeholder') }}
+                                </FoundationLabel>
+                                <!-- TODO - Add v-model properly -->
+                                <FoundationTextarea
+                                    id="order-comment"
+                                    class="textarea border border-border h-24"
+                                    :placeholder="t('checkout.summary.comment.placeholder')"
+                                />
+                            </fieldset>
                         </template>
 
                         <ClientOnly>

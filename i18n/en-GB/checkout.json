@@ -23,6 +23,9 @@
             "back": "Back to cart",
             "forward": "Save and continue to Shipping"
         },
+        "contact": {
+            "title": "Contact"
+        },
         "login": {
             "title": "Sign In",
             "description": "Sign in to your account to continue with checkout",
@@ -86,6 +89,7 @@
             }
         },
         "summary": {
+            "title": "Summary",
             "items": "Items",
             "quantity": "Qty",
             "each": "each",
@@ -110,6 +114,9 @@
             "payment": {
                 "label": "Payment",
                 "edit": "Edit"
+            },
+            "comment": {
+                "placeholder": "Order comment"
             }
         },
         "address": {
