@@ -90,7 +90,19 @@
             "termsLink": "Terms & Conditions",
             "orderSuccess": "Order {orderId} placed successfully!",
             "orderError": "Failed to place order",
-            "contact": "Contact"
+            "contact": {
+              "label": "Contact",
+              "edit": "Edit"
+            },
+            "shipping": {
+              "label": "Shipping address",
+              "name": "Shipping",
+              "edit": "Edit"
+            },
+            "billing": {
+              "label": "Billing address",
+              "edit": "Edit"
+            }
         },
         "address": {
             "add": "Add Address"

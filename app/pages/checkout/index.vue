@@ -177,6 +177,17 @@ onMounted(async () => {
                                     {{ t('checkout.summary.contact.edit') }}
                                 </div>
                             </div>
+                            <div v-if="currentStep === 'payment' || currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                                <div class="col-span-6 md:col-span-3 order-1">
+                                  {{ t('checkout.summary.shipping.name') }}
+                                </div>
+                                <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                                  {{ selectedShippingMethod.name }}
+                                </div>
+                                <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('shipping')">
+                                  {{ t('checkout.summary.shipping.edit') }}
+                                </div>
+                            </div>
                         </div>
 
                         <ClientOnly>

@@ -96,6 +96,7 @@
             },
             "shipping": {
                 "label": "Lieferadresse",
+                "name": "Lieferung",
                 "edit": "Ändern"
             },
             "billing": {
