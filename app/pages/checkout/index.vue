@@ -63,23 +63,23 @@ onMounted(async () => {
     <div class="min-h-screen bg-surface-secondary">
         <div class="mx-auto w-full max-w-8xl px-2 py-8">
             <div class="mx-auto">
-                <div class="w-full text-sm breadcrumbs">
-                    <ul class="flex justify-center gap-4">
-                        <li>
+                <div class="w-full text-sm breadcrumbs mb-4">
+                    <ul class="flex justify-center gap-8">
+                        <li class="p-2">
                             <FoundationLink to="/cart">
                                 {{ t('checkout.breadcrumb.cart') }}
                             </FoundationLink>
                         </li>
-                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'checkout'}" @click="selectStep('checkout')">
+                        <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'checkout'}" @click="selectStep('checkout')">
                             {{ t('checkout.breadcrumb.contact') }}
                         </li>
-                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'shipping'}" @click="selectStep('shipping')">
+                        <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'shipping'}" @click="selectStep('shipping')">
                             {{ t('checkout.breadcrumb.shipping') }}
                         </li>
-                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'payment'}" @click="selectStep('payment')">
+                        <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'payment'}" @click="selectStep('payment')">
                             {{ t('checkout.breadcrumb.payment') }}
                         </li>
-                        <li class="link link-hover" :class="{ 'link-accent': currentStep === 'summary'}" @click="selectStep('summary')">
+                        <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'summary'}" @click="selectStep('summary')">
                             {{ t('checkout.breadcrumb.summary') }}
                         </li>
                     </ul>
