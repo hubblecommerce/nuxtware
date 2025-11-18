@@ -65,7 +65,8 @@
             "navigation": {
                 "back": "Zurück zu Ihren Angaben",
                 "forward": "Speichern und weiter zu Bezahlung"
-            }
+            },
+            "billingSameAsShipping": "Die Rechnungsadresse entspricht der Lieferadresse."
         },
         "payment": {
             "afterOrder": "Nach Bestellung zahlen",

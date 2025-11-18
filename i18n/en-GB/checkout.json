@@ -65,7 +65,8 @@
             "navigation": {
               "back": "Back to Contact",
               "forward": "Save and continue to Payment"
-            }
+            },
+            "billingSameAsShipping": "The billing address corresponds to the delivery address."
         },
         "payment": {
             "afterOrder": "Pay after order",

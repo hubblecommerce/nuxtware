@@ -49,6 +49,7 @@ function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'):
     // Update the current step
     currentStep.value = stepName
 }
+const billingSameAsShipping = ref(true)
 
 // Initialize on mount
 onMounted(async () => {
@@ -100,7 +101,45 @@ onMounted(async () => {
                                     @switch-to-register="handleSwitchToRegistration"
                                     @logout="handleLogout"
                                 />
+
+                                <template v-if="user">
+                                    <!-- Shipping Address Section -->
+                                    <AccountAddress
+                                        v-model="user.defaultShippingAddress"
+                                        :title="$t('account.registration.shippingAddress')"
+                                        field-prefix="billing"
+                                        mode="embedded"
+                                        hide-name-fields
+                                        hide-company-fields
+                                    />
+
+                                    <!-- Different Shipping Address Checkbox -->
+                                    <div class="flex items-center">
+                                        <FoundationCheckbox
+                                            id="checkout-different-shipping"
+                                            v-model="billingSameAsShipping"
+                                        />
+                                        <FoundationLabel for="checkout-different-shipping" class="ml-2 text-sm">
+                                            {{ $t('checkout.shipping.billingSameAsShipping') }}
+                                        </FoundationLabel>
+                                    </div>
+
+                                    <!-- Billing Address Section -->
+                                    <AccountAddress
+                                        v-if="!billingSameAsShipping"
+                                        v-model="user.defaultBillingAddress"
+                                        :title="$t('account.registration.billingAddress')"
+                                        field-prefix="billing"
+                                        mode="embedded"
+                                        hide-name-fields
+                                        hide-company-fields
+                                    />
+                                </template>
                             </ClientOnly>
+                        </template>
+
+                        <template v-if="currentStep === 'shipping'">
+                          <AccountAddressCard :address="user.defaultShippingAddress" hide-buttons />
                         </template>
 
                         <ClientOnly>
