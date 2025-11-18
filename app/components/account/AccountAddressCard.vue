@@ -7,7 +7,8 @@ interface AccountAddressCardProps {
     isDefaultShipping?: boolean
     canDelete?: boolean
     loading?: boolean
-    countries?: Schemas['Country'][]
+    countries?: Schemas['Country'][],
+    hideButtons?: boolean
 }
 
 interface AccountAddressCardEmits {
@@ -20,7 +21,8 @@ const props = withDefaults(defineProps<AccountAddressCardProps>(), {
     isDefaultShipping: false,
     canDelete: true,
     loading: false,
-    countries: () => []
+    countries: () => [],
+    hideButtons: false
 })
 
 const emit = defineEmits<AccountAddressCardEmits>()
@@ -125,7 +127,7 @@ const handleSetDefaultShipping = () => {
         </div>
         
         <!-- Actions -->
-        <div class="flex flex-wrap gap-2 pt-2 border-t border-border">
+        <div v-if="!hideButtons" class="flex flex-wrap gap-2 pt-2 border-t border-border">
             <!-- Edit Button -->
             <FoundationButton
                 variant="outline"
