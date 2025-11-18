@@ -89,7 +89,8 @@
             "termsNotice": "By placing your order, you agree to our",
             "termsLink": "Terms & Conditions",
             "orderSuccess": "Order {orderId} placed successfully!",
-            "orderError": "Failed to place order"
+            "orderError": "Failed to place order",
+            "contact": "Contact"
         },
         "address": {
             "add": "Add Address"

@@ -138,9 +138,46 @@ onMounted(async () => {
                             </ClientOnly>
                         </template>
 
-                        <template v-if="currentStep === 'shipping'">
-                          <AccountAddressCard :address="user.defaultShippingAddress" hide-buttons />
-                        </template>
+                        <div v-if="currentStep !== 'checkout'" class="flex flex-col p-6 border border-border rounded-lg text-sm">
+                            <div class="grid grid-cols-12 gap-2">
+                                <div class="col-span-6 md:col-span-3 order-1">
+                                    {{ t('checkout.summary.contact.label') }}
+                                </div>
+                                <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                                    {{ user.email }}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                                <div class="col-span-6 md:col-span-3 order-1">
+                                    {{ t('checkout.summary.shipping.label') }} <span v-if="billingSameAsShipping">/ {{ t('checkout.summary.billing.label') }}</span>
+                                </div>
+                                <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                                    <AccountAddressCard
+                                        :address="user.defaultShippingAddress"
+                                        hide-buttons
+                                        class="border-0 pt-0"
+                                    />
+                                </div>
+                                <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
+                                    {{ t('checkout.summary.contact.edit') }}
+                                </div>
+                            </div>
+                            <div v-if="!billingSameAsShipping" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                                <div class="col-span-6 md:col-span-3 order-1">
+                                    {{ t('checkout.summary.billing.label') }}
+                                </div>
+                                <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                                  <AccountAddressCard
+                                      :address="user.defaultBillingAddress"
+                                      hide-buttons
+                                      class="border-0 pt-0"
+                                  />
+                                </div>
+                                <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
+                                    {{ t('checkout.summary.contact.edit') }}
+                                </div>
+                            </div>
+                        </div>
 
                         <ClientOnly>
                             <!-- Shipping Section -->
@@ -148,7 +185,7 @@ onMounted(async () => {
                         </ClientOnly>
 
                          <ClientOnly>
-                            <!-- Shipping Section -->
+                            <!-- Payment Section -->
                             <CheckoutPayment v-show="currentStep === 'payment'" />
                         </ClientOnly>
 

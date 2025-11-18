@@ -89,7 +89,19 @@
             "termsNotice": "Mit Ihrer Bestellung stimmen Sie unseren",
             "termsLink": "AGB",
             "orderSuccess": "Bestellung {orderId} erfolgreich aufgegeben!",
-            "orderError": "Bestellung konnte nicht aufgegeben werden"
+            "orderError": "Bestellung konnte nicht aufgegeben werden",
+            "contact": {
+                "label": "Kontakt",
+                "edit": "Ändern"
+            },
+            "shipping": {
+                "label": "Lieferadresse",
+                "edit": "Ändern"
+            },
+            "billing": {
+                "label": "Rechnungsadresse",
+                "edit": "Ändern"
+            }
         },
         "address": {
             "add": "Adresse hinzufügen"
