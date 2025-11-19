@@ -284,9 +284,7 @@ onMounted(async () => {
                 <FoundationLink to="/" class="btn btn-ghost normal-case text-xl p-0">
                     <FoundationIcon name="logo" class="w-36" />
                 </FoundationLink>
-                <CheckoutSummary
-                    disabled
-                />
+                <CheckoutSummary hideOrderButton />
             </div>
         </div>
     </div>

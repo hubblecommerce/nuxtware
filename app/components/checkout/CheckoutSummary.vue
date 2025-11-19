@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface ComponentCheckoutSummaryProps {
-    disabled?: boolean
+    disabled?: boolean,
+    hideOrderButton?: boolean
 }
 
 interface ComponentCheckoutSummaryEmits {
@@ -10,7 +11,8 @@ interface ComponentCheckoutSummaryEmits {
 }
 
 const props = withDefaults(defineProps<ComponentCheckoutSummaryProps>(), {
-    disabled: false
+    disabled: false,
+    hideOrderButton: false
 })
 
 const emit = defineEmits<ComponentCheckoutSummaryEmits>()
@@ -117,6 +119,7 @@ onMounted(async () => {
 
             <!-- Place Order Button -->
             <FoundationButton
+                v-if="!hideOrderButton"
                 :disabled="isInitializing || !isUserSession || disabled || isPlacingOrder"
                 color="tertiary"
                 size="large"
