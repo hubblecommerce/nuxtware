@@ -190,6 +190,14 @@ const handleSubmit = async () => {
         :headline="$t('account.registration.title')"
         :description="$t('account.registration.description')"
     >
+        <FoundationButton
+            type="button"
+            variant="outline"
+            @click="$emit('switch-to-login')"
+        >
+            {{ $t('account.registration.alreadyHaveAccount') }}
+        </FoundationButton>
+        
         <form @submit.prevent="handleSubmit">
             <div class="space-y-6">
                 <!-- Personal Information Section -->
@@ -412,21 +420,11 @@ const handleSubmit = async () => {
                     <FoundationButton
                         type="submit"
                         color="secondary"
-                        class="flex-1"
                         :loading="isLoading"
                         :disabled="!isFormValid"
                         @click="handleSubmit"
                     >
                         {{ formData.guest && allowGuest ? $t('account.registration.continueAsGuest') : $t('account.registration.createAccount') }}
-                    </FoundationButton>
-                    
-                    <FoundationButton
-                        type="button"
-                        variant="outline"
-                        class="flex-1"
-                        @click="$emit('switch-to-login')"
-                    >
-                        {{ $t('account.registration.alreadyHaveAccount') }}
                     </FoundationButton>
                 </div>
             </div>
