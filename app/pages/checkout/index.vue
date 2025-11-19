@@ -78,6 +78,8 @@ const handleForwardClick = async () => {
 }
 
 const billingSameAsShipping = ref(true)
+const termsNotice = ref(false)
+const policy = ref(false)
 
 // Initialize on mount
 onMounted(async () => {
@@ -278,6 +280,28 @@ onMounted(async () => {
                                         :placeholder="t('checkout.summary.comment.placeholder')"
                                     />
                                 </fieldset>
+                                <FoundationLabel class="block cursor-pointer">
+                                    <FoundationCheckbox
+                                        v-model="termsNotice"
+                                        type="checkbox"
+                                        class="checkbox checkbox-primary mr-4"
+                                    />
+                                    <span class="mr-auto">
+                                        {{ $t('checkout.summary.termsNotice') }}
+                                        <FoundationLink href="/terms">
+                                            {{ $t('checkout.summary.termsLink') }}
+                                        </FoundationLink>
+                                    </span>
+                                </FoundationLabel>
+
+                                <FoundationLabel class="block cursor-pointer">
+                                    <FoundationCheckbox
+                                        v-model="policy"
+                                        type="checkbox"
+                                        class="checkbox checkbox-primary mr-4"
+                                    />
+                                    <span class="mr-auto">{{ t('checkout.summary.policy') }}</span>
+                                </FoundationLabel>
                             </template>
 
                             <ClientOnly>
@@ -286,13 +310,13 @@ onMounted(async () => {
                                         <FoundationLink to="/cart" class="link link-hover cursor-pointer order-2 lg:order-1">
                                             {{ t('checkout.navigation.back') }}
                                         </FoundationLink>
-                                        <button
+                                        <FoundationButton
                                             class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
                                             :disabled="!isRegistrationFormValid && !user"
                                             @click="handleForwardClick"
                                         >
                                             <span>{{ t('checkout.navigation.forward') }}</span>
-                                        </button>
+                                        </FoundationButton>
                                     </div>
                                     <div v-else class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
                                         <div v-if="currentStep === 'shipping'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('checkout')">
@@ -308,6 +332,17 @@ onMounted(async () => {
                                         <div v-if="currentStep === 'payment'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('summary')">
                                             {{ t('checkout.payment.navigation.forward') }}
                                         </div>
+
+                                        <div v-if="currentStep === 'summary'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('payment')">
+                                            {{ t('checkout.summary.navigation.back') }}
+                                        </div>
+                                        <FoundationButton v-if="currentStep === 'summary'"
+                                            class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
+                                            :disabled="!termsNotice || !policy"
+                                        >
+                                            <span>{{ t('checkout.placeOrder') }}</span>
+                                        </FoundationButton>
+
                                     </div>
                                 </Teleport>
                             </ClientOnly>

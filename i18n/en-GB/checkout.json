@@ -117,7 +117,11 @@
             },
             "comment": {
                 "placeholder": "Order comment"
-            }
+            },
+            "navigation": {
+                "back": "Back to Payment"
+            },
+            "policy": "I have read the privacy policy and I agree with them."
         },
         "address": {
             "add": "Add Address"
