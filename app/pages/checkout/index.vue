@@ -101,22 +101,22 @@ onMounted(async () => {
                             </li>
                             <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="inline-flex items-center link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'checkout'}" @click="selectStep('checkout')">
+                            <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'checkout'}" @click="selectStep('checkout')">
                                 {{ t('checkout.breadcrumb.contact') }}
                             </li>
                             <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="inline-flex items-center link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'shipping'}" @click="selectStep('shipping')">
+                            <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'shipping'}" @click="selectStep('shipping')">
                                 {{ t('checkout.breadcrumb.shipping') }}
                             </li>
                             <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="inline-flex items-center link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'payment'}" @click="selectStep('payment')">
+                            <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'payment'}" @click="selectStep('payment')">
                                 {{ t('checkout.breadcrumb.payment') }}
                             </li>
                             <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'summary'}" @click="selectStep('summary')">
+                            <li class="link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'summary'}" @click="selectStep('summary')">
                                 {{ t('checkout.breadcrumb.summary') }}
                             </li>
                         </ul>
