@@ -36,6 +36,9 @@ const checkoutLoginRef = ref<{
     } | null
 } | null>(null)
 
+// Ref to CheckoutSummary component
+const checkoutSummaryRef = ref<InstanceType<typeof CheckoutSummary> | null>(null)
+
 // Computed property to check if registration form is valid
 const isRegistrationFormValid = computed(() => {
     return checkoutLoginRef.value?.registrationRef?.isFormValid ?? false
@@ -73,6 +76,11 @@ const handleForwardClick = async () => {
         }
         currentStep.value = 'shipping'
     }
+}
+
+// Handler for place order button click
+const onPlaceOrder = () => {
+    checkoutSummaryRef.value?.handlePlaceOrder()
 }
 
 const billingSameAsShipping = ref(true)
@@ -337,10 +345,10 @@ onMounted(async () => {
                                         <FoundationButton v-if="currentStep === 'summary'"
                                             class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
                                             :disabled="!termsNotice || !policy"
+                                            @click="onPlaceOrder"
                                         >
                                             <span>{{ t('checkout.placeOrder') }}</span>
                                         </FoundationButton>
-
                                     </div>
                                 </Teleport>
                             </ClientOnly>
@@ -355,7 +363,7 @@ onMounted(async () => {
                 <FoundationLink to="/" class="btn btn-ghost normal-case text-xl p-0">
                     <FoundationIcon name="logo" class="w-36" />
                 </FoundationLink>
-                <CheckoutSummary hideOrderButton />
+                <CheckoutSummary ref="checkoutSummaryRef" hide-order-button />
             </div>
         </div>
     </div>

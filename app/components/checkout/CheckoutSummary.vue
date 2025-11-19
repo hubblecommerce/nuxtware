@@ -28,6 +28,7 @@ const { isLoggedIn, isGuestSession } = useUser()
 const { refreshSessionContext } = useSessionContext()
 const { success, error: notifyError } = useGlobalNotifications()
 const { t } = useI18n()
+const { push } = useRouter()
 
 const isPlacingOrder = ref(false)
 const isInitializing = ref(true)
@@ -52,7 +53,7 @@ const handlePlaceOrder = async () => {
             } else {
                 // Synchronous payment completed
                 success(t('checkout.summary.orderSuccess', { orderId: order.id }))
-                emit('order-placed', order.id)
+                await push(`/checkout/success/${order.id}`)
                 await refreshCart()
             }
         } else {
@@ -66,6 +67,11 @@ const handlePlaceOrder = async () => {
         isPlacingOrder.value = false
     }
 }
+
+defineExpose({
+    handlePlaceOrder
+})
+
 
 // Initialize session context on mount
 onMounted(async () => {
