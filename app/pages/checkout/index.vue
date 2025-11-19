@@ -30,6 +30,19 @@ const {
 
 const { cart } = useCart()
 
+// Ref to CheckoutLogin component
+const checkoutLoginRef = ref<{
+    registrationRef: {
+        submit: () => Promise<void>
+        isFormValid: boolean
+    } | null
+} | null>(null)
+
+// Computed property to check if registration form is valid
+const isRegistrationFormValid = computed(() => {
+    return checkoutLoginRef.value?.registrationRef?.isFormValid ?? false
+})
+
 function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
     // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
     if ((stepName !== 'checkout') && !isUserSession.value) {
@@ -51,6 +64,18 @@ function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'):
     // Update the current step
     currentStep.value = stepName
 }
+
+// Handler for forward button click on checkout step
+const handleForwardClick = async () => {
+    if (currentStep.value === 'checkout') {
+        // Directly access and call the submit method from AccountRegistration
+        if (checkoutLoginRef.value?.registrationRef) {
+            await checkoutLoginRef.value.registrationRef.submit()
+            // The registration-success event will handle the navigation
+        }
+    }
+}
+
 const billingSameAsShipping = ref(true)
 
 // Initialize on mount
@@ -60,7 +85,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-1 lg:grid-cols-12 lg:min-h-screen">
+    <div class="grid grid-cols-1 lg:grid-cols-12 lg:min-h-screen">{{currentStep}}
         <!-- Left Column: Forms -->
         <div class="content lg:col-span-7 order-2 lg:order-1 container mx-auto p-4 lg:px-16 lg:py-10 bg-gray-200">
             <div class="w-full lg:max-w-xl lg:ml-auto">
@@ -109,6 +134,7 @@ onMounted(async () => {
                             <template v-if="currentStep === 'checkout'">
                                 <ClientOnly>
                                     <CheckoutLogin
+                                        ref="checkoutLoginRef"
                                         :is-initializing="isInitializing"
                                         :contact-sub-step="contactSubStep"
                                         :is-user-session="isUserSession"
@@ -261,6 +287,8 @@ onMounted(async () => {
                                         </FoundationLink>
                                         <button
                                             class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
+                                            :disabled="!isRegistrationFormValid && !user"
+                                            @click="handleForwardClick"
                                         >
                                             <span>{{ t('checkout.navigation.forward') }}</span>
                                         </button>

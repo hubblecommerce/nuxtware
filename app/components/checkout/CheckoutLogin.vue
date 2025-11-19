@@ -23,6 +23,7 @@
     <!-- Registration Section -->
     <div v-else-if="!isUserSession && contactSubStep === 'registration'">
         <AccountRegistration
+            ref="registrationRef"
             allow-guest
             hide-create-account-button
             @registration-success="emit('registration-success')"
@@ -73,4 +74,15 @@ const emit = defineEmits<{
     (e: 'switch-to-register'): void
     (e: 'logout'): void
 }>()
+
+// Ref for AccountRegistration component
+const registrationRef = ref<{
+    submit: () => Promise<void>
+    isFormValid: boolean
+} | null>(null)
+
+// Expose the registration ref directly so parent can access it
+defineExpose({
+    registrationRef
+})
 </script>

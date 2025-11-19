@@ -185,6 +185,12 @@ const handleSubmit = async () => {
         isLoading.value = false
     }
 }
+
+// Expose the submit method and form validation state so parent can access them
+defineExpose({
+    submit: handleSubmit,
+    isFormValid
+})
 </script>
 
 <template>
