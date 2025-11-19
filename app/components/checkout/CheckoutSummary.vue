@@ -111,7 +111,7 @@ onMounted(async () => {
         </div>
 
         <!-- Order Actions -->
-        <div class="space-y-3 pt-4">
+        <div v-if="!hideOrderButton" class="space-y-3 pt-4">
             <!-- Login Required Message -->
             <div v-if="!isInitializing && !isUserSession" class="text-center">
                 <p class="text-sm text-error mb-3">{{ $t('checkout.loginRequired') }}</p>
@@ -119,7 +119,6 @@ onMounted(async () => {
 
             <!-- Place Order Button -->
             <FoundationButton
-                v-if="!hideOrderButton"
                 :disabled="isInitializing || !isUserSession || disabled || isPlacingOrder"
                 color="tertiary"
                 size="large"

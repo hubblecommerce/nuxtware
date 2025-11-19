@@ -25,7 +25,7 @@ const {
     initializeCheckoutFlow
 } = useCheckoutFlow({
     afterAuthStep: 'shipping',
-    initialAuthStep: 'login'
+    initialAuthStep: 'registration'
 })
 
 const { cart } = useCart()
@@ -65,6 +65,7 @@ onMounted(async () => {
         <div class="content lg:col-span-7 order-2 lg:order-1 container mx-auto p-4 lg:px-16 lg:py-10 bg-gray-200">
             <div class="w-full lg:max-w-xl lg:ml-auto">
                 <div class="checkout-page flex flex-col gap-8">
+                    <!-- Breadcrumb -->
                     <div class="w-full text-sm breadcrumbs mb-4">
                         <ul class="flex items-center">
                             <li class="font-medium py-2">
