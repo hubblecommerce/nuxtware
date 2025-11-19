@@ -73,6 +73,7 @@ const handleForwardClick = async () => {
             await checkoutLoginRef.value.registrationRef.submit()
             // The registration-success event will handle the navigation
         }
+        currentStep.value = 'shipping'
     }
 }
 
@@ -85,7 +86,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="grid grid-cols-1 lg:grid-cols-12 lg:min-h-screen">{{currentStep}}
+    <div class="grid grid-cols-1 lg:grid-cols-12 lg:min-h-screen">
         <!-- Left Column: Forms -->
         <div class="content lg:col-span-7 order-2 lg:order-1 container mx-auto p-4 lg:px-16 lg:py-10 bg-gray-200">
             <div class="w-full lg:max-w-xl lg:ml-auto">
