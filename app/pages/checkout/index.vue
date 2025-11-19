@@ -66,22 +66,30 @@ onMounted(async () => {
             <div class="w-full lg:max-w-xl lg:ml-auto">
                 <div class="checkout-page flex flex-col gap-8">
                     <div class="w-full text-sm breadcrumbs mb-4">
-                        <ul class="flex justify-center gap-8">
-                            <li class="p-2">
+                        <ul class="flex items-center">
+                            <li class="font-medium py-2">
                                 <FoundationLink to="/cart">
                                     {{ t('checkout.breadcrumb.cart') }}
                                 </FoundationLink>
                             </li>
-                            <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'checkout'}" @click="selectStep('checkout')">
+                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+
+                            <li class="inline-flex items-center link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'checkout'}" @click="selectStep('checkout')">
                                 {{ t('checkout.breadcrumb.contact') }}
                             </li>
-                            <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'shipping'}" @click="selectStep('shipping')">
+                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+
+                            <li class="inline-flex items-center link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'shipping'}" @click="selectStep('shipping')">
                                 {{ t('checkout.breadcrumb.shipping') }}
                             </li>
-                            <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'payment'}" @click="selectStep('payment')">
+                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+
+                            <li class="inline-flex items-center link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'payment'}" @click="selectStep('payment')">
                                 {{ t('checkout.breadcrumb.payment') }}
                             </li>
-                            <li class="link link-hover p-2" :class="{ 'link-accent': currentStep === 'summary'}" @click="selectStep('summary')">
+                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+
+                            <li class="link link-hover font-medium py-2" :class="{ 'text-primary': currentStep === 'summary'}" @click="selectStep('summary')">
                                 {{ t('checkout.breadcrumb.summary') }}
                             </li>
                         </ul>

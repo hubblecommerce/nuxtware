@@ -21,8 +21,8 @@
     <!-- Global Notifications -->
     <NotificationContainer />
 
-    <div class="w-full grid grid-cols-1 lg:sticky lg:left-0 lg:bottom-0 lg:grid-cols-12 lg:bg-base-300">
-        <div class="p-4 lg:col-span-7 lg:py-4 lg:px-16 lg:border-t lg:border-r lg:border-border rounded-tr-lg lg:bg-base-100">
+    <div class="w-full grid grid-cols-1 lg:sticky lg:left-0 lg:bottom-0 lg:grid-cols-12">
+        <div class="p-4 lg:col-span-7 lg:py-4 lg:px-16 lg:border-t lg:border-r lg:border-border rounded-tr-lg lg:bg-gray-200">
             <div class="lg:max-w-xl lg:ml-auto">
                 <div id="CheckoutNavigation" />
             </div>
