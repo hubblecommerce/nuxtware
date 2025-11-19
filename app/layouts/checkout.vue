@@ -7,9 +7,6 @@
     <!-- Top Bar -->
     <LayoutTopBar />
 
-    <!-- Header -->
-    <LayoutHeader />
-
     <main>
         <slot />
         <MiscScrollToTopButton />
