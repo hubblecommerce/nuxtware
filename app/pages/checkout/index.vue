@@ -20,8 +20,6 @@ const {
     handleSwitchToLogin,
     handleSwitchToRegistration,
     handleLogout,
-    handleOrderPlaced,
-    handleOrderError,
     initializeCheckoutFlow
 } = useCheckoutFlow({
     afterAuthStep: 'shipping',
