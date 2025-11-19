@@ -24,6 +24,7 @@
     <div v-else-if="!isUserSession && contactSubStep === 'registration'">
         <AccountRegistration
             allow-guest
+            hide-create-account-button
             @registration-success="emit('registration-success')"
             @switch-to-login="emit('switch-to-login')"
         />

@@ -4,7 +4,8 @@ import { ApiClientError } from '@shopware/api-client'
 
 interface AccountRegistrationProps {
     disabled?: boolean
-    allowGuest?: boolean
+    allowGuest?: boolean,
+    hideCreateAccountButton?: boolean
 }
 
 interface AccountRegistrationEmits {
@@ -14,7 +15,8 @@ interface AccountRegistrationEmits {
 
 const props = withDefaults(defineProps<AccountRegistrationProps>(), {
     disabled: false,
-    allowGuest: false
+    allowGuest: false,
+    hideCreateAccountButton: false
 })
 
 const emit = defineEmits<AccountRegistrationEmits>()
@@ -197,7 +199,7 @@ const handleSubmit = async () => {
         >
             {{ $t('account.registration.alreadyHaveAccount') }}
         </FoundationButton>
-        
+
         <form @submit.prevent="handleSubmit">
             <div class="space-y-6">
                 <!-- Personal Information Section -->
@@ -416,7 +418,7 @@ const handleSubmit = async () => {
                 </div>
 
                 <!-- Submit Button -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                <div v-if="!hideCreateAccountButton" class="flex flex-col sm:flex-row gap-3 pt-4">
                     <FoundationButton
                         type="submit"
                         color="secondary"
