@@ -106,6 +106,9 @@ onMounted(async () => {
             </div>
         </div>
 
+        <!-- Voucher Section -->
+        <CheckoutVoucher />
+
         <!-- Cart Summary with Totals -->
         <div v-if="cart">
             <CartSummary
