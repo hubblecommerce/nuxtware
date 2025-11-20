@@ -27,7 +27,7 @@ const {
     initialAuthStep: 'registration'
 })
 
-const { cart } = useCart()
+const { cart, refreshCart } = useCart()
 
 // Ref to CheckoutLogin component
 const checkoutLoginRef = ref<{
@@ -143,6 +143,24 @@ const billingSameAsShipping = ref(true)
 const termsNotice = ref(false)
 const policy = ref(false)
 const orderComment = ref('')
+
+// Key to force payment component re-render when shipping method changes
+const paymentMethodKey = ref(0)
+
+// Watch for shipping method changes
+watch(selectedShippingMethod, async (newValue, oldValue) => {
+    // Only trigger if shipping method actually changed (not initial load)
+    if (oldValue && newValue && newValue.id !== oldValue.id) {
+        // Refresh session to get updated payment methods
+        await refreshSessionContext()
+
+        // Increment key to force payment component re-render
+        paymentMethodKey.value++
+
+        // Refresh cart to update totals with new shipping costs
+        await refreshCart()
+    }
+})
 
 // Initialize on mount
 onMounted(async () => {
@@ -319,7 +337,7 @@ onMounted(async () => {
 
                             <ClientOnly>
                                 <!-- Payment Section -->
-                                <CheckoutPayment v-show="currentStep === 'payment'" />
+                                <CheckoutPayment v-show="currentStep === 'payment'" :key="paymentMethodKey" />
                             </ClientOnly>
 
                             <template v-if="currentStep === 'summary'">
