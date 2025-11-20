@@ -6,8 +6,9 @@ definePageMeta({
 const { t } = useI18n()
 const { isVirtualCart } = useCart()
 const { error } = useGlobalNotifications()
-const { selectedPaymentMethod, selectedShippingMethod } = useSessionContext()
+const { selectedPaymentMethod, selectedShippingMethod, refreshSessionContext } = useSessionContext()
 const { user, isGuestSession } = useUser()
+const { updateCustomerAddress } = useAddress()
 
 // Initialize checkout flow for multi-step (navigate between steps)
 const {
@@ -44,6 +45,23 @@ const isRegistrationFormValid = computed(() => {
     return checkoutLoginRef.value?.registrationRef?.isFormValid ?? false
 })
 
+// Track if shipping and billing addresses are valid
+const isShippingAddressValid = ref(false)
+const isBillingAddressValid = ref(false)
+
+// Computed for overall validation (only if user exists)
+const canProceedToShipping = computed(() => {
+    if (!user.value) return false
+
+    // If billing same as shipping, only need shipping address valid
+    if (billingSameAsShipping.value) {
+        return isShippingAddressValid.value
+    }
+
+    // Otherwise both must be valid
+    return isShippingAddressValid.value && isBillingAddressValid.value
+})
+
 function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
     // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
     if ((stepName !== 'checkout') && !isUserSession.value) {
@@ -69,12 +87,50 @@ function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'):
 // Handler for forward button click on checkout step
 const handleForwardClick = async () => {
     if (currentStep.value === 'checkout') {
-        // Directly access and call the submit method from AccountRegistration
-        if (checkoutLoginRef.value?.registrationRef) {
-            await checkoutLoginRef.value.registrationRef.submit()
-            // The registration-success event will handle the navigation
+        // If no user, handle registration
+        if (!user.value) {
+            if (checkoutLoginRef.value?.registrationRef) {
+                await checkoutLoginRef.value.registrationRef.submit()
+                // The registration-success event will handle the navigation
+            }
+            return
         }
-        currentStep.value = 'shipping'
+
+        // User exists - update addresses before proceeding
+        try {
+            // Validate addresses exist
+            if (!user.value.defaultShippingAddress || !user.value.defaultBillingAddress) {
+                error(t('checkout.contact.addressRequired'))
+                return
+            }
+
+            // Update shipping address
+            await updateCustomerAddress(user.value.defaultShippingAddress)
+
+            // Update billing address
+            if (billingSameAsShipping.value) {
+                // Copy shipping address data to billing (excluding id)
+                const { id: billingId } = user.value.defaultBillingAddress
+                const { id: shippingId, ...shippingData } = user.value.defaultShippingAddress
+
+                await updateCustomerAddress({
+                    id: billingId,
+                    ...shippingData
+                })
+            } else {
+                // Update billing address independently
+                await updateCustomerAddress(user.value.defaultBillingAddress)
+            }
+
+            // Refresh session context to get updated user data with addresses
+            await refreshSessionContext()
+
+            // Navigate to shipping step
+            currentStep.value = 'shipping'
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : t('checkout.contact.updateError')
+            error(errorMessage)
+        }
     }
 }
 
@@ -161,10 +217,11 @@ onMounted(async () => {
                                         <AccountAddress
                                             v-model="user.defaultShippingAddress"
                                             :title="$t('account.registration.shippingAddress')"
-                                            field-prefix="billing"
+                                            field-prefix="shipping"
                                             mode="embedded"
                                             hide-name-fields
                                             hide-company-fields
+                                            @validation-change="isShippingAddressValid = $event"
                                         />
 
                                         <!-- Different Shipping Address Checkbox -->
@@ -187,6 +244,7 @@ onMounted(async () => {
                                             mode="embedded"
                                             hide-name-fields
                                             hide-company-fields
+                                            @validation-change="isBillingAddressValid = $event"
                                         />
                                     </template>
                                 </ClientOnly>
@@ -318,7 +376,7 @@ onMounted(async () => {
                                         </FoundationLink>
                                         <FoundationButton
                                             class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
-                                            :disabled="!isRegistrationFormValid && !user"
+                                            :disabled="user ? !canProceedToShipping : !isRegistrationFormValid"
                                             @click="handleForwardClick"
                                         >
                                             <span>{{ t('checkout.navigation.forward') }}</span>
