@@ -289,9 +289,13 @@ onMounted(async () => {
                                             class="border-0 pt-0 pl-0"
                                         />
                                     </div>
-                                    <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
+                                    <FoundationButton
+                                        class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
+                                        :aria-label="t('checkout.summary.contact.editLabel')"
+                                        @click="selectStep('checkout')"
+                                    >
                                         {{ t('checkout.summary.contact.edit') }}
-                                    </div>
+                                    </FoundationButton>
                                 </div>
                                 <div v-if="!billingSameAsShipping" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
                                     <div class="col-span-6 md:col-span-3 order-1">
@@ -304,9 +308,9 @@ onMounted(async () => {
                                             class="border-0 pt-0 pl-0"
                                         />
                                     </div>
-                                    <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
+                                    <FoundationButton class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
                                         {{ t('checkout.summary.contact.edit') }}
-                                    </div>
+                                    </FoundationButton>
                                 </div>
                                 <div v-if="currentStep === 'payment' || currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
                                     <div class="col-span-6 md:col-span-3 order-1">
@@ -315,9 +319,13 @@ onMounted(async () => {
                                     <div class="col-span-12 md:col-span-6 order-3 md:order-2">
                                         {{ selectedShippingMethod.name }}
                                     </div>
-                                    <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('shipping')">
+                                    <FoundationButton
+                                        class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
+                                        :aria-label="t('checkout.summary.shipping.editLabel')"
+                                        @click="selectStep('shipping')"
+                                    >
                                         {{ t('checkout.summary.shipping.edit') }}
-                                    </div>
+                                    </FoundationButton>
                                 </div>
                                 <div v-if="currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
                                     <div class="col-span-6 md:col-span-3 order-1">
@@ -326,9 +334,13 @@ onMounted(async () => {
                                     <div class="col-span-12 md:col-span-6 order-3 md:order-2">
                                         {{ selectedPaymentMethod.name }}
                                     </div>
-                                    <div class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('payment')">
+                                    <FoundationButton
+                                        class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
+                                        :aria-label="t('checkout.summary.billing.editLabel')"
+                                        @click="selectStep('payment')"
+                                    >
                                         {{ t('checkout.summary.payment.edit') }}
-                                    </div>
+                                    </FoundationButton>
                                 </div>
                             </div>
 

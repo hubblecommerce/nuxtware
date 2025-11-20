@@ -100,16 +100,19 @@
             "orderError": "Failed to place order",
             "contact": {
               "label": "Contact",
-              "edit": "Edit"
+              "edit": "Edit",
+              "editLabel": "Edit your address"
             },
             "shipping": {
               "label": "Shipping address",
               "name": "Shipping",
-              "edit": "Edit"
+              "edit": "Edit",
+              "editLabel": "Edit your Shipping method"
             },
             "billing": {
               "label": "Billing address",
-              "edit": "Edit"
+              "edit": "Edit",
+              "editLabel": "Edit your payment method"
             },
             "payment": {
                 "label": "Payment",

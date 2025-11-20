@@ -100,16 +100,19 @@
             "orderError": "Bestellung konnte nicht aufgegeben werden",
             "contact": {
                 "label": "Kontakt",
-                "edit": "Ändern"
+                "edit": "Ändern",
+                "editLabel": "Ihre Adresse ändern"
             },
             "shipping": {
                 "label": "Lieferadresse",
                 "name": "Lieferung",
-                "edit": "Ändern"
+                "edit": "Ändern",
+                "editLabel": "Ihre Versandart ändern"
             },
             "billing": {
                 "label": "Rechnungsadresse",
-                "edit": "Ändern"
+                "edit": "Ändern",
+                "editLabel": "Ihre Zahlungsart ändern"
             },
             "payment": {
                 "label": "Bezahlung",
