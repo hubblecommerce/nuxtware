@@ -456,7 +456,7 @@ onMounted(async () => {
                 <!-- Checkbox for collapse (hidden visually, works with label) -->
                 <FoundationCheckbox
                     id="checkout-summary-toggle"
-                    class="peer sr-only lg:hidden"
+                    class="peer opacity-0 lg:hidden -mb-8 mt-4"
                     checked
                 />
 
