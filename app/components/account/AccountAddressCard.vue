@@ -26,13 +26,27 @@ const props = withDefaults(defineProps<AccountAddressCardProps>(), {
 })
 
 const emit = defineEmits<AccountAddressCardEmits>()
+const { getSalutations } = useSalutations()
+
+const getSalutationDisplay = (salutationId: string | undefined) => {
+    if (!salutationId) return ''
+    const salutation = getSalutations.value.find(s => s.id === salutationId)
+
+    return salutation?.translated?.displayName || salutation?.displayName
+}
 
 const formattedAddress = computed(() => {
     const { address } = props
     if (!address) return ''
-    
+
+    const salutation = getSalutationDisplay(address.salutationId)
+
     // Build formatted address string
     const parts = []
+
+    if(salutation) {
+        parts.push(salutation)
+    }
     
     if (address.firstName || address.lastName) {
         parts.push(`${address.firstName || ''} ${address.lastName || ''}`.trim())
@@ -62,7 +76,7 @@ const formattedAddress = computed(() => {
     if (address.countryState?.name) {
         parts.push(address.countryState.name)
     }
-    
+
     return parts.join('\n')
 })
 
