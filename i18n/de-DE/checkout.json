@@ -121,7 +121,11 @@
             "navigation": {
                 "back": "Zurück zu Bezahlung"
             },
-            "policy": "Ich habe die Datenschutzerklärung Ihres Shops gelesen und akzeptiert."
+            "policy": "Ich habe die Datenschutzerklärung Ihres Shops gelesen und akzeptiert.",
+            "toggleLabel": {
+                "show": "Bestellübersicht anzeigen",
+                "hide": "Bestellübersicht ausblenden"
+            }
         },
         "address": {
             "add": "Adresse hinzufügen"

@@ -421,7 +421,35 @@ onMounted(async () => {
                 <FoundationLink to="/" class="btn btn-ghost normal-case text-xl p-0">
                     <FoundationIcon name="logo" class="w-36" />
                 </FoundationLink>
-                <CheckoutSummary ref="checkoutSummaryRef" hide-order-button />
+
+                <!-- Checkbox for collapse (hidden visually, works with label) -->
+                <FoundationCheckbox
+                    id="checkout-summary-toggle"
+                    class="peer sr-only lg:hidden"
+                    checked
+                />
+
+                <!-- Label acts as toggle button (mobile only) -->
+                <FoundationLabel
+                    for="checkout-summary-toggle"
+                    class="cursor-pointer p-4 font-medium lg:hidden flex justify-between items-center peer-checked:hidden"
+                >
+                    <span class="block peer-checked:hidden">{{ t('checkout.summary.toggleLabel.show') }}</span>
+                    <FoundationIcon name="chevron-down" class="block peer-checked:hidden" />
+                </FoundationLabel>
+
+                <FoundationLabel
+                    for="checkout-summary-toggle"
+                    class="cursor-pointer p-4 font-medium peer-checked:lg:hidden justify-between items-center hidden peer-checked:flex"
+                >
+                    <span>{{ t('checkout.summary.toggleLabel.hide') }}</span>
+                    <FoundationIcon name="chevron-up" />
+                </FoundationLabel>
+
+                <!-- Content: hidden by default, shown when checked, always shown on desktop -->
+                <div class="max-h-0 opacity-0 overflow-hidden peer-checked:max-h-[2000px] peer-checked:opacity-100 lg:max-h-none lg:opacity-100 transition-[max-height,opacity] duration-300 ease-in-out">
+                    <CheckoutSummary ref="checkoutSummaryRef" hide-order-button />
+                </div>
             </div>
         </div>
     </div>

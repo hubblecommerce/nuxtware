@@ -121,7 +121,11 @@
             "navigation": {
                 "back": "Back to Payment"
             },
-            "policy": "I have read the privacy policy and I agree with them."
+            "policy": "I have read the privacy policy and I agree with them.",
+            "toggleLabel": {
+                "show": "Show the order details",
+                "hide": "Hide the order details"
+            }
         },
         "address": {
             "add": "Add Address"
