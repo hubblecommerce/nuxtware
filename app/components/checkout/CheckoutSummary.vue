@@ -1,7 +1,8 @@
 <script setup lang="ts">
 interface ComponentCheckoutSummaryProps {
     disabled?: boolean,
-    hideOrderButton?: boolean
+    hideOrderButton?: boolean,
+    customerComment?: string
 }
 
 interface ComponentCheckoutSummaryEmits {
@@ -12,7 +13,8 @@ interface ComponentCheckoutSummaryEmits {
 
 const props = withDefaults(defineProps<ComponentCheckoutSummaryProps>(), {
     disabled: false,
-    hideOrderButton: false
+    hideOrderButton: false,
+    customerComment: ''
 })
 
 const emit = defineEmits<ComponentCheckoutSummaryEmits>()
@@ -41,8 +43,10 @@ const handlePlaceOrder = async () => {
     isPlacingOrder.value = true
 
     try {
-        const order = await createOrder()
-        
+        const order = await createOrder({
+            customerComment: props.customerComment
+        })
+
         if (order?.id) {
             // Handle payment after order creation
             const paymentResult = await handlePayment(order.id)

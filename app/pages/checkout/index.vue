@@ -142,6 +142,7 @@ const onPlaceOrder = () => {
 const billingSameAsShipping = ref(true)
 const termsNotice = ref(false)
 const policy = ref(false)
+const orderComment = ref('')
 
 // Initialize on mount
 onMounted(async () => {
@@ -337,9 +338,9 @@ onMounted(async () => {
                                     <FoundationLabel for="order-comment" class="sr-only label">
                                         {{ t('checkout.summary.comment.placeholder') }}
                                     </FoundationLabel>
-                                    <!-- TODO - Add v-model properly -->
                                     <FoundationTextarea
                                         id="order-comment"
+                                        v-model="orderComment"
                                         class="textarea border border-border h-24"
                                         :placeholder="t('checkout.summary.comment.placeholder')"
                                     />
@@ -448,7 +449,7 @@ onMounted(async () => {
 
                 <!-- Content: hidden by default, shown when checked, always shown on desktop -->
                 <div class="max-h-0 opacity-0 overflow-hidden peer-checked:max-h-[2000px] peer-checked:opacity-100 lg:max-h-none lg:opacity-100 transition-[max-height,opacity] duration-300 ease-in-out">
-                    <CheckoutSummary ref="checkoutSummaryRef" hide-order-button />
+                    <CheckoutSummary ref="checkoutSummaryRef" :customer-comment="orderComment" hide-order-button />
                 </div>
             </div>
         </div>
