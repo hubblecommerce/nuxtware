@@ -220,7 +220,6 @@ onMounted(async () => {
                                             :title="$t('account.registration.shippingAddress')"
                                             field-prefix="shipping"
                                             mode="embedded"
-                                            hide-name-fields
                                             hide-company-fields
                                             @validation-change="isShippingAddressValid = $event"
                                         />
@@ -243,7 +242,6 @@ onMounted(async () => {
                                             :title="$t('account.registration.billingAddress')"
                                             field-prefix="billing"
                                             mode="embedded"
-                                            hide-name-fields
                                             hide-company-fields
                                             @validation-change="isBillingAddressValid = $event"
                                         />
