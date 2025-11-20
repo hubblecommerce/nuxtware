@@ -135,8 +135,10 @@ const handleForwardClick = async () => {
 }
 
 // Handler for place order button click
+const disablePlaceOrderBtn = ref(false)
 const onPlaceOrder = () => {
     checkoutSummaryRef.value?.handlePlaceOrder()
+    disablePlaceOrderBtn.value = true;
 }
 
 const billingSameAsShipping = ref(true)
@@ -419,7 +421,7 @@ onMounted(async () => {
                                         </div>
                                         <FoundationButton v-if="currentStep === 'summary'"
                                             class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
-                                            :disabled="!termsNotice || !policy"
+                                            :disabled="!termsNotice || !policy || disablePlaceOrderBtn"
                                             @click="onPlaceOrder"
                                         >
                                             <span>{{ t('checkout.placeOrder') }}</span>
