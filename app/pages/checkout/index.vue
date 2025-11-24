@@ -14,6 +14,7 @@ const { error, success } = useGlobalNotifications()
 const { selectedPaymentMethod, selectedShippingMethod, refreshSessionContext } = useSessionContext()
 const { user, isLoggedIn, isGuestSession, userDefaultBillingAddress, userDefaultShippingAddress, logout } = useUser()
 const { updateCustomerAddress, setDefaultCustomerShippingAddress, createCustomerAddress } = useAddress()
+const { disableOverlay } = useCheckoutOverlay()
 
 // =======================
 // Reactive State
@@ -227,6 +228,9 @@ async function handleLogout () {
 // Lifecycle Hooks
 // =======================
 onMounted(async () => {
+    // Disable overlay when page mounts (e.g., when user visits/revisits checkout)
+    disableOverlay()
+
     try {
         await refreshSessionContext()
 

@@ -25,6 +25,7 @@ const { refreshSessionContext } = useSessionContext()
 const { success, error: notifyError } = useGlobalNotifications()
 const { t } = useI18n()
 const { push } = useRouter()
+const { enableOverlay, disableOverlay } = useCheckoutOverlay()
 
 const isPlacingOrder = ref(false)
 const isInitializing = ref(true)
@@ -42,6 +43,7 @@ const handlePlaceOrder = async () => {
     if (isButtonDisabled.value) return
 
     isPlacingOrder.value = true
+    enableOverlay()
 
     try {
         const order = await createOrder({
@@ -66,6 +68,7 @@ const handlePlaceOrder = async () => {
             throw new Error('Order creation failed')
         }
     } catch (err) {
+        disableOverlay()
         const errorMessage = err instanceof Error ? err.message : t('checkout.summary.orderError')
         notifyError(errorMessage)
         emit('order-error', errorMessage)

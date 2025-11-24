@@ -19,6 +19,7 @@
         "orderTotal": "Gesamtsumme",
         "loginRequired": "Bitte melden Sie sich an, um Ihre Bestellung abzuschließen",
         "placeOrder": "Bestellung aufgeben",
+        "processingOrder": "Ihre Bestellung wird bearbeitet...",
         "navigation": {
             "back": "Zurück zum Warenkorb",
             "forward": "Speichern und weiter zur Lieferung"
