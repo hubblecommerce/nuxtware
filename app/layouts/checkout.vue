@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { showOverlay } = useCheckoutOverlay()
+const showOverlay = useState<boolean>('checkout-overlay', () => false)
 </script>
 
 <template>
