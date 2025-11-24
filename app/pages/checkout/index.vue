@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Schemas } from '#shopware'
+
 definePageMeta({
     layout: 'checkout'
 })
@@ -7,8 +9,8 @@ const { t } = useI18n()
 const { isVirtualCart } = useCart()
 const { error } = useGlobalNotifications()
 const { selectedPaymentMethod, selectedShippingMethod, refreshSessionContext } = useSessionContext()
-const { user, isGuestSession } = useUser()
-const { updateCustomerAddress } = useAddress()
+const { user, isGuestSession, userDefaultBillingAddress, userDefaultShippingAddress } = useUser()
+const { updateCustomerAddress, setDefaultCustomerShippingAddress, createCustomerAddress } = useAddress()
 
 // Initialize checkout flow for multi-step (navigate between steps)
 const {
@@ -29,20 +31,15 @@ const {
 
 const { cart, refreshCart } = useCart()
 
-// Ref to CheckoutLogin component
-const checkoutLoginRef = ref<{
-    registrationRef: {
-        submit: () => Promise<void>
-        isFormValid: boolean
-    } | null
+// Ref for AccountRegistration component
+const registrationRef = ref<{
+    submit: () => Promise<void>
+    isFormValid: boolean
 } | null>(null)
 
-// Ref to CheckoutSummary component
-const checkoutSummaryRef = ref<InstanceType<typeof CheckoutSummary> | null>(null)
-
-// Computed property to check if registration form is valid
+// check if registration form is valid
 const isRegistrationFormValid = computed(() => {
-    return checkoutLoginRef.value?.registrationRef?.isFormValid ?? false
+    return registrationRef.value?.isFormValid ?? false
 })
 
 // Track if shipping and billing addresses are valid
@@ -53,18 +50,18 @@ const isBillingAddressValid = ref(false)
 const canProceedToShipping = computed(() => {
     if (!user.value) return false
 
-    // If billing same as shipping, only need shipping address valid
+    // If billing same as shipping, only shipping address needs to be valid
     if (billingSameAsShipping.value) {
-        return isShippingAddressValid.value
+        return isBillingAddressValid.value
     }
 
     // Otherwise both must be valid
     return isShippingAddressValid.value && isBillingAddressValid.value
 })
 
-function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'): void {
+function selectStep (stepName: 'contact' | 'shipping' | 'payment' | 'summary'): void {
     // Prevent access to shipping, payment, and summary steps if user is not logged in or guest
-    if ((stepName !== 'checkout') && !isUserSession.value) {
+    if ((stepName !== 'contact') && !isUserSession.value) {
         return
     }
 
@@ -84,63 +81,72 @@ function selectStep (stepName: 'checkout' | 'shipping' | 'payment' | 'summary'):
     currentStep.value = stepName
 }
 
-// Handler for forward button click on checkout step
-const handleForwardClick = async () => {
-    if (currentStep.value === 'checkout') {
+// Loading state for contact update
+const isUpdatingContact = ref(false)
+
+// Handler for updating contact information and addresses
+const onUpdateContact = async () => {
+    if (currentStep.value === 'contact') {
         // If no user, handle registration
-        if (!user.value) {
-            if (checkoutLoginRef.value?.registrationRef) {
-                await checkoutLoginRef.value.registrationRef.submit()
-                // The registration-success event will handle the navigation
-            }
+        if (!isUserSession.value && registrationRef.value) {
+            await registrationRef.value.submit()
+            updateAddressEditForms()
+            // The registration-success event will handle the navigation
             return
         }
 
         // User exists - update addresses before proceeding
+        isUpdatingContact.value = true
         try {
             // Validate addresses exist
-            if (!user.value.defaultShippingAddress || !user.value.defaultBillingAddress) {
+            if (!billingAddressFormData?.value || !shippingAddressFormData?.value) {
                 error(t('checkout.contact.addressRequired'))
                 return
             }
 
-            // Update shipping address
-            await updateCustomerAddress(user.value.defaultShippingAddress)
-
-            // Update billing address
             if (billingSameAsShipping.value) {
-                // Copy shipping address data to billing (excluding id)
-                const { id: billingId } = user.value.defaultBillingAddress
-                const { id: shippingId, ...shippingData } = user.value.defaultShippingAddress
+                await updateCustomerAddress(billingAddressFormData.value)
 
-                await updateCustomerAddress({
-                    id: billingId,
-                    ...shippingData
-                })
-            } else {
-                // Update billing address independently
-                await updateCustomerAddress(user.value.defaultBillingAddress)
+                // if shipping and default adresses are currently not the same address by id in the inteface, 
+                // then set default billing address to shipping address id 
+                if (userDefaultShippingAddress?.value?.id !== userDefaultBillingAddress?.value?.id) {
+                    await setDefaultCustomerShippingAddress(billingAddressFormData.value.id)
+                }
+            }
+
+            if (!billingSameAsShipping.value) {
+                // If shipping and billing addresses are different addresses by id, 
+                // just update both 
+                if (userDefaultShippingAddress?.value?.id !== userDefaultBillingAddress?.value?.id) {
+                    await updateCustomerAddress(shippingAddressFormData.value)
+                    await updateCustomerAddress(billingAddressFormData.value)
+                } else {
+                    // Otherwise, so both have same id
+                    // update billing (required and always set in registration)
+                    // create a new address and set it as default shipping 
+                    await updateCustomerAddress(billingAddressFormData.value)
+                    const newAddress = await createCustomerAddress(shippingAddressFormData.value)
+                    await setDefaultCustomerShippingAddress(newAddress?.id)
+                }
             }
 
             // Refresh session context to get updated user data with addresses
             await refreshSessionContext()
+            updateAddressEditForms()
 
             // Navigate to shipping step
             currentStep.value = 'shipping'
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : t('checkout.contact.updateError')
             error(errorMessage)
+        } finally {
+            isUpdatingContact.value = false
         }
     }
 }
 
-// Handler for place order button click
-const disablePlaceOrderBtn = ref(false)
-const onPlaceOrder = () => {
-    checkoutSummaryRef.value?.handlePlaceOrder()
-    disablePlaceOrderBtn.value = true;
-}
-
+const shippingAddressFormData = ref<null | Schemas['CustomerAddress']>()
+const billingAddressFormData = ref<null | Schemas['CustomerAddress']>()
 const billingSameAsShipping = ref(true)
 const termsNotice = ref(false)
 const policy = ref(false)
@@ -164,331 +170,338 @@ watch(selectedShippingMethod, async (newValue, oldValue) => {
     }
 })
 
+function updateAddressEditForms () {
+    // Set satus for billingSameAsShipping by comparing default address hashes
+    // @ts-expect-error hash is not typed in shopware composables but exists in api 
+    billingSameAsShipping.value = userDefaultShippingAddress?.value?.hash === userDefaultBillingAddress?.value?.hash
+
+    // Copy state of default addresses to be used for addressform components
+    shippingAddressFormData.value = userDefaultShippingAddress?.value
+    billingAddressFormData.value = userDefaultBillingAddress?.value
+}
+
+function onLoginSuccess () {
+    handleLoginSuccess()
+    updateAddressEditForms()
+}
+
 // Initialize on mount
 onMounted(async () => {
     await initializeCheckoutFlow()
+    updateAddressEditForms()
 })
 </script>
 
 <template>
-    <div class="grid grid-cols-1 lg:grid-cols-12 lg:min-h-screen">
-        <!-- Left Column: Forms -->
-        <div class="content lg:col-span-7 order-2 lg:order-1 container mx-auto p-4 lg:px-16 lg:py-10 bg-gray-200">
-            <div class="w-full lg:max-w-xl lg:ml-auto">
-                <div class="checkout-page flex flex-col gap-8">
-                    <!-- Breadcrumb -->
-                    <div class="w-full text-sm breadcrumbs mb-4">
-                        <ul class="flex items-center">
-                            <li class="font-medium py-2">
-                                <FoundationLink to="/cart">
-                                    {{ t('checkout.breadcrumb.cart') }}
-                                </FoundationLink>
-                            </li>
-                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+    <div class="checkout-page flex flex-col gap-8">
+        <!-- Breadcrumb -->
+        <div class="w-full text-sm breadcrumbs mb-4">
+            <ul class="flex items-center">
+                <li class="font-medium py-2">
+                    <FoundationLink to="/cart">
+                        {{ t('checkout.breadcrumb.cart') }}
+                    </FoundationLink>
+                </li>
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'checkout'}">
-                                <FoundationButton class="font-medium px-0" size="small" @click="selectStep('checkout')">
-                                    {{ t('checkout.breadcrumb.contact') }}
-                                </FoundationButton>
-                            </li>
-                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'contact'}" @click="selectStep('contact')">
+                    {{ t('checkout.breadcrumb.contact') }}
+                </li>
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'shipping'}">
-                                <FoundationButton class="font-medium px-0" size="small" @click="currentStep === 'checkout' ? handleForwardClick() : selectStep('shipping')">
-                                    {{ t('checkout.breadcrumb.shipping') }}
-                                </FoundationButton>
-                            </li>
-                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'shipping'}" @click="selectStep('shipping')">
+                    {{ t('checkout.breadcrumb.shipping') }}
+                </li>
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'payment'}" @click="selectStep('payment')">
-                                <FoundationButton class="font-medium px-0" size="small" @click="selectStep('payment')">
-                                    {{ t('checkout.breadcrumb.payment') }}
-                                </FoundationButton>
-                            </li>
-                            <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'payment'}" @click="selectStep('payment')">
+                    {{ t('checkout.breadcrumb.payment') }}
+                </li>
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
-                            <li class="link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'summary'}" @click="selectStep('summary')">
-                                <FoundationButton class="font-medium px-0" size="small" @click="selectStep('summary')">
-                                    {{ t('checkout.breadcrumb.summary') }}
-                                </FoundationButton>
-                            </li>
-                        </ul>
-                    </div>
+                <li class="link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'summary'}" @click="selectStep('summary')">
+                    {{ t('checkout.breadcrumb.summary') }}
+                </li>
+            </ul>
+        </div>
 
-                    <!-- Checkout Flow -->
-                    <div class="grid gap-8">
-                        <FoundationHeadline
-                            v-if="currentStep === 'summary' || currentStep === 'checkout'"
-                            tag="h1"
-                            class="space-y-6 text-xl pr-2"
-                            :text="currentStep === 'checkout' ? t('checkout.contact.title') : t('checkout.summary.title')"
-                        />
+        <!-- Checkout Flow -->
+        <div class="grid gap-8">
+            <FoundationHeadline
+                v-if="currentStep === 'summary' || currentStep === 'contact'"
+                tag="h1"
+                class="space-y-6 text-xl pr-2"
+                :text="currentStep === 'contact' ? t('checkout.contact.title') : t('checkout.summary.title')"
+            />
 
-                        <div class="space-y-6">
-                            <template v-if="currentStep === 'checkout'">
-                                <ClientOnly>
-                                    <CheckoutLogin
-                                        ref="checkoutLoginRef"
-                                        :is-initializing="isInitializing"
-                                        :contact-sub-step="contactSubStep"
-                                        :is-user-session="isUserSession"
-                                        :user="user"
-                                        :is-guest-session="isGuestSession"
-                                        @login-success="handleLoginSuccess"
-                                        @registration-success="handleRegistrationSuccess"
-                                        @switch-to-login="handleSwitchToLogin"
-                                        @switch-to-register="handleSwitchToRegistration"
-                                        @logout="handleLogout"
-                                    />
-
-                                    <template v-if="user">
-                                        <!-- Shipping Address Section -->
-                                        <AccountAddress
-                                            v-model="user.defaultShippingAddress"
-                                            :title="$t('account.registration.shippingAddress')"
-                                            field-prefix="shipping"
-                                            mode="embedded"
-                                            hide-company-fields
-                                            @validation-change="isShippingAddressValid = $event"
-                                        />
-
-                                        <!-- Different Shipping Address Checkbox -->
-                                        <div class="flex items-center">
-                                            <FoundationCheckbox
-                                                id="checkout-different-shipping"
-                                                v-model="billingSameAsShipping"
-                                            />
-                                            <FoundationLabel for="checkout-different-shipping" class="ml-2 text-sm">
-                                                {{ $t('checkout.shipping.billingSameAsShipping') }}
-                                            </FoundationLabel>
-                                        </div>
-
-                                        <!-- Billing Address Section -->
-                                        <AccountAddress
-                                            v-if="!billingSameAsShipping"
-                                            v-model="user.defaultBillingAddress"
-                                            :title="$t('account.registration.billingAddress')"
-                                            field-prefix="billing"
-                                            mode="embedded"
-                                            hide-company-fields
-                                            @validation-change="isBillingAddressValid = $event"
-                                        />
-                                    </template>
-                                </ClientOnly>
-                            </template>
-
-                            <div v-if="currentStep !== 'checkout'" class="flex flex-col p-6 border border-border rounded-lg text-sm">
-                                <div class="grid grid-cols-12 gap-2">
-                                    <div class="col-span-6 md:col-span-3 order-1">
-                                        {{ t('checkout.summary.contact.label') }}
+            <div class="space-y-6">
+                <template v-if="currentStep === 'contact'">
+                    <ClientOnly>
+                        <!-- Loading Placeholder -->
+                        <div v-if="isInitializing" class="p-6 border border-border rounded-lg bg-surface">
+                            <div class="animate-pulse">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <div class="h-5 bg-border rounded w-48 mb-2" />
+                                        <div class="h-4 bg-border rounded w-32" />
                                     </div>
-                                    <div class="col-span-12 md:col-span-6 order-3 md:order-2">
-                                        {{ user.email }}
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
-                                    <div class="col-span-6 md:col-span-3 order-1">
-                                        {{ t('checkout.summary.shipping.label') }} <span v-if="billingSameAsShipping">/ {{ t('checkout.summary.billing.label') }}</span>
-                                    </div>
-                                    <div class="col-span-12 md:col-span-6 order-3 md:order-2">
-                                        <AccountAddressCard
-                                            :address="user.defaultShippingAddress"
-                                            hide-buttons
-                                            class="border-0 pt-0 pl-0"
-                                        />
-                                    </div>
-                                    <FoundationButton
-                                        class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
-                                        :aria-label="t('checkout.summary.contact.editLabel')"
-                                        @click="selectStep('checkout')"
-                                    >
-                                        {{ t('checkout.summary.contact.edit') }}
-                                    </FoundationButton>
-                                </div>
-                                <div v-if="!billingSameAsShipping" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
-                                    <div class="col-span-6 md:col-span-3 order-1">
-                                        {{ t('checkout.summary.billing.label') }}
-                                    </div>
-                                    <div class="col-span-12 md:col-span-6 order-3 md:order-2">
-                                        <AccountAddressCard
-                                            :address="user.defaultBillingAddress"
-                                            hide-buttons
-                                            class="border-0 pt-0 pl-0"
-                                        />
-                                    </div>
-                                    <FoundationButton class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('checkout')">
-                                        {{ t('checkout.summary.contact.edit') }}
-                                    </FoundationButton>
-                                </div>
-                                <div v-if="currentStep === 'payment' || currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
-                                    <div class="col-span-6 md:col-span-3 order-1">
-                                        {{ t('checkout.summary.shipping.name') }}
-                                    </div>
-                                    <div class="col-span-12 md:col-span-6 order-3 md:order-2">
-                                        {{ selectedShippingMethod.name }}
-                                    </div>
-                                    <FoundationButton
-                                        class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
-                                        :aria-label="t('checkout.summary.shipping.editLabel')"
-                                        @click="selectStep('shipping')"
-                                    >
-                                        {{ t('checkout.summary.shipping.edit') }}
-                                    </FoundationButton>
-                                </div>
-                                <div v-if="currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
-                                    <div class="col-span-6 md:col-span-3 order-1">
-                                        {{ t('checkout.summary.payment.label') }}
-                                    </div>
-                                    <div class="col-span-12 md:col-span-6 order-3 md:order-2">
-                                        {{ selectedPaymentMethod.name }}
-                                    </div>
-                                    <FoundationButton
-                                        class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
-                                        :aria-label="t('checkout.summary.billing.editLabel')"
-                                        @click="selectStep('payment')"
-                                    >
-                                        {{ t('checkout.summary.payment.edit') }}
-                                    </FoundationButton>
+                                    <div class="h-8 bg-border rounded w-20" />
                                 </div>
                             </div>
+                        </div>
 
-                            <ClientOnly>
-                                <!-- Shipping Section -->
-                                <CheckoutShipping v-if="!isVirtualCart" v-show="currentStep === 'shipping'" />
-                            </ClientOnly>
+                        <!-- Login Section -->
+                        <div v-show="!isUserSession && contactSubStep === 'login'">
+                            <AccountLogin
+                                @login-success="onLoginSuccess()"
+                                @switch-to-register="handleSwitchToRegistration()"
+                            />
+                        </div>
 
-                            <ClientOnly>
-                                <!-- Payment Section -->
-                                <CheckoutPayment v-show="currentStep === 'payment'" :key="paymentMethodKey" />
-                            </ClientOnly>
+                        <!-- Registration Section -->
+                        <div v-show="!isUserSession && contactSubStep === 'registration'">
+                            <AccountRegistration
+                                ref="registrationRef"
+                                allow-guest
+                                hide-create-account-button
+                                @registration-success="handleRegistrationSuccess()"
+                                @switch-to-login="handleSwitchToLogin()"
+                            />
+                        </div>
 
-                            <template v-if="currentStep === 'summary'">
-                                <!-- Cart Summary with Totals -->
-                                <div v-if="cart">
-                                    <CartSummary
-                                        :cart="cart"
-                                        :show-checkout-button="false"
-                                        :show-cart-button="false"
-                                        class="p-2 rounded-lg"
-                                    />
+                        <!-- User Info Section (when logged in) -->
+                        <div v-show="isUserSession" class="p-6 border border-border rounded-lg bg-surface">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <FoundationHeadline tag="h3" class="text-lg font-medium mb-1">
+                                        {{ $t('checkout.loggedInAs') }} {{ user?.firstName }}
+                                    </FoundationHeadline>
+                                    <p class="text-sm text-secondary">
+                                        <span v-if="isGuestSession">{{ $t('checkout.guest') }}</span>
+                                        <span v-else>{{ user?.email }}</span>
+                                    </p>
                                 </div>
-                                <fieldset class="fieldset">
-                                    <FoundationLabel for="order-comment" class="sr-only label">
-                                        {{ t('checkout.summary.comment.placeholder') }}
-                                    </FoundationLabel>
-                                    <FoundationTextarea
-                                        id="order-comment"
-                                        v-model="orderComment"
-                                        class="textarea border border-border h-24"
-                                        :placeholder="t('checkout.summary.comment.placeholder')"
-                                    />
-                                </fieldset>
-                                <FoundationLabel class="block cursor-pointer">
-                                    <FoundationCheckbox
-                                        v-model="termsNotice"
-                                        type="checkbox"
-                                        class="checkbox checkbox-primary mr-4"
-                                    />
-                                    <span class="mr-auto">
-                                        {{ $t('checkout.summary.termsNotice') }}
-                                        <FoundationLink href="/terms">
-                                            {{ $t('checkout.summary.termsLink') }}
-                                        </FoundationLink>
-                                    </span>
+                                <FoundationButton
+                                    variant="outline"
+                                    size="small"
+                                    @click="handleLogout()"
+                                >
+                                    {{ $t('checkout.logOut') }}
+                                </FoundationButton>
+                            </div>
+                        </div>
+
+                        <template v-if="isUserSession">
+                            <!-- Billing Address Section -->
+                            <AccountAddress
+                                v-if="billingAddressFormData"
+                                v-model="billingAddressFormData"
+                                :title="$t('account.registration.billingAddress')"
+                                field-prefix="checkout-edit-billing"
+                                mode="embedded"
+                                hide-company-fields
+                                @validation-change="isBillingAddressValid = $event"
+                            />
+
+                            <!-- Different Shipping Address Checkbox -->
+                            <div class="flex items-center">
+                                <FoundationCheckbox
+                                    id="checkout-different-shipping"
+                                    v-model="billingSameAsShipping"
+                                />
+                                <FoundationLabel for="checkout-different-shipping" class="ml-2 text-sm">
+                                    {{ $t('checkout.shipping.billingSameAsShipping') }}
                                 </FoundationLabel>
+                            </div>
 
-                                <FoundationLabel class="block cursor-pointer">
-                                    <FoundationCheckbox
-                                        v-model="policy"
-                                        type="checkbox"
-                                        class="checkbox checkbox-primary mr-4"
-                                    />
-                                    <span class="mr-auto">{{ t('checkout.summary.policy') }}</span>
-                                </FoundationLabel>
-                            </template>
+                            <!-- Shipping Address Section -->
+                            <AccountAddress
+                                v-if="shippingAddressFormData && !billingSameAsShipping"
+                                v-model="shippingAddressFormData"
+                                :title="$t('account.registration.shippingAddress')"
+                                field-prefix="checkout-edit-shipping"
+                                mode="embedded"
+                                hide-company-fields
+                                @validation-change="isShippingAddressValid = $event"
+                            />
+                        </template>
+                    </ClientOnly>
+                </template>
 
-                            <ClientOnly>
-                                <Teleport to="#CheckoutNavigation">
-                                    <div v-if="currentStep === 'checkout'" class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
-                                        <FoundationLink to="/cart" class="link link-hover cursor-pointer order-2 lg:order-1">
-                                            {{ t('checkout.navigation.back') }}
-                                        </FoundationLink>
-                                        <FoundationButton
-                                            class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
-                                            :disabled="user ? !canProceedToShipping : !isRegistrationFormValid"
-                                            @click="handleForwardClick"
-                                        >
-                                            <span>{{ t('checkout.navigation.forward') }}</span>
-                                        </FoundationButton>
-                                    </div>
-                                    <div v-else class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
-                                        <FoundationButton v-if="currentStep === 'shipping'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('checkout')">
-                                            {{ t('checkout.shipping.navigation.back') }}
-                                        </FoundationButton>
-                                        <FoundationButton v-if="currentStep === 'shipping'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('payment')">
-                                            {{ t('checkout.shipping.navigation.forward') }}
-                                        </FoundationButton>
-
-                                        <FoundationButton v-if="currentStep === 'payment'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('shipping')">
-                                            {{ t('checkout.payment.navigation.back') }}
-                                        </FoundationButton>
-                                        <FoundationButton v-if="currentStep === 'payment'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('summary')">
-                                            {{ t('checkout.payment.navigation.forward') }}
-                                        </FoundationButton>
-
-                                        <FoundationButton v-if="currentStep === 'summary'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('payment')">
-                                            {{ t('checkout.summary.navigation.back') }}
-                                        </FoundationButton>
-                                        <FoundationButton v-if="currentStep === 'summary'"
-                                            class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
-                                            :disabled="!termsNotice || !policy || disablePlaceOrderBtn"
-                                            @click="onPlaceOrder"
-                                        >
-                                            <span>{{ t('checkout.placeOrder') }}</span>
-                                        </FoundationButton>
-                                    </div>
-                                </Teleport>
-                            </ClientOnly>
+                <div v-if="currentStep !== 'contact'" class="flex flex-col p-6 border border-border rounded-lg text-sm">
+                    <div class="grid grid-cols-12 gap-2">
+                        <div class="col-span-6 md:col-span-3 order-1">
+                            {{ t('checkout.summary.contact.label') }}
+                        </div>
+                        <div v-if="user?.email" class="col-span-12 md:col-span-6 order-3 md:order-2">
+                            {{ user.email }}
                         </div>
                     </div>
+                    <div v-if="!billingSameAsShipping" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                        <div class="col-span-6 md:col-span-3 order-1">
+                            {{ t('checkout.summary.billing.label') }}
+                        </div>
+                        <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                            <AccountAddressCard
+                                v-if="user?.defaultBillingAddress"
+                                :address="user.defaultBillingAddress"
+                                hide-buttons
+                                class="border-0 pt-0 pl-0"
+                            />
+                        </div>
+                        <FoundationButton class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline" @click="selectStep('contact')">
+                            {{ t('checkout.summary.contact.edit') }}
+                        </FoundationButton>
+                    </div>
+                    <div class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                        <div class="col-span-6 md:col-span-3 order-1">
+                            {{ t('checkout.summary.shipping.label') }} <span v-if="billingSameAsShipping">/ {{ t('checkout.summary.billing.label') }}</span>
+                        </div>
+                        <div class="col-span-12 md:col-span-6 order-3 md:order-2">
+                            <AccountAddressCard
+                                v-if="user?.defaultShippingAddress"
+                                :address="user.defaultShippingAddress"
+                                hide-buttons
+                                class="border-0 pt-0 pl-0"
+                            />
+                        </div>
+                        <FoundationButton
+                            class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
+                            :aria-label="t('checkout.summary.contact.editLabel')"
+                            @click="selectStep('contact')"
+                        >
+                            {{ t('checkout.summary.contact.edit') }}
+                        </FoundationButton>
+                    </div>
+                    <div v-if="currentStep === 'payment' || currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                        <div class="col-span-6 md:col-span-3 order-1">
+                            {{ t('checkout.summary.shipping.name') }}
+                        </div>
+                        <div v-if="selectedShippingMethod?.name" class="col-span-12 md:col-span-6 order-3 md:order-2">
+                            {{ selectedShippingMethod.name }}
+                        </div>
+                        <FoundationButton
+                            class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
+                            :aria-label="t('checkout.summary.shipping.editLabel')"
+                            @click="selectStep('shipping')"
+                        >
+                            {{ t('checkout.summary.shipping.edit') }}
+                        </FoundationButton>
+                    </div>
+                    <div v-if="currentStep === 'summary'" class="grid grid-cols-12 gap-2 pt-2 mt-2 border-t border-border">
+                        <div class="col-span-6 md:col-span-3 order-1">
+                            {{ t('checkout.summary.payment.label') }}
+                        </div>
+                        <div v-if="selectedPaymentMethod?.name" class="col-span-12 md:col-span-6 order-3 md:order-2">
+                            {{ selectedPaymentMethod.name }}
+                        </div>
+                        <FoundationButton
+                            class="link col-span-6 md:col-span-3 order-2 md:order-3 place-self-end self-start btn btn-small btn-outline"
+                            :aria-label="t('checkout.summary.billing.editLabel')"
+                            @click="selectStep('payment')"
+                        >
+                            {{ t('checkout.summary.payment.edit') }}
+                        </FoundationButton>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!-- Right Column: Order Summary -->
-        <div class="sidebar lg:col-span-5 order-1 lg:order-2 p-2 lg:px-16 lg:py-10 bg-base-300">
-            <div class="flex flex-col lg:gap-4 w-full lg:max-w-md">
-                <FoundationLink to="/" class="btn btn-ghost normal-case text-xl p-0">
-                    <FoundationIcon name="logo" class="w-36" />
-                </FoundationLink>
 
-                <!-- Checkbox for collapse (hidden visually, works with label) -->
-                <FoundationCheckbox
-                    id="checkout-summary-toggle"
-                    class="peer opacity-0 lg:hidden -mb-8 mt-4"
-                    checked
-                />
+                <!-- Shipping Section -->
+                <ClientOnly>
+                    <CheckoutShipping v-if="!isVirtualCart" v-show="currentStep === 'shipping'" />
+                </ClientOnly>
 
-                <!-- Label acts as toggle button (mobile only) -->
-                <FoundationLabel
-                    for="checkout-summary-toggle"
-                    class="cursor-pointer p-4 font-medium lg:hidden flex justify-between items-center peer-checked:hidden"
-                >
-                    <span class="block peer-checked:hidden">{{ t('checkout.summary.toggleLabel.show') }}</span>
-                    <FoundationIcon name="chevron-down" class="block peer-checked:hidden" />
-                </FoundationLabel>
+                <!-- Payment Section -->
+                <ClientOnly>
+                    <CheckoutPayment v-show="currentStep === 'payment'" :key="paymentMethodKey" />
+                </ClientOnly>
 
-                <FoundationLabel
-                    for="checkout-summary-toggle"
-                    class="cursor-pointer p-4 font-medium peer-checked:lg:hidden justify-between items-center hidden peer-checked:flex"
-                >
-                    <span>{{ t('checkout.summary.toggleLabel.hide') }}</span>
-                    <FoundationIcon name="chevron-up" />
-                </FoundationLabel>
+                <!-- Cart Summary with Totals -->
+                <template v-if="currentStep === 'summary'">
+                    <div v-if="cart">
+                        <CartSummary
+                            :cart="cart"
+                            :show-checkout-button="false"
+                            :show-cart-button="false"
+                            class="p-2 rounded-lg"
+                        />
+                    </div>
+                    <fieldset class="fieldset">
+                        <FoundationLabel for="order-comment" class="sr-only label">
+                            {{ t('checkout.summary.comment.placeholder') }}
+                        </FoundationLabel>
+                        <FoundationTextarea
+                            id="order-comment"
+                            v-model="orderComment"
+                            class="textarea border border-border h-24"
+                            :placeholder="t('checkout.summary.comment.placeholder')"
+                        />
+                    </fieldset>
+                    <FoundationLabel class="block cursor-pointer">
+                        <FoundationCheckbox
+                            v-model="termsNotice"
+                            type="checkbox"
+                            class="checkbox checkbox-primary mr-4"
+                        />
+                        <span class="mr-auto">
+                            {{ $t('checkout.summary.termsNotice') }}
+                            <FoundationLink href="/terms">
+                                {{ $t('checkout.summary.termsLink') }}
+                            </FoundationLink>
+                        </span>
+                    </FoundationLabel>
 
-                <!-- Content: hidden by default, shown when checked, always shown on desktop -->
-                <div class="max-h-0 opacity-0 overflow-hidden peer-checked:max-h-[2000px] peer-checked:opacity-100 lg:max-h-none lg:opacity-100 transition-[max-height,opacity] duration-300 ease-in-out">
-                    <CheckoutSummary ref="checkoutSummaryRef" :customer-comment="orderComment" hide-order-button />
-                </div>
+                    <FoundationLabel class="block cursor-pointer">
+                        <FoundationCheckbox
+                            v-model="policy"
+                            type="checkbox"
+                            class="checkbox checkbox-primary mr-4"
+                        />
+                        <span class="mr-auto">{{ t('checkout.summary.policy') }}</span>
+                    </FoundationLabel>
+                </template>
+
+                <ClientOnly>
+                    <Teleport to="#CheckoutNavigation">
+                        <div v-if="currentStep === 'contact'" class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
+                            <FoundationLink to="/cart" class="link link-hover cursor-pointer order-2 lg:order-1">
+                                {{ t('checkout.navigation.back') }}
+                            </FoundationLink>
+                            <FoundationButton
+                                class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
+                                :class="{ 'btn-loading': isUpdatingContact }"
+                                :disabled="isUpdatingContact || (isUserSession ? !canProceedToShipping : !isRegistrationFormValid)"
+                                @click="onUpdateContact"
+                            >
+                                <span>{{ t('checkout.navigation.forward') }}</span>
+                            </FoundationButton>
+                        </div>
+                        <div v-else class="navigation flex flex-col flex-wrap justify-between items-center gap-4 lg:flex-row lg:flex-nowrap lg:items-center lg:gap-2">
+                            <FoundationButton v-if="currentStep === 'shipping'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('contact')">
+                                {{ t('checkout.shipping.navigation.back') }}
+                            </FoundationButton>
+                            <FoundationButton v-if="currentStep === 'shipping'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('payment')">
+                                {{ t('checkout.shipping.navigation.forward') }}
+                            </FoundationButton>
+
+                            <FoundationButton v-if="currentStep === 'payment'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('shipping')">
+                                {{ t('checkout.payment.navigation.back') }}
+                            </FoundationButton>
+                            <FoundationButton v-if="currentStep === 'payment'" class="btn btn-primary w-full order-1 lg:w-auto lg:order-2" @click="selectStep('summary')">
+                                {{ t('checkout.payment.navigation.forward') }}
+                            </FoundationButton>
+
+                            <FoundationButton v-if="currentStep === 'summary'" class="link link-hover cursor-pointer order-2 lg:order-1" @click="selectStep('payment')">
+                                {{ t('checkout.summary.navigation.back') }}
+                            </FoundationButton>
+                            <CheckoutPlaceOrder
+                                v-if="currentStep === 'summary'"
+                                :customer-comment="orderComment"
+                                :disabled="!termsNotice || !policy"
+                                class="btn btn-primary w-full order-1 lg:w-auto lg:order-2"
+                            />
+                        </div>
+                    </Teleport>
+                </ClientOnly>
             </div>
         </div>
     </div>

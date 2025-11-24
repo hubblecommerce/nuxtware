@@ -1,6 +1,6 @@
 export interface UseCheckoutFlowOptions {
     // Step to navigate to after successful login or registration
-    afterAuthStep?: 'checkout' | 'shipping' | 'payment' | 'summary'
+    afterAuthStep?: 'contact' | 'shipping' | 'payment' | 'summary'
     // Initial step when user is not logged in
     initialAuthStep?: 'login' | 'registration'
 }
@@ -14,12 +14,12 @@ export function useCheckoutFlow(options: UseCheckoutFlowOptions = {}) {
 
     // Default options
     const {
-        afterAuthStep = 'checkout',
+        afterAuthStep = 'contact',
         initialAuthStep = 'login'
     } = options
 
     // State for checkout flow
-    const currentStep = ref<'checkout' | 'shipping' | 'payment' | 'summary'>('checkout')
+    const currentStep = ref<'contact' | 'shipping' | 'payment' | 'summary'>('contact')
     const contactSubStep = ref<'login' | 'registration'>(initialAuthStep)
     const isUserSession = computed(() => isLoggedIn.value || isGuestSession.value)
     const isInitializing = ref(true)
@@ -56,7 +56,7 @@ export function useCheckoutFlow(options: UseCheckoutFlowOptions = {}) {
     const handleLogout = async () => {
         await logout()
         contactSubStep.value = 'login'
-        currentStep.value = 'checkout'
+        currentStep.value = 'contact'
     }
 
     // Handler: Order Placed
