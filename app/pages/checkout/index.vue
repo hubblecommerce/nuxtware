@@ -274,7 +274,7 @@ onMounted(async () => {
                 <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
 
                 <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'shipping'}">
-                    <FoundationButton class="font-medium px-0" size="small" @click="currentStep === 'contact' ? onUpdateContact() : selectStep('shipping')">
+                    <FoundationButton class="font-medium px-0" size="small" @click="selectStep('shipping')">
                         {{ t('checkout.breadcrumb.shipping') }}
                     </FoundationButton>
                 </li>
