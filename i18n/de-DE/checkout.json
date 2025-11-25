@@ -19,6 +19,14 @@
         "orderTotal": "Gesamtsumme",
         "loginRequired": "Bitte melden Sie sich an, um Ihre Bestellung abzuschließen",
         "placeOrder": "Bestellung aufgeben",
+        "processingOrder": "Ihre Bestellung wird bearbeitet...",
+        "navigation": {
+            "back": "Zurück zum Warenkorb",
+            "forward": "Speichern und weiter zur Lieferung"
+        },
+        "contact": {
+            "title": "Kontakt"
+        },
         "login": {
             "title": "Anmelden",
             "description": "Melden Sie sich in Ihrem Konto an, um mit der Kasse fortzufahren",
@@ -60,7 +68,13 @@
             "noMethodsAvailable": "Keine Versandmethoden verfügbar",
             "error": "Versandfehler",
             "updateError": "Versandmethode konnte nicht aktualisiert werden",
-            "loadError": "Versandmethoden konnten nicht geladen werden"
+            "loadError": "Versandmethoden konnten nicht geladen werden",
+            "noMethodSelectedError": "",
+            "navigation": {
+                "back": "Zurück zu Ihren Angaben",
+                "forward": "Speichern und weiter zu Bezahlung"
+            },
+            "billingSameAsShipping": "Die Rechnungsadresse entspricht der Lieferadresse."
         },
         "payment": {
             "afterOrder": "Nach Bestellung zahlen",
@@ -68,9 +82,15 @@
             "selectedMethod": "Gewählte Zahlungsmethode",
             "error": "Zahlungsfehler",
             "updateError": "Zahlungsmethode konnte nicht aktualisiert werden",
-            "loadError": "Zahlungsmethoden konnten nicht geladen werden"
+            "loadError": "Zahlungsmethoden konnten nicht geladen werden",
+            "noMethodSelectedError": "",
+            "navigation": {
+                "back": "Zurück zu Lieferung",
+                "forward": "Bestellung überprüfen"
+            }
         },
         "summary": {
+            "title": "Zusammenfassung",
             "items": "Artikel",
             "quantity": "Anz.",
             "each": "je",
@@ -78,7 +98,38 @@
             "termsNotice": "Mit Ihrer Bestellung stimmen Sie unseren",
             "termsLink": "AGB",
             "orderSuccess": "Bestellung {orderId} erfolgreich aufgegeben!",
-            "orderError": "Bestellung konnte nicht aufgegeben werden"
+            "orderError": "Bestellung konnte nicht aufgegeben werden",
+            "contact": {
+                "label": "Kontakt",
+                "edit": "Ändern",
+                "editLabel": "Ihre Adresse ändern"
+            },
+            "shipping": {
+                "label": "Lieferadresse",
+                "name": "Lieferung",
+                "edit": "Ändern",
+                "editLabel": "Ihre Versandart ändern"
+            },
+            "billing": {
+                "label": "Rechnungsadresse",
+                "edit": "Ändern",
+                "editLabel": "Ihre Zahlungsart ändern"
+            },
+            "payment": {
+                "label": "Bezahlung",
+                "edit": "Ändern"
+            },
+            "comment": {
+                "placeholder": "Kommentar zur Bestellung..."
+            },
+            "navigation": {
+                "back": "Zurück zu Bezahlung"
+            },
+            "policy": "Ich habe die Datenschutzerklärung Ihres Shops gelesen und akzeptiert.",
+            "toggleLabel": {
+                "show": "Bestellübersicht anzeigen",
+                "hide": "Bestellübersicht ausblenden"
+            }
         },
         "address": {
             "add": "Adresse hinzufügen"
@@ -94,6 +145,13 @@
             "confirmationEmail": "Bestätigungs-E-Mail",
             "orderNotFound": "Bestellung nicht gefunden",
             "orderNotFoundDescription": "Wir konnten die gesuchte Bestellung nicht finden. Bitte überprüfen Sie die Bestell-ID und versuchen Sie es erneut."
+        },
+        "breadcrumb": {
+            "cart": "Warenkorb"
+,            "contact": "Ihre Angaben",
+            "shipping": "Lieferung",
+            "payment": "Bezahlung",
+            "summary": "Zusammenfassung"
         }
     }
 }

@@ -7,7 +7,8 @@ interface AccountAddressCardProps {
     isDefaultShipping?: boolean
     canDelete?: boolean
     loading?: boolean
-    countries?: Schemas['Country'][]
+    countries?: Schemas['Country'][],
+    hideButtons?: boolean
 }
 
 interface AccountAddressCardEmits {
@@ -20,17 +21,35 @@ const props = withDefaults(defineProps<AccountAddressCardProps>(), {
     isDefaultShipping: false,
     canDelete: true,
     loading: false,
-    countries: () => []
+    countries: () => [],
+    hideButtons: false
 })
 
 const emit = defineEmits<AccountAddressCardEmits>()
+const { getSalutations } = useSalutations()
+
+// Track if salutations are loaded to prevent layout shift
+const salutationsLoaded = computed(() => getSalutations.value.length > 0)
+
+const getSalutationDisplay = (salutationId: string | undefined) => {
+    if (!salutationId) return ''
+    const salutation = getSalutations.value.find(s => s.id === salutationId)
+
+    return salutation?.translated?.displayName || salutation?.displayName
+}
 
 const formattedAddress = computed(() => {
     const { address } = props
     if (!address) return ''
-    
+
+    const salutation = getSalutationDisplay(address.salutationId)
+
     // Build formatted address string
     const parts = []
+
+    if(salutation) {
+        parts.push(salutation)
+    }
     
     if (address.firstName || address.lastName) {
         parts.push(`${address.firstName || ''} ${address.lastName || ''}`.trim())
@@ -60,7 +79,7 @@ const formattedAddress = computed(() => {
     if (address.countryState?.name) {
         parts.push(address.countryState.name)
     }
-    
+
     return parts.join('\n')
 })
 
@@ -119,13 +138,19 @@ const handleSetDefaultShipping = () => {
             </div>
             
             <!-- Formatted Address -->
-            <div class="whitespace-pre-line text-sm text-foreground">
-                {{ formattedAddress }}
+            <div class="text-sm text-foreground">
+                <!-- Loading placeholder for salutation line -->
+                <div v-if="!salutationsLoaded && address.salutationId" class="h-5 bg-border rounded w-24 mb-1 animate-pulse" />
+
+                <!-- Actual address content -->
+                <div class="whitespace-pre-line">
+                    {{ formattedAddress }}
+                </div>
             </div>
         </div>
         
         <!-- Actions -->
-        <div class="flex flex-wrap gap-2 pt-2 border-t border-border">
+        <div v-if="!hideButtons" class="flex flex-wrap gap-2 pt-2 border-t border-border">
             <!-- Edit Button -->
             <FoundationButton
                 variant="outline"

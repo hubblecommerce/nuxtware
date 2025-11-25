@@ -112,10 +112,10 @@ const isValid = computed(() => {
         addressData.city,
         addressData.countryId
     ]
-    
+
     // Only include firstName/lastName in validation if name fields are visible
     if (!props.hideNameFields) {
-        requiredFields.push(addressData.firstName, addressData.lastName)
+        requiredFields.push(addressData.firstName, addressData.lastName, addressData.salutationId)
     }
     
     // Include company in validation if it's a business account and company fields are visible

@@ -14,7 +14,7 @@
         "company": "Company",
         "department": "Department",
         "vatIds": "VAT IDs",
-        "notCreateAccount": "Do not create an account",
+        "notCreateAccount": "Order as a guest",
         "login": {
             "title": "Sign In",
             "description": "Sign in to your account",

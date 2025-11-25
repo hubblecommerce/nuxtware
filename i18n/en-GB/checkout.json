@@ -19,6 +19,14 @@
         "orderTotal": "Order Total",
         "loginRequired": "Please log in to complete your order",
         "placeOrder": "Place Order",
+        "processingOrder": "Processing your order...",
+        "navigation": {
+            "back": "Back to cart",
+            "forward": "Save and continue to Shipping"
+        },
+        "contact": {
+            "title": "Contact"
+        },
         "login": {
             "title": "Sign In",
             "description": "Sign in to your account to continue with checkout",
@@ -60,7 +68,13 @@
             "noMethodsAvailable": "No shipping methods available",
             "error": "Shipping Error",
             "updateError": "Failed to update shipping method",
-            "loadError": "Failed to load shipping methods"
+            "loadError": "Failed to load shipping methods",
+            "noMethodSelectedError": "Please select a valid shipping method.",
+            "navigation": {
+              "back": "Back to Contact",
+              "forward": "Save and continue to Payment"
+            },
+            "billingSameAsShipping": "The billing address corresponds to the delivery address."
         },
         "payment": {
             "afterOrder": "Pay after order",
@@ -68,9 +82,15 @@
             "selectedMethod": "Selected Payment Method",
             "error": "Payment Error",
             "updateError": "Failed to update payment method",
-            "loadError": "Failed to load payment methods"
+            "loadError": "Failed to load payment methods",
+            "noMethodSelectedError": "Please select a valid payment method.",
+            "navigation": {
+                "back": "Back to Shipping",
+                "forward": "Save and continue to Summary"
+            }
         },
         "summary": {
+            "title": "Summary",
             "items": "Items",
             "quantity": "Qty",
             "each": "each",
@@ -78,7 +98,38 @@
             "termsNotice": "By placing your order, you agree to our",
             "termsLink": "Terms & Conditions",
             "orderSuccess": "Order {orderId} placed successfully!",
-            "orderError": "Failed to place order"
+            "orderError": "Failed to place order",
+            "contact": {
+              "label": "Contact",
+              "edit": "Edit",
+              "editLabel": "Edit your address"
+            },
+            "shipping": {
+              "label": "Shipping address",
+              "name": "Shipping",
+              "edit": "Edit",
+              "editLabel": "Edit your Shipping method"
+            },
+            "billing": {
+              "label": "Billing address",
+              "edit": "Edit",
+              "editLabel": "Edit your payment method"
+            },
+            "payment": {
+                "label": "Payment",
+                "edit": "Edit"
+            },
+            "comment": {
+                "placeholder": "Order comment"
+            },
+            "navigation": {
+                "back": "Back to Payment"
+            },
+            "policy": "I have read the privacy policy and I agree with them.",
+            "toggleLabel": {
+                "show": "Show the order details",
+                "hide": "Hide the order details"
+            }
         },
         "address": {
             "add": "Add Address"
@@ -94,6 +145,13 @@
             "confirmationEmail": "Confirmation Email",
             "orderNotFound": "Order Not Found",
             "orderNotFoundDescription": "We couldn't find the order you're looking for. Please check the order ID and try again."
+        },
+        "breadcrumb": {
+            "cart": "Cart"
+,            "contact": "Contact",
+            "shipping": "Shipping",
+            "payment": "Payment",
+            "summary": "Summary"
         }
     }
 }

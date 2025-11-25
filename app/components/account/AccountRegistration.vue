@@ -4,7 +4,8 @@ import { ApiClientError } from '@shopware/api-client'
 
 interface AccountRegistrationProps {
     disabled?: boolean
-    allowGuest?: boolean
+    allowGuest?: boolean,
+    hideCreateAccountButton?: boolean
 }
 
 interface AccountRegistrationEmits {
@@ -14,7 +15,8 @@ interface AccountRegistrationEmits {
 
 const props = withDefaults(defineProps<AccountRegistrationProps>(), {
     disabled: false,
-    allowGuest: false
+    allowGuest: false,
+    hideCreateAccountButton: false
 })
 
 const emit = defineEmits<AccountRegistrationEmits>()
@@ -183,6 +185,12 @@ const handleSubmit = async () => {
         isLoading.value = false
     }
 }
+
+// Expose the submit method and form validation state so parent can access them
+defineExpose({
+    submit: handleSubmit,
+    isFormValid
+})
 </script>
 
 <template>
@@ -190,6 +198,14 @@ const handleSubmit = async () => {
         :headline="$t('account.registration.title')"
         :description="$t('account.registration.description')"
     >
+        <FoundationButton
+            type="button"
+            variant="outline"
+            @click="$emit('switch-to-login')"
+        >
+            {{ $t('account.registration.alreadyHaveAccount') }}
+        </FoundationButton>
+
         <form @submit.prevent="handleSubmit">
             <div class="space-y-6">
                 <!-- Personal Information Section -->
@@ -408,25 +424,15 @@ const handleSubmit = async () => {
                 </div>
 
                 <!-- Submit Button -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-4">
+                <div v-if="!hideCreateAccountButton" class="flex flex-col sm:flex-row gap-3 pt-4">
                     <FoundationButton
                         type="submit"
                         color="secondary"
-                        class="flex-1"
                         :loading="isLoading"
                         :disabled="!isFormValid"
                         @click="handleSubmit"
                     >
                         {{ formData.guest && allowGuest ? $t('account.registration.continueAsGuest') : $t('account.registration.createAccount') }}
-                    </FoundationButton>
-                    
-                    <FoundationButton
-                        type="button"
-                        variant="outline"
-                        class="flex-1"
-                        @click="$emit('switch-to-login')"
-                    >
-                        {{ $t('account.registration.alreadyHaveAccount') }}
                     </FoundationButton>
                 </div>
             </div>

@@ -14,7 +14,7 @@
         "company": "Unternehmen",
         "department": "Abteilung",
         "vatIds": "USt-IdNr.",
-        "notCreateAccount": "Kein Konto erstellen",
+        "notCreateAccount": "Als Gast bestellen",
         "login": {
             "title": "Anmelden",
             "description": "Melden Sie sich in Ihrem Konto an",

@@ -2,6 +2,8 @@
 const { params } = useRoute()
 const { getFormattedPrice } = usePrice()
 
+type OrderSection = 'documents' | 'lineItems' | 'summary' | 'metadata'
+
 const orderId = params.id as string
 const {
     loadOrderDetails,
@@ -9,7 +11,7 @@ const {
 } = useOrderDetails(orderId)
 
 const isLoading = ref(true)
-
+const detailSections = ['documents', 'lineItems', 'summary', 'metadata'] as OrderSection[]
 onMounted(async () => {
     try {
         await loadOrderDetails()
@@ -48,6 +50,13 @@ onMounted(async () => {
                             </p>
                         </div>
 
+                        <div class="space-y-6">
+                            <OrderDetails
+                                :order="order"
+                                :sections="detailSections"
+                                expanded
+                            />
+                        </div>
                         <!-- Order Details -->
                         <div class="space-y-6">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-center">
