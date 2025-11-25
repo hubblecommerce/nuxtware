@@ -578,5 +578,25 @@ onMounted(async () => {
                 </ClientOnly>
             </div>
         </div>
+
+        <!-- Overlay -->
+        <Transition
+            enter-active-class="transition-opacity duration-300"
+            leave-active-class="transition-opacity duration-300"
+            enter-from-class="opacity-0"
+            leave-to-class="opacity-0"
+        >
+            <div
+                v-if="showOverlay"
+                class="fixed inset-0 z-50 min-h-screen flex items-center justify-center bg-gray-200/10 backdrop-blur-sm"
+            >
+                <div class="flex flex-col items-center gap-4 rounded-lg bg-background p-8 shadow-lg">
+                    <div class="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary" />
+                    <p class="text-lg font-medium text-foreground">
+                        {{ $t('checkout.processingOrder') }}
+                    </p>
+                </div>
+            </div>
+        </Transition>
     </div>
 </template>
