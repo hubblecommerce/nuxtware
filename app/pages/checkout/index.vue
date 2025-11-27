@@ -258,34 +258,34 @@ onMounted(async () => {
     <div class="checkout-page flex flex-col gap-8">
         <!-- Breadcrumb -->
         <div class="w-full text-sm breadcrumbs mb-4">
-            <ul class="flex items-center">
+            <ul class="flex items-center whitespace-nowrap overflow-x-scroll md:overflow-x-hidden">
                 <li class="font-medium py-2">
                     <FoundationLink to="/cart">
                         {{ t('checkout.breadcrumb.cart') }}
                     </FoundationLink>
                 </li>
-                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground shrink-0" />
 
                 <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'contact'}">
                     <FoundationButton class="font-medium px-0" size="small" @click="selectStep('contact')">
                         {{ t('checkout.breadcrumb.contact') }}
                     </FoundationButton>
                 </li>
-                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground shrink-0" />
 
                 <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'shipping'}">
                     <FoundationButton class="font-medium px-0" size="small" @click="selectStep('shipping')">
                         {{ t('checkout.breadcrumb.shipping') }}
                     </FoundationButton>
                 </li>
-                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground shrink-0" />
 
                 <li class="inline-flex items-center link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'payment'}">
                     <FoundationButton class="font-medium px-0" size="small" @click="selectStep('payment')">
                         {{ t('checkout.breadcrumb.payment') }}
                     </FoundationButton>
                 </li>
-                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground" />
+                <FoundationIcon name="chevron-right" class="w-4 h-4 mx-2 text-muted-foreground shrink-0" />
 
                 <li class="link link-hover font-medium py-2 cursor-pointer" :class="{ 'text-primary': currentStep === 'summary'}">
                     <FoundationButton class="font-medium px-0" size="small" @click="selectStep('summary')">
