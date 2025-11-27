@@ -30,7 +30,7 @@ onMounted(async () => {
                 <!-- Success Content -->
                 <div class="max-w-2xl mx-auto">
                     <!-- Loading State -->
-                    <div v-if="isLoading" class="p-8 border border-border rounded-lg bg-surface text-center">
+                    <div v-if="isLoading" class="lg:p-8 border border-border rounded-lg bg-surface text-center">
                         <div class="animate-pulse space-y-4">
                             <div class="h-8 bg-border rounded w-1/2 mx-auto"/>
                             <div class="h-4 bg-border rounded w-3/4 mx-auto"/>
@@ -39,7 +39,7 @@ onMounted(async () => {
                     </div>
 
                     <!-- Order Success Info -->
-                    <div v-else-if="order" class="p-8 border border-border rounded-lg bg-surface text-center">
+                    <div v-else-if="order" class="p-2 lg:p-8 border border-border rounded-lg bg-surface text-center">
                         <div class="mb-6">
                             <FoundationIcon name="check" class="block w-16 h-16 text-success mx-auto mb-4" />
                             <FoundationHeadline tag="h2" class="text-2xl font-bold mb-3">

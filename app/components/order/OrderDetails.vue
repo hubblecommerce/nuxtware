@@ -31,7 +31,7 @@ const hasLineItems = computed(() => props.order.lineItems && props.order.lineIte
 </script>
 
 <template>
-    <div :class="{ 'border-t border-border p-4 md:p-6': isExpanded }">
+    <div :class="{ 'border-t border-border p-2 md:p-6': isExpanded }">
         <!-- Expandable Content -->
         <div 
             v-if="isExpanded"
