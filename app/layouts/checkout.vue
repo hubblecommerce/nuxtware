@@ -7,7 +7,7 @@
         <LayoutTopBar />
 
         <main class="grid grid-cols-1 lg:grid-cols-12 lg:min-h-screen">
-            <div class="sidebar lg:col-span-5 order-1 lg:order-2 p-2 lg:px-16 lg:py-10">
+            <div class="sidebar lg:col-span-5 order-1 lg:order-2 p-4 lg:px-16 lg:py-10">
                 <div class="flex flex-col lg:gap-4 w-full lg:max-w-md">
                     <FoundationLink to="/" class="btn btn-ghost normal-case text-xl p-0">
                         <FoundationIcon name="logo" class="w-36" />
