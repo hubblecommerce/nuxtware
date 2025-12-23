@@ -1,177 +1,95 @@
 # Nuxtware
 
-A Nuxt 3 layer with Shopware integration for building e-commerce frontends.
+A production-ready Nuxt 3 layer with Shopware integration for building modern e-commerce frontends. Built with Vue 3, TypeScript, and Tailwind CSS v4.
 
-## Quick Start
+## Features
 
-```bash
-npm install
-npm dev
-```
+- Complete Shopware 6 e-commerce integration
+- Product listing with filtering, sorting, and pagination
+- Product detail pages with variant selection
+- Shopping cart and checkout flow
+- Customer account management
+- Wishlist functionality
+- CMS content management with customizable blocks
+- Multi-language support (i18n)
+- Accessible and SEO-friendly components
+- Fully typed with TypeScript
+- Responsive design with Tailwind CSS
 
-## Documentation
+## Installation
 
-Detailed documentation is available in the `/docs` directory:
-
-- [Project Overview](/docs/project-overview.md) - High-level overview of the project
-- [Coding Standards](/docs/coding-standards.md) - Code formatting and style guidelines
-- [I18n Guide](/docs/i18n-guide.md) - Internationalization implementation and best practices
-- [Common Workflows](/docs/common-workflows.md) - Step-by-step guides for common tasks
-
-### Working with AI Assistant
-
-To maximize productivity when using Claude or other AI assistants with this project:
-
-1. Start with: "Please read the documentation in the /docs directory to understand the project standards before we begin."
-
-2. For updates after project changes: "I've made some changes to the project since we last spoke. Please review the current state of the codebase and update the documentation in the /docs directory to reflect these changes. Specifically, we've [description of changes]. Make sure the documentation accurately reflects our current standards, workflows, and project structure."
-
-## Development
-
-### Shopware Configuration
-
-Create `.env` file in `/.playground`:
-
-```
-NUXT_PUBLIC_SHOPWARE_ENDPOINT = 'https://my-shopware.com/store-api/'
-NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN = 'SWXXXXXXXXXXXXXXXXXXXX'
-NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL = 'https://my-shopware.com'
-```
-
-### Development Server
-
-Start the development server on http://localhost:3000
+Install the package via npm:
 
 ```bash
-npm dev
+npm install @hubblecommerce/nuxtware
 ```
 
-### Production
+## Setup
 
-Build the application for production:
+### 1. Extend Your Nuxt Configuration
 
-```bash
-npm build
-```
-
-Or statically generate it with:
-
-```bash
-npm generate
-```
-
-Locally preview production build:
-
-```bash
-npm preview
-```
-
-## Distribution
-
-This Nuxt layer can be published to NPM. Check if `files` in `package.json` are valid, then run:
-
-```bash
-npm publish --access public
-```
-
-Users can install it with:
-
-```bash
-npm install --save nuxtware
-```
-
-And add it to their Nuxt configuration:
+Add Nuxtware as a layer in your `nuxt.config.ts`:
 
 ```ts
-defineNuxtConfig({
-  extends: 'nuxtware'
+export default defineNuxtConfig({
+    extends: ['@hubblecommerce/nuxtware']
 })
 ```
 
-## Additional Resources
+### 2. Configure Shopware Connection
 
-For more information about Shopware API integration and advanced configurations, please refer to the [API Client](/docs/api-client.md) documentation.
+Create a `.env` file in your project root with your Shopware credentials:
 
-## Api Constraints (differences to Storefront)
+```env
+NUXT_PUBLIC_SHOPWARE_ENDPOINT='https://your-shopware-instance.com/store-api/'
+NUXT_PUBLIC_SHOPWARE_ACCESS_TOKEN='SWXXXXXXXXXXXXXXXXXXXX'
+NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL='https://your-shopware-instance.com'
+```
 
-- Rendering correct "from price" in listing, see composables composables/useProductPriceCustom.ts for detailed info and solutions
-- Store API lacks endpoint to check if current customer has already reviewed a specific product (requires client-side tracking via localStorage)
-- Store API does not provide PATCH endpoint for updating existing reviews (edit functionality not available) 
+### 3. Start Development
 
+```bash
+npm run dev
+```
 
-## Roadmap
+Your Nuxt application will now have access to all Nuxtware components, composables, and pages.
 
-Nuxtware:
-- [x] Listing:
-    - [x] Pagination
-    - [x] Limiter
-    - [x] Sorter
-    - [x] Filter
-    - [x] Category Sidebar Navigation
-    - [x] Card
-- [x] Detail:
-    - [x] Gallery
-    - [x] Buybox
-      - Prices, Availability, Delivery Time, Reviews Link, Qty Selector, Add-To-Cart Button, Wishlist-Toggle, Sku
-    - [x] Variant Selection
-    - [x] Tabs: Description / Reviews
-        - [x] Description
-        - [x] Reviews
-    - [x] X-Selling (Product Carousel)
-- [x] Cart
-- [x] Checkout
-    - [x] Index
-    - [x] Success
-    - [x] Error
-- [x] Wishlist
-- [x] Account
-    - [x] Login
-    - [x] Register
-    - [x] Password forgot
-    - [x] Overview
-    - [x] Orders
-    - [x] Profile
-    - [x] Addresses
-- [ ] CMS
-    - [ ] Blocks and elements from "community edition"
-        - [x] Blocks
-            - [x] Text Variations
-            - [x] Image Variations
-            - [x] Video Variations
-            - [x] Text & Image Variations
-        - [x] Elements
-            - [x] Image
-            - [x] Text
-            - [x] Video
-            - [x] Formular
-            - [x] HTML
-    - [ ] Blocks and elements from "licensed edition"
-        - [ ] Elements
-            - [ ] 3D
-- [x] Skiplinks
-- [x] Scroll To Top
-- [x] Newsletter Form
-    - [x] Newsletter double opt in retun page (newsletter-subscribe)   
-- [x] Popups (Modals)
-- [x] Footer
-- [x] Topbar / Banderole
-- [ ] Brands Page
-- [x] Refactor \<img\> to use nuxt-image component instead
-- [ ] Add Consent Modal to Video CMS Element
-- [ ] Add Cookie Consent
-- [x] Language Switch
-- [x] Currency Switch
-- [ ] Error pages
-    - [ ] Maintanance Mode
-    - [ ] 404 Page
-- [ ] Sync basic state like session/cart data between tabs
-- [ ] CMS Meta Data (useCmsHead)
-- [ ] Structured Data: Product JSONLD
-- [ ] Customer group registration page (FrontendAccountCustomerGroupRegistrationPage.vue)
-- [ ] Server routes
-    - [ ] Imitate customer
-    - [ ] Sitemap
-- [x] Properly implement StructureElementImageGallery with Thumbnail Gallery and Full-Screen Gallery on click
-- [ ] Lazy Loading of Structure Blocks 
-- [ ] Loading page indicator bar 
+## Usage
+
+Nuxtware provides ready-to-use pages and components for common e-commerce scenarios:
+
+- Product listing pages
+- Product detail pages
+- Shopping cart
+- Checkout process
+- Customer account pages
+- Wishlist
+
+All components follow atomic design principles and are fully customizable through props and Tailwind CSS.
+
+## Documentation
+
+For detailed documentation, component references, and advanced configuration:
+
+- [Project Overview](/docs/project-overview.md) - Architecture and structure
+- [Coding Standards](/docs/coding-standards.md) - Development guidelines
+- [I18n Guide](/docs/i18n-guide.md) - Internationalization setup
+- [Common Workflows](/docs/common-workflows.md) - Development patterns
+
+## Technology Stack
+
+- **Framework**: Nuxt.js 3.16.0
+- **UI Library**: Vue.js 3 (Composition API)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **E-commerce**: Shopware 6 via `@shopware/nuxt-module`
+- **Internationalization**: Built-in i18n support
+
+## Contributing
+
+Contributions are welcome! Please refer to the documentation in the `/docs` directory for coding standards and development workflows.
+
+## License
+
+MIT 
 
