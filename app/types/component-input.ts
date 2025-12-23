@@ -1,4 +1,4 @@
-import type { FoundationInputType } from "#hubble/types/foundation-input-text";
+import type { FoundationInputType } from "#nuxtware/types/foundation-input-text";
 
 export type ComponentInputSize =  'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type ComponentInputColor =  'primary' | 'secondary' | 'tertiary' | '';

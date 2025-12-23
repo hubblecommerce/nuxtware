@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Schemas } from "#shopware"
-import { useProductVariantSwatches } from "#hubble/composables/useProductVariantSwatches"
+import { useProductVariantSwatches } from "#nuxtware/composables/useProductVariantSwatches"
 
 const props = defineProps<{
     variantGroup: Schemas["PropertyGroup"],

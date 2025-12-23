@@ -3,7 +3,7 @@ import { computed, ref, nextTick } from 'vue'
 import type { Schemas } from "#shopware"
 import type { CmsElementImageGallery } from '@shopware/composables'
 import { getBiggestThumbnailUrl } from "@shopware/helpers"
-import { useModal } from '#hubble/composables/useModal'
+import { useModal } from '#nuxtware/composables/useModal'
 import { useCmsElementConfig } from '#imports'
 
 type SliderItem = CmsElementImageGallery['data']['sliderItems'][0]

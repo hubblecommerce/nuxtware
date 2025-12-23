@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getTranslatedProperty } from "@shopware/helpers"
 import type { Schemas } from "#shopware"
-import { useProductReviews } from "#hubble/composables/useProductReviews";
+import { useProductReviews } from "#nuxtware/composables/useProductReviews";
 
 const props = defineProps<{
     product: Schemas["Product"],

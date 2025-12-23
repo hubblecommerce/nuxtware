@@ -1,23 +1,23 @@
 @import 'tailwindcss' source('../../');
 
 /* Foundations */
-@import '#hubble/assets/styles/lib/foundations/focus.css';
-@import '#hubble/assets/styles/lib/foundations/button.css';
-@import '#hubble/assets/styles/lib/foundations/link.css';
-@import '#hubble/assets/styles/lib/foundations/label.css';
-@import '#hubble/assets/styles/lib/foundations/scrollbar.css';
-@import '#hubble/assets/styles/lib/foundations/select.css';
-@import '#hubble/assets/styles/lib/foundations/animations.css';
-@import '#hubble/assets/styles/lib/foundations/typography.css';
+@import '#nuxtware/assets/styles/lib/foundations/focus.css';
+@import '#nuxtware/assets/styles/lib/foundations/button.css';
+@import '#nuxtware/assets/styles/lib/foundations/link.css';
+@import '#nuxtware/assets/styles/lib/foundations/label.css';
+@import '#nuxtware/assets/styles/lib/foundations/scrollbar.css';
+@import '#nuxtware/assets/styles/lib/foundations/select.css';
+@import '#nuxtware/assets/styles/lib/foundations/animations.css';
+@import '#nuxtware/assets/styles/lib/foundations/typography.css';
 
 /* Components */
-@import '#hubble/assets/styles/lib/components/input.css';
-@import '#hubble/assets/styles/lib/components/textarea.css';
-@import '#hubble/assets/styles/lib/components/tabs.css';
-@import '#hubble/assets/styles/lib/components/toggle.css';
-@import '#hubble/assets/styles/lib/components/skeleton.css';
-@import '#hubble/assets/styles/lib/components/wishlist.css';
-@import '#hubble/assets/styles/lib/components/cms-blocks.css';
+@import '#nuxtware/assets/styles/lib/components/input.css';
+@import '#nuxtware/assets/styles/lib/components/textarea.css';
+@import '#nuxtware/assets/styles/lib/components/tabs.css';
+@import '#nuxtware/assets/styles/lib/components/toggle.css';
+@import '#nuxtware/assets/styles/lib/components/skeleton.css';
+@import '#nuxtware/assets/styles/lib/components/wishlist.css';
+@import '#nuxtware/assets/styles/lib/components/cms-blocks.css';
 
 @theme {
     /* Colors palettes */
