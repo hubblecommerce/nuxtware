@@ -1,7 +1,14 @@
 {
-  "name": "my-nuxt-layer",
+  "name": "@hubblecommerce/nuxtware",
   "type": "module",
   "version": "0.0.1",
+  "repository": {
+      "type": "git",
+      "url": "git+https://github.com/hubblecommerce/nuxtware.git"
+  },
+  "description": "Nuxt layer for building headless e-commerce interfaces with Shopware 6",
+  "author": "hubble commerce",
+  "license": "MIT",
   "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -14,8 +21,9 @@
   },
   "files": [
     "app",
-    "server",
+    "directives",
     "i18n",
+    "server",
     "nuxt.config.ts"
   ],
   "devDependencies": {
