@@ -75,6 +75,7 @@ For detailed documentation, component references, and advanced configuration:
 - [Coding Standards](/docs/coding-standards.md) - Development guidelines
 - [I18n Guide](/docs/i18n-guide.md) - Internationalization setup
 - [Common Workflows](/docs/common-workflows.md) - Development patterns
+- [Roadmap](/docs/roadmap.md) - Feature progress and planned enhancements
 
 ## Technology Stack
 
