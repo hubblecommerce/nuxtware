@@ -1,6 +1,6 @@
 # Nuxtware
 
-A production-ready Nuxt 3 layer with Shopware integration for building modern e-commerce frontends. Built with Vue 3, TypeScript, and Tailwind CSS v4.
+A production-ready Nuxt 4 layer with Shopware integration for building modern e-commerce frontends. Built with Vue 3, TypeScript, and Tailwind CSS v4.
 
 ## Features
 
@@ -79,7 +79,7 @@ For detailed documentation, component references, and advanced configuration:
 
 ## Technology Stack
 
-- **Framework**: Nuxt.js 3.16.0
+- **Framework**: Nuxt.js 4
 - **UI Library**: Vue.js 3 (Composition API)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4

@@ -2,11 +2,11 @@
 
 ## Architecture
 
-Nuxtware is a Nuxt 3 project with TypeScript that's set up as a reusable component library/layer. The project integrates with Shopware for e-commerce functionality.
+Nuxtware is a Nuxt 4 project with TypeScript that's set up as a reusable component library/layer. The project integrates with Shopware for e-commerce functionality.
 
 ## Key Technologies
 
-- **Frontend Framework**: Nuxt.js 3.16.0 with Vue.js 
+- **Frontend Framework**: Nuxt.js 4 with Vue.js 
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **Internationalization**: i18n (English and German)

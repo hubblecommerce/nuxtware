@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Nuxtware** is a Nuxt 3 layer designed for e-commerce with Shopware integration. It's architected as a reusable component library that can be published to NPM and extended by other Nuxt projects.
+**Nuxtware** is a Nuxt 4 layer designed for e-commerce with Shopware integration. It's architected as a reusable component library that can be published to NPM and extended by other Nuxt projects.
 
 ## Development Commands
 
@@ -27,7 +27,7 @@ NUXT_PUBLIC_SHOPWARE_DEV_STOREFRONT_URL = 'https://my-shopware.com'
 
 ## Architecture & Key Technologies
 
-- **Framework**: Nuxt.js 3.16.0 with Vue.js 3 Composition API
+- **Framework**: Nuxt.js 4 with Vue.js 3 Composition API
 - **Language**: TypeScript with strict typing
 - **Styling**: Tailwind CSS v4 with custom design system
 - **E-commerce**: Shopware integration via `@shopware/nuxt-module`
