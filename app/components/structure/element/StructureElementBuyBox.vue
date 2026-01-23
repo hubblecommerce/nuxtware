@@ -15,7 +15,7 @@ const { product } = useProduct(
 <template>
     <ProductDetailBuyBox
         v-if="product"
-        :product="product"
+        v-model:product="product"
         :configurator="props.content.data.configuratorSettings"
     />
 </template>

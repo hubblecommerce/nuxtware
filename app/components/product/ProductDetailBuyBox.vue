@@ -3,23 +3,24 @@ import { getTranslatedProperty } from "@shopware/helpers"
 import type { Schemas } from "#shopware"
 import { useProductReviews } from "#nuxtware/composables/useProductReviews";
 
+const product = defineModel<Schemas["Product"]>('product', { required: true })
+
 const props = defineProps<{
-    product: Schemas["Product"],
     configurator: Schemas["PropertyGroup"][] | null
 }>()
 
-const { addToCart, quantity, isInCart, count } = useAddToCart(ref(props.product))
+const { addToCart, quantity, isInCart, count } = useAddToCart(product)
 
 const cartItemCount = computed(() => count.value || 0)
 const variantNotFound = ref(false)
 
 const showQtySelect = computed(() => {
-    return props.product.maxPurchase !== 1
+    return product.value?.maxPurchase !== 1
 })
 
 const isBuyable = computed(() => {
-    if (props.product.calculatedMaxPurchase) {
-        return props.product.available && (!props.product.childCount || props.product.childCount <= 0) && props.product.calculatedMaxPurchase > 0 && !variantNotFound.value
+    if (product.value?.calculatedMaxPurchase) {
+        return product.value.available && (!product.value.childCount || product.value.childCount <= 0) && product.value.calculatedMaxPurchase > 0 && !variantNotFound.value
     } else return false
 })
 
@@ -31,10 +32,10 @@ const handleAddToCart = async () => {
 }
 
 const { totalReviews } = useProductReviews({
-    productId: props.product.id,
+    productId: product.value?.id ?? '',
 })
 
-const rating = ref(props.product.ratingAverage)
+const rating = ref(product.value?.ratingAverage)
 
 function openProductTab (anchor: string) {
     const el = document.getElementById(anchor)
@@ -44,7 +45,7 @@ function openProductTab (anchor: string) {
 }
 
 function updateProduct (newProduct: Schemas["Product"]) {
-    Object.assign(props.product, newProduct)
+    product.value = newProduct
     variantNotFound.value = false
 }
 
@@ -57,18 +58,18 @@ function handleVariantNotFound () {
         <!-- TODO: schema.org content, preferably as it's own component -->
 
         <h1 class="sr-only font-semibold text-xl" itemprop="name">
-            {{ getTranslatedProperty(props.product, 'name') }}
+            {{ getTranslatedProperty(product, 'name') }}
         </h1>
 
         <section class="flex flex-col gap-3">
             <ProductBadges
-                :product="props.product"
+                :product="product"
                 variant="default"
                 class="!relative !left-auto"
             />
 
             <ProductPrice
-                :product="props.product"
+                :product="product"
                 alignment="start"
                 :show-tier-prices="true"
                 :show-tax="true"
@@ -76,7 +77,7 @@ function handleVariantNotFound () {
         </section>
 
         <section>
-            <LazyProductPurchaseUnitAndInfos v-if="props.product.purchaseUnit" :product="props.product" :show-product-info="true" />
+            <LazyProductPurchaseUnitAndInfos v-if="product?.purchaseUnit" :product="product" :show-product-info="true" />
         </section>
 
         <section
@@ -103,12 +104,12 @@ function handleVariantNotFound () {
 
         <!-- Delivery snippet by sales channel logic  -->
 
-        <ProductDeliveryInformation :product="props.product" />
+        <ProductDeliveryInformation :product="product" />
 
         <ProductDetailVariants
             :configurator="props.configurator"
-            :parent-id="props.product.parentId"
-            @product-variant-changed="(product) => updateProduct(product)"
+            :parent-id="product?.parentId"
+            @product-variant-changed="updateProduct"
             @variant-not-found="handleVariantNotFound"
         />
 
