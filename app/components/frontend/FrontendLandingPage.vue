@@ -20,8 +20,8 @@ const { data: landingResponse, error } = await useAsyncData(
 if (!landingResponse?.value) {
     console.error("[FrontendLandingPage.vue]", error.value?.message)
     throw createError({
-        statusCode: 500,
-        message: error.value?.message,
+        status: 500,
+        statusText: error.value?.message,
     })
 }
 

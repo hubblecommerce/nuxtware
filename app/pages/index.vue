@@ -20,8 +20,8 @@ if (!seoResult.value?.foreignKey) {
     console.error('index.vue:', `No data found in API for ${routePath}`)
     
     throw createError({
-        statusCode: 404,
-        statusMessage: `No data fetched from API for ${routePath}`,
+        status: 404,
+        statusText: `No data fetched from API for ${routePath}`,
     })
 }
 
