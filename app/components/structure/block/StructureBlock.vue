@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, shallowRef, defineAsyncComponent, resolveComponent, onMounted } from 'vue'
+import { computed, ref, shallowRef, resolveComponent, onMounted } from 'vue'
 import type { Schemas } from "#shopware";
 
 const props = defineProps<{

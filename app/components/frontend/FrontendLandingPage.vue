@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Schemas } from "#shopware"
 
 const props = defineProps<{
     navigationId: string
@@ -10,10 +9,9 @@ const { search } = useLandingSearch()
 const { data: landingResponse, error } = await useAsyncData(
     `cmsLanding${props.navigationId}`,
     async () => {
-        const landingPage = await search(props.navigationId, {
+        return await search(props.navigationId, {
             withCmsAssociations: true,
         })
-        return landingPage
     },
 )
 
@@ -24,8 +22,6 @@ if (!landingResponse?.value) {
         statusText: error.value?.message,
     })
 }
-
-const landingPage = landingResponse as Ref<Schemas["LandingPage"]>
 </script>
 
 <template>
