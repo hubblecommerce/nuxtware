@@ -39,7 +39,7 @@
     "@vueuse/core": "^14.1.0",
     "@vueuse/integrations": "^14.1.0",
     "eslint": "^9.17.0",
-    "focus-trap": "^7.6.4",
+    "focus-trap": "^7.8.0",
     "nuxt": "^4.3.0",
     "tailwindcss": "^4.0.14",
     "typescript": "^5.7.2"
