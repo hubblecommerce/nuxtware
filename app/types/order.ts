@@ -79,7 +79,7 @@ export interface OrderTax {
 }
 
 // Order address types (extending Shopware types)
-export interface OrderAddressDisplay extends Schemas['OrderAddress'] {
+export type OrderAddressDisplay = Schemas['OrderAddress'] & {
     formattedAddress: string
 }
 

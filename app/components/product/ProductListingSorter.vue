@@ -35,7 +35,7 @@ watch(() => props.currentSorting, (newValue) => {
     model.value = newValue
 })
 
-const getSortingLabel = (sorting: any) => {
+const getSortingLabel = (sorting: Schemas["ProductSorting"] | { key: string; label: string }) => {
     return sorting.translated?.label || sorting.label || sorting.key || sorting
 }
 

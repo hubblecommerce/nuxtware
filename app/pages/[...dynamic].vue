@@ -26,8 +26,8 @@ const { data, error } = await useAsyncData(
 
 if (!data?.value?.payload) {
     throw createError({
-        statusCode: 404,
-        message: 'not found',
+        status: 404,
+        statusText: 'not found',
         fatal: true
     })
 }

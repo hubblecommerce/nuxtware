@@ -14,7 +14,6 @@ const {
     containerStyle,
     displayMode,
     imageAttrs,
-    imageLink,
     isVideoElement,
     mimeType,
 } = useCmsElementImage(props.content)
