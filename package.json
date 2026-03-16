@@ -1,7 +1,7 @@
 {
   "name": "@hubblecommerce/nuxtware",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hubblecommerce/nuxtware.git"
@@ -27,21 +27,21 @@
     "nuxt.config.ts"
   ],
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49"
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.8"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.14.0",
+    "@nuxt/eslint": "^1.15.2",
     "@nuxt/image": "^2.0.0",
     "@nuxtjs/i18n": "^10.2.1",
     "@shopware/nuxt-module": "^1.4.2",
-    "@tailwindcss/vite": "^4.1.18",
-    "@vueuse/core": "^14.2.0",
-    "@vueuse/integrations": "^14.2.0",
-    "eslint": "^10.0.0",
+    "@tailwindcss/vite": "^4.2.1",
+    "@vueuse/core": "^14.2.1",
+    "@vueuse/integrations": "^14.2.1",
+    "eslint": "^9.39.4",
     "focus-trap": "^8.0.0",
-    "nuxt": "^4.3.1",
-    "tailwindcss": "^4.1.18",
+    "nuxt": "^4.4.2",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5.7.2"
   }
 }

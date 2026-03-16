@@ -72,7 +72,7 @@ export default defineNuxtConfig({
       }
     ]
   },
-  compatibilityDate: '2025-01-09',
+  compatibilityDate: '2026-03-01',
   // Layer dev only
   typescript: {
     tsConfig: {
