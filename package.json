@@ -31,7 +31,7 @@
     "postcss": "^8.4.49"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.14.0",
+    "@nuxt/eslint": "^1.15.2",
     "@nuxt/image": "^2.0.0",
     "@nuxtjs/i18n": "^10.2.1",
     "@shopware/nuxt-module": "^1.4.2",
