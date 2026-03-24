@@ -11,6 +11,9 @@ const props = withDefaults(defineProps<WidgetQuickSearchProps>(), {
 })
 
 const { searchTerm, search, loading } = useProductSearchSuggest()
+const isMounted = ref(false)
+onMounted(() => { isMounted.value = true })
+const clientLoading = computed(() => isMounted.value && loading.value)
 const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)
 
@@ -21,7 +24,7 @@ const showResult = ref<boolean>(false)
 // used for submitting the search form
 async function onSearchSubmit (): Promise<void> {
     if (searchTerm?.value?.length <= props.searchTermMin) return
-    navigateTo(formatLink(`/search/term=${searchTerm.value}`))
+    navigateTo(formatLink(`/search?search=${encodeURIComponent(searchTerm.value)}`))
 }
 
 // used for instant search after user has typed in a search term
@@ -66,7 +69,7 @@ onClickOutside(quickSearchEl, () => showResult.value = false)
         <form role="search" class="relative" @submit.prevent="search">
             <SearchInput
                 v-model="searchTerm"
-                :loading="loading"
+                :loading="clientLoading"
                 :label="$t('search.input.label')"
                 :placeholder="$t('search.input.placeholder')"
                 @submit-search="onSearchSubmit"
@@ -74,7 +77,7 @@ onClickOutside(quickSearchEl, () => showResult.value = false)
                 @on-focus="onFocus"
             />
 
-            <section v-if="showResult && !loading" class="absolute bg-white w-full my-2 z-50" aria-live="polite">
+            <section v-if="showResult && !clientLoading" class="absolute bg-white w-full my-2 z-50" aria-live="polite">
                 <SearchQuickResults class="border p-2" @navigate="showResult = false" />
             </section>
         </form>

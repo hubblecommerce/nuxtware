@@ -2,7 +2,7 @@
 import type { Schemas } from '#shopware'
 import { getCategoryRoute } from '@shopware/helpers'
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap'
-
+  
 const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"] ?? []
 const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)

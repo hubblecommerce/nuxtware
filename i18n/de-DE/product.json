@@ -20,7 +20,8 @@
       "unitPrice": "Stückpreis"
     },
     "badges": {
-      "topseller": "Tipp"
+      "topseller": "Tipp",
+      "new": "Neu"
     },
     "detail": {
       "tabs": {
