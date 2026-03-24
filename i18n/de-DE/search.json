@@ -10,7 +10,8 @@
         "results": {
             "title": "Suchergebnisse",
             "noResults": "Keine Ergebnisse gefunden.",
-            "label": "Gefundene Produkte: "
+            "label": "Gefundene Produkte: ",
+            "header": "Suchergebnisse für"
         }
     }
 }

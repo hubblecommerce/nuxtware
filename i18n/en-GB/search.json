@@ -10,7 +10,8 @@
         "results": {
             "title": "Search results",
             "noResults": "No results found.",
-            "label": "Products found: "
+            "label": "Products found: ",
+            "header": "Search results for"
         }
     }
 }

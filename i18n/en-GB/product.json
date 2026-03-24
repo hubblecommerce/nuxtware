@@ -20,7 +20,8 @@
       "unitPrice": "Unit Price"
     },
     "badges": {
-      "topseller": "Topseller"
+      "topseller": "Topseller",
+      "new": "New"
     },
     "detail": {
       "tabs": {
