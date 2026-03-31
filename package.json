@@ -42,6 +42,6 @@
     "focus-trap": "^8.0.0",
     "nuxt": "^4.4.2",
     "tailwindcss": "^4.2.2",
-    "typescript": "^5.7.2"
+    "typescript": "^6.0.2"
   }
 }
