@@ -34,7 +34,7 @@
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/image": "^2.0.0",
     "@nuxtjs/i18n": "^10.2.4",
-    "@shopware/nuxt-module": "^1.4.2",
+    "@shopware/nuxt-module": "^1.4.3",
     "@tailwindcss/vite": "^4.2.2",
     "@vueuse/core": "^14.2.1",
     "@vueuse/integrations": "^14.2.1",
