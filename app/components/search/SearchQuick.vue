@@ -10,9 +10,10 @@ const props = withDefaults(defineProps<WidgetQuickSearchProps>(), {
     searchTermMin: 1, // minimum character length of a valid search term
 })
 
-const { searchTerm, search, loading } = useProductSearchSuggest()
+const { searchTerm, search } = useProductSearchSuggest()
 const isMounted = ref(false)
 onMounted(() => { isMounted.value = true })
+const loading = ref<boolean>(false)
 const clientLoading = computed(() => isMounted.value && loading.value)
 const localePath = useLocalePath()
 const { formatLink } = useInternationalization(localePath)
@@ -35,12 +36,15 @@ async function quickSearch (): Promise<void> {
     }
 
     showResult.value = true
+    loading.value = true
 
     try {
         await search()
     } catch (e) {
         console.error('Error during quick search:', e)
         showResult.value = false
+    } finally {
+        loading.value = false
     }
 }
 
@@ -62,6 +66,9 @@ watchDebounced(
 )
 
 onClickOutside(quickSearchEl, () => showResult.value = false)
+
+const route = useRoute()
+watch(() => [route.path, route.query.search], () => { showResult.value = false })
 </script>
 
 <template>

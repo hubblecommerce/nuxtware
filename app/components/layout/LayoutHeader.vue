@@ -15,7 +15,7 @@ const { isLoggedIn } = useUser()
 const { open } = useSidenav()
 </script>
 <template>
-    <header class="relative shadow-lg z-50">
+    <header class="relative shadow-lg z-60">
         <div class="hidden mx-auto w-full max-w-8xl flex-wrap justify-end items-center gap-2 py-1 px-2 lg:flex">
             <ContextLanguageSwitch size="small" />
             <ContextCurrencySwitch size="small" />

@@ -13,13 +13,15 @@ const {
     getLimit,
     getSortingOrders,
     getTotalPagesCount,
-    loading,
     search,
     setInitialListing,
 } = useProductSearchListing()
 
 const searchTerm = computed(() => route.query.search as string || '')
 const cacheKey = computed(() => `productSearch-${JSON.stringify(route.query)}`)
+
+const pageElements = shallowRef(getElements.value)
+const pageLoading = ref(true)
 
 const { data: initialData } = await useAsyncData(cacheKey.value, async () => {
     await search({
@@ -32,6 +34,8 @@ const { data: initialData } = await useAsyncData(cacheKey.value, async () => {
 })
 
 setInitialListing(initialData.value as Schemas['ProductListingResult'])
+pageElements.value = getElements.value
+pageLoading.value = false
 
 /**
  * Re-run search when URL query changes (e.g. after filter updates from ProductListingFilters)
@@ -39,10 +43,13 @@ setInitialListing(initialData.value as Schemas['ProductListingResult'])
 watch(
     () => route.query,
     async (newQuery) => {
+        pageLoading.value = true
         await search({
             ...newQuery as unknown as operations['searchPage post /search']['body'],
             search: newQuery.search as string || '',
         })
+        pageElements.value = getElements.value
+        pageLoading.value = false
     },
 )
 
@@ -87,11 +94,11 @@ const baseRoute = computed(() => {
     <div class="container mx-auto px-4 py-8">
         <!-- Page heading -->
         <h1 class="text-3xl font-bold mb-6 text-center">
-            <template v-if="getElements?.length">
+            <template v-if="pageElements?.length">
                 {{ $t('search.results.header') }}
                 <strong>"{{ searchTerm }}"</strong>
             </template>
-            <template v-else-if="!loading">
+            <template v-else-if="!pageLoading">
                 {{ $t('search.results.noResults') }}
             </template>
         </h1>
@@ -126,12 +133,12 @@ const baseRoute = computed(() => {
         </div>
 
         <!-- Product grid -->
-        <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div v-if="pageLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             <ComponentSkeleton v-for="i in getLimit" :key="i" preset="card" />
         </div>
-        <div v-else-if="getElements?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div v-else-if="pageElements?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             <ProductCard
-                v-for="product in getElements"
+                v-for="product in pageElements"
                 :key="product.id"
                 :product="product"
                 :show-description="false"
