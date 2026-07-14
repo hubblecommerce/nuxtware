@@ -101,6 +101,11 @@ This document tracks the development progress and planned features for Nuxtware.
     - [ ] Imitate customer
     - [ ] Sitemap
 
+### Performance
+- [ ] Cache rework implementation
+    - [ ] Catalog Requests will be converted from POST to GET 
+    - [ ] Create GH Issue for question about cache rework 
+
 ## API Constraints & Known Differences
 
 These are known differences between the Shopware Store API and the Storefront API that affect implementation:
