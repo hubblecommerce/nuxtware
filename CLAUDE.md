@@ -153,3 +153,17 @@ When encountering TypeScript errors with union types (common in CMS components):
 ## TypeScript & Linting Exceptions
 
 - When linter shows error for unused const "prop", it's okay to use `// eslint-disable-next-line @typescript-eslint/no-unused-vars`
+
+## Agent skills
+
+### Issue tracker
+
+Issues tracked in GitHub Issues on `hubblecommerce/nuxtware` (via the `gh` CLI, pinned with `-R hubblecommerce/nuxtware` since `origin` is a GitLab remote). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five canonical labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context — one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
