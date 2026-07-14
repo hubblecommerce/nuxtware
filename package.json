@@ -17,6 +17,9 @@
     "generate": "nuxt generate .playground",
     "preview": "nuxt preview .playground",
     "lint": "eslint .",
+    "pretest": "nuxt prepare .playground",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "nuxt:upgrade": "npx nuxt upgrade --dedupe"
   },
   "files": [
@@ -27,8 +30,12 @@
     "nuxt.config.ts"
   ],
   "devDependencies": {
+    "@nuxt/test-utils": "^4.0.3",
+    "@vue/test-utils": "^2.4.11",
     "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.8"
+    "happy-dom": "^20.10.6",
+    "postcss": "^8.5.8",
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.2",
