@@ -5,6 +5,7 @@ nuxt.d.ts
 .output
 .data
 .playground/.env
+coverage
 framework
 dist
 .DS_Store

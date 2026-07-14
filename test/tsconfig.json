@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "types": ["vitest/globals", "node"],
+        "paths": {
+            "#nuxtware/*": ["../app/*"],
+            "#imports": ["./stubs/imports.ts"],
+            "#app": ["./stubs/app.ts"],
+            "#shopware": ["./stubs/shopware.ts"]
+        }
+    },
+    "include": ["**/*.ts"]
+}
