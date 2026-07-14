@@ -27,6 +27,7 @@
     "nuxt.config.ts"
   ],
   "devDependencies": {
+    "@shopware/api-gen": "^1.5.0",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.8"
   },
@@ -34,7 +35,10 @@
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/image": "^2.0.0",
     "@nuxtjs/i18n": "^10.4.0",
-    "@shopware/nuxt-module": "^1.4.4",
+    "@shopware/api-client": "^1.5.0",
+    "@shopware/composables": "^1.12.0",
+    "@shopware/helpers": "^1.7.1",
+    "@shopware/nuxt-module": "^1.5.0",
     "@tailwindcss/vite": "^4.3.0",
     "@vueuse/core": "^14.3.0",
     "@vueuse/integrations": "^14.3.0",
