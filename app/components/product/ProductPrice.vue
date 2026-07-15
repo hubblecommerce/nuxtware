@@ -107,7 +107,7 @@
                             <span class="p-2">{{ $t('product.price.until') }} {{ calcPrice.quantity }} {{ $t('product.price.pcs') }}</span>
                         </template>
                         <template v-else>
-                            <span class="p-2">{{ $t('product.price.listingTextFrom') }} {{ tierPrices[index - 1]?.quantity + 1 }}</span>
+                            <span class="p-2">{{ $t('product.price.listingTextFrom') }} {{ (tierPrices[index - 1]?.quantity ?? 0) + 1 }}</span>
                         </template>
                         <div class="flex flex-col gap-1 p-2">
                             <span

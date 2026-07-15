@@ -5,9 +5,11 @@ import { getCachedSeoUrl } from "../utils/shopware-get-cached-seo-url";
 async function getSeoUrls (opts: { page: number, limit: number }): Promise<{ total: number, limit: number, elements: Schemas["SeoUrl"][] }> {
     // @ts-expect-error Api client invoke is typed incorrect and includes elements only
     return await shopwareApiClient.invoke('readSeoUrl post /seo-url', {
-        page: opts.page,
-        limit: opts.limit,
-        'total-count-mode': 'exact',
+        body: {
+            page: opts.page,
+            limit: opts.limit,
+            'total-count-mode': 'exact',
+        },
     })
 }
 

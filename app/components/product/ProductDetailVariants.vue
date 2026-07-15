@@ -87,8 +87,6 @@ const loadBuyableVariants = async (): Promise<Schemas["Product"][]> => {
     const response = await apiClient.invoke(
         "readProduct post /product",
         {
-            pathParams: {
-                productId: parentId },
             body: {
                 filter: [
                     { type: "equals", field: "parentId", value: parentId },

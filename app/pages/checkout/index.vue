@@ -92,7 +92,6 @@ watch(selectedShippingMethod, async (newValue, oldValue) => {
 // =======================
 function updateAddressEditForms () {
     // Set status for billingSameAsShipping by comparing default address hashes
-    // @ts-expect-error hash is not typed in shopware composables but exists in api
     billingSameAsShipping.value = userDefaultShippingAddress?.value?.hash === userDefaultBillingAddress?.value?.hash
 
     // Copy state of default addresses to be used for addressform components

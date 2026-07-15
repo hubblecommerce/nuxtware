@@ -14,7 +14,8 @@ useBreadcrumbs();
  */
 const { apiClient } = useShopwareContext();
 const sessionContextData = ref<Schemas["SalesChannelContext"]>();
-sessionContextData.value = await apiClient.invoke("readContext get /context");
+const { data: contextData } = await apiClient.invoke("readContext get /context");
+sessionContextData.value = contextData;
 const { languageIdChain, setCurrency, refreshSessionContext, sessionContext } = useSessionContext(sessionContextData.value);
 
 /**
@@ -45,17 +46,18 @@ if (languages.value?.elements.length && router.currentRoute.value.name) {
         defaultLocale,
     );
 
-    provide("cmsTranslations", messages.value[prefix ?? defaultLocale] ?? {});
+    const messageKey = (prefix ?? defaultLocale) as keyof typeof messages.value;
+    provide("cmsTranslations", messages.value[messageKey] ?? {});
 
     // Set session language
     // If locale has set specific localeId via i18n config
     if (localeProperties.value.localeId) {
         if (languageIdChain.value !== localeProperties.value.localeId) {
-            languageToChangeId = localeProperties.value.localeId;
+            languageToChangeId = localeProperties.value.localeId as string;
         }
 
         // Set default header sw-language-id to selected language id
-        apiClient.defaultHeaders['sw-language-id'] = localeProperties.value.localeId;
+        apiClient.defaultHeaders['sw-language-id'] = localeProperties.value.localeId as string;
     } else {
         // Otherwise find and set language from prefix
         // Important: Shopware language iso code and i18n language code have to match
@@ -74,7 +76,7 @@ if (languages.value?.elements.length && router.currentRoute.value.name) {
         await refreshSessionContext();
     }
 
-    locale.value = prefix ? prefix : defaultLocale;
+    locale.value = (prefix ? prefix : defaultLocale) as typeof locale.value;
     // Set prefix from CMS components
     provide("urlPrefix", prefix);
 }
@@ -87,7 +89,7 @@ const { data: currencies } = await useAsyncData("currencies", async () => {
     return await getAvailableCurrencies();
 });
 
-if (currencies.value.data != null) {
+if (currencies?.value?.data != null) {
     storeCurrencies.value = currencies.value.data
 }
 

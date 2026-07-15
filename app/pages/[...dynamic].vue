@@ -13,7 +13,7 @@ const { data, error } = await useAsyncData(
         const data = await $fetch('/seo-url', {
             method: 'POST',
             headers: {
-                ...(localeProperties.value.localeId && { 'sw-language-id': localeProperties.value.localeId })
+                ...(localeProperties.value.localeId ? { 'sw-language-id': localeProperties.value.localeId as string } : {})
             },
             body: {
                 slug: routePath,
@@ -37,7 +37,7 @@ if (error.value) {
 }
 
 const { routeName, foreignKey } = useNavigationContext(
-    data?.value?.payload as Ref<Schemas['SeoUrl']>,
+    computed(() => (data.value?.payload ?? null) as Schemas['SeoUrl'] | null),
 );
 
 const pageComponent = computed(() => {

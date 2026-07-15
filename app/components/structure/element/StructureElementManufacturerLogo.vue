@@ -18,7 +18,7 @@ function roundUp(num: number) {
 }
 
 const srcPath = computed(() => {
-    const manufacturerMedia = props.content?.data?.manufacturer?.media
+    const manufacturerMedia = props.content?.data?.media
     if (!manufacturerMedia) return ''
     
     const thumbnailUrl = getSmallestThumbnailUrl(manufacturerMedia)
@@ -29,7 +29,7 @@ const srcPath = computed(() => {
 
 const imageClasses = computed(() => ({
     'h-12 rounded-md overflow-hidden': true,
-    'object-cover': props.content?.config?.displayMode?.value === 'image',
+    'object-cover': props.content?.config?.displayMode?.value === 'cover',
     'object-contain': props.content?.config?.displayMode?.value === 'standard'
 }))
 </script>
@@ -39,7 +39,7 @@ const imageClasses = computed(() => ({
         v-if="srcPath"
         ref="manufacturerLogo"
         :src="srcPath"
-        :alt="props.content.data?.manufacturer?.media?.alt || ''"
+        :alt="props.content.data?.media?.alt || ''"
         :class="imageClasses"
     />
 </template>

@@ -36,7 +36,8 @@ watch(() => props.currentSorting, (newValue) => {
 })
 
 const getSortingLabel = (sorting: Schemas["ProductSorting"] | { key: string; label: string }) => {
-    return sorting.translated?.label || sorting.label || sorting.key || sorting
+    const translatedLabel = 'translated' in sorting ? sorting.translated?.label : undefined
+    return translatedLabel || sorting.label || sorting.key
 }
 
 const sortingOptions = computed<SelectOption[]>(() => {

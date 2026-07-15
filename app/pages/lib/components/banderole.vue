@@ -15,7 +15,7 @@ const banderoleItems = [
             <div class="relative px-6 h-6">
                 <ComponentBanderole
                     :items="banderoleItems"
-                    :icons="null"
+                    :icons="undefined"
                 />
             </div>
         </div>

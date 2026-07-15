@@ -34,23 +34,26 @@ const props = withDefaults(defineProps<ComponentToolTipProps>(), {
 
 
 const { width: windowWidth } = useWindowSize()
-const positionBasedOnWindowSize = computed<'top' | 'right' | 'bottom' | 'left'>(() => {
+const positionBasedOnWindowSize = computed<TooltipPosition>(() => {
     const width = windowWidth.value
     const breakpoints = props.breakpoints
 
+    let position: TooltipPosition | undefined
     if (width < 640) {
-        return breakpoints.base
+        position = breakpoints.base
     } else if (width < 768) {
-        return breakpoints['640']
+        position = breakpoints['640']
     } else if (width < 1024) {
-        return breakpoints['768']
+        position = breakpoints['768']
     } else if (width < 1280) {
-        return breakpoints['1024']
+        position = breakpoints['1024']
     } else if (width < 1536) {
-        return breakpoints['1280']
+        position = breakpoints['1280']
     } else {
-        return breakpoints['1536']
+        position = breakpoints['1536']
     }
+
+    return position ?? 'top'
 })
 
 const positionClasses = {

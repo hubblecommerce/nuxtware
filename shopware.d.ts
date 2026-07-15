@@ -1,36 +1,42 @@
+/**
+ * Module declaration for #shopware types.
+ *
+ * IMPORTANT: We use inline import types `import("...").Type` instead of
+ * top-level `import type { ... } from "..."` for relative paths.
+ *
+ * Reason: Top-level imports turn this file into a "module", which breaks
+ * relative path resolution inside `declare module` blocks. Inline imports
+ * don't change the file's module status, so paths resolve correctly.
+ *
+ * - npm package imports (@shopware/...): both syntaxes work
+ * - relative path imports (./...): only inline syntax works
+ *
+ * Type sources:
+ * - operations: from generated file (api-gen merges custom operations)
+ * - Schemas: from overrides file (extends base schemas with custom fields)
+ */
 declare module "#shopware" {
-  import type {
-    createAPIClient,
-    RequestParameters as DefaultRequestParameters,
-    RequestReturnType as DefaultRequestReturnType,
-  } from "@shopware/api-client";
-  import type {
-    operationPaths as defaultOperationPaths,
-    operations as defaultOperations,
-    components as defaultComponents,
-  } from "@shopware/api-client/api-types";
+    import type { createAPIClient } from "@shopware/api-client";
 
-  type changedComponents = defaultComponents;
-  // example how to extend Cart schema:
-  // type changedComponents = defaultComponents & {
-  //   schemas: {
-  //     Cart: defaultComponents["schemas"]["Cart"] & {
-  //       myspecialfield: "hello field";
-  //     };
-  //   };
-  // };
+    // Operations come from generated file (api-gen merges custom operations)
+    type generatedOperations = import("./api-types/storeApiTypes").operations;
+    type generatedOperationPaths = import("./api-types/storeApiTypes").operationPaths;
 
-  export type operations = defaultOperations<changedComponents>;
-  export type operationPaths = defaultOperationPaths;
-  export type Schemas = changedComponents["schemas"];
+    // Schemas come from overrides file (merges base schemas with extensions)
+    type mergedSchemas = import("./api-types/storeApiTypes.overrides").MergedSchemas;
+    type mergedOperations = import("./api-types/storeApiTypes.overrides").operations;
 
-  // we're exporting our own Api Client definition as it depends on our own instance
-  export type ApiClient = ReturnType<
-    typeof createAPIClient<operations, operationPaths>
-  >;
-  export type RequestParameters<T extends keyof operations> =
-    DefaultRequestParameters<T, operations>;
+    export type operations = mergedOperations;
+    export type operationPaths = generatedOperationPaths;
+    export type Schemas = mergedSchemas;
 
-  export type RequestReturnType<T extends keyof operations> =
-    DefaultRequestReturnType<T, operations>;
+    // we're exporting our own Api Client definition as it depends on our own instance
+    export type ApiClient = ReturnType<
+        typeof createAPIClient<operations, operationPaths>
+    >;
+    export type RequestParameters<T extends keyof operations> =
+        import("@shopware/api-client").RequestParameters<T, operations>;
+
+    export type RequestReturnType<T extends keyof operations> =
+        import("@shopware/api-client").RequestReturnType<T, operations>;
 }

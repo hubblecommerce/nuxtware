@@ -31,6 +31,10 @@ const { data: productResponse } = await useAsyncData(
     },
 )
 
+if (!productResponse.value) {
+    throw createError({ statusCode: 404, statusMessage: 'Product not found' })
+}
+
 const { product } = useProduct(
     productResponse.value.product,
     productResponse.value.configurator,

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Schemas } from "#shopware"
+import type { CmsElementForm } from "@shopware/composables"
 import { ApiClientError } from "@shopware/api-client"
 
-type CmsSlotWithContactConfig = Schemas["CmsSlot"] & {
+type CmsSlotWithContactConfig = CmsElementForm & {
     translated?: {
         config?: {
             title?: {

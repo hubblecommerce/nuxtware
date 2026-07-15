@@ -28,7 +28,7 @@ export function useNavigationCachedFunction (params?: {
         navigationElements.value = await $fetch('/navigation', {
             method: 'POST',
             headers: {
-                ...(localeProperties.value.localeId && { 'sw-language-id': localeProperties.value.localeId })
+                ...(localeProperties.value.localeId ? { 'sw-language-id': localeProperties.value.localeId as string } : {})
             },
             body: {
                 type: params?.type,

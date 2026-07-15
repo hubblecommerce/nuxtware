@@ -82,7 +82,7 @@ const handlePasswordRecovery = async () => {
 
     try {
         const runtimeConfig = useRuntimeConfig()
-        const storefrontUrl = runtimeConfig.public.shopwareDevStorefrontUrl || window.location.origin
+        const storefrontUrl = runtimeConfig.public.shopware.devStorefrontUrl || window.location.origin
 
         await resetPassword({
             email: formData.email,

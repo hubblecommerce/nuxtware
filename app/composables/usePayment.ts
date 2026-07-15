@@ -14,10 +14,10 @@ export function usePayment() {
      * Handles payment for an order
      */
     async function handlePayment(orderId: string) {
-        const finishUrl = formatLink(`/checkout/success/${orderId}`)
-        const errorUrl = formatLink('/account/orders?error=payment')
+        const finishUrl = formatLink(`/checkout/success/${orderId}`) as string
+        const errorUrl = formatLink('/account/orders?error=payment') as string
         
-        const response = await apiClient.invoke("handlePayment post /handle-payment", {
+        const response = await apiClient.invoke("handlePaymentMethod post /handle-payment", {
             body: {
                 orderId,
                 finishUrl,

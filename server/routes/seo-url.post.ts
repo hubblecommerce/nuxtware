@@ -5,6 +5,6 @@ export default defineEventHandler(async (event): Promise<Schemas['SeoUrl'] | nul
     const { slug } = await readBody(event)
     return await getCachedSeoUrl({
         slug,
-        ...(languageId && { languageId }),
-    })
+        ...(languageId ? { languageId } : {}),
+    }) ?? null
 })

@@ -8,8 +8,7 @@ export default eventHandler(async (event) => {
     const cacheKeys = await storage.getKeys('cache/nitro/functions');
     const deletedKeys = [];
 
-    for(let i = 0; i < cacheKeys.length; i++) {
-        const key = cacheKeys[i];
+    for (const key of cacheKeys) {
         if (key.includes(cacheKeyName)) {
             await storage.removeItem(key);
             deletedKeys.push(key);

@@ -48,11 +48,11 @@ const itemsPerSlide = computed(() => {
 
 // Other carousel settings
 const gap = computed(() => 20) // 1.25rem = 20px
-const showIndicators = computed(() => false) // Following Shopware reference
-const navigationArrows = computed(() => {
-    const config = props.content?.config?.navigationArrows?.value
-    if (config === '' || !config) return false
-    return config
+const showIndicators = computed(() => false as const) // Following Shopware reference
+const navigationArrows = computed<'inside' | 'outside' | '' | false>(() => {
+    const value = config.value.navigationArrows?.value
+    if (!value) return false
+    return value === 'outside' ? 'outside' : 'inside'
 })
 const loop = computed(() => true)
 const autoPlayInterval = computed(() => 5000)

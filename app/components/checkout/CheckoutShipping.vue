@@ -80,7 +80,7 @@
                     <!-- Price -->
                     <div class="ml-4 text-right">
                         <span v-if="method.prices?.[0]" class="font-medium text-primary">
-                            {{ getFormattedPrice(method.prices[0].unitPrice) }}
+                            {{ getFormattedPrice(method.prices[0].currencyPrice?.[0]?.gross) }}
                         </span>
                         <span v-else class="text-sm">
                             {{ $t('checkout.shipping.free') }}

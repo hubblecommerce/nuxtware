@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Schemas, RequestParameters } from "#shopware";
+import type { RequestParameters } from "#shopware";
+import type { CmsElementForm } from "@shopware/composables";
 import { ApiClientError } from "@shopware/api-client";
 
-type CmsSlotWithTitle = Schemas["CmsSlot"] & {
+type CmsSlotWithTitle = CmsElementForm & {
     translated?: {
         config?: {
             title?: {

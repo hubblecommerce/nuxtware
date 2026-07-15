@@ -95,18 +95,25 @@ const handleSubmit = async () => {
     isSuccess.value = false
 
     try {
-        const updateData: operations["changeProfile post /account/change-profile"]["body"] = {
+        const baseData = {
             firstName: state.firstName,
             lastName: state.lastName,
             salutationId: state.salutationId,
             title: state.title || undefined
         }
 
-        if (state.accountType === 'business') {
-            updateData.company = state.company
-            updateData.vatIds = [state.vatIds]
-            updateData.accountType = state.accountType
-        }
+        // The change-profile body is a discriminated union on accountType, so the
+        // business-specific fields have to be part of the same object literal
+        // rather than assigned afterwards.
+        const updateData: operations["changeProfile post /account/change-profile"]["body"] =
+            state.accountType === 'business'
+                ? {
+                    ...baseData,
+                    accountType: 'business',
+                    company: state.company,
+                    vatIds: [state.vatIds]
+                }
+                : baseData
 
         await updatePersonalInfo(updateData)
         await refreshUser()

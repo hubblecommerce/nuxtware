@@ -25,3 +25,8 @@ dist
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Generated Store API types (fetched per-project, not versionized).
+# Only storeApiTypes.overrides.ts is committed.
+api-types/storeApiSchema.json
+api-types/storeApiTypes.d.ts
