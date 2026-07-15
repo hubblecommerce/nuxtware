@@ -42,8 +42,8 @@ const removeItem = () => {
         <!-- Product image -->
         <div class="relative w-20 h-20 flex-shrink-0 rounded">
             <FoundationImage
-                v-if="item.cover?.media?.url"
-                :src="item.cover.media.url"
+                v-if="item.cover?.url"
+                :src="item.cover.url"
                 :alt="item.label || ''"
                 class="w-full h-full object-cover rounded"
             />

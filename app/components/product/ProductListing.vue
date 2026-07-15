@@ -60,19 +60,19 @@ const updateListing = async (params: {
     order?: string
 }) => {
     // Create query object with current values
-    const query = { 
+    const query = {
         ...route.query,
         // Update with new values, defaulting to current if not provided
         p: params.page?.toString() || getCurrentPage.value.toString(),
         limit: params.limit?.toString() || getLimit.value.toString(),
         order: params.order?.toString() || getCurrentSortingOrder.value?.toString()
-    } as unknown as operations["searchPage post /search"]["body"];
-    
+    };
+
     // Update URL
     await router.push({ query });
-    
-    // Apply to listing 
-    await search(query);
+
+    // Apply to listing
+    await search(query as unknown as operations["searchPage post /search"]["body"]);
 }
 
 /**

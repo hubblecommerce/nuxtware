@@ -73,7 +73,7 @@ watch(() => [route.path, route.query.search], () => { showResult.value = false }
 
 <template>
     <div ref="quickSearchEl" @keydown.esc="onReset">
-        <form role="search" class="relative" @submit.prevent="search">
+        <form role="search" class="relative" @submit.prevent="() => search()">
             <SearchInput
                 v-model="searchTerm"
                 :loading="clientLoading"

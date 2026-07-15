@@ -2,8 +2,12 @@ import type { Schemas } from "#shopware";
 import { useContext, useShopwareContext } from "#imports";
 import type { CookieRef } from "#app";
 
+export type CurrencyResponse = {
+    data: Schemas["Currency"][];
+}
+
 export type UseCurrencyReturn = {
-    getAvailableCurrencies(): Promise<Schemas["Currency"][]>;
+    getAvailableCurrencies(): Promise<CurrencyResponse>;
     currencies: Ref<Schemas["Currency"][]>,
     currencyCookie: CookieRef<string | null | undefined>
 }
@@ -22,7 +26,7 @@ export function useCurrency (): UseCurrencyReturn {
     );
 
     async function getAvailableCurrencies () {
-        return await apiClient.invoke("readCurrency post /currency", {}) as Schemas["Currency"][];
+        return await apiClient.invoke("readCurrency post /currency", {}) as CurrencyResponse;
     }
 
     return {

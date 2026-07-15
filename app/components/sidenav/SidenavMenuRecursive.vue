@@ -20,9 +20,19 @@ const { formatLink } = useInternationalization(localePath)
 const activeSubcategory = ref<Schemas["Category"] | null>(null)
 const showMenu = computed(() => props.currentCategory || props.level === 0)
 
-const categoryButtons = shallowRef([])
-const backButton = shallowRef()
-const subcategoryItems = shallowRef<Record<string, Element | ComponentPublicInstance | null>>({})
+// Exposed instance shapes of the child components we hold template refs to.
+// FoundationButton exposes its root element as `button`; this component
+// (recursive) re-exposes its own `backButton` ref.
+interface FoundationButtonExpose {
+    button: HTMLElement
+}
+interface SidenavRecursiveExpose {
+    backButton?: FoundationButtonExpose | null
+}
+
+const categoryButtons = shallowRef<FoundationButtonExpose[]>([])
+const backButton = shallowRef<FoundationButtonExpose | null>(null)
+const subcategoryItems = shallowRef<Record<string, SidenavRecursiveExpose | null>>({})
 
 defineExpose({ backButton })
 
@@ -33,7 +43,7 @@ function navigateToSubcategory (category: Schemas["Category"]) {
     // focus "back" button of child component instance by ref
     setTimeout(() => {
         if (activeSubcategory?.value?.id != null) {
-            subcategoryItems?.value?.[activeSubcategory?.value?.id]?.backButton.button.focus()
+            subcategoryItems?.value?.[activeSubcategory?.value?.id]?.backButton?.button?.focus()
         }
     }, 200)
 }
@@ -104,7 +114,7 @@ function navigateBack () {
     <div v-for="item in items" :key="`subcategory-${item.id}`">
         <SidenavMenuRecursive
             v-if="item.children && item.children.length"
-            :ref="(el) => (subcategoryItems[item.id] = el)"
+            :ref="(el) => (subcategoryItems[item.id] = el as SidenavRecursiveExpose | null)"
             :items="item.children"
             :current-category="activeSubcategory"
             :level="level + 1"

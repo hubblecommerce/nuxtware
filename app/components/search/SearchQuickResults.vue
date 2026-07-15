@@ -28,7 +28,7 @@ function getPrice (product: Schemas['Product']) {
                 :key="product.id"
             >
                 <FoundationLink
-                    :href="formatLink(getProductRoute(product)).path"
+                    :href="formatLink(getProductRoute(product))"
                     class="flex items-center gap-2"
                     @click="$emit('navigate')"
                 >

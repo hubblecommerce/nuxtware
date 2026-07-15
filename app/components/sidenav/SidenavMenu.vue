@@ -4,7 +4,9 @@ import type { Schemas } from '#shopware'
 const { isOpen, open, close } = useSidenav()
 const mobileMenuOpen = isOpen('menu')
 const sidenavMenuCloseButton = shallowRef()
-const navigationItems = inject('mainNavigation') as Schemas["NavigationRouteResponse"]
+// `mainNavigation` is provided as the useAsyncData ref, so it stays a ref here.
+const navigation = inject<Ref<Schemas["NavigationRouteResponse"] | null>>('mainNavigation', ref(null))
+const navigationItems = computed(() => navigation.value ?? [])
 </script>
 
 <template>

@@ -174,9 +174,9 @@ const handleReorder = async (orderId: string) => {
         const cartItems = order.lineItems
             .filter(item => item.type === 'product' && item.referencedId)
             .map(item => ({
-                id: item.referencedId, // Use referencedId for cart
+                id: item.referencedId as string, // referencedId presence guaranteed by the filter above
                 quantity: item.quantity,
-                type: 'product'
+                type: 'product' as const
             }))
 
         if (cartItems.length === 0) return

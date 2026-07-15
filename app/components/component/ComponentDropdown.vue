@@ -78,7 +78,7 @@ const contentEl = ref()
 onClickOutside(contentEl, () => closeDropdown(), { ignore: [triggerEl] })
 const { activate, deactivate } = useFocusTrap(contentEl, { allowOutsideClick: true })
 
-function toggleDropdown (e: PointerEvent) {
+function toggleDropdown (e: MouseEvent) {
     if (!props.disabled && e.type === 'click') {
         isOpen.value = !isOpen.value
         if (isOpen.value) {

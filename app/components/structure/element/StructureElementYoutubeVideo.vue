@@ -37,7 +37,7 @@ const videoUrl = computed(() => {
     if (!videoId.value) return ''
     
     const config = props.content.config
-    const advancedPrivacyMode = config?.advancePrivacyMode?.value ?? false
+    const advancedPrivacyMode = config?.advancedPrivacyMode?.value ?? false
     const baseUrl = advancedPrivacyMode 
         ? 'https://www.youtube-nocookie.com/embed/' 
         : 'https://www.youtube.com/embed/'

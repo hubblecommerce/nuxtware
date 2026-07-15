@@ -63,12 +63,6 @@ All components MUST be:
 - **Single quotes** for strings
 - **Foundation components** preferred over custom styling
 
-### TypeScript Patterns
-- Use explicit interfaces for component props
-- Access reactive values with `.value` for refs/computed
-- Handle union types properly (see StructureElementImageGallery for example)
-- Use type guards for complex type narrowing
-
 ## Key Composables & Patterns
 
 - **`useCarousel()`** - Advanced carousel with responsive, SSR-ready, scroll-based implementation
@@ -102,20 +96,11 @@ All components MUST be:
 ## Testing & Quality
 
 - Run `npm lint` before committing
-- **TypeScript Validation**: Always run `npx nuxt typecheck` after implementations to catch type errors
+- Run `npx nuxt typecheck` after implementations (see the [TypeScript](#typescript) section)
 - Follow accessibility guidelines (WCAG compliance)
 - Ensure responsive design across breakpoints
 - Test with screen readers and keyboard navigation
 - Verify i18n translations work correctly
-
-### TypeScript Error Resolution Process
-1. Run `npx nuxt typecheck` to identify type errors
-2. Filter errors for specific files using `npx nuxt typecheck 2>&1 | grep "filename.vue"`
-3. Common fixes:
-   - Use nullish coalescing `?? 0` for potentially undefined values
-   - Add optional chaining `?.` for safe property access
-   - Add conditional rendering `v-if` to ensure objects exist before use
-   - Handle union types with proper type guards
 
 ## Documentation
 
@@ -125,13 +110,51 @@ Comprehensive documentation available in `/docs/` directory:
 - Check `/docs/common-workflows.md` for development patterns
 - Review `/docs/i18n-guide.md` for internationalization best practices
 
-## TypeScript Troubleshooting
+## TypeScript
 
-When encountering TypeScript errors with union types (common in CMS components):
-- Use type guards with `'property' in object` patterns
-- Apply type assertions `(item as SpecificType)` when necessary
-- Handle generic types from components like `CarouselItem` with proper casting
-- See `StructureElementImageGallery.vue` for handling complex union types
+The project uses TypeScript with strict typing and `<script setup lang="ts">` for all components.
+
+### Patterns
+- Use explicit interfaces for component props and emits
+- Access reactive values with `.value` for refs/computed
+- **Never use `any`.** Prefer type guards, `?? fallback`, optional chaining, `as const`, or an explicit interface. A narrow cast (`as SpecificType`) is acceptable only when the value is genuinely known to be that type (e.g. a value the surrounding logic has already validated).
+- Handle union types with proper type guards (`'property' in object` patterns); apply `(item as SpecificType)` only when necessary. See `StructureElementImageGallery.vue` for handling complex union types.
+
+### Type Declaration Locations
+
+Where a type is declared depends on what it describes and how widely it is used:
+
+- **Non-API types, used once** → declare inline in the file where they are used (e.g. a component's local prop/emit interface, a ref shape).
+- **Non-API types, used in multiple files** → declare in `app/types/` (auto-imported via the `types/*` import dir).
+- **API-related types** (anything derived from or overriding the Shopware Store API schema) → declare in `api-types/storeApiTypes.overrides.ts`. This is the only versioned file in `api-types/`.
+- **Global/ambient types** (e.g. `window`, Nuxt `RuntimeConfig`/`PublicRuntimeConfig` augmentation) → declare in `/nuxt.d.ts`.
+
+The generated schema files `api-types/storeApiSchema.json` and `api-types/storeApiTypes.d.ts` are **not versioned** — they are fetched per project (and may come from a customer instance with custom endpoints/entities), so they are `.gitignore`d. Only `storeApiTypes.overrides.ts` is committed; put schema/operation corrections there so they survive a re-fetch.
+
+### Validation & Error Resolution
+
+Always run `npx nuxt typecheck` after implementations to catch type errors.
+
+1. Run `npx nuxt typecheck` to identify type errors
+2. Filter errors for specific files using `npx nuxt typecheck 2>&1 | grep "filename.vue"`
+3. Common fixes:
+   - Use nullish coalescing `?? 0` for potentially undefined values
+   - Add optional chaining `?.` for safe property access
+   - Add conditional rendering `v-if` to ensure objects exist before use
+   - Handle union types with proper type guards
+
+### Known Upstream Typecheck Errors
+
+`npx nuxt typecheck` currently reports **2 errors that live inside `node_modules`** and are **not fixable from this repo** (editing `node_modules` is not durable or versioned). They originate from the upgraded Shopware dependency stack, not from our code — treat a typecheck run as clean when only these remain:
+
+- `@shopware/nuxt-module/plugin.ts` — `import ... from "./src"` while the package only ships `dist/` (upstream packaging bug).
+- `@shopware/composables/.../useNewsletter.ts` — `result.data.status` where the api-client return type resolves to `never` inside the composables package's own type context.
+
+Do not attempt to "fix" these by casting to `any`, editing `node_modules`, or broadly excluding those packages from the generated tsconfig.
+
+### Linting Exceptions
+
+- When the linter shows an error for an unused const "prop", it's okay to use `// eslint-disable-next-line @typescript-eslint/no-unused-vars`.
 
 ## Important Notes
 
@@ -149,10 +172,6 @@ When encountering TypeScript errors with union types (common in CMS components):
 
 - **Client-Side Conditional Rendering**: 
   - Always use `<ClientOnly>` with a fallback when conditionally rendering based on user authentication state or any other client-side reactive data that's not available during SSR.
-
-## TypeScript & Linting Exceptions
-
-- When linter shows error for unused const "prop", it's okay to use `// eslint-disable-next-line @typescript-eslint/no-unused-vars`
 
 ## Agent skills
 

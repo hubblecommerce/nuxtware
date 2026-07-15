@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ModelRef } from 'vue'
-
 export interface WidgetSearchInputProps {
     loading?: boolean
     label: string
@@ -8,7 +6,7 @@ export interface WidgetSearchInputProps {
 }
 
 export interface WidgetSearchInputEmits {
-    (e: 'submitSearch', value: ModelRef<string | undefined>): void
+    (e: 'submitSearch', value: string | undefined): void
     (e: 'resetSearch'): void
     (e: 'onFocus' | 'onBlur', event: FocusEvent): void
 }
