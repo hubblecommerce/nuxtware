@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { loadNavigationElements } = useNavigationCached()
+const { loadNavigationElements } = useNavigation()
 const { data } = useAsyncData("navigation", () => {
     return loadNavigationElements({ depth: 3 })
 })
