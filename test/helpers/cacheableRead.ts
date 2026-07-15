@@ -10,6 +10,7 @@
 // verifies external behaviour (which operation + method) rather than internals.
 import { expect } from 'vitest'
 import type { Mock } from 'vitest'
+import { gunzipSync, strFromU8 } from 'fflate'
 
 export interface ParsedInvokeCall {
     /** Operation name segment, e.g. `readCategory`. */
@@ -36,6 +37,19 @@ export function parseInvokeCall (call: readonly unknown[]): ParsedInvokeCall {
     const [operation, options] = call
     const [operationName = '', method = '', path = ''] = String(operation).split(' ')
     return { operationName, method, path, options: options as InvokeOptions | undefined }
+}
+
+/**
+ * Reverse `encodeForQuery` (base64url of gzipped JSON) so a test can inspect the
+ * Criteria a cacheable GET carried in `query._criteria` — e.g. to assert the
+ * expected associations survived the round-trip into the cache key.
+ */
+export function decodeCriteria (encoded: string): unknown {
+    let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/')
+    while (base64.length % 4) base64 += '='
+    const binary = atob(base64)
+    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0))
+    return JSON.parse(strFromU8(gunzipSync(bytes)))
 }
 
 export interface CacheableGetExpectation {
