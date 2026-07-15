@@ -73,6 +73,11 @@ export default defineNuxtConfig({
   // Layer dev only
   typescript: {
     tsConfig: {
+      // Type-check the unit tests too: `nuxt typecheck` only covers `test/nuxt/**`
+      // by default, so our root-level `test/**` specs are otherwise invisible to
+      // the CLI gate (and get checked against the minimal Vitest stubs in the IDE
+      // instead of the real Nuxt types). Path is relative to the build dir.
+      include: ['../../test/**/*'],
       compilerOptions: {
         paths: {
           '@shopware-pwa/helpers-next': ['../../node_modules/@shopware-pwa/helpers-next/dist'],
