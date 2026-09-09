@@ -35,13 +35,13 @@
     "@nuxt/image": "^2.1.0",
     "@nuxtjs/i18n": "^10.6.0",
     "@shopware/nuxt-module": "^1.4.4",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.3",
     "@vueuse/core": "^14.3.0",
     "@vueuse/integrations": "^14.3.0",
     "eslint": "^10.10.0",
     "focus-trap": "^8.2.1",
     "nuxt": "^4.4.6",
-    "tailwindcss": "^4.3.0",
+    "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   }
 }
