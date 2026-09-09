@@ -33,7 +33,7 @@
   "dependencies": {
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/image": "^2.1.0",
-    "@nuxtjs/i18n": "^10.4.0",
+    "@nuxtjs/i18n": "^10.6.0",
     "@shopware/nuxt-module": "^1.4.4",
     "@tailwindcss/vite": "^4.3.0",
     "@vueuse/core": "^14.3.0",
