@@ -27,7 +27,7 @@
     "nuxt.config.ts"
   ],
   "devDependencies": {
-    "autoprefixer": "^10.5.5",
+    "autoprefixer": "^10.6.1",
     "postcss": "^8.5.8"
   },
   "dependencies": {
