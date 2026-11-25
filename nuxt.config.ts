@@ -22,6 +22,15 @@ export default defineNuxtConfig({
     // alias to import files from layer, e.g. when consumer instance overrides main.css
     '#nuxtware': resolve('./app')
   },
+  runtimeConfig: {
+    // used by server/middleware/redirect.ts, empty values disable the redirects
+    // set localeDomains as JSON, e.g. NUXT_REDIRECT_LOCALE_DOMAINS='{"de":"https://shop.de"}'
+    redirect: {
+      allowedDomains: [] as string[],
+      primaryDomain: '',
+      localeDomains: {} as Record<string, string>,
+    },
+  },
   vite: {
     plugins: [
       tailwindcss(),
