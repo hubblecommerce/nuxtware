@@ -13,6 +13,7 @@ Welcome to the Nuxtware documentation. This collection of documents serves as a 
 - [API Client](./api-client.md) - Shopware API integration details
 - [E-Commerce Components](./e-commerce-components.md) - Guidelines for implementing e-commerce features
 - [Notification System](./notification-system.md) - Documentation for the global notification system
+- [Server Redirects](./server-redirects.md) - Domain validation and locale domain redirects
 - [Collaboration Guidelines](./collaboration-guidelines.md) - How to work effectively with AI assistants
 
 ## How to Use These Documents
